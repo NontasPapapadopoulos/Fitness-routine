@@ -8,8 +8,9 @@ data class DailyReportDomainEntity(
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,
     val proteinGrams: String,
+    val cardioMinutes: String,
     val gymNotes: String,
-    val sleepQuality: Int, // from 1 to 5
-    val litersOfWater: Int,
-    val musclesTrained: List<String>
+    val sleepQuality: String, // from 1 to 5
+    val litersOfWater: String,
+    val musclesTrained: String
 )

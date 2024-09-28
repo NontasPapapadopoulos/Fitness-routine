@@ -1,8 +1,7 @@
 package com.example.fitness_routine.presentation.util
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -73,13 +72,11 @@ fun getCurrentMonth(): String = LocalDate.now().month.getDisplayName(TextStyle.F
 
 fun getCurrentYear(): String = LocalDate.now().year.toString()
 
-fun getCurrentDate(): Day {
+fun getCurrentDate(): String {
     val currentDate = LocalDate.now()
 
-    val dayOfMonth = currentDate.dayOfMonth
-    val dayOfWeekName = currentDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-
-    return Day(dayOfMonth, dayOfWeekName)
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return currentDate.format(formatter)
 }
 
 data class Day(val dayOfMonth: Int, val dayOfWeekName: String)

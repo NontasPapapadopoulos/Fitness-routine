@@ -1,8 +1,9 @@
 package com.example.fitness_routine.presentation.screen.calendar
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
+import android.widget.Toast
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,32 +32,79 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
-import com.example.fitness_routine.presentation.ui.theme.FitnessroutineTheme
 import com.example.fitness_routine.presentation.util.getCurrentDate
-import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
 
 
+@Composable
+fun CalendarScreen(
+    viewModel: CalendarViewModel = hiltViewModel()
+) {
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.errorFlow.collect { error ->
+            Toast.makeText(
+                context,
+                error.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when(val state = uiState) {
+        is CalendarState.Content -> {
+            Content(
+                content = state,
+                onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) }
+            )
+        }
+
+        CalendarState.Idle -> { LoadingBox() }
+    }
+
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen() {
+private fun Content(
+    content: CalendarState.Content,
+    onSelectChoice: (Choice) -> Unit
+) {
 
     var displayFilters by remember { mutableStateOf(false) }
 
     val currentYear = getCurrentYear()
     val currentMonth = getCurrentMonth()
-    val currentDay = getCurrentDay()
+
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Fitness Diary") },
+                title = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(text = "Fitness Diary")
+
+                        Text(text = getCurrentDate())
+                    }
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = { displayFilters = !displayFilters }
@@ -67,55 +116,51 @@ fun CalendarScreen() {
         }
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(it)
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.padding(it)
         ) {
-
-            val options = listOf(
-                "Performed Workout",
-                "Took Creatine",
-                "Had any type of Cheat",
-            )
-
-            val selectedOption by remember { mutableStateOf(options[0]) }
-
             if (displayFilters) {
                 Filters(
-                    options = options,
-                    selectedOption = selectedOption,
-                    select = {}
+                    options = Choice.entries,
+                    selectedOption = content.selectedChoice,
+                    select = onSelectChoice
                 )
             }
-
-
-            val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
-
-            val year = calendar.years[0]
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                YearlyCalendar(
-                    months = year.months,
-                    year = year.year,
-                    currentYear = currentYear,
-                    currentMonth = currentMonth
-                )
 
+                val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
+                val year = calendar.years[0]
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    YearlyCalendar(
+                        months = year.months,
+                        year = year.year,
+                        currentYear = currentYear,
+                        currentMonth = currentMonth
+                    )
+
+                }
             }
         }
+
     }
 
 }
 
 @Composable
 private fun Filters(
-    options: List<String>,
-    selectedOption: String,
-    select: (String) -> Unit
+    options: List<Choice>,
+    selectedOption: Choice,
+    select: (Choice) -> Unit
 ) {
+
     Text(text = "Select an option: ")
 
     options.forEach { option ->
@@ -131,11 +176,12 @@ private fun Filters(
             )
 
             Text(
-                text = option,
+                text = option.value,
                 modifier = Modifier.padding(start = 3.dp)
             )
         }
     }
+
 }
 
 
@@ -170,7 +216,9 @@ private fun Month(
     nameOfMonth: String,
     currentMonth: String
 ) {
-    val isCurrentMonth = nameOfMonth == currentMonth
+
+    val isCurrentMonth = currentMonth == nameOfMonth
+
     Column {
         Text(text = nameOfMonth)
         weeks.forEach { week ->
@@ -187,7 +235,7 @@ private fun YearlyCalendar(
     currentYear: String,
     currentMonth: String
 ) {
-    val isCurrentYear = year == currentYear.toInt()
+    val isCurrentYear = year.toString() == currentYear
 
     Column {
         Text(text = year.toString())
@@ -212,67 +260,8 @@ private fun YearlyCalendar(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun DayPreview() {
-    Day(day = "1")
-}
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun WeekPreview() {
-    val calendar = Calendar().createCalendar(2024, 2025)
-    val year = calendar.years[0]
-    val month = year.months[0]
-    val firstWeek = month.days.take(7)
-
-    Week(days = firstWeek)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun MonthPreview() {
-    val calendar = Calendar().createCalendar(2024, 2025)
-    val year = calendar.years[0]
-    val month = year.months[0]
-    val firstWeek = month.days.take(7)
-    val secondWeek = month.days.filter { it.dayOfMonth in 8..14 }
-    val thirdWeek = month.days.filter { it.dayOfMonth in 15..21 }
-    val fourthWeek = month.days.filter { it.dayOfMonth in 22 .. 28 }
-    val lastWeek = month.days.filter { it.dayOfMonth > 28 }
-
-    val weeks = listOf(firstWeek, secondWeek, thirdWeek, fourthWeek, lastWeek)
-
-    Month(weeks = weeks, month.monthName, currentMonth = "1")
-}
-
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun YearPreview() {
-    FitnessroutineTheme {
-        val calendar = Calendar().createCalendar(2024, 2025)
-
-        val year = calendar.years[0]
-
-        YearlyCalendar(
-            months = year.months,
-            year = year.year,
-            currentYear = "2024",
-            currentMonth = "1"
-        )
-
-    }
-}
-
-
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CalendarScreenPreview() {

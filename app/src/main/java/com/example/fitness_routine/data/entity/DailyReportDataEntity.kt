@@ -11,13 +11,20 @@ import java.util.Date
 )
 data class DailyReportDataEntity(
     @PrimaryKey
-    val date: Date,
+    val date: Long,
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,
     val proteinGrams: String,
+    val cardioMinutes: String,
     val gymNotes: String,
-    val sleepQuality: Int, // from 1 to 5
-    val litersOfWater: Int,
-    val musclesTrained: List<String>
+    val sleepQuality: String, // from 1 to 5
+    val litersOfWater: String,
+    val musclesTrained: String
 )
+
+
+
+fun Long.toDate(): Date = this.let { Date(it) }
+
+fun Date.toTimeStamp(): Long = this.time

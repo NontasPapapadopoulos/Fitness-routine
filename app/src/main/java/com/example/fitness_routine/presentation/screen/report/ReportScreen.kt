@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.screen.report
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,23 +17,90 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
-
+import com.example.fitness_routine.presentation.component.BackButton
+import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.util.getCurrentDate
+import java.util.Date
 
 @Composable
-fun ReportScreen() {
+fun ReportScreen(
+    viewModel: ReportViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
+) {
 
-    Scaffold {
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.errorFlow.collect { error ->
+            Toast.makeText(
+                context,
+                error.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+
+    when(val state = uiState) {
+        is ReportState.Content -> {
+            Content(
+                content = state,
+                navigateBack = navigateBack
+            )
+        }
+
+        ReportState.Idle -> { LoadingBox() }
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun Content(
+    content: ReportState.Content,
+    navigateBack: () -> Unit
+) {
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(text = "Fitness Diary")
+
+                        Text(text = getCurrentDate())
+                    }
+                },
+                navigationIcon = { BackButton(navigateBack) }
+            )
+        }
+    ) {
 
         Column(
             modifier = Modifier
@@ -40,42 +108,40 @@ fun ReportScreen() {
                 .padding(it)
         ) {
             
-            Text(text = "Current day.... ")
-
-            CheckBoxQuestion(text = "Workout: ", isChecked = true, onCheckedChange = {})
+            CheckBoxQuestion(text = "Workout: ", isChecked = content.performedWorkout, onCheckedChange = {})
 
 
             Input(
                 label = "Protein grams: ",
-                value = "230",
+                value = content.proteinGrams,
                 onValueChange = {}
             )
 
             Input(
                 label = "Liters of water: ",
-                value = "3",
+                value = content.litersOfWater,
                 onValueChange = {}
             )
 
             Input(
                 label = "Cardio minutes: ",
-                value = "35",
+                value = content.cardioMinutes,
                 onValueChange = {}
             )
 
 
-            SleepQuality(level = 3, onLevelChange = {})
+            SleepQuality(level = content.sleepQuality.toInt(), onLevelChange = {})
 
-            CheckBoxQuestion(text = "Creatine: ", isChecked = true, onCheckedChange = {})
+            CheckBoxQuestion(text = "Creatine: ", isChecked = content.hadCreatine, onCheckedChange = {})
 
             MusclesTrained()
 
             GymNotes(
-                notes = "",
+                notes = content.notes,
                 onValueChange = {}
             )
 
-            CheckBoxQuestion(text = "Cheat Meal: ", isChecked = true, onCheckedChange = {})
+            CheckBoxQuestion(text = "Cheat Meal: ", isChecked = content.hadCheatMeal, onCheckedChange = {})
 
 
         }
@@ -207,7 +273,7 @@ private fun Star(
         Icons.Default.Star,
         contentDescription = null,
         tint = color,
-        modifier = Modifier.clickable {  }
+        modifier = Modifier.clickable { onLevelChange(sequence) }
     )
 }
 
@@ -236,29 +302,6 @@ private fun Input(
 
 }
 
-@Composable
-private fun WaterIntake(
-    liters: String,
-    onValueChange: (String) -> Unit
-) {
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Liters of water:",
-            modifier = Modifier.weight(1f)
-            )
-
-        TextField(
-            value = liters,
-            onValueChange = onValueChange,
-            modifier = Modifier.weight(1f)
-        )
-    }
-
-}
 
 @Composable
 private fun CheckBoxQuestion(
@@ -283,5 +326,31 @@ private fun CheckBoxQuestion(
 @Composable
 @Preview
 private fun ReportPreview() {
-    ReportScreen()
+    Content(
+        content = ReportState.Content(
+            date = getCurrentDate(),
+            notes = "WoW",
+            proteinGrams = "140",
+            sleepQuality = "2",
+            performedWorkout = false,
+            hadCreatine = false,
+            hadCheatMeal = false,
+            trainedMuscles = "",
+            litersOfWater = "2.5",
+            cardioMinutes = "30",
+            dailyReport = DailyReportDomainEntity(
+                gymNotes = "WoW",
+                proteinGrams = "140",
+                sleepQuality = "3",
+                performedWorkout = false,
+                hadCreatine = false,
+                hadCheatMeal = false,
+                musclesTrained = "",
+                litersOfWater = "2.5",
+                cardioMinutes = "30",
+                date = Date()
+            )
+        ),
+        navigateBack = {}
+    )
 }

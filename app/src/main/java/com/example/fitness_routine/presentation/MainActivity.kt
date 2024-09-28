@@ -1,4 +1,4 @@
-package com.example.fitness_routine
+package com.example.fitness_routine.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.navigationBars),) { innerPadding ->
+                    .windowInsetsPadding(WindowInsets.navigationBars)) { innerPadding ->
                     innerPadding
 
                     RootNavGraph(navController = rememberNavController())

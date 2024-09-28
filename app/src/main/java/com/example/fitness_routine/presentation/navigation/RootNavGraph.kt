@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fitness_routine.presentation.screen.SplashScreen
 import com.example.fitness_routine.presentation.screen.calendar.CalendarScreen
@@ -51,7 +50,9 @@ fun RootNavGraph(
             route = Screen.Report.name
         ) {
 
-            ReportScreen()
+            ReportScreen(
+                navigateBack = { navController.popBackStack() }
+            )
         }
 
     }
