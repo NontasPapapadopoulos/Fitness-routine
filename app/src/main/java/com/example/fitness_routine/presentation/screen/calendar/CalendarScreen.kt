@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation
+package com.example.fitness_routine.presentation.screen.calendar
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -32,10 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.Calendar
-import com.example.fitness_routine.Day
-import com.example.fitness_routine.Month
-import com.example.fitness_routine.ui.theme.FitnessroutineTheme
+import com.example.fitness_routine.presentation.util.Calendar
+import com.example.fitness_routine.presentation.util.Day
+import com.example.fitness_routine.presentation.util.Month
+import com.example.fitness_routine.presentation.ui.theme.FitnessroutineTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,9 +68,20 @@ fun CalendarScreen() {
 
         ) {
 
+            val options = listOf(
+                "Performed Workout",
+                "Took Creatine",
+                "Had any type of Cheat",
+            )
+
+            var selectedOption by remember { mutableStateOf(options[0]) }
 
             if (displayFilters) {
-                Filters()
+                Filters(
+                    options = options,
+                    selectedOption = selectedOption,
+                    select = {}
+                )
             }
 
 
@@ -90,16 +101,11 @@ fun CalendarScreen() {
 }
 
 @Composable
-private fun Filters() {
-    val options = listOf(
-        "Performed Workout",
-        "Took Creatine",
-        "Had any type of Cheat",
-    )
-
-    var selectedOption by remember { mutableStateOf(options[0]) }
-
-
+private fun Filters(
+    options: List<String>,
+    selectedOption: String,
+    select: (String) -> Unit
+) {
     Text(text = "Select an option: ")
 
     options.forEach { option ->
@@ -110,7 +116,7 @@ private fun Filters() {
             RadioButton(
                 selected = (option == selectedOption),
                 onClick = {
-                    selectedOption = option
+                    select(option)
                 }
             )
 

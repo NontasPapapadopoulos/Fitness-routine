@@ -1,4 +1,4 @@
-package com.example.fitness_routine.ui.theme
+package com.example.fitness_routine.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

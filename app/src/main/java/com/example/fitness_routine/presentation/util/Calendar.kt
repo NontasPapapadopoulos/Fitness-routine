@@ -1,4 +1,4 @@
-package com.example.fitness_routine
+package com.example.fitness_routine.presentation.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi

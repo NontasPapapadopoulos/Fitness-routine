@@ -1,6 +1,6 @@
-package com.example.fitness_routine.domain
+package com.example.fitness_routine.domain.entity
 
-data class DailyReport(
+data class DailyReportDomainEntity(
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,

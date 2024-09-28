@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation
+package com.example.fitness_routine.presentation.screen.report
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.domain.Muscle
+import com.example.fitness_routine.domain.entity.enums.Muscle
 
 
 @Composable
