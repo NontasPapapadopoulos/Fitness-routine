@@ -36,14 +36,21 @@ import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
 import com.example.fitness_routine.presentation.ui.theme.FitnessroutineTheme
+import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.util.getCurrentDay
+import com.example.fitness_routine.presentation.util.getCurrentMonth
+import com.example.fitness_routine.presentation.util.getCurrentYear
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen() {
 
     var displayFilters by remember { mutableStateOf(false) }
+
+    val currentYear = getCurrentYear()
+    val currentMonth = getCurrentMonth()
+    val currentDay = getCurrentDay()
 
     Scaffold(
         topBar = {
@@ -63,9 +70,7 @@ fun CalendarScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(it)
-                .verticalScroll(rememberScrollState()),
-
-
+                .verticalScroll(rememberScrollState())
         ) {
 
             val options = listOf(
@@ -74,7 +79,7 @@ fun CalendarScreen() {
                 "Had any type of Cheat",
             )
 
-            var selectedOption by remember { mutableStateOf(options[0]) }
+            val selectedOption by remember { mutableStateOf(options[0]) }
 
             if (displayFilters) {
                 Filters(
@@ -85,14 +90,19 @@ fun CalendarScreen() {
             }
 
 
-            val calendar = Calendar().createCalendar(2024, 2025)
+            val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
 
             val year = calendar.years[0]
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                YearlyCalendar(year.months, year.year)
+                YearlyCalendar(
+                    months = year.months,
+                    year = year.year,
+                    currentYear = currentYear,
+                    currentMonth = currentMonth
+                )
 
             }
         }
@@ -155,7 +165,12 @@ private fun Week(days: List<Day>) {
 
 
 @Composable
-private fun Month(weeks: List<List<Day>>, nameOfMonth: String) {
+private fun Month(
+    weeks: List<List<Day>>,
+    nameOfMonth: String,
+    currentMonth: String
+) {
+    val isCurrentMonth = nameOfMonth == currentMonth
     Column {
         Text(text = nameOfMonth)
         weeks.forEach { week ->
@@ -166,7 +181,14 @@ private fun Month(weeks: List<List<Day>>, nameOfMonth: String) {
 
 
 @Composable
-private fun YearlyCalendar(months: List<Month>, year: Int) {
+private fun YearlyCalendar(
+    months: List<Month>,
+    year: Int,
+    currentYear: String,
+    currentMonth: String
+) {
+    val isCurrentYear = year == currentYear.toInt()
+
     Column {
         Text(text = year.toString())
         months.forEach {
@@ -178,7 +200,11 @@ private fun YearlyCalendar(months: List<Month>, year: Int) {
 
             val weeks = listOf(firstWeek,secondWeek,   thirdWeek, fourthWeek, lastWeek)
 
-            Month(weeks = weeks, it.monthName)
+            Month(
+                weeks = weeks,
+                nameOfMonth = it.monthName,
+                currentMonth = currentMonth
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
         }
@@ -221,7 +247,7 @@ fun MonthPreview() {
 
     val weeks = listOf(firstWeek, secondWeek, thirdWeek, fourthWeek, lastWeek)
 
-    Month(weeks = weeks, month.monthName)
+    Month(weeks = weeks, month.monthName, currentMonth = "1")
 }
 
 
@@ -234,7 +260,12 @@ fun YearPreview() {
 
         val year = calendar.years[0]
 
-        YearlyCalendar(year.months, year.year)
+        YearlyCalendar(
+            months = year.months,
+            year = year.year,
+            currentYear = "2024",
+            currentMonth = "1"
+        )
 
     }
 }

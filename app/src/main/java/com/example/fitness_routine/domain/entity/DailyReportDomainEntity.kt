@@ -1,6 +1,9 @@
 package com.example.fitness_routine.domain.entity
 
+import java.util.Date
+
 data class DailyReportDomainEntity(
+    val date: Date,
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,
