@@ -1,6 +1,7 @@
 package com.example.fitness_routine.presentation.screen.report
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.interactor.AddDailyReport
 import com.example.fitness_routine.domain.interactor.DeleteDailyReport
@@ -12,9 +13,13 @@ import com.example.fitness_routine.presentation.toDate
 import com.example.fitness_routine.presentation.toList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 
@@ -33,52 +38,51 @@ class ReportViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
-    private val gymNotesFlow = MutableSharedFlow<String>()
-    private val musclesTrainedFlow = MutableSharedFlow<String>()
     private val performedWorkoutFlow = MutableSharedFlow<Boolean>()
     private val hadCreatineFlow = MutableSharedFlow<Boolean>()
     private val hadCheatMealFlow = MutableSharedFlow<Boolean>()
+
+    private val gymNotesFlow = MutableSharedFlow<String>()
+    private val musclesTrainedFlow = MutableSharedFlow<String>()
     private val sleepQualityFlow = MutableSharedFlow<String>()
     private val proteinGramsFlow = MutableSharedFlow<String>()
     private val cardioMinutesFlow = MutableSharedFlow<String>()
     private val litersOfWaterFlow = MutableSharedFlow<String>()
 
 
-    override val _uiState: StateFlow<ReportState>
-        get() = TODO("Not yet implemented")
+    override val _uiState: StateFlow<ReportState> = combine(
+        dailyReportFlow,
+        performedWorkoutFlow.onStart { emit(false) },
+        hadCreatineFlow.onStart { emit(false) },
+        hadCheatMealFlow.onStart { emit(false) },
+        gymNotesFlow.onStart { emit("") },
+        sleepQualityFlow.onStart { emit("0") },
+        proteinGramsFlow.onStart { emit("0") },
+        cardioMinutesFlow.onStart { emit("0") },
+        litersOfWaterFlow.onStart { emit("0") },
+        musclesTrainedFlow.onStart { emit("") },
+    ) { arrayOfValues ->
 
-//    override val _uiState: StateFlow<ReportState> = combine(
-//        dailyReportFlow,
-//        gymNotesFlow.onStart { emit("") },
-//        musclesTrainedFlow.onStart { emit("") },
-//        performedWorkoutFlow.onStart { emit(false) },
-//        hadCreatineFlow.onStart { emit(false) },
-//        hadCheatMealFlow.onStart { emit(false) },
-//        sleepQualityFlow.onStart { emit("0") },
-//        proteinGramsFlow.onStart { emit("0") },
-//        cardioMinutesFlow.onStart { emit("0") },
-//        litersOfWaterFlow.onStart { emit("0") }
-//    ) { dailyReport, notes, trainedMuscles, performedWorkout, hadCreatine, hadCheatMeal, sleepQuality, proteinGrams, litersOfWater, cardioMinutes ->
-//
-//        ReportState.Content(
-//            date = date,
-//            dailyReport = dailyReport,
-//            notes = notes,
-//            trainedMuscles = trainedMuscles,
-//            performedWorkout = performedWorkout,
-//            hadCreatine = hadCreatine,
-//            hadCheatMeal = hadCheatMeal,
-//            sleepQuality = sleepQuality,
-//            proteinGrams = proteinGrams,
-//            litersOfWater = litersOfWater,
-//            cardioMinutes = cardioMinutes,
-//        )
-//
-//    }.stateIn(
-//        scope = viewModelScope,
-//        started = SharingStarted.WhileSubscribed(),
-//        initialValue = ReportState.Idle
-//    )
+
+        ReportState.Content(
+            date = date.toString(),
+            dailyReport = arrayOfValues[0] as DailyReportDomainEntity,
+            performedWorkout = arrayOfValues[1] as Boolean,
+            hadCreatine = arrayOfValues[2] as Boolean,
+            hadCheatMeal = arrayOfValues[3] as Boolean,
+            notes = arrayOfValues[4] as String,
+            sleepQuality = arrayOfValues[5] as String,
+            proteinGrams = arrayOfValues[6] as String,
+            cardioMinutes = arrayOfValues[7] as String,
+            litersOfWater = arrayOfValues[8] as String,
+            trainedMuscles = arrayOfValues[9] as String,
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = ReportState.Idle
+    )
+
 
 
 
