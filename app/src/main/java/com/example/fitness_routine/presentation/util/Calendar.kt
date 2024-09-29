@@ -1,8 +1,11 @@
 package com.example.fitness_routine.presentation.util
 
+import com.example.fitness_routine.presentation.toTimeStamp
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
+import java.util.Date
 import java.util.Locale
 
 class Calendar {
@@ -32,7 +35,7 @@ class Calendar {
     ) = (1..daysInMonth).map { day ->
         val localDate = LocalDate.of(year, month, day)
         val dayOfWeekName = localDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-        Day(day, dayOfWeekName)
+        Day(day, dayOfWeekName, createDate(day, month, year))
     }
 
 
@@ -79,11 +82,21 @@ fun getCurrentDate(): String {
     return currentDate.format(formatter)
 }
 
-data class Day(val dayOfMonth: Int, val dayOfWeekName: String)
+
+fun createDate(day: Int, month: Int, year: Int): Long {
+    val localDate = LocalDate.of(year, month, day)
+    val instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+    return Date.from(instant).toTimeStamp()
+}
+
+
+data class Day(val dayOfMonth: Int, val dayOfWeekName: String, val date: Long)
 
 data class Month(val monthName: String, val days: List<Day>)
 
 data class Year(val year: Int, val months: List<Month>)
 
 data class CustomCalendar(val years: List<Year>)
+
+
 

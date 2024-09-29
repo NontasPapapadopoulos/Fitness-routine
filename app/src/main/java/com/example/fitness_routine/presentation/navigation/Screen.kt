@@ -11,3 +11,7 @@ fun Screen.params(vararg  params: Any?): String {
     val routeParams = params.map { it.toString() }
     return this.name + "/" + routeParams.joinToString(separator = "/")
 }
+
+
+
+val ReportsRoute = "${Screen.Report.name}/${NavigationArgument.Date.addBrackets()}"

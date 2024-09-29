@@ -2,8 +2,9 @@ package com.example.fitness_routine.data.datasource
 
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
-import com.example.fitness_routine.data.entity.toTimeStamp
+import com.example.fitness_routine.data.toTimeStamp
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import java.util.Date
 import javax.inject.Inject
 
@@ -31,7 +32,7 @@ class DailyRoutineDataSourceImpl @Inject constructor(
     }
 
     override fun getDailyReport(date: Date): Flow<DailyReportDataEntity> {
-        return dao.getReport(date.toTimeStamp())
+        return dao.getReport(date.toTimeStamp()).filterNotNull()
     }
 
     override suspend fun update(report: DailyReportDataEntity) {

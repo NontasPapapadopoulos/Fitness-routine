@@ -5,7 +5,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.fitness_routine.presentation.screen.SplashScreen
 import com.example.fitness_routine.presentation.screen.calendar.CalendarScreen
 import com.example.fitness_routine.presentation.screen.report.ReportScreen
@@ -39,15 +41,22 @@ fun RootNavGraph(
         }
 
         composable(
-            route = Screen.Calendar.name
+            route = Screen.Calendar.name,
+            arguments = listOf(
+                navArgument(NavigationArgument.Date.param) {
+                    type = NavType.LongType
+                }
+            )
         ) {
 
-            CalendarScreen()
+            CalendarScreen(
+                navigateToDailyReport = { navController.navigate(Screen.Report.name) }
+            )
         }
 
 
         composable(
-            route = Screen.Report.name
+            route = ReportsRoute
         ) {
 
             ReportScreen(

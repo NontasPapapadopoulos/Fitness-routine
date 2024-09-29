@@ -2,6 +2,7 @@ package com.example.fitness_routine.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 import java.util.Date
 
 
@@ -24,7 +25,3 @@ data class DailyReportDataEntity(
 )
 
 
-
-fun Long.toDate(): Date = this.let { Date(it) }
-
-fun Date.toTimeStamp(): Long = this.time

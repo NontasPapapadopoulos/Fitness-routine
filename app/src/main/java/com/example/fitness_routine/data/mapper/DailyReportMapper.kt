@@ -1,8 +1,9 @@
 package com.example.fitness_routine.data.mapper
 
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
-import com.example.fitness_routine.data.entity.toDate
-import com.example.fitness_routine.data.entity.toTimeStamp
+import com.example.fitness_routine.data.toDate
+import com.example.fitness_routine.data.toTimeStamp
+
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 
 

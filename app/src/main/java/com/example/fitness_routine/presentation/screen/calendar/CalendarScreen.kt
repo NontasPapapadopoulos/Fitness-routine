@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.screen.calendar
 
 import android.widget.Toast
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,7 +49,8 @@ import com.example.fitness_routine.presentation.util.getCurrentYear
 
 @Composable
 fun CalendarScreen(
-    viewModel: CalendarViewModel = hiltViewModel()
+    viewModel: CalendarViewModel = hiltViewModel(),
+    navigateToDailyReport: (Long) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -69,7 +71,8 @@ fun CalendarScreen(
         is CalendarState.Content -> {
             Content(
                 content = state,
-                onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) }
+                onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) },
+                navigateToDailyReport = { navigateToDailyReport(it) }
             )
         }
 
@@ -83,7 +86,8 @@ fun CalendarScreen(
 @Composable
 private fun Content(
     content: CalendarState.Content,
-    onSelectChoice: (Choice) -> Unit
+    onSelectChoice: (Choice) -> Unit,
+    navigateToDailyReport: (Long) -> Unit,
 ) {
 
     var displayFilters by remember { mutableStateOf(false) }
@@ -143,7 +147,8 @@ private fun Content(
                         months = year.months,
                         year = year.year,
                         currentYear = currentYear,
-                        currentMonth = currentMonth
+                        currentMonth = currentMonth,
+                        navigateToDailyReport = navigateToDailyReport
                     )
 
                 }
@@ -188,23 +193,33 @@ private fun Filters(
 
 
 @Composable
-private fun Day(day: String) {
+private fun Day(
+    day: Day,
+    navigateToDailyReport: (Long) -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(1.dp)
             .size(45.dp)
-            .border(1.dp, Color.Red),
+            .border(1.dp, Color.Red)
+            .clickable { navigateToDailyReport(day.date) },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = day)
+        Text(text = day.dayOfWeekName)
     }
 }
 
 @Composable
-private fun Week(days: List<Day>) {
+private fun Week(
+    days: List<Day>,
+    navigateToDailyReport: (Long) -> Unit
+) {
     Row {
         days.forEach {
-            Day(day = it.dayOfMonth.toString())
+            Day(
+                day = it,
+                navigateToDailyReport = navigateToDailyReport
+            )
         }
     }
 }
@@ -214,7 +229,8 @@ private fun Week(days: List<Day>) {
 private fun Month(
     weeks: List<List<Day>>,
     nameOfMonth: String,
-    currentMonth: String
+    currentMonth: String,
+    navigateToDailyReport: (Long) -> Unit
 ) {
 
     val isCurrentMonth = currentMonth == nameOfMonth
@@ -222,7 +238,10 @@ private fun Month(
     Column {
         Text(text = nameOfMonth)
         weeks.forEach { week ->
-            Week(days = week)
+            Week(
+                days = week,
+                navigateToDailyReport = navigateToDailyReport
+            )
         }
     }
 }
@@ -233,7 +252,8 @@ private fun YearlyCalendar(
     months: List<Month>,
     year: Int,
     currentYear: String,
-    currentMonth: String
+    currentMonth: String,
+    navigateToDailyReport: (Long) -> Unit
 ) {
     val isCurrentYear = year.toString() == currentYear
 
@@ -251,7 +271,8 @@ private fun YearlyCalendar(
             Month(
                 weeks = weeks,
                 nameOfMonth = it.monthName,
-                currentMonth = currentMonth
+                currentMonth = currentMonth,
+                navigateToDailyReport = navigateToDailyReport
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -265,5 +286,7 @@ private fun YearlyCalendar(
 @Preview
 @Composable
 private fun CalendarScreenPreview() {
-    CalendarScreen()
+    CalendarScreen(
+        navigateToDailyReport = {}
+    )
 }
