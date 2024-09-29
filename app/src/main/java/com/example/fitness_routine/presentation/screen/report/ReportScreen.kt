@@ -345,7 +345,7 @@ private fun ReportPreview() {
                 performedWorkout = false,
                 hadCreatine = false,
                 hadCheatMeal = false,
-                musclesTrained = "",
+                musclesTrained = listOf(),
                 litersOfWater = "2.5",
                 cardioMinutes = "30",
                 date = Date()

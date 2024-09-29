@@ -9,6 +9,7 @@ import com.example.fitness_routine.domain.interactor.UpdateDailyReport
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
 import com.example.fitness_routine.presentation.toDate
+import com.example.fitness_routine.presentation.toList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -130,7 +131,7 @@ class ReportViewModel @Inject constructor(
                     Field.GymNotes -> state.dailyReport.copy(gymNotes = it.value)
                     Field.SleepQuality -> state.dailyReport.copy(sleepQuality = it.value)
                     Field.LitersOfWater -> state.dailyReport.copy(litersOfWater = it.value)
-                    Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value)
+                    Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value.toList())
                     Field.CardioMinutes -> state.dailyReport.copy(cardioMinutes = it.value)
                     Field.ProteinGrams -> state.dailyReport.copy(proteinGrams = it.value)
                 }
@@ -138,11 +139,8 @@ class ReportViewModel @Inject constructor(
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
 
             }
-
         }
-
     }
-
 
 }
 

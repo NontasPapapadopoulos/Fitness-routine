@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.screen.calendar
 
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,13 +39,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
 import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
+import java.util.Date
 
 
 @Composable
@@ -67,7 +72,7 @@ fun CalendarScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when(val state = uiState) {
+    when (val state = uiState) {
         is CalendarState.Content -> {
             Content(
                 content = state,
@@ -94,6 +99,7 @@ private fun Content(
 
     val currentYear = getCurrentYear()
     val currentMonth = getCurrentMonth()
+    val currentDay = getCurrentDay()
 
 
     Scaffold(
@@ -148,6 +154,7 @@ private fun Content(
                         year = year.year,
                         currentYear = currentYear,
                         currentMonth = currentMonth,
+                        currentDay = currentDay,
                         navigateToDailyReport = navigateToDailyReport
                     )
 
@@ -195,29 +202,39 @@ private fun Filters(
 @Composable
 private fun Day(
     day: Day,
+    currentDay: String,
+    isCurrentMonth: Boolean,
     navigateToDailyReport: (Long) -> Unit
 ) {
+
+    val isCurrentDay = currentDay.toInt() == day.dayOfMonth
+
     Box(
         modifier = Modifier
             .padding(1.dp)
             .size(45.dp)
             .border(1.dp, Color.Red)
+            .background(color = if (isCurrentDay && isCurrentMonth) Color.Red else Color.White)
             .clickable { navigateToDailyReport(day.date) },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = day.dayOfWeekName)
+        Text(text = day.dayOfMonth.toString())
     }
 }
 
 @Composable
 private fun Week(
     days: List<Day>,
+    currentDay: String,
+    isCurrentMonth: Boolean,
     navigateToDailyReport: (Long) -> Unit
 ) {
     Row {
         days.forEach {
             Day(
                 day = it,
+                currentDay = currentDay,
+                isCurrentMonth = isCurrentMonth,
                 navigateToDailyReport = navigateToDailyReport
             )
         }
@@ -230,6 +247,7 @@ private fun Month(
     weeks: List<List<Day>>,
     nameOfMonth: String,
     currentMonth: String,
+    currentDay: String,
     navigateToDailyReport: (Long) -> Unit
 ) {
 
@@ -240,7 +258,9 @@ private fun Month(
         weeks.forEach { week ->
             Week(
                 days = week,
-                navigateToDailyReport = navigateToDailyReport
+                currentDay = currentDay,
+                isCurrentMonth = isCurrentMonth,
+                navigateToDailyReport = navigateToDailyReport,
             )
         }
     }
@@ -253,6 +273,7 @@ private fun YearlyCalendar(
     year: Int,
     currentYear: String,
     currentMonth: String,
+    currentDay: String,
     navigateToDailyReport: (Long) -> Unit
 ) {
     val isCurrentYear = year.toString() == currentYear
@@ -272,6 +293,7 @@ private fun YearlyCalendar(
                 weeks = weeks,
                 nameOfMonth = it.monthName,
                 currentMonth = currentMonth,
+                currentDay = currentDay,
                 navigateToDailyReport = navigateToDailyReport
             )
 
@@ -286,7 +308,31 @@ private fun YearlyCalendar(
 @Preview
 @Composable
 private fun CalendarScreenPreview() {
-    CalendarScreen(
+    Content(
+        content = CalendarState.Content(
+            currentDate = getCurrentDate(),
+            selectedChoice = Choice.Workout,
+            reports = generateReports()
+        ),
+        onSelectChoice = {},
         navigateToDailyReport = {}
     )
+}
+
+
+fun generateReports(): List<DailyReportDomainEntity> {
+    return (1..10).map {
+        DailyReportDomainEntity(
+            performedWorkout = true,
+            hadCheatMeal = false,
+            hadCreatine = true,
+            litersOfWater = "2.5",
+            gymNotes = "",
+            musclesTrained = listOf(Muscle.Legs.name),
+            sleepQuality = "4",
+            proteinGrams = "120",
+            cardioMinutes = "30",
+            date = Date()
+        )
+    }
 }
