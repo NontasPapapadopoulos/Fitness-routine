@@ -50,7 +50,8 @@ fun RootNavGraph(
         ) {
 
             CalendarScreen(
-                navigateToDailyReport = { navController.navigate(Screen.Report.name) }
+                navigateToDailyReport = { navController.navigate(Screen.Report.name) },
+                navigateToScreen = { navController.navigate(it.name) }
             )
         }
 

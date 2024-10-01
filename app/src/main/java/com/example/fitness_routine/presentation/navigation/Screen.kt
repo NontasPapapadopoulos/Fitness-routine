@@ -3,7 +3,9 @@ package com.example.fitness_routine.presentation.navigation
 enum class Screen {
     Splash,
     Calendar,
-    Report
+    Report,
+    Gym,
+    Cheat
 }
 
 

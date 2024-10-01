@@ -17,10 +17,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,7 +44,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
@@ -55,7 +60,8 @@ import java.util.Date
 @Composable
 fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
-    navigateToDailyReport: (Long) -> Unit
+    navigateToDailyReport: (Long) -> Unit,
+    navigateToScreen: (Screen) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -77,7 +83,9 @@ fun CalendarScreen(
             Content(
                 content = state,
                 onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) },
-                navigateToDailyReport = { navigateToDailyReport(it) }
+                navigateToDailyReport = { navigateToDailyReport(it) },
+                navigateToScreen = { navigateToScreen(it) }
+
             )
         }
 
@@ -93,6 +101,7 @@ private fun Content(
     content: CalendarState.Content,
     onSelectChoice: (Choice) -> Unit,
     navigateToDailyReport: (Long) -> Unit,
+    navigateToScreen: (Screen) -> Unit
 ) {
 
     var displayFilters by remember { mutableStateOf(false) }
@@ -122,6 +131,12 @@ private fun Content(
                         Icon(Icons.Filled.Menu, contentDescription = "Menu")
                     }
                 }
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                onClick = { navigateToScreen(it) },
+                currentScreen = Screen.Calendar
             )
         }
     ) {
@@ -315,7 +330,8 @@ private fun CalendarScreenPreview() {
             reports = generateReports()
         ),
         onSelectChoice = {},
-        navigateToDailyReport = {}
+        navigateToDailyReport = {},
+        navigateToScreen = {}
     )
 }
 
