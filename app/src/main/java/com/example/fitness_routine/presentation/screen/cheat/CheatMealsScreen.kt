@@ -25,7 +25,7 @@ import com.example.fitness_routine.presentation.navigation.Screen
 
 
 @Composable
-fun GymSessionsScreen(
+fun CheatMealsScreen(
     viewModel: CheatMealsViewModel = hiltViewModel(),
     navigateToScreen: (Screen) -> Unit,
 ) {

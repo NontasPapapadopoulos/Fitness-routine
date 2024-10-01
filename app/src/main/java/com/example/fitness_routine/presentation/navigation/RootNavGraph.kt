@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.fitness_routine.presentation.screen.SplashScreen
 import com.example.fitness_routine.presentation.screen.calendar.CalendarScreen
+import com.example.fitness_routine.presentation.screen.cheat.CheatMealsScreen
+import com.example.fitness_routine.presentation.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.screen.report.ReportScreen
 import kotlinx.coroutines.delay
 
@@ -62,6 +64,22 @@ fun RootNavGraph(
 
             ReportScreen(
                 navigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = CheatMealsRoute
+        ) {
+            CheatMealsScreen(
+                navigateToScreen = { navController.navigate(it.name) }
+            )
+        }
+
+        composable(
+            route = GymRoute
+        ) {
+            GymSessionsScreen(
+                navigateToScreen = { navController.navigate(it.name) }
             )
         }
 
