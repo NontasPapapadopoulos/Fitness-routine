@@ -47,6 +47,8 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.toDate
+import com.example.fitness_routine.presentation.toTimeStamp
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
@@ -54,6 +56,8 @@ import com.example.fitness_routine.presentation.util.getCurrentDate
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Date
 
 
@@ -104,7 +108,7 @@ private fun Content(
     navigateToScreen: (Screen) -> Unit
 ) {
 
-    var displayFilters by remember { mutableStateOf(false) }
+    var displayFilters by remember { mutableStateOf(true) }
 
     val currentYear = getCurrentYear()
     val currentMonth = getCurrentMonth()
@@ -170,6 +174,7 @@ private fun Content(
                         currentYear = currentYear,
                         currentMonth = currentMonth,
                         currentDay = currentDay,
+                        dailyReports = content.reports,
                         navigateToDailyReport = navigateToDailyReport
                     )
 
@@ -219,6 +224,7 @@ private fun Day(
     day: Day,
     currentDay: String,
     isCurrentMonth: Boolean,
+    performedWorkout: Boolean,
     navigateToDailyReport: (Long) -> Unit
 ) {
 
@@ -229,7 +235,7 @@ private fun Day(
             .padding(1.dp)
             .size(45.dp)
             .border(1.dp, Color.Red)
-            .background(color = if (isCurrentDay && isCurrentMonth) Color.Red else Color.White)
+            .background(color = if (isCurrentDay && isCurrentMonth || performedWorkout) Color.Red else Color.White)
             .clickable { navigateToDailyReport(day.date) },
         contentAlignment = Alignment.Center
     ) {
@@ -242,14 +248,19 @@ private fun Week(
     days: List<Day>,
     currentDay: String,
     isCurrentMonth: Boolean,
+    dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit
 ) {
     Row {
-        days.forEach {
+        days.forEach { day ->
+            val reportForDay = dailyReports.find { it.date == day.date.toDate() }
+            val performedWorkout = reportForDay?.performedWorkout ?: false
+
             Day(
-                day = it,
+                day = day,
                 currentDay = currentDay,
                 isCurrentMonth = isCurrentMonth,
+                performedWorkout = performedWorkout,
                 navigateToDailyReport = navigateToDailyReport
             )
         }
@@ -263,6 +274,7 @@ private fun Month(
     nameOfMonth: String,
     currentMonth: String,
     currentDay: String,
+    dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit
 ) {
 
@@ -275,6 +287,7 @@ private fun Month(
                 days = week,
                 currentDay = currentDay,
                 isCurrentMonth = isCurrentMonth,
+                dailyReports = dailyReports,
                 navigateToDailyReport = navigateToDailyReport,
             )
         }
@@ -289,6 +302,7 @@ private fun YearlyCalendar(
     currentYear: String,
     currentMonth: String,
     currentDay: String,
+    dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit
 ) {
     val isCurrentYear = year.toString() == currentYear
@@ -309,6 +323,7 @@ private fun YearlyCalendar(
                 nameOfMonth = it.monthName,
                 currentMonth = currentMonth,
                 currentDay = currentDay,
+                dailyReports = dailyReports,
                 navigateToDailyReport = navigateToDailyReport
             )
 
@@ -337,7 +352,14 @@ private fun CalendarScreenPreview() {
 
 
 fun generateReports(): List<DailyReportDomainEntity> {
+
+
     return (1..10).map {
+
+        val localDate = LocalDate.of(2024, 1, it)
+
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
         DailyReportDomainEntity(
             performedWorkout = true,
             hadCheatMeal = false,
@@ -348,7 +370,7 @@ fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             cardioMinutes = "30",
-            date = Date()
+            date = date
         )
     }
 }
