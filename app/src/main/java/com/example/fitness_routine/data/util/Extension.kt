@@ -1,4 +1,4 @@
-package com.example.fitness_routine.data
+package com.example.fitness_routine.data.util
 
 import java.util.Date
 

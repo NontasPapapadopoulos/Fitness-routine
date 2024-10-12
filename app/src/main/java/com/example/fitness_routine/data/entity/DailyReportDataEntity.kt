@@ -8,7 +8,6 @@ import java.util.Date
 
 @Entity(
     tableName = "DailyReport",
-
 )
 data class DailyReportDataEntity(
     @PrimaryKey

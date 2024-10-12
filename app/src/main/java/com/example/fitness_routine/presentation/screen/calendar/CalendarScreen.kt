@@ -36,6 +36,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -145,7 +147,9 @@ private fun Content(
         }
     ) {
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier
+                .padding(it)
+                .verticalScroll(rememberScrollState())
         ) {
             if (displayFilters) {
                 Filters(
@@ -228,6 +232,8 @@ private fun Day(
     navigateToDailyReport: (Long) -> Unit
 ) {
 
+    val focusRequester = remember { FocusRequester() }
+
     val isCurrentDay = currentDay.toInt() == day.dayOfMonth
 
     Box(
@@ -236,10 +242,15 @@ private fun Day(
             .size(45.dp)
             .border(1.dp, Color.Red)
             .background(color = if (isCurrentDay && isCurrentMonth || performedWorkout) Color.Red else Color.White)
-            .clickable { navigateToDailyReport(day.date) },
+            .clickable { navigateToDailyReport(day.date) }
+            .focusRequester(focusRequester),
         contentAlignment = Alignment.Center
     ) {
         Text(text = day.dayOfMonth.toString())
+    }
+
+    LaunchedEffect(isCurrentDay && isCurrentMonth) {
+        focusRequester.requestFocus()
     }
 }
 

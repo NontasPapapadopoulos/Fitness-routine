@@ -1,0 +1,36 @@
+package com.example.fitness_routine.data.datasource
+
+import com.example.fitness_routine.data.cache.dao.ExerciseDao
+import com.example.fitness_routine.data.entity.ExerciseDataEntity
+import com.example.fitness_routine.domain.entity.enums.Muscle
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+interface ExerciseDataSource {
+
+    fun getExercises(muscle: Muscle): Flow<List<ExerciseDataEntity>>
+
+    suspend fun add(exercise: ExerciseDataEntity)
+
+    suspend fun delete(exercise: ExerciseDataEntity)
+
+}
+
+
+
+class ExerciseDataSourceImpl @Inject constructor(
+    private val exerciseDao: ExerciseDao
+): ExerciseDataSource {
+    override fun getExercises(muscle: Muscle): Flow<List<ExerciseDataEntity>> {
+        return exerciseDao.getExercises(muscle)
+    }
+
+    override suspend fun add(exercise: ExerciseDataEntity) {
+        exerciseDao.put(exercise)
+    }
+
+    override suspend fun delete(exercise: ExerciseDataEntity) {
+        exerciseDao.delete(exercise)
+    }
+
+}

@@ -1,24 +1,21 @@
-package com.example.fitness_routine.domain.interactor
+package com.example.fitness_routine.domain.interactor.report
 
-
-import com.example.fitness_routine.domain.SuspendUseCase
+import com.example.fitness_routine.domain.FlowUseCase
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.DailyRoutineRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class AddDailyReport @Inject constructor(
+class GetDailyReports @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): SuspendUseCase<Unit, AddDailyReport.Params>(dispatcher) {
+): FlowUseCase<List<DailyReportDomainEntity>, Unit>(dispatcher) {
 
 
-    override suspend fun invoke(params: Params) {
-        return dailyRoutineRepository.delete(params.report)
+    override fun invoke(params: Unit): Flow<List<DailyReportDomainEntity>> {
+        return dailyRoutineRepository.getDailyReports()
     }
-
-
-    data class Params(val report: DailyReportDomainEntity)
 }

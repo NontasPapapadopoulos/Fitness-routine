@@ -2,7 +2,7 @@ package com.example.fitness_routine.presentation.screen.calendar
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.interactor.GetDailyReports
+import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.util.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
