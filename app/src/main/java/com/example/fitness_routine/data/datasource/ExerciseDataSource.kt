@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 interface ExerciseDataSource {
 
-    fun getExercises(muscle: Muscle): Flow<List<ExerciseDataEntity>>
+    fun getExercises(): Flow<List<ExerciseDataEntity>>
 
     suspend fun add(exercise: ExerciseDataEntity)
 
@@ -21,8 +21,8 @@ interface ExerciseDataSource {
 class ExerciseDataSourceImpl @Inject constructor(
     private val exerciseDao: ExerciseDao
 ): ExerciseDataSource {
-    override fun getExercises(muscle: Muscle): Flow<List<ExerciseDataEntity>> {
-        return exerciseDao.getExercises(muscle)
+    override fun getExercises(): Flow<List<ExerciseDataEntity>> {
+        return exerciseDao.getExercises()
     }
 
     override suspend fun add(exercise: ExerciseDataEntity) {

@@ -14,8 +14,8 @@ import javax.inject.Inject
 class ExerciseDataRepository @Inject constructor(
     private val exerciseDataSource: ExerciseDataSource
 ): ExerciseRepository {
-    override fun getExercises(muscle: Muscle): Flow<List<ExerciseDomainEntity>> {
-        return exerciseDataSource.getExercises(muscle)
+    override fun getExercises(): Flow<List<ExerciseDomainEntity>> {
+        return exerciseDataSource.getExercises()
             .map { muscles ->
                 muscles.map { it.toDomain() }
             }

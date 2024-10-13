@@ -8,6 +8,7 @@ import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
+import com.example.fitness_routine.data.entity.ExerciseDataEntity
 import com.example.fitness_routine.data.entity.SetDataEntity
 import com.example.fitness_routine.data.entity.WorkoutDataEntity
 import com.example.fitness_routine.data.util.Converters
@@ -17,7 +18,8 @@ import com.example.fitness_routine.data.util.Converters
     entities = [
         DailyReportDataEntity::class,
         WorkoutDataEntity::class,
-        SetDataEntity::class
+        SetDataEntity::class,
+        ExerciseDataEntity::class
     ],
     exportSchema = false,
     version = 1

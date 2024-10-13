@@ -8,7 +8,7 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 @Entity(tableName = "Exercise")
 data class ExerciseDataEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val name: String,
     val muscle: Muscle
 )

@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
@@ -89,6 +90,8 @@ private fun WorkoutContent(
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Text(text = "Workout")
+                        val date = content.workout.workout.date
+                        Text(text = date.toString())
 
                     }
                 },
@@ -106,8 +109,6 @@ private fun WorkoutContent(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            val date = content.workout.workout.date
-            Text(text = date.toString())
 
             val muscles = content.workout.workout.muscles
 
@@ -131,7 +132,7 @@ private fun WorkoutContent(
 
                 }
 
-                AddSet(addSet = {})
+                AddSet(addSet = {}, muscle = muscle, exercises = content.exercises)
             }
 
 
@@ -195,7 +196,9 @@ private fun Set(
 
 @Composable
 private fun AddSet(
-    addSet: () -> Unit
+    addSet: () -> Unit,
+    muscle: Muscle,
+    exercises: List<ExerciseDomainEntity>
 ) {
 
     Row(
@@ -203,6 +206,11 @@ private fun AddSet(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
+
+        val muscleExercises = exercises.filter { it.muscle == muscle }
+
+        // probably show a dialog with a drop down to show the exercise options.
+
 
         Text(text = "Add new Set")
         IconButton(
@@ -242,6 +250,7 @@ private fun WorkoutContentPreview() {
                     ),
                 sets = generateSets()
             ),
+            exercises = generateExercises()
         ),
         navigateBack = {}
     )
@@ -256,10 +265,19 @@ private fun generateSets(): List<SetDomainEntity> {
             id = it.toLong(),
             workoutDate = 100000L,
             muscle = if (it < 6 ) Muscle.Chest else Muscle.Biceps,
-            exercise = "xxxx",
+            exercise = if (it % 2 == 0) "Exercise 1" else "Exercise 2",
             weight = 30,
             repeats = 12
         )
     }
 
+}
+
+private fun generateExercises(): List<ExerciseDomainEntity> {
+    return (0..10).map {
+        ExerciseDomainEntity(
+            muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
+            name = "exercise name"
+        )
+    }
 }

@@ -6,7 +6,6 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 
 
 data class ExerciseDomainEntity(
-    val id: Long,
     val name: String,
     val muscle: Muscle
 )

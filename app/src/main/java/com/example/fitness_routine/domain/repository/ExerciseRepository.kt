@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
 
-    fun getExercises(muscle: Muscle): Flow<List<ExerciseDomainEntity>>
+    fun getExercises(): Flow<List<ExerciseDomainEntity>>
 
     suspend fun add(exercise: ExerciseDomainEntity)
 
