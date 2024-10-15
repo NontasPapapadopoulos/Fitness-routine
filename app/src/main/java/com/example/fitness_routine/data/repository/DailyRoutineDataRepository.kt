@@ -33,4 +33,8 @@ class DailyRoutineDataRepository(
         dailyRoutineDataSource.put(report.toData())
     }
 
+    override suspend fun initDailyReport(date: Long) {
+        dailyRoutineDataSource.initDailyReport(date)
+    }
+
 }

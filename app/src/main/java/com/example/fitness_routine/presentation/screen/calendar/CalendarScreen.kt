@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +62,7 @@ import com.example.fitness_routine.presentation.util.getCurrentDate
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -110,12 +115,14 @@ private fun Content(
     navigateToScreen: (Screen) -> Unit
 ) {
 
-    var displayFilters by remember { mutableStateOf(true) }
+    var displayFilters by remember { mutableStateOf(false) }
 
     val currentYear = getCurrentYear()
     val currentMonth = getCurrentMonth()
     val currentDay = getCurrentDay()
 
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -149,7 +156,6 @@ private fun Content(
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
         ) {
             if (displayFilters) {
                 Filters(
@@ -161,31 +167,40 @@ private fun Content(
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
                 val year = calendar.years[0]
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    YearlyCalendar(
-                        months = year.months,
-                        year = year.year,
-                        currentYear = currentYear,
-                        currentMonth = currentMonth,
-                        currentDay = currentDay,
-                        dailyReports = content.reports,
-                        navigateToDailyReport = navigateToDailyReport
-                    )
+                YearlyCalendar(
+                    months = year.months,
+                    year = year.year,
+                    currentYear = currentYear,
+                    currentMonth = currentMonth,
+                    currentDay = currentDay,
+                    dailyReports = content.reports,
+                    navigateToDailyReport = navigateToDailyReport,
+                    state = listState,
 
-                }
+                )
+
+
             }
         }
 
+    }
+
+    LaunchedEffect(Unit) {
+        val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
+        val currentMonthIndex = calendar.years[0].months.indexOfFirst { it.monthName == currentMonth }
+
+        if (currentMonthIndex != -1) {
+            coroutineScope.launch {
+                listState.scrollToItem(currentMonthIndex)
+            }
+        }
     }
 
 }
@@ -232,8 +247,6 @@ private fun Day(
     navigateToDailyReport: (Long) -> Unit
 ) {
 
-    val focusRequester = remember { FocusRequester() }
-
     val isCurrentDay = currentDay.toInt() == day.dayOfMonth
 
     Box(
@@ -242,16 +255,12 @@ private fun Day(
             .size(45.dp)
             .border(1.dp, Color.Red)
             .background(color = if (isCurrentDay && isCurrentMonth || performedWorkout) Color.Red else Color.White)
-            .clickable { navigateToDailyReport(day.date) }
-            .focusRequester(focusRequester),
+            .clickable { navigateToDailyReport(day.date) },
         contentAlignment = Alignment.Center
     ) {
         Text(text = day.dayOfMonth.toString())
     }
 
-    LaunchedEffect(isCurrentDay && isCurrentMonth) {
-        focusRequester.requestFocus()
-    }
 }
 
 @Composable
@@ -314,31 +323,37 @@ private fun YearlyCalendar(
     currentMonth: String,
     currentDay: String,
     dailyReports: List<DailyReportDomainEntity>,
-    navigateToDailyReport: (Long) -> Unit
+    navigateToDailyReport: (Long) -> Unit,
+    state: LazyListState
 ) {
     val isCurrentYear = year.toString() == currentYear
 
-    Column {
-        Text(text = year.toString())
-        months.forEach {
-            val firstWeek = it.days.take(7)
-            val secondWeek = it.days.filter { it.dayOfMonth in 8..14 }
-            val thirdWeek = it.days.filter { it.dayOfMonth in 15..21 }
-            val fourthWeek = it.days.filter { it.dayOfMonth in 22 .. 28 }
-            val lastWeek = it.days.filter { it.dayOfMonth > 28 }
+    LazyColumn(
+        state = state
+    ) {
+
+        months.forEachIndexed { index, month ->
+            val firstWeek = month.days.take(7)
+            val secondWeek = month.days.filter { it.dayOfMonth in 8..14 }
+            val thirdWeek = month.days.filter { it.dayOfMonth in 15..21 }
+            val fourthWeek = month.days.filter { it.dayOfMonth in 22 .. 28 }
+            val lastWeek = month.days.filter { it.dayOfMonth > 28 }
 
             val weeks = listOf(firstWeek,secondWeek,   thirdWeek, fourthWeek, lastWeek)
 
-            Month(
-                weeks = weeks,
-                nameOfMonth = it.monthName,
-                currentMonth = currentMonth,
-                currentDay = currentDay,
-                dailyReports = dailyReports,
-                navigateToDailyReport = navigateToDailyReport
-            )
+            item(key = index) {
+                Text(text = year.toString())
+                Month(
+                    weeks = weeks,
+                    nameOfMonth = month.monthName,
+                    currentMonth = currentMonth,
+                    currentDay = currentDay,
+                    dailyReports = dailyReports,
+                    navigateToDailyReport = navigateToDailyReport
+                )
 
-            Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
 
     }

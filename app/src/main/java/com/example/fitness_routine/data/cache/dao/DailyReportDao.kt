@@ -17,7 +17,10 @@ interface DailyReportDao {
     fun getReports(): Flow<List<DailyReportDataEntity>>
 
     @Query("SELECT * FROM DailyReport WHERE date = :date")
-    fun getReport(date: Long): Flow<DailyReportDataEntity>
+    fun getReportFlow(date: Long): Flow<DailyReportDataEntity>
+
+    @Query("SELECT * FROM DailyReport WHERE date = :date")
+    suspend fun getReport(date: Long): DailyReportDataEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(dailyReportDataEntity: DailyReportDataEntity)
