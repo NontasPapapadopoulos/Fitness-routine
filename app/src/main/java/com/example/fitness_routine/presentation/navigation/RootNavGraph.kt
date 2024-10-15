@@ -43,18 +43,23 @@ fun RootNavGraph(
         }
 
         composable(
-            route = Screen.Calendar.name
+            route = Screen.Calendar.name,
         ) {
 
             CalendarScreen(
-                navigateToDailyReport = { navController.navigate(Screen.Report.name) },
+                navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
                 navigateToScreen = { navController.navigate(it.name) }
             )
         }
 
 
         composable(
-            route = ReportsRoute
+            route = ReportsRoute,
+            arguments = listOf(
+                navArgument(NavigationArgument.Date.param) {
+                    type = NavType.LongType
+                }
+            )
         ) {
 
             ReportScreen(
