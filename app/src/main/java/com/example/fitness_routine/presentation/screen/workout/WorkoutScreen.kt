@@ -43,7 +43,7 @@ import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
-
+import com.example.fitness_routine.presentation.toFormattedDate
 
 
 @Composable
@@ -69,7 +69,9 @@ fun WorkoutScreen(
     when(val state = uiState) {
         is WorkoutState.Content -> WorkoutContent(
             content = state,
-            navigateBack = navigateBack
+            navigateBack = navigateBack,
+            onAddSet = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewSet(muscle, exercise)) },
+            onDeleteSet = { viewModel.add(WorkoutEvent.DeleteSet(it)) }
         )
         WorkoutState.Idle -> { LoadingBox() }
     }
@@ -81,7 +83,9 @@ fun WorkoutScreen(
 @Composable
 private fun WorkoutContent(
     content: WorkoutState.Content,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onAddSet: (Muscle, String) -> Unit,
+    onDeleteSet: (SetDomainEntity) -> Unit
 ) {
 
     Scaffold(
@@ -94,8 +98,7 @@ private fun WorkoutContent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Workout")
-                        val date = content.workout.workout.date
-                        Text(text = date.toString())
+                        Text(text = content.date.toFormattedDate())
 
                     }
                 },
@@ -104,19 +107,15 @@ private fun WorkoutContent(
         }
     ) {
 
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(it)
                 .padding(horizontal = 24.dp)
-                .verticalScroll(rememberScrollState())
         ) {
 
 
-            val muscles = content.workout.workout.muscles
-
-            muscles.forEach { muscle ->
+            content.musclesTrained.forEach { muscle ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -124,14 +123,11 @@ private fun WorkoutContent(
                 ) {
                     Text(text = muscle.name)
 
-
                     AddBreak(addBreak = {})
-
-
 
                 }
 
-                val setsByExercise = content.workout.sets
+                val setsByExercise = content.sets
                     .filter { it.muscle == muscle }
                     .groupBy { it.exercise }
 
@@ -142,29 +138,25 @@ private fun WorkoutContent(
                         Set(
                             set = set,
                             index = index + 1,
-                            delete = {}
+                            delete = { onDeleteSet(set) }
                         )
 
-//                        Break(time = "20")
                     }
 
-                }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AddSet(addSet = { onAddSet(muscle, exercise) })
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AddSet(addSet = {}, muscle = muscle, exercises = content.exercises)
+                        AddExercise(addExercise = {})
 
-                    AddExercise(addExercise = {})
-
+                    }
                 }
 
             }
         }
-
-
     }
 
 }
@@ -230,9 +222,6 @@ private fun Set(
             ),
             modifier = Modifier.weight(0.5f)
         )
-//        Spacer(modifier = Modifier.width(10.dp))
-
-//        Text(text = "Break 20s")
 
         IconButton(onClick = { delete(set) } ) {
             Icon(Icons.Default.Delete, contentDescription = null)
@@ -244,8 +233,7 @@ private fun Set(
 @Composable
 private fun AddSet(
     addSet: () -> Unit,
-    muscle: Muscle,
-    exercises: List<ExerciseDomainEntity>
+
 ) {
 
     Row(
@@ -254,9 +242,6 @@ private fun AddSet(
         horizontalArrangement = Arrangement.Center
     ) {
 
-        val muscleExercises = exercises.filter { it.muscle == muscle }
-
-        // probably show a dialog with a drop down to show the exercise options.
 
 
         Text(text = "Add new Set")
@@ -325,18 +310,15 @@ private fun Break(
 private fun WorkoutContentPreview() {
     WorkoutContent(
         content = WorkoutState.Content(
-            workout = WorkoutWithSetsDomainEntity(
-                    workout = WorkoutDomainEntity(
-                        date = 10000L,
-                        muscles = listOf(Muscle.Chest, Muscle.Biceps)
-                    ),
-                sets = generateSets()
-            ),
-            exercises = generateExercises()
+            sets = generateSets(),
+            exercises = generateExercises(),
+            date = 1728939600000,
+            musclesTrained = listOf(Muscle.Biceps, Muscle.Chest)
         ),
-        navigateBack = {}
+        navigateBack = {},
+        onAddSet = {_, _ -> },
+        onDeleteSet = {}
     )
-
 
 }
 
@@ -365,12 +347,3 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
     }
 }
 
-
-//private fun generateBreaks(): List<BreakDomainEntity> {
-//    (0..generateExercises().size).map {
-//        BreakDomainEntity(
-//            date = 100000L,
-//            muscle =
-//        )
-//    }
-//}

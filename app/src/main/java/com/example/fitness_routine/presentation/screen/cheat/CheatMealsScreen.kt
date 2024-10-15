@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.screen.cheat
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,9 +20,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.toFormattedDate
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 
 
 @Composable
@@ -88,13 +95,20 @@ private fun CheatMealsContent(
         }
     ) {
 
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(it),
-            contentAlignment = Alignment.Center
+
         ) {
-            Text(text = "Cheat Meals")
+
+            content.dailyReports
+                .filter { it.hadCheatMeal }
+                .map { it.date }
+                .forEachIndexed { index, date ->
+
+                    Text(text = "${index +1} -  ${date.toFormattedDate()}")
+                }
         }
 
     }
@@ -108,8 +122,27 @@ private fun CheatMealsContent(
 private fun CheatMealsContentPreview() {
     CheatMealsContent(
         content = CheatMealsState.Content(
-            xx = "xx"
+            dailyReports = generateReports()
         ),
         navigateToScreen = {}
     )
+}
+
+private fun generateReports(): List<DailyReportDomainEntity> {
+    return (1..10).map {
+        val localDate = LocalDate.of(2024, 1, it)
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        DailyReportDomainEntity(
+            performedWorkout = true,
+            hadCheatMeal = if (it > 2) true else false,
+            hadCreatine = true,
+            litersOfWater = "2.5",
+            gymNotes = "",
+            musclesTrained = listOf(Muscle.Legs.name),
+            sleepQuality = "4",
+            proteinGrams = "120",
+            cardioMinutes = "30",
+            date = date
+        )
+    }
 }
