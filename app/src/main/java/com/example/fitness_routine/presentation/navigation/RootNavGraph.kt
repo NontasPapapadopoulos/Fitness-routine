@@ -35,7 +35,7 @@ fun RootNavGraph(
 
             DisplaySplashScreen(
                 navController = navController,
-                milliseconds = 200L,
+                milliseconds = 50L,
                 route = Screen.Calendar.name
             )
 
@@ -43,12 +43,7 @@ fun RootNavGraph(
         }
 
         composable(
-            route = Screen.Calendar.name,
-            arguments = listOf(
-                navArgument(NavigationArgument.Date.param) {
-                    type = NavType.LongType
-                }
-            )
+            route = Screen.Calendar.name
         ) {
 
             CalendarScreen(
