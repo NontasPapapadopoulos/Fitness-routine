@@ -1,6 +1,7 @@
 package com.example.fitness_routine.presentation.screen.workout
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.data.entity.BreakDataEntity
+import com.example.fitness_routine.domain.entity.BreakDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
@@ -39,8 +43,7 @@ import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.toTimeStamp
-import java.util.Date
+
 
 
 @Composable
@@ -87,7 +90,8 @@ private fun WorkoutContent(
                 title = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Workout")
                         val date = content.workout.workout.date
@@ -113,7 +117,19 @@ private fun WorkoutContent(
             val muscles = content.workout.workout.muscles
 
             muscles.forEach { muscle ->
-                Text(text = muscle.name)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = muscle.name)
+
+
+                    AddBreak(addBreak = {})
+
+
+
+                }
 
                 val setsByExercise = content.workout.sets
                     .filter { it.muscle == muscle }
@@ -128,14 +144,24 @@ private fun WorkoutContent(
                             index = index + 1,
                             delete = {}
                         )
+
+//                        Break(time = "20")
                     }
 
                 }
 
-                AddSet(addSet = {}, muscle = muscle, exercises = content.exercises)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AddSet(addSet = {}, muscle = muscle, exercises = content.exercises)
+
+                    AddExercise(addExercise = {})
+
+                }
+
             }
-
-
         }
 
 
@@ -143,12 +169,30 @@ private fun WorkoutContent(
 
 }
 
+@Composable
+private fun AddBreak(
+    addBreak: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable { addBreak() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = "Break")
+
+        IconButton(
+            onClick = {}
+        ) {
+            Icon(Icons.Outlined.Timer, contentDescription = null)
+        }
+    }
+}
+
 
 @Composable
 private fun Set(
     set: SetDomainEntity,
     index: Int,
-    delete: () -> Unit
+    delete: (SetDomainEntity) -> Unit
 ) {
 
     Row(
@@ -186,8 +230,11 @@ private fun Set(
             ),
             modifier = Modifier.weight(0.5f)
         )
+//        Spacer(modifier = Modifier.width(10.dp))
 
-        IconButton(onClick = delete) {
+//        Text(text = "Break 20s")
+
+        IconButton(onClick = { delete(set) } ) {
             Icon(Icons.Default.Delete, contentDescription = null)
         }
     }
@@ -202,7 +249,7 @@ private fun AddSet(
 ) {
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.clickable { addSet() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -215,6 +262,29 @@ private fun AddSet(
         Text(text = "Add new Set")
         IconButton(
             onClick = addSet
+        ) {
+            Icon(Icons.Default.AddCircleOutline, contentDescription = null)
+        }
+    }
+}
+
+
+@Composable
+private fun AddExercise(
+    addExercise: () -> Unit,
+) {
+
+    Row(
+        modifier = Modifier.clickable { addExercise() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+
+
+
+        Text(text = "Add Exercise")
+        IconButton(
+            onClick = addExercise
         ) {
             Icon(Icons.Default.AddCircleOutline, contentDescription = null)
         }
@@ -235,6 +305,18 @@ private fun SetPreview() {
     )
     
     Set(set = setDomainEntity, delete = {}, index = 1)
+}
+
+
+@Composable
+private fun Break(
+    time: String
+) {
+
+    Row {
+        Text(text = "$time seconds")
+    }
+
 }
 
 
@@ -277,7 +359,18 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
     return (0..10).map {
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
-            name = "exercise name"
+            name = "exercise name",
+//            index = it
         )
     }
 }
+
+
+//private fun generateBreaks(): List<BreakDomainEntity> {
+//    (0..generateExercises().size).map {
+//        BreakDomainEntity(
+//            date = 100000L,
+//            muscle =
+//        )
+//    }
+//}

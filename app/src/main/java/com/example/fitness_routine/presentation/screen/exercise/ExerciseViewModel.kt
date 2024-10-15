@@ -55,7 +55,8 @@ class ExerciseViewModel @Inject constructor(
             onState<ExerciseState.Content> { state ->
                 val exercise = ExerciseDomainEntity(
                     name = state.newExercise,
-                    muscle = it.muscle
+                    muscle = it.muscle,
+//                    index = it
                 )
 
                 addExercise.execute(AddExercise.Params(exercise)).fold(

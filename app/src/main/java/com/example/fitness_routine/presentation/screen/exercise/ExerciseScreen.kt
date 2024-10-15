@@ -213,9 +213,11 @@ private fun ExerciseContentPreview() {
 
 private fun generateExercises(): List<ExerciseDomainEntity> {
     return (0..10).map {
+
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
-            name = "exercise name"
+            name = "exercise name",
+//            index = it
         )
     }
 }

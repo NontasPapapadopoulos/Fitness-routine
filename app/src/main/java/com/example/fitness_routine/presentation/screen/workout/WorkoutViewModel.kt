@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.screen.workout
 
+import androidx.lifecycle.SavedStateHandle
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
@@ -12,7 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WorkoutViewModel @Inject constructor(
-    private val getExercises: GetExercises
+    private val getExercises: GetExercises,
+    private val savedStateHandle: SavedStateHandle
+
 ): BlocViewModel<WorkoutEvent, WorkoutState>() {
 
 

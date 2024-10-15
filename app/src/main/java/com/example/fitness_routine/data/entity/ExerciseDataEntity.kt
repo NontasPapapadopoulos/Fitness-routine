@@ -10,5 +10,6 @@ data class ExerciseDataEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
-    val muscle: Muscle
+    val muscle: Muscle,
+//    val index: Int
 )

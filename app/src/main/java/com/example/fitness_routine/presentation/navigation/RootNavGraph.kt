@@ -11,8 +11,10 @@ import androidx.navigation.navArgument
 import com.example.fitness_routine.presentation.screen.SplashScreen
 import com.example.fitness_routine.presentation.screen.calendar.CalendarScreen
 import com.example.fitness_routine.presentation.screen.cheat.CheatMealsScreen
+import com.example.fitness_routine.presentation.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.screen.report.ReportScreen
+import com.example.fitness_routine.presentation.screen.workout.WorkoutScreen
 import kotlinx.coroutines.delay
 
 
@@ -44,11 +46,11 @@ fun RootNavGraph(
 
         composable(
             route = Screen.Calendar.name,
-            arguments = listOf(
-                navArgument(NavigationArgument.Date.param) {
-                    type = NavType.LongType
-                }
-            )
+//            arguments = listOf(
+//                navArgument(NavigationArgument.Date.param) {
+//                    type = NavType.LongType
+//                }
+//            )
         ) {
 
             CalendarScreen(
@@ -59,11 +61,17 @@ fun RootNavGraph(
 
 
         composable(
-            route = ReportsRoute
+            route = ReportsRoute,
+            arguments = listOf(
+                navArgument(NavigationArgument.Date.param) {
+                    type = NavType.LongType
+                }
+            )
         ) {
 
             ReportScreen(
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() },
+                navigateToWorkout = { navController.navigate(Screen.Workout.params()) }
             )
         }
 
@@ -81,6 +89,27 @@ fun RootNavGraph(
             GymSessionsScreen(
                 navigateToScreen = { navController.navigate(it.name) }
             )
+        }
+
+
+        composable(
+            route = WorkoutRout,
+            arguments = listOf(
+                navArgument(NavigationArgument.Date.param) {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            WorkoutScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+
+
+        composable(
+            route = ExerciseRoute
+        ) {
+            ExerciseScreen(navigateBack = { navController.popBackStack() })
         }
 
     }

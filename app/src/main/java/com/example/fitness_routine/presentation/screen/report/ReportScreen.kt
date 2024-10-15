@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,13 +41,15 @@ import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.util.createDate
 import com.example.fitness_routine.presentation.util.getCurrentDate
 import java.util.Date
 
 @Composable
 fun ReportScreen(
     viewModel: ReportViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToWorkout: (Long) -> Unit
 ) {
 
 
@@ -68,7 +72,8 @@ fun ReportScreen(
         is ReportState.Content -> {
             Content(
                 content = state,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                navigateToWorkout = { navigateToWorkout(it) }
             )
         }
 
@@ -82,7 +87,8 @@ fun ReportScreen(
 @Composable
 private fun Content(
     content: ReportState.Content,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToWorkout: (Long) -> Unit,
 ) {
 
     Scaffold(
@@ -108,10 +114,12 @@ private fun Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .padding(20.dp)
         ) {
             
             CheckBoxQuestion(text = "Workout: ", isChecked = content.performedWorkout, onCheckedChange = {})
 
+            CheckBoxQuestion(text = "Cheat Meal: ", isChecked = content.hadCheatMeal, onCheckedChange = {})
 
             Input(
                 label = "Protein grams: ",
@@ -143,8 +151,15 @@ private fun Content(
                 onValueChange = {}
             )
 
-            CheckBoxQuestion(text = "Cheat Meal: ", isChecked = content.hadCheatMeal, onCheckedChange = {})
+            Spacer(modifier = Modifier.weight(1f))
 
+            Button(onClick = { navigateToWorkout(content.date) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                Text(text = "Note workout details ")
+            }
 
         }
     }
@@ -238,7 +253,7 @@ private fun GymNotes(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(100.dp)
         )
 
     }
@@ -330,7 +345,7 @@ private fun CheckBoxQuestion(
 private fun ReportPreview() {
     Content(
         content = ReportState.Content(
-            date = getCurrentDate(),
+            date = createDate(13,10,2024),
             notes = "WoW",
             proteinGrams = "140",
             sleepQuality = "2",
@@ -353,6 +368,7 @@ private fun ReportPreview() {
                 date = Date()
             )
         ),
-        navigateBack = {}
+        navigateBack = {},
+        navigateToWorkout = {},
     )
 }

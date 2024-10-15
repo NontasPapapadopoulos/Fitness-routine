@@ -39,7 +39,7 @@ class CalendarViewModel @Inject constructor(
         CalendarState.Content(
             reports = reports,
             currentDate = currentDate,
-            selectedChoice = choice
+            selectedChoice = choice,
         )
 
     }.stateIn(

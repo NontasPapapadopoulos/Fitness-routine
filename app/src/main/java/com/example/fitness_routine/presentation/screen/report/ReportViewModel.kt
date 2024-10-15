@@ -65,7 +65,7 @@ class ReportViewModel @Inject constructor(
 
 
         ReportState.Content(
-            date = date.toString(),
+            date = date,
             dailyReport = arrayOfValues[0] as DailyReportDomainEntity,
             performedWorkout = arrayOfValues[1] as Boolean,
             hadCreatine = arrayOfValues[2] as Boolean,
@@ -164,7 +164,7 @@ sealed interface ReportState {
     object Idle: ReportState
 
     data class Content(
-        val date: String,
+        val date: Long,
         val notes: String,
         val proteinGrams: String,
         val cardioMinutes: String,
