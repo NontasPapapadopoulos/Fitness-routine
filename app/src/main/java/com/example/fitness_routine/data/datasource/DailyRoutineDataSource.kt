@@ -19,6 +19,8 @@ interface DailyRoutineDataSource {
 
     suspend fun put(report: DailyReportDataEntity)
 
+    suspend fun initDailyReport(date: Long)
+
 }
 
 
@@ -32,7 +34,7 @@ class DailyRoutineDataSourceImpl @Inject constructor(
     }
 
     override fun getDailyReport(date: Date): Flow<DailyReportDataEntity> {
-        return dao.getReport(date.toTimeStamp()).filterNotNull()
+        return dao.getReportFlow(date.toTimeStamp()).filterNotNull()
     }
 
     override suspend fun update(report: DailyReportDataEntity) {
@@ -46,6 +48,29 @@ class DailyRoutineDataSourceImpl @Inject constructor(
     override suspend fun put(report: DailyReportDataEntity) {
         dao.put(report)
     }
+
+    override suspend fun initDailyReport(date: Long) {
+        val dailyReportExists = dao.getReport(date) != null
+
+        if (!dailyReportExists) {
+            val dailyReport = createDailyReport(date)
+            dao.put(dailyReport)
+        }
+
+    }
+
+    private fun createDailyReport(date: Long) = DailyReportDataEntity(
+        date = date,
+        performedWorkout = false,
+        hadCreatine = false,
+        hadCheatMeal = false,
+        proteinGrams = "",
+        cardioMinutes = "",
+        gymNotes = "",
+        sleepQuality = "",
+        litersOfWater = "",
+        musclesTrained = ""
+    )
 
 
 }

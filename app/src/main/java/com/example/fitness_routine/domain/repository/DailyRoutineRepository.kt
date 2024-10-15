@@ -16,4 +16,6 @@ interface DailyRoutineRepository {
 
     suspend fun put(report: DailyReportDomainEntity)
 
+    suspend fun initDailyReport(date: Long)
+
 }

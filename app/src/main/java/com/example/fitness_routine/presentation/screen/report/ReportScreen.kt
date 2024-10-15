@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Checkbox
@@ -31,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +43,8 @@ import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.toDate
+import com.example.fitness_routine.presentation.toFormattedDate
 import com.example.fitness_routine.presentation.util.getCurrentDate
 import java.util.Date
 
@@ -68,7 +74,9 @@ fun ReportScreen(
         is ReportState.Content -> {
             Content(
                 content = state,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                onUpdateCheckField = { isChecked, field -> viewModel.add(ReportEvent.UpdateCheckBox(isChecked = isChecked, checkBoxField = field)) },
+                onUpdateTextField = { value, field ->  viewModel.add(ReportEvent.UpdateField(value = value, field = field)) }
             )
         }
 
@@ -82,7 +90,9 @@ fun ReportScreen(
 @Composable
 private fun Content(
     content: ReportState.Content,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
+    onUpdateTextField: (String, Field) -> Unit
 ) {
 
     Scaffold(
@@ -95,7 +105,7 @@ private fun Content(
                     ) {
                         Text(text = "Fitness Diary")
 
-                        Text(text = getCurrentDate())
+                        Text(text = content.date.toFormattedDate())
                     }
                 },
                 navigationIcon = { BackButton(navigateBack) }
@@ -108,42 +118,58 @@ private fun Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .verticalScroll(rememberScrollState())
         ) {
             
-            CheckBoxQuestion(text = "Workout: ", isChecked = content.performedWorkout, onCheckedChange = {})
+            CheckBoxQuestion(
+                text = "Workout: ",
+                isChecked = content.dailyReport.performedWorkout,
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) }
+            )
 
 
             Input(
                 label = "Protein grams: ",
-                value = content.proteinGrams,
-                onValueChange = {}
+                value = content.dailyReport.proteinGrams,
+                onValueChange = { onUpdateTextField(it, Field.ProteinGrams) }
             )
 
             Input(
                 label = "Liters of water: ",
-                value = content.litersOfWater,
-                onValueChange = {}
+                value = content.dailyReport.litersOfWater,
+                onValueChange = { onUpdateTextField(it, Field.LitersOfWater) }
             )
 
             Input(
                 label = "Cardio minutes: ",
-                value = content.cardioMinutes,
-                onValueChange = {}
+                value = content.dailyReport.cardioMinutes,
+                onValueChange = { onUpdateTextField(it, Field.CardioMinutes) }
             )
 
 
-            SleepQuality(level = content.sleepQuality.toInt(), onLevelChange = {})
+            SleepQuality(
+                level = if (content.dailyReport.sleepQuality.isNotEmpty()) content.dailyReport.sleepQuality.toInt() else 0,
+                onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
+            )
 
-            CheckBoxQuestion(text = "Creatine: ", isChecked = content.hadCreatine, onCheckedChange = {})
+            CheckBoxQuestion(
+                text = "Creatine: ",
+                isChecked = content.dailyReport.hadCreatine,
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) }
+            )
 
             MusclesTrained()
 
             GymNotes(
-                notes = content.notes,
-                onValueChange = {}
+                notes = content.dailyReport.gymNotes,
+                onValueChange = { onUpdateTextField(it, Field.GymNotes) }
             )
 
-            CheckBoxQuestion(text = "Cheat Meal: ", isChecked = content.hadCheatMeal, onCheckedChange = {})
+            CheckBoxQuestion(
+                text = "Cheat Meal: ",
+                isChecked = content.dailyReport.hadCheatMeal,
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) }
+            )
 
 
         }
@@ -283,7 +309,8 @@ private fun Star(
 private fun Input(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 ) {
 
     Row(
@@ -298,7 +325,9 @@ private fun Input(
         TextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            singleLine = true,
+            keyboardOptions = keyboardOptions
         )
     }
 
@@ -330,16 +359,7 @@ private fun CheckBoxQuestion(
 private fun ReportPreview() {
     Content(
         content = ReportState.Content(
-            date = getCurrentDate(),
-            notes = "WoW",
-            proteinGrams = "140",
-            sleepQuality = "2",
-            performedWorkout = false,
-            hadCreatine = false,
-            hadCheatMeal = false,
-            trainedMuscles = "",
-            litersOfWater = "2.5",
-            cardioMinutes = "30",
+            date = 1728939600000,
             dailyReport = DailyReportDomainEntity(
                 gymNotes = "WoW",
                 proteinGrams = "140",
@@ -353,6 +373,8 @@ private fun ReportPreview() {
                 date = Date()
             )
         ),
-        navigateBack = {}
+        navigateBack = {},
+        onUpdateTextField = { _, _ -> },
+        onUpdateCheckField = { _, _ -> }
     )
 }
