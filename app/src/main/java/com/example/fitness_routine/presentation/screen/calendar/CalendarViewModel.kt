@@ -52,6 +52,7 @@ class CalendarViewModel @Inject constructor(
     init {
         on(CalendarEvent.SelectChoice::class) {
             choiceFlow.emit(it.choice)
+
         }
     }
 

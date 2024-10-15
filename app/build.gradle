@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'nondas.pap.petcareapp'
+    namespace "com.example.fitness_routine"
     compileSdk 34
 
     defaultConfig {
-        applicationId "nondas.pap.petcareapp"
+        applicationId "com.example.fitness_routine"
         minSdk 26
         targetSdk 34
         versionCode 1
