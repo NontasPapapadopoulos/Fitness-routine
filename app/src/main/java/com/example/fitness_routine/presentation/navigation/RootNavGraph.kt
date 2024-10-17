@@ -66,7 +66,7 @@ fun RootNavGraph(
 
             ReportScreen(
                 navigateBack = { navController.popBackStack() },
-                navigateToWorkout = { navController.navigate(Screen.Workout.params()) }
+                navigateToWorkout = { date -> navController.navigate(Screen.Workout.params(date)) }
             )
         }
 
