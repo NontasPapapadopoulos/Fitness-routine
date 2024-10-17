@@ -74,7 +74,7 @@ fun ReportScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
 
-    when(val state = uiState) {
+    when (val state = uiState) {
         is ReportState.Content -> {
             Content(
                 content = state,

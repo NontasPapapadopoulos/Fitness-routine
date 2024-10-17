@@ -60,7 +60,7 @@ class ExerciseViewModel @Inject constructor(
                 )
 
                 addExercise.execute(AddExercise.Params(exercise)).fold(
-                    onSuccess = {},
+                    onSuccess = { newExerciseFlow.emit("") },
                     onFailure = { addError(it) }
                 )
             }
@@ -74,7 +74,9 @@ class ExerciseViewModel @Inject constructor(
             )
         }
 
-
+        on(ExerciseEvent.TextChanged::class) {
+            newExerciseFlow.emit(it.text)
+        }
 
     }
 }

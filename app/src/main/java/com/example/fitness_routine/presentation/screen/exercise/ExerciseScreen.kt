@@ -4,9 +4,11 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
@@ -31,12 +33,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.interactor.exercise.AddExercise
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 
@@ -65,10 +67,10 @@ fun ExerciseScreen(
         is ExerciseState.Content -> {
             ExerciseContent(
                 content = state,
-                navigateBack = navigateBack,
-                addExercise = { viewModel.add(ExerciseEvent.Add(it)) },
-                deleteExercise = { viewModel.add(ExerciseEvent.Delete(it)) },
-                textChanged = { viewModel.add(ExerciseEvent.TextChanged(it)) }
+                onNavigateBack = navigateBack,
+                onAddExercise = { viewModel.add(ExerciseEvent.Add(it)) },
+                onDeleteExercise = { viewModel.add(ExerciseEvent.Delete(it)) },
+                onTextChanged = { viewModel.add(ExerciseEvent.TextChanged(it)) }
             )
         }
         ExerciseState.Idle -> { LoadingBox() }
@@ -83,10 +85,10 @@ fun ExerciseScreen(
 @Composable
 private fun ExerciseContent(
     content: ExerciseState.Content,
-    navigateBack: () -> Unit,
-    addExercise: (Muscle) -> Unit,
-    deleteExercise: (ExerciseDomainEntity) -> Unit,
-    textChanged: (String) -> Unit
+    onNavigateBack: () -> Unit,
+    onAddExercise: (Muscle) -> Unit,
+    onDeleteExercise: (ExerciseDomainEntity) -> Unit,
+    onTextChanged: (String) -> Unit
 ) {
 
     Scaffold(
@@ -97,11 +99,11 @@ private fun ExerciseContent(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text(text = "Workout")
+                        Text(text = "Exercises")
 
                     }
                 },
-                navigationIcon = { BackButton(navigateBack) }
+                navigationIcon = { BackButton(onNavigateBack) }
             )
         }
     ) {
@@ -109,13 +111,14 @@ private fun ExerciseContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
+                .padding(it)
+                .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
 
             val muscles = Muscle.entries
-            var expanded by remember { mutableStateOf(true) }
+            var expanded by remember { mutableStateOf(false) }
             var selectedOption by remember { mutableStateOf(muscles[0].name) }
 
 
@@ -127,7 +130,7 @@ private fun ExerciseContent(
                     value = selectedOption,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Dropdown") },
+                    label = { Text("Muscle group") },
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth(),
@@ -156,20 +159,34 @@ private fun ExerciseContent(
             val muscleExercises = content.exercises.filter { it.muscle.name == selectedOption }
 
             muscleExercises.forEach {
-                Exercise(exercise = it, delete = { deleteExercise(it) })
+                Exercise(exercise = it, delete = { onDeleteExercise(it) })
             }
 
+            Spacer(modifier = Modifier.weight(1f))
 
-            OutlinedTextField(
-                value = content.newExercise,
-                onValueChange = { textChanged(it) }
-            )
-
-            Button(
-                onClick = { addExercise(Muscle.valueOf(selectedOption)) }
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Add Exercise")
+                OutlinedTextField(
+                    value = content.newExercise,
+                    onValueChange = { onTextChanged(it) },
+                    modifier = Modifier.weight(0.55f),
+                    singleLine = true
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Button(
+                    onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
+                    modifier = Modifier.weight(0.45f)
+                ) {
+                    Text(text = "Add Exercise")
+                }
             }
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
 
         }
 
@@ -179,7 +196,7 @@ private fun ExerciseContent(
 @Composable
 private fun Exercise(
     exercise: ExerciseDomainEntity,
-    delete: () -> Unit
+    delete: (ExerciseDomainEntity) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -188,7 +205,7 @@ private fun Exercise(
     ) {
         Text(text = exercise.name)
 
-        IconButton(onClick = delete) {
+        IconButton(onClick =  { delete(exercise) }) {
             Icon(Icons.Default.Delete, contentDescription = null)
         }
     }
@@ -204,10 +221,10 @@ private fun ExerciseContentPreview() {
             exercises = generateExercises(),
             newExercise = "bench press"
         ),
-        navigateBack = {},
-        addExercise = {},
-        deleteExercise = {},
-        textChanged = {}
+        onNavigateBack = {},
+        onAddExercise = {},
+        onDeleteExercise = {},
+        onTextChanged = {}
     )
 }
 

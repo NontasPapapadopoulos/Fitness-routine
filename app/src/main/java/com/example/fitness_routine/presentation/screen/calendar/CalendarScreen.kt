@@ -213,8 +213,7 @@ private fun Content(
 
             Column(
                 modifier = Modifier
-                    .padding(it)
-            )
+                    .padding(it))
             {
                 Column(
                     modifier = Modifier
