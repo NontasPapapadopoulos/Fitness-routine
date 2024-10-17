@@ -97,6 +97,23 @@ class ReportViewModel @Inject constructor(
 
             }
         }
+
+        on(ReportEvent.SelectMuscle::class) {
+            onState<ReportState.Content> { state ->
+
+                val dailyReport = state.dailyReport
+
+                val updatedMuscles = dailyReport.musclesTrained
+                    .toMutableList()
+                    .apply {
+                        if (contains(it.muscle)) remove(it.muscle) else add(it.muscle)
+                        remove("")
+                }.toList()
+
+
+                updateReport.execute(UpdateDailyReport.Params(dailyReport.copy(musclesTrained = updatedMuscles)))
+            }
+        }
     }
 
     private suspend fun initDailyReport() {
@@ -115,6 +132,8 @@ sealed interface ReportEvent {
     data class UpdateCheckBox(val isChecked: Boolean, val checkBoxField: CheckBoxField): ReportEvent
 
     data class UpdateField(val value: String, val field: Field): ReportEvent
+
+    data class SelectMuscle(val muscle: String): ReportEvent
 }
 
 

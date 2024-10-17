@@ -46,7 +46,10 @@ class WorkoutViewModel @Inject constructor(
 
     private val  musclesTrainedFlow = getDailyReport.execute(GetDailyReport.Params(date = date.toDate()))
         .map { it.getOrThrow() }
-        .map { it.musclesTrained.toMuscles() }
+        .map { it.musclesTrained.filter {
+                it.isNotEmpty()
+            }.toMuscles()
+        }
         .catch { addError(it) }
 
 

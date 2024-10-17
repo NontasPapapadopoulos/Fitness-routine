@@ -81,7 +81,8 @@ fun ReportScreen(
                 navigateBack = navigateBack,
                 navigateToWorkout = { navigateToWorkout(it) },
                 onUpdateCheckField = { isChecked, field -> viewModel.add(ReportEvent.UpdateCheckBox(isChecked = isChecked, checkBoxField = field)) },
-                onUpdateTextField = { value, field ->  viewModel.add(ReportEvent.UpdateField(value = value, field = field)) }
+                onUpdateTextField = { value, field ->  viewModel.add(ReportEvent.UpdateField(value = value, field = field)) },
+                onSelectMuscle = { viewModel.add(ReportEvent.SelectMuscle(it)) }
             )
         }
 
@@ -98,7 +99,8 @@ private fun Content(
     navigateBack: () -> Unit,
     navigateToWorkout: (Long) -> Unit,
     onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
-    onUpdateTextField: (String, Field) -> Unit
+    onUpdateTextField: (String, Field) -> Unit,
+    onSelectMuscle: (String) -> Unit
 ) {
 
     Scaffold(
@@ -171,7 +173,10 @@ private fun Content(
                 onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) }
             )
 
-            MusclesTrained()
+            MusclesTrained(
+                selectedMuscles = content.dailyReport.musclesTrained,
+                onSelectMuscle = { onSelectMuscle(it.name) }
+            )
 
             GymNotes(
                 notes = content.dailyReport.gymNotes,
@@ -227,17 +232,18 @@ private fun SleepQuality(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun MusclesTrained() {
+private fun MusclesTrained(
+    onSelectMuscle: (Muscle) -> Unit,
+    selectedMuscles: List<String>
+) {
 
-    val trainedMuscles = listOf(Muscle.Chest, Muscle.Biceps)
 
-    FlowRow(
-    ) {
+    FlowRow {
         Muscle.entries.forEach {
             Muscle(
                 muscle = it,
-                isSelected = trainedMuscles.contains(it),
-                select = {}
+                isSelected = selectedMuscles.contains(it.name),
+                select = { onSelectMuscle(it) }
             )
         }
     }
@@ -393,5 +399,6 @@ private fun ReportPreview() {
         onUpdateTextField = { _, _ -> },
         onUpdateCheckField = { _, _ -> },
         navigateToWorkout = {},
+        onSelectMuscle = {},
     )
 }

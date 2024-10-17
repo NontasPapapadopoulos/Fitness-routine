@@ -74,7 +74,7 @@ fun RootNavGraph(
             route = CheatMealsRoute
         ) {
             CheatMealsScreen(
-                navigateToScreen = { navController.navigate(it.name) }
+                navigateToScreen = { navController.navigate(it.name) { launchSingleTop = true } }
             )
         }
 
@@ -82,7 +82,7 @@ fun RootNavGraph(
             route = GymRoute
         ) {
             GymSessionsScreen(
-                navigateToScreen = { navController.navigate(it.name) }
+                navigateToScreen = { navController.navigate(it.name) { launchSingleTop = true } }
             )
         }
 

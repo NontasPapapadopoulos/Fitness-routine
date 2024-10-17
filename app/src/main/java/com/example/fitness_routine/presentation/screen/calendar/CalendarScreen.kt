@@ -234,8 +234,8 @@ private fun Content(
                         dailyReports = content.reports,
                         navigateToDailyReport = navigateToDailyReport,
                         state = listState,
-
-                        )
+                        selectedChoice = content.selectedChoice
+                    )
                 }
             }
         }
@@ -261,12 +261,7 @@ private suspend fun toggleDrawerState(drawerState: DrawerState) {
     else drawerState.open()
 }
 
-fun DrawerState.toggle(scope: CoroutineScope) {
-    if (this.isOpen)
-        scope.launch { close() }
-    else
-        scope.launch { open() }
-}
+
 
 @Composable
 private fun Filters(
@@ -305,17 +300,26 @@ private fun Day(
     currentDay: String,
     isCurrentMonth: Boolean,
     performedWorkout: Boolean,
-    navigateToDailyReport: (Long) -> Unit
+    hadCheatMeal: Boolean,
+    hadCreatine: Boolean,
+    navigateToDailyReport: (Long) -> Unit,
+    selectedChoice: Choice
 ) {
 
     val isCurrentDay = currentDay.toInt() == day.dayOfMonth
+
+    val isChoiceCompleted = when (selectedChoice) {
+        Choice.Workout -> performedWorkout
+        Choice.Creatine -> hadCreatine
+        Choice.Cheat -> hadCheatMeal
+    }
 
     Box(
         modifier = Modifier
             .padding(1.dp)
             .size(45.dp)
             .border(1.dp, Color.Red)
-            .background(color = if (isCurrentDay && isCurrentMonth || performedWorkout) Color.Red else Color.White)
+            .background(color = if (isCurrentDay && isCurrentMonth || isChoiceCompleted) Color.Red else Color.White)
             .clickable { navigateToDailyReport(day.date) },
         contentAlignment = Alignment.Center
     ) {
@@ -330,19 +334,22 @@ private fun Week(
     currentDay: String,
     isCurrentMonth: Boolean,
     dailyReports: List<DailyReportDomainEntity>,
-    navigateToDailyReport: (Long) -> Unit
+    navigateToDailyReport: (Long) -> Unit,
+    selectedChoice: Choice
 ) {
     Row {
         days.forEach { day ->
             val reportForDay = dailyReports.find { it.date == day.date.toDate() }
-            val performedWorkout = reportForDay?.performedWorkout ?: false
 
             Day(
                 day = day,
                 currentDay = currentDay,
                 isCurrentMonth = isCurrentMonth,
-                performedWorkout = performedWorkout,
-                navigateToDailyReport = navigateToDailyReport
+                performedWorkout = reportForDay?.performedWorkout ?: false,
+                hadCreatine = reportForDay?.hadCreatine ?: false,
+                hadCheatMeal = reportForDay?.hadCheatMeal ?: false,
+                navigateToDailyReport = navigateToDailyReport,
+                selectedChoice = selectedChoice
             )
         }
     }
@@ -356,7 +363,8 @@ private fun Month(
     currentMonth: String,
     currentDay: String,
     dailyReports: List<DailyReportDomainEntity>,
-    navigateToDailyReport: (Long) -> Unit
+    navigateToDailyReport: (Long) -> Unit,
+    selectedChoice: Choice
 ) {
 
     val isCurrentMonth = currentMonth == nameOfMonth
@@ -370,6 +378,7 @@ private fun Month(
                 isCurrentMonth = isCurrentMonth,
                 dailyReports = dailyReports,
                 navigateToDailyReport = navigateToDailyReport,
+                selectedChoice = selectedChoice
             )
         }
     }
@@ -385,7 +394,8 @@ private fun YearlyCalendar(
     currentDay: String,
     dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit,
-    state: LazyListState
+    state: LazyListState,
+    selectedChoice: Choice
 ) {
     val isCurrentYear = year.toString() == currentYear
 
@@ -410,7 +420,8 @@ private fun YearlyCalendar(
                     currentMonth = currentMonth,
                     currentDay = currentDay,
                     dailyReports = dailyReports,
-                    navigateToDailyReport = navigateToDailyReport
+                    navigateToDailyReport = navigateToDailyReport,
+                    selectedChoice = selectedChoice
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -421,20 +432,20 @@ private fun YearlyCalendar(
 }
 
 
-//@Preview
-//@Composable
-//private fun CalendarScreenPreview() {
-//    Content(
-//        content = CalendarState.Content(
-//            currentDate = getCurrentDate(),
-//            selectedChoice = Choice.Workout,
-//            reports = generateReports()
-//        ),
-//        onSelectChoice = {},
-//        navigateToDailyReport = {},
-//        navigateToScreen = {}
-//    )
-//}
+@Preview
+@Composable
+private fun CalendarScreenPreview() {
+    Content(
+        content = CalendarState.Content(
+            currentDate = getCurrentDate(),
+            selectedChoice = Choice.Workout,
+            reports = generateReports()
+        ),
+        onSelectChoice = {},
+        navigateToDailyReport = {},
+        navigateToScreen = {}
+    )
+}
 
 
 fun generateReports(): List<DailyReportDomainEntity> {

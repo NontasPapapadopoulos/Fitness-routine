@@ -19,7 +19,7 @@ fun Long.toFormattedDate(): String {
 
 fun Date.toFormattedDate(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(date)
+    return formatter.format(this)
 }
 
 
