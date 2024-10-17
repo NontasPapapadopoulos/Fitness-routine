@@ -19,7 +19,7 @@ interface ExerciseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(exercise: ExerciseDataEntity)
 
-    @Delete
-    suspend fun delete(exercise: ExerciseDataEntity)
+    @Query("DELETE FROM exercise WHERE name = :exercise")
+    suspend fun delete(exercise: String)
 
 }

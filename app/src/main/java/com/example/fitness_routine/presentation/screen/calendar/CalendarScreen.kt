@@ -421,20 +421,20 @@ private fun YearlyCalendar(
 }
 
 
-@Preview
-@Composable
-private fun CalendarScreenPreview() {
-    Content(
-        content = CalendarState.Content(
-            currentDate = getCurrentDate(),
-            selectedChoice = Choice.Workout,
-            reports = generateReports()
-        ),
-        onSelectChoice = {},
-        navigateToDailyReport = {},
-        navigateToScreen = {}
-    )
-}
+//@Preview
+//@Composable
+//private fun CalendarScreenPreview() {
+//    Content(
+//        content = CalendarState.Content(
+//            currentDate = getCurrentDate(),
+//            selectedChoice = Choice.Workout,
+//            reports = generateReports()
+//        ),
+//        onSelectChoice = {},
+//        navigateToDailyReport = {},
+//        navigateToScreen = {}
+//    )
+//}
 
 
 fun generateReports(): List<DailyReportDomainEntity> {

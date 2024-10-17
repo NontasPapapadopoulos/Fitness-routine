@@ -114,7 +114,12 @@ private fun WorkoutContent(
                 .padding(horizontal = 24.dp)
         ) {
 
+            val musclesTrained = listOf(Muscle.Biceps, Muscle.Chest)
 
+            if (content.musclesTrained.isEmpty()) {
+                Text(text = "You haven't choosed musles to train")
+            }
+            else {
             content.musclesTrained.forEach { muscle ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -154,6 +159,19 @@ private fun WorkoutContent(
 
                     }
                 }
+
+                if (setsByExercise.isEmpty()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        AddExercise(addExercise = {})
+
+                    }
+                }
+            }
 
             }
         }

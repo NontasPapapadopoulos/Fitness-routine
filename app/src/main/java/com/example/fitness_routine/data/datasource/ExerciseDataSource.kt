@@ -30,7 +30,7 @@ class ExerciseDataSourceImpl @Inject constructor(
     }
 
     override suspend fun delete(exercise: ExerciseDataEntity) {
-        exerciseDao.delete(exercise)
+        exerciseDao.delete(exercise.name)
     }
 
 }
