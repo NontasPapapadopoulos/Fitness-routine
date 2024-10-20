@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.screen.report
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.interactor.report.AddDailyReport
 import com.example.fitness_routine.domain.interactor.report.DeleteDailyReport
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
@@ -10,8 +11,9 @@ import com.example.fitness_routine.domain.interactor.report.InitDailyReport
 import com.example.fitness_routine.domain.interactor.report.UpdateDailyReport
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
-import com.example.fitness_routine.presentation.toDate
-import com.example.fitness_routine.presentation.toList
+import com.example.fitness_routine.presentation.util.toDate
+import com.example.fitness_routine.presentation.util.toList
+import com.example.fitness_routine.presentation.util.toMuscles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -102,16 +104,18 @@ class ReportViewModel @Inject constructor(
             onState<ReportState.Content> { state ->
 
                 val dailyReport = state.dailyReport
-
                 val updatedMuscles = dailyReport.musclesTrained
                     .toMutableList()
                     .apply {
                         if (contains(it.muscle)) remove(it.muscle) else add(it.muscle)
-                        remove("")
                 }.toList()
 
 
-                updateReport.execute(UpdateDailyReport.Params(dailyReport.copy(musclesTrained = updatedMuscles)))
+                updateReport.execute(
+                    UpdateDailyReport.Params(
+                        dailyReport.copy(musclesTrained = updatedMuscles)
+                    )
+                )
             }
         }
     }

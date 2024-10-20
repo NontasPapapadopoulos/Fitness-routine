@@ -23,7 +23,7 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.toFormattedDate
+import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date

@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,6 +25,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,16 +36,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.data.entity.BreakDataEntity
-import com.example.fitness_routine.domain.entity.BreakDomainEntity
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.toFormattedDate
+import com.example.fitness_routine.presentation.component.MusclesTrained
+import com.example.fitness_routine.presentation.util.toFormattedDate
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 
 
 @Composable
@@ -71,7 +74,8 @@ fun WorkoutScreen(
             content = state,
             navigateBack = navigateBack,
             onAddSet = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewSet(muscle, exercise)) },
-            onDeleteSet = { viewModel.add(WorkoutEvent.DeleteSet(it)) }
+            onDeleteSet = { viewModel.add(WorkoutEvent.DeleteSet(it)) },
+            onSelectMuscle = { viewModel.add(WorkoutEvent.SelectMuscle(it)) }
         )
         WorkoutState.Idle -> { LoadingBox() }
     }
@@ -85,7 +89,8 @@ private fun WorkoutContent(
     content: WorkoutState.Content,
     navigateBack: () -> Unit,
     onAddSet: (Muscle, String) -> Unit,
-    onDeleteSet: (SetDomainEntity) -> Unit
+    onDeleteSet: (SetDomainEntity) -> Unit,
+    onSelectMuscle: (Muscle) -> Unit,
 ) {
 
     Scaffold(
@@ -114,12 +119,12 @@ private fun WorkoutContent(
                 .padding(horizontal = 24.dp)
         ) {
 
-            val musclesTrained = listOf(Muscle.Biceps, Muscle.Chest)
+            MusclesTrained(
+                selectedMuscles = content.musclesTrained.map { it.name },
+                onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it)) }
+            )
 
-            if (content.musclesTrained.isEmpty()) {
-                Text(text = "You haven't choosed musles to train")
-            }
-            else {
+
             content.musclesTrained.forEach { muscle ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -153,9 +158,9 @@ private fun WorkoutContent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        AddSet(addSet = { onAddSet(muscle, exercise) })
-
                         AddExercise(addExercise = {})
+
+                        AddSet(addSet = { onAddSet(muscle, exercise) })
 
                     }
                 }
@@ -171,13 +176,13 @@ private fun WorkoutContent(
 
                     }
                 }
-            }
 
             }
         }
     }
 
 }
+
 
 @Composable
 private fun AddBreak(
@@ -331,11 +336,13 @@ private fun WorkoutContentPreview() {
             sets = generateSets(),
             exercises = generateExercises(),
             date = 1728939600000,
-            musclesTrained = listOf(Muscle.Biceps, Muscle.Chest)
+            musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
+            dailyReport = getDailyReport()
         ),
         navigateBack = {},
         onAddSet = {_, _ -> },
-        onDeleteSet = {}
+        onDeleteSet = {},
+        onSelectMuscle = {}
     )
 
 }
@@ -365,3 +372,21 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
     }
 }
 
+
+private fun getDailyReport(): DailyReportDomainEntity {
+    val localDate = LocalDate.of(2024, 1, 1)
+    val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
+    return DailyReportDomainEntity(
+        performedWorkout = true,
+        hadCheatMeal = false,
+        hadCreatine = true,
+        litersOfWater = "2.5",
+        gymNotes = "",
+        musclesTrained = listOf(Muscle.Legs.name),
+        sleepQuality = "4",
+        proteinGrams = "120",
+        cardioMinutes = "30",
+        date = date
+    )
+}

@@ -1,14 +1,9 @@
 package com.example.fitness_routine.presentation.screen.report
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -45,10 +39,8 @@ import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.util.createDate
-import com.example.fitness_routine.presentation.toDate
-import com.example.fitness_routine.presentation.toFormattedDate
-import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.component.MusclesTrained
+import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 
 @Composable
@@ -175,7 +167,7 @@ private fun Content(
 
             MusclesTrained(
                 selectedMuscles = content.dailyReport.musclesTrained,
-                onSelectMuscle = { onSelectMuscle(it.name) }
+                onSelectMuscle = { onSelectMuscle(it) }
             )
 
             GymNotes(
@@ -230,47 +222,6 @@ private fun SleepQuality(
 }
 
 
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun MusclesTrained(
-    onSelectMuscle: (Muscle) -> Unit,
-    selectedMuscles: List<String>
-) {
-
-
-    FlowRow {
-        Muscle.entries.forEach {
-            Muscle(
-                muscle = it,
-                isSelected = selectedMuscles.contains(it.name),
-                select = { onSelectMuscle(it) }
-            )
-        }
-    }
-
-
-}
-
-@Composable
-private fun Muscle(
-    muscle: Muscle,
-    isSelected: Boolean,
-    select: () -> Unit
-) {
-
-    val color = if (isSelected) Color.Red else Color.Black
-
-    Text(
-        text = muscle.name,
-        modifier = Modifier
-            .padding(3.dp)
-            .clickable { select() }
-            .border(BorderStroke(1.dp, color = color), shape = CircleShape)
-            .padding(horizontal = 10.dp, vertical = 5.dp)
-
-    )
-
-}
 
 
 @Composable

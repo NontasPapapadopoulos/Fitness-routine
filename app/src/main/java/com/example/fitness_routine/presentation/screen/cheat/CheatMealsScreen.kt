@@ -2,7 +2,6 @@ package com.example.fitness_routine.presentation.screen.cheat
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +13,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +23,7 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.toFormattedDate
+import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date

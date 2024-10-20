@@ -1,5 +1,6 @@
-package com.example.fitness_routine.presentation
+package com.example.fitness_routine.presentation.util
 
+import com.example.fitness_routine.domain.entity.enums.Muscle
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,3 +27,7 @@ fun Date.toFormattedDate(): String {
 fun String.toList(): List<String> = this.split(",").map { it.trim() }
 
 fun List<String>.convertToString(): String = this.joinToString(separator = ",")
+
+
+
+fun List<String>.toMuscles(): List<Muscle> = if (this.isEmpty()) listOf() else this.map { Muscle.valueOf(it) }

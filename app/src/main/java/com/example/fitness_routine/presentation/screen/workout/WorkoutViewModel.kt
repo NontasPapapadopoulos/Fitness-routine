@@ -2,19 +2,20 @@ package com.example.fitness_routine.presentation.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
+import com.example.fitness_routine.domain.interactor.report.UpdateDailyReport
 import com.example.fitness_routine.domain.interactor.set.CreateNewSet
 import com.example.fitness_routine.domain.interactor.set.DeleteSet
 import com.example.fitness_routine.domain.interactor.set.GetSets
 import com.example.fitness_routine.domain.toMuscles
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
-import com.example.fitness_routine.presentation.toDate
+import com.example.fitness_routine.presentation.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -31,6 +32,7 @@ class WorkoutViewModel @Inject constructor(
     private val getDailyReport: GetDailyReport,
     private val createNewSet: CreateNewSet,
     private val deleteSet: DeleteSet,
+    private val updateReport: UpdateDailyReport,
     private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<WorkoutEvent, WorkoutState>() {
 
@@ -44,26 +46,24 @@ class WorkoutViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
-    private val  musclesTrainedFlow = getDailyReport.execute(GetDailyReport.Params(date = date.toDate()))
+    private val  dailyReport = getDailyReport.execute(GetDailyReport.Params(date = date.toDate()))
         .map { it.getOrThrow() }
-        .map { it.musclesTrained.filter {
-                it.isNotEmpty()
-            }.toMuscles()
-        }
         .catch { addError(it) }
 
 
     override val _uiState: StateFlow<WorkoutState> = combine(
         exercisesFlow,
         getSetsFlow,
-        musclesTrainedFlow
-    ) { exercises, sets, musclesTrained ->
+        dailyReport
+    ) { exercises, sets, dailyReport ->
 
         WorkoutState.Content(
             sets = sets,
             exercises = exercises,
             date = date,
-            musclesTrained = musclesTrained
+            musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
+            dailyReport = dailyReport
+
         )
 
     }.stateIn(
@@ -97,6 +97,25 @@ class WorkoutViewModel @Inject constructor(
                 onFailure = { addError(it) }
             )
         }
+
+        on(WorkoutEvent.SelectMuscle::class) {
+            onState<WorkoutState.Content> { state ->
+                val dailyReport = state.dailyReport
+                val updatedMuscles = state.musclesTrained
+                    .toMutableList()
+                    .apply {
+                        if (contains(it.muscle)) remove(it.muscle) else add(it.muscle)
+                    }.toList()
+
+
+                updateReport.execute(
+                    UpdateDailyReport.Params(
+                        dailyReport.copy(musclesTrained = updatedMuscles.map { it.name })
+                    )
+                )
+
+            }
+        }
     }
 
 }
@@ -110,6 +129,7 @@ sealed interface WorkoutEvent {
     data class AddNewSet(val muscle: Muscle, val exercise: String): WorkoutEvent
     data class AddNewExercise(val muscle: Muscle, val exercise: String): WorkoutEvent
     data class DeleteSet(val set: SetDomainEntity): WorkoutEvent
+    data class SelectMuscle(val muscle: Muscle): WorkoutEvent
 }
 
 
@@ -122,6 +142,7 @@ sealed interface WorkoutState {
         val date: Long,
         val sets: List<SetDomainEntity>,
         val exercises: List<ExerciseDomainEntity>,
-        val musclesTrained: List<Muscle>
+        val musclesTrained: List<Muscle>,
+        val dailyReport: DailyReportDomainEntity
     ): WorkoutState
 }

@@ -18,20 +18,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -43,14 +38,9 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,8 +52,7 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.toDate
-import com.example.fitness_routine.presentation.toTimeStamp
+import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
@@ -71,8 +60,6 @@ import com.example.fitness_routine.presentation.util.getCurrentDate
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
-import com.squaredem.composecalendar.BuildConfig
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
@@ -449,12 +436,8 @@ private fun CalendarScreenPreview() {
 
 
 fun generateReports(): List<DailyReportDomainEntity> {
-
-
     return (1..10).map {
-
         val localDate = LocalDate.of(2024, 1, it)
-
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
         DailyReportDomainEntity(
