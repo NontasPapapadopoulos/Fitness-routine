@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.cheat
+package com.example.fitness_routine.presentation.ui.screen.cheat
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity

@@ -1,8 +1,6 @@
-package com.example.fitness_routine.presentation.screen
+package com.example.fitness_routine.presentation.ui.screen.splash
 
-import android.window.SplashScreen
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold

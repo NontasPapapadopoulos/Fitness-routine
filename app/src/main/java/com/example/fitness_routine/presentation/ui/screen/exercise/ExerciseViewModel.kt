@@ -1,5 +1,6 @@
-package com.example.fitness_routine.presentation.screen.exercise
+package com.example.fitness_routine.presentation.ui.screen.exercise
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
@@ -7,6 +8,7 @@ import com.example.fitness_routine.domain.interactor.exercise.AddExercise
 import com.example.fitness_routine.domain.interactor.exercise.DeleteExercise
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
 import com.example.fitness_routine.presentation.BlocViewModel
+import com.example.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,8 +25,12 @@ import javax.inject.Inject
 class ExerciseViewModel @Inject constructor(
     private val getExercises: GetExercises,
     private val addExercise: AddExercise,
-    private val deleteExercise: DeleteExercise
+    private val deleteExercise: DeleteExercise,
+    private val savedStateHandle: SavedStateHandle,
 ): BlocViewModel<ExerciseEvent, ExerciseState>() {
+
+    private val muscle get() = savedStateHandle.get<String>(NavigationArgument.Muscle.param)
+
 
     private val newExerciseFlow = MutableSharedFlow<String>()
 
@@ -39,7 +45,8 @@ class ExerciseViewModel @Inject constructor(
 
         ExerciseState.Content(
             newExercise = newExercise,
-            exercises = exercises
+            exercises = exercises,
+            preSelectedMuscle = muscle?.takeIf { it != "null" }?.let { Muscle.valueOf(it) }
         )
 
     }.stateIn(
@@ -94,6 +101,7 @@ sealed interface ExerciseState {
 
     data class Content(
         val exercises: List<ExerciseDomainEntity>,
-        val newExercise: String
+        val newExercise: String,
+        val preSelectedMuscle: Muscle?
     ): ExerciseState
 }

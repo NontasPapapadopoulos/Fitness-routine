@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.gym
+package com.example.fitness_routine.presentation.ui.screen.cheat
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +30,8 @@ import java.util.Date
 
 
 @Composable
-fun GymSessionsScreen(
-    viewModel: GymSessionsViewModel = hiltViewModel(),
+fun CheatMealsScreen(
+    viewModel: CheatMealsViewModel = hiltViewModel(),
     navigateToScreen: (Screen) -> Unit,
 ) {
 
@@ -49,13 +49,13 @@ fun GymSessionsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
-        is GymSessionsState.Content -> {
-            GymSessionsContent(
+        is CheatMealsState.Content -> {
+            CheatMealsContent(
                 content = state,
                 navigateToScreen = navigateToScreen
             )
         }
-        GymSessionsState.Idle -> {
+        CheatMealsState.Idle -> {
             LoadingBox()
         }
     }
@@ -66,8 +66,8 @@ fun GymSessionsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun GymSessionsContent(
-    content: GymSessionsState.Content,
+private fun CheatMealsContent(
+    content: CheatMealsState.Content,
     navigateToScreen: (Screen) -> Unit
 ) {
     Scaffold(
@@ -88,7 +88,7 @@ private fun GymSessionsContent(
         bottomBar = {
             BottomBar(
                 onClick = { navigateToScreen(it) },
-                currentScreen = Screen.Gym
+                currentScreen = Screen.Cheat
             )
         }
     ) {
@@ -98,16 +98,17 @@ private fun GymSessionsContent(
                 .fillMaxWidth()
                 .padding(it),
 
-            ) {
+        ) {
 
             content.dailyReports
-                .filter { it.performedWorkout }
+                .filter { it.hadCheatMeal }
                 .map { it.date }
                 .forEachIndexed { index, date ->
 
                     Text(text = "${index +1} -  ${date.toFormattedDate()}")
                 }
         }
+
     }
 }
 
@@ -116,9 +117,9 @@ private fun GymSessionsContent(
 
 @Composable
 @Preview
-private fun GymSessionsContentPreview() {
-    GymSessionsContent(
-        content = GymSessionsState.Content(
+private fun CheatMealsContentPreview() {
+    CheatMealsContent(
+        content = CheatMealsState.Content(
             dailyReports = generateReports()
         ),
         navigateToScreen = {}
@@ -130,7 +131,7 @@ private fun generateReports(): List<DailyReportDomainEntity> {
         val localDate = LocalDate.of(2024, 1, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         DailyReportDomainEntity(
-            performedWorkout = if (it > 3) true else false,
+            performedWorkout = true,
             hadCheatMeal = if (it > 2) true else false,
             hadCreatine = true,
             litersOfWater = "2.5",

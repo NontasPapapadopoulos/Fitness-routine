@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.workout
+package com.example.fitness_routine.presentation.ui.screen.workout
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -13,14 +13,21 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +52,8 @@ import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.util.toFormattedDate
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -52,7 +62,8 @@ import java.util.Date
 @Composable
 fun WorkoutScreen(
     viewModel: WorkoutViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onNavigateToExercises: (Muscle) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -66,6 +77,12 @@ fun WorkoutScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.navigateToExercisesFlow.collectLatest { muscle ->
+            onNavigateToExercises(muscle)
+        }
+    }
+
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -75,7 +92,11 @@ fun WorkoutScreen(
             navigateBack = navigateBack,
             onAddSet = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewSet(muscle, exercise)) },
             onDeleteSet = { viewModel.add(WorkoutEvent.DeleteSet(it)) },
-            onSelectMuscle = { viewModel.add(WorkoutEvent.SelectMuscle(it)) }
+            onSelectMuscle = { viewModel.add(WorkoutEvent.SelectMuscle(it)) },
+            onShowDialog = { viewModel.add(WorkoutEvent.ShowDialog(it)) },
+            onDismissDialog = { viewModel.add(WorkoutEvent.DismissDialog) },
+            onAddExercise = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewExercise(muscle, exercise)) },
+            onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) }
         )
         WorkoutState.Idle -> { LoadingBox() }
     }
@@ -91,6 +112,10 @@ private fun WorkoutContent(
     onAddSet: (Muscle, String) -> Unit,
     onDeleteSet: (SetDomainEntity) -> Unit,
     onSelectMuscle: (Muscle) -> Unit,
+    onShowDialog: (Dialog) -> Unit,
+    onDismissDialog: () -> Unit,
+    onAddExercise: (Muscle, String) -> Unit,
+    onNavigateToExercises: (Muscle) -> Unit
 ) {
 
     Scaffold(
@@ -133,7 +158,7 @@ private fun WorkoutContent(
                 ) {
                     Text(text = muscle.name)
 
-                    AddBreak(addBreak = {})
+                    AddBreak(addBreak = { onShowDialog(Dialog.Break) })
 
                 }
 
@@ -172,17 +197,190 @@ private fun WorkoutContent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-                        AddExercise(addExercise = {})
+                        AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
 
                     }
                 }
 
+            }
+
+
+            when (content.dialog) {
+                is Dialog.AddExercise -> {
+                    AddExerciseDialog(
+                        onDismissDialog = onDismissDialog,
+                        exercises = content.exercises.filter { it.muscle == content.dialog.muscle },
+                        selectedMuscle = content.dialog.muscle,
+                        onAddExercise = { muscle, exercise -> onAddExercise(muscle, exercise) },
+                        onNavigateToExercises =  { onNavigateToExercises(it) }
+                    )
+                }
+
+                Dialog.Break -> {
+                    BreakDialog(
+                        onDismissDialog = onDismissDialog
+                    )
+                }
+
+                null -> {}
             }
         }
     }
 
 }
 
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddExerciseDialog(
+    onDismissDialog: () -> Unit,
+    exercises: List<ExerciseDomainEntity>,
+    selectedMuscle: Muscle,
+    onAddExercise: (Muscle, String) -> Unit,
+    onNavigateToExercises: (Muscle) -> Unit
+) {
+
+    if (exercises.isEmpty()) {
+        onNavigateToExercises(selectedMuscle)
+    }
+    else {
+        var expanded by remember { mutableStateOf(false) }
+        var selectedOption by remember { mutableStateOf(exercises[0].name) }
+
+        AlertDialog(
+            onDismissRequest = onDismissDialog
+            ,
+            title = {
+                Text(text = "Select Exercise")
+            },
+            icon = {
+                Icon(Icons.Filled.FitnessCenter, null)
+            },
+            text = {
+                Column {
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        TextField(
+                            value = selectedOption,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text(selectedMuscle.name) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .fillMaxWidth(),
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                            },
+                            colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            exercises.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option.name) },
+                                    onClick = {
+                                        selectedOption = option.name
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onAddExercise(selectedMuscle, selectedOption)
+                        onDismissDialog()
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                Row {
+                    Button(onClick = { onNavigateToExercises(selectedMuscle) }) {
+                        Text(text = "Add more")
+                    }
+
+                    Button(onClick = onDismissDialog) {
+                        Text("Cancel")
+                    }
+                }
+
+            }
+        )
+    }
+}
+
+
+
+@Composable
+fun BreakDialog(
+    onDismissDialog: () -> Unit
+) {
+    var seconds by remember { mutableStateOf(0) }
+    var isRunning by remember { mutableStateOf(false) }
+
+    val minutes = seconds / 60
+    val displaySeconds = seconds % 60
+
+    val time = String.format("%02d:%02d", minutes, displaySeconds)
+
+    LaunchedEffect(isRunning, seconds) {
+        if (isRunning) {
+            while (true) {
+                delay(1000L)
+                seconds += 1
+            }
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = {},
+        title = {
+            Text(text = "Break")
+        },
+        icon = {
+            Icon(Icons.Outlined.Timer, contentDescription = null)
+        },
+        text = {
+            Text(
+                text = time,
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center
+            )
+        },
+        confirmButton = {
+            val text = if (isRunning) "Reset" else "Start"
+            Button(
+                onClick = {
+                    if (isRunning) seconds = 0 else isRunning = true
+                }
+            ) {
+                Text(text)
+            }
+        },
+        dismissButton = {
+            val text = if (isRunning) "Stop" else "Close"
+            Button(
+                onClick = {
+                        if (isRunning) isRunning = false else onDismissDialog()
+                }
+            ) {
+                Text(text)
+            }
+        }
+    )
+}
 
 @Composable
 private fun AddBreak(
@@ -194,11 +392,7 @@ private fun AddBreak(
     ) {
         Text(text = "Break")
 
-        IconButton(
-            onClick = {}
-        ) {
-            Icon(Icons.Outlined.Timer, contentDescription = null)
-        }
+        Icon(Icons.Outlined.Timer, contentDescription = null)
     }
 }
 
@@ -265,8 +459,6 @@ private fun AddSet(
         horizontalArrangement = Arrangement.Center
     ) {
 
-
-
         Text(text = "Add new Set")
         IconButton(
             onClick = addSet
@@ -316,17 +508,6 @@ private fun SetPreview() {
 }
 
 
-@Composable
-private fun Break(
-    time: String
-) {
-
-    Row {
-        Text(text = "$time seconds")
-    }
-
-}
-
 
 @Preview
 @Composable
@@ -337,14 +518,41 @@ private fun WorkoutContentPreview() {
             exercises = generateExercises(),
             date = 1728939600000,
             musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
-            dailyReport = getDailyReport()
+            dailyReport = getDailyReport(),
+            dialog = null
         ),
         navigateBack = {},
         onAddSet = {_, _ -> },
         onDeleteSet = {},
-        onSelectMuscle = {}
+        onSelectMuscle = {},
+        onShowDialog = {},
+        onDismissDialog = {},
+        onAddExercise = {_, _ -> },
+        onNavigateToExercises = {}
     )
 
+}
+
+
+@Preview
+@Composable
+private fun BreakDialogPreview() {
+    BreakDialog(
+        onDismissDialog = {}
+    )
+}
+
+
+@Preview
+@Composable
+private fun AddExerciseDialogPreview() {
+    AddExerciseDialog(
+        onDismissDialog = {},
+        exercises = generateExercises(),
+        selectedMuscle = Muscle.Chest,
+        onAddExercise = {_, _ ->},
+        onNavigateToExercises = {}
+    )
 }
 
 

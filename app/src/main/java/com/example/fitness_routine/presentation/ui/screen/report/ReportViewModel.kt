@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.report
+package com.example.fitness_routine.presentation.ui.screen.report
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope

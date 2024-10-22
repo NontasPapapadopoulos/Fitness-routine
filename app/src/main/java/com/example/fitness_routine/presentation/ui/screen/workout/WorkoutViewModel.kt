@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.workout
+package com.example.fitness_routine.presentation.ui.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -17,11 +17,15 @@ import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
 import com.example.fitness_routine.presentation.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -51,18 +55,27 @@ class WorkoutViewModel @Inject constructor(
         .catch { addError(it) }
 
 
+    private val dialogFlow = MutableSharedFlow<Dialog?>()
+
+    private val _navigateToExercisesFlow = MutableSharedFlow<Muscle>()
+    open val navigateToExercisesFlow: SharedFlow<Muscle> =
+        _navigateToExercisesFlow.asSharedFlow()
+
+
     override val _uiState: StateFlow<WorkoutState> = combine(
         exercisesFlow,
         getSetsFlow,
-        dailyReport
-    ) { exercises, sets, dailyReport ->
+        dailyReport,
+        dialogFlow.onStart { emit(null) }
+    ) { exercises, sets, dailyReport, dialog ->
 
         WorkoutState.Content(
             sets = sets,
             exercises = exercises,
             date = date,
             musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
-            dailyReport = dailyReport
+            dailyReport = dailyReport,
+            dialog = dialog
 
         )
 
@@ -88,7 +101,15 @@ class WorkoutViewModel @Inject constructor(
 
 
         on(WorkoutEvent.AddNewExercise::class) {
-
+            createNewSet.execute(CreateNewSet.Params(
+                workoutDate = date,
+                muscle = it.muscle,
+                exercise = it.exercise
+                )
+            ).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
         }
 
         on(WorkoutEvent.DeleteSet::class) {
@@ -116,11 +137,26 @@ class WorkoutViewModel @Inject constructor(
 
             }
         }
+
+        on(WorkoutEvent.ShowDialog::class) {
+            dialogFlow.emit(it.dialog)
+        }
+
+        on(WorkoutEvent.DismissDialog::class) {
+            dialogFlow.emit(null)
+        }
+
+        on(WorkoutEvent.NavigateToExercises::class) {
+            _navigateToExercisesFlow.emit(it.muscle)
+        }
     }
 
 }
 
-
+sealed interface Dialog {
+    data class AddExercise(val muscle: Muscle): Dialog
+    object Break: Dialog
+}
 
 
 
@@ -130,6 +166,11 @@ sealed interface WorkoutEvent {
     data class AddNewExercise(val muscle: Muscle, val exercise: String): WorkoutEvent
     data class DeleteSet(val set: SetDomainEntity): WorkoutEvent
     data class SelectMuscle(val muscle: Muscle): WorkoutEvent
+    data class NavigateToExercises(val muscle: Muscle): WorkoutEvent
+    data class ShowDialog(val dialog: Dialog?): WorkoutEvent
+
+    object DismissDialog: WorkoutEvent
+
 }
 
 
@@ -143,6 +184,7 @@ sealed interface WorkoutState {
         val sets: List<SetDomainEntity>,
         val exercises: List<ExerciseDomainEntity>,
         val musclesTrained: List<Muscle>,
-        val dailyReport: DailyReportDomainEntity
+        val dailyReport: DailyReportDomainEntity,
+        val dialog: Dialog?
     ): WorkoutState
 }

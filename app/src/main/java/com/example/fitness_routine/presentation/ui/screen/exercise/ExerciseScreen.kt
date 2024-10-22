@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.exercise
+package com.example.fitness_routine.presentation.ui.screen.exercise
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -116,10 +116,11 @@ private fun ExerciseContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
             val muscles = Muscle.entries
             var expanded by remember { mutableStateOf(false) }
-            var selectedOption by remember { mutableStateOf(muscles[0].name) }
+            var selectedOption by remember {
+                mutableStateOf(content.preSelectedMuscle?.name ?:muscles[0].name)
+            }
 
 
             ExposedDropdownMenuBox(
@@ -219,7 +220,8 @@ private fun ExerciseContentPreview() {
     ExerciseContent(
         content = ExerciseState.Content(
             exercises = generateExercises(),
-            newExercise = "bench press"
+            newExercise = "bench press",
+            preSelectedMuscle = Muscle.Chest
         ),
         onNavigateBack = {},
         onAddExercise = {},

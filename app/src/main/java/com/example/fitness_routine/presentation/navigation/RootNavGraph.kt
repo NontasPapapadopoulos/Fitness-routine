@@ -8,13 +8,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.fitness_routine.presentation.screen.SplashScreen
-import com.example.fitness_routine.presentation.screen.calendar.CalendarScreen
-import com.example.fitness_routine.presentation.screen.cheat.CheatMealsScreen
-import com.example.fitness_routine.presentation.screen.exercise.ExerciseScreen
-import com.example.fitness_routine.presentation.screen.gym.GymSessionsScreen
-import com.example.fitness_routine.presentation.screen.report.ReportScreen
-import com.example.fitness_routine.presentation.screen.workout.WorkoutScreen
+import com.example.fitness_routine.presentation.ui.screen.splash.SplashScreen
+import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
+import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
+import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
+import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import kotlinx.coroutines.delay
 
 
@@ -50,7 +50,8 @@ fun RootNavGraph(
 
             CalendarScreen(
                 navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
-                navigateToScreen = { navController.navigate(it.name) }
+                navigateToScreen = { navController.navigate(it.name) },
+                navigateToExerciseScreen = { navController.navigate(Screen.Exercise.params(null)) }
             )
         }
 
@@ -96,13 +97,20 @@ fun RootNavGraph(
             )
         ) {
             WorkoutScreen(
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() },
+                onNavigateToExercises = { muscle -> navController.navigate(Screen.Exercise.params(muscle)) }
             )
         }
 
 
         composable(
-            route = ExerciseRoute
+            route = ExerciseRoute,
+            arguments = listOf(
+                navArgument(NavigationArgument.Muscle.name) {
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
         ) {
             ExerciseScreen(navigateBack = { navController.popBackStack() })
         }

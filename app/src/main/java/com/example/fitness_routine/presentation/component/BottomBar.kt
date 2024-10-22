@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
+import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 
 @Composable
 fun BottomBar(
@@ -36,7 +38,12 @@ fun BottomBar(
             screen = Screen.Calendar
         ),
         BottomBarChoice(
-            icon = Icons.Filled.FitnessCenter,
+            icon = Icons.Default.FitnessCenter,
+            text = "Workout",
+            screen = Screen.Workout
+        ),
+        BottomBarChoice(
+            icon = FitnessDiary.FitnessTracker24px,
             text = "Gym",
             screen = Screen.Gym
         ),

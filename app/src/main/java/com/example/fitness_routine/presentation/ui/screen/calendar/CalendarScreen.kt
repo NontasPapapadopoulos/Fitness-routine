@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.calendar
+package com.example.fitness_routine.presentation.ui.screen.calendar
 
 
 import android.app.Activity
@@ -72,6 +72,7 @@ fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
+    navigateToExerciseScreen: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -98,7 +99,8 @@ fun CalendarScreen(
                 content = state,
                 onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) },
                 navigateToDailyReport = { navigateToDailyReport(it) },
-                navigateToScreen = { navigateToScreen(it) }
+                navigateToScreen = { navigateToScreen(it) },
+                navigateToExerciseScreen = navigateToExerciseScreen
             )
         }
 
@@ -116,7 +118,8 @@ private fun Content(
     content: CalendarState.Content,
     onSelectChoice: (Choice) -> Unit,
     navigateToDailyReport: (Long) -> Unit,
-    navigateToScreen: (Screen) -> Unit
+    navigateToScreen: (Screen) -> Unit,
+    navigateToExerciseScreen: () -> Unit,
 ) {
 
     val currentYear = getCurrentYear()
@@ -150,7 +153,7 @@ private fun Content(
                         selected = false,
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Exercise)
+                            navigateToExerciseScreen()
                         }
                     )
 
@@ -436,7 +439,8 @@ private fun CalendarScreenPreview() {
         ),
         onSelectChoice = {},
         navigateToDailyReport = {},
-        navigateToScreen = {}
+        navigateToScreen = {},
+        navigateToExerciseScreen = {}
     )
 }
 

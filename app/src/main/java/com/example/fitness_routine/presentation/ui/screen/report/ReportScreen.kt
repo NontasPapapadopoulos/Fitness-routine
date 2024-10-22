@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.report
+package com.example.fitness_routine.presentation.ui.screen.report
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable

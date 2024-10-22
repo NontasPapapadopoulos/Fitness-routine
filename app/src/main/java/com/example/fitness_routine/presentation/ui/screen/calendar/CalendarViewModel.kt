@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.screen.calendar
+package com.example.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
