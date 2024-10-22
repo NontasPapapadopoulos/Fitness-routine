@@ -74,7 +74,7 @@ fun getCurrentMonth(): String = LocalDate.now().month.getDisplayName(TextStyle.F
 
 fun getCurrentYear(): String = LocalDate.now().year.toString()
 
-fun getCurrentDate(): String {
+fun getDate(): String {
     val currentDate = LocalDate.now()
 
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -84,6 +84,12 @@ fun getCurrentDate(): String {
 
 fun createDate(day: Int, month: Int, year: Int): Long {
     val localDate = LocalDate.of(year, month, day)
+    val instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+    return Date.from(instant).toTimeStamp()
+}
+
+fun getCurrentDate(): Long {
+    val localDate = LocalDate.now()
     val instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
     return Date.from(instant).toTimeStamp()
 }

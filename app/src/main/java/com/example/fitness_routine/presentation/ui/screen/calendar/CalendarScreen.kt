@@ -58,7 +58,7 @@ import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
-import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.util.getDate
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
@@ -72,7 +72,6 @@ fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
-    navigateToExerciseScreen: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -100,7 +99,6 @@ fun CalendarScreen(
                 onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) },
                 navigateToDailyReport = { navigateToDailyReport(it) },
                 navigateToScreen = { navigateToScreen(it) },
-                navigateToExerciseScreen = navigateToExerciseScreen
             )
         }
 
@@ -119,7 +117,6 @@ private fun Content(
     onSelectChoice: (Choice) -> Unit,
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
-    navigateToExerciseScreen: () -> Unit,
 ) {
 
     val currentYear = getCurrentYear()
@@ -153,7 +150,7 @@ private fun Content(
                         selected = false,
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToExerciseScreen()
+                            navigateToScreen(Screen.Exercise)
                         }
                     )
 
@@ -187,7 +184,7 @@ private fun Content(
                         ) {
                             Text(text = "Fitness Diary")
 
-                            Text(text = getCurrentDate())
+                            Text(text = getDate())
                         }
                     },
                     navigationIcon = {
@@ -433,14 +430,13 @@ private fun YearlyCalendar(
 private fun CalendarScreenPreview() {
     Content(
         content = CalendarState.Content(
-            currentDate = getCurrentDate(),
+            currentDate = getDate(),
             selectedChoice = Choice.Workout,
             reports = generateReports()
         ),
         onSelectChoice = {},
         navigateToDailyReport = {},
         navigateToScreen = {},
-        navigateToExerciseScreen = {}
     )
 }
 

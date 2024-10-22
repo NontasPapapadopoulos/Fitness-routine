@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +32,7 @@ class CalendarViewModel @Inject constructor(
 
     override val _uiState: StateFlow<CalendarState> = combine(
         dailyReportsFlow.onStart { emit(listOf()) },
-        currentDateFlow.onStart { emit(getCurrentDate()) },
+        currentDateFlow.onStart { emit(getDate()) },
         choiceFlow.onStart { emit(Choice.Workout) }
     ) { reports, currentDate, choice ->
 

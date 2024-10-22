@@ -8,6 +8,7 @@ import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
+import com.example.fitness_routine.domain.interactor.report.InitDailyReport
 import com.example.fitness_routine.domain.interactor.report.UpdateDailyReport
 import com.example.fitness_routine.domain.interactor.set.CreateNewSet
 import com.example.fitness_routine.domain.interactor.set.DeleteSet
@@ -21,9 +22,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -37,6 +40,7 @@ class WorkoutViewModel @Inject constructor(
     private val createNewSet: CreateNewSet,
     private val deleteSet: DeleteSet,
     private val updateReport: UpdateDailyReport,
+    private val initDailyReport: InitDailyReport,
     private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<WorkoutEvent, WorkoutState>() {
 
@@ -65,7 +69,7 @@ class WorkoutViewModel @Inject constructor(
     override val _uiState: StateFlow<WorkoutState> = combine(
         exercisesFlow,
         getSetsFlow,
-        dailyReport,
+        suspend { initDailyReport() }.asFlow().flatMapLatest { dailyReport },
         dialogFlow.onStart { emit(null) }
     ) { exercises, sets, dailyReport, dialog ->
 
@@ -149,6 +153,12 @@ class WorkoutViewModel @Inject constructor(
         on(WorkoutEvent.NavigateToExercises::class) {
             _navigateToExercisesFlow.emit(it.muscle)
         }
+    }
+
+    private suspend fun initDailyReport() {
+        initDailyReport.execute(InitDailyReport.Params(date)).fold(
+            onSuccess = {}, onFailure = { addError(it) }
+        )
     }
 
 }

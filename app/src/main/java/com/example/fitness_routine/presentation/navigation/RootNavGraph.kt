@@ -15,6 +15,8 @@ import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScree
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
+import com.example.fitness_routine.presentation.util.getCurrentDate
+import com.example.fitness_routine.presentation.util.getDate
 import kotlinx.coroutines.delay
 
 
@@ -50,8 +52,20 @@ fun RootNavGraph(
 
             CalendarScreen(
                 navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
-                navigateToScreen = { navController.navigate(it.name) },
-                navigateToExerciseScreen = { navController.navigate(Screen.Exercise.params(null)) }
+                navigateToScreen = {
+
+                    when (it) {
+                        Screen.Calendar,
+                        Screen.Gym,
+                        Screen.Cheat -> {
+                            navController.navigate(it.name)
+                        }
+                        Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
+
+                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) }
+                        else -> {}
+                    }
+                },
             )
         }
 

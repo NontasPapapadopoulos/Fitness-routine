@@ -241,10 +241,13 @@ fun AddExerciseDialog(
     onNavigateToExercises: (Muscle) -> Unit
 ) {
 
-    if (exercises.isEmpty()) {
-        onNavigateToExercises(selectedMuscle)
+    LaunchedEffect(Unit) {
+        if (exercises.isEmpty())
+            onNavigateToExercises(selectedMuscle)
     }
-    else {
+
+
+    if (exercises.isNotEmpty()) {
         var expanded by remember { mutableStateOf(false) }
         var selectedOption by remember { mutableStateOf(exercises[0].name) }
 
