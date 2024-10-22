@@ -1,7 +1,9 @@
 package com.example.fitness_routine.presentation.screen.calendar
 
 
+import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -71,8 +73,12 @@ fun CalendarScreen(
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
 ) {
-
     val context = LocalContext.current
+
+    BackHandler {
+        (context as Activity).finish()
+    }
+
     LaunchedEffect(Unit) {
         viewModel.errorFlow.collect { error ->
             Toast.makeText(
