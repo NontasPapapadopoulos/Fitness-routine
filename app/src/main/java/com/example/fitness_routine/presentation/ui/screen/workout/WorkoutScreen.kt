@@ -49,8 +49,10 @@ import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
+import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
+import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -63,7 +65,8 @@ import java.util.Date
 fun WorkoutScreen(
     viewModel: WorkoutViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
-    onNavigateToExercises: (Muscle) -> Unit
+    onNavigateToExercises: (Muscle) -> Unit,
+    onNavigateToScreen: (Screen) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -96,7 +99,8 @@ fun WorkoutScreen(
             onShowDialog = { viewModel.add(WorkoutEvent.ShowDialog(it)) },
             onDismissDialog = { viewModel.add(WorkoutEvent.DismissDialog) },
             onAddExercise = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewExercise(muscle, exercise)) },
-            onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) }
+            onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) },
+            onNavigateToScreen = onNavigateToScreen
         )
         WorkoutState.Idle -> { LoadingBox() }
     }
@@ -115,7 +119,8 @@ private fun WorkoutContent(
     onShowDialog: (Dialog) -> Unit,
     onDismissDialog: () -> Unit,
     onAddExercise: (Muscle, String) -> Unit,
-    onNavigateToExercises: (Muscle) -> Unit
+    onNavigateToExercises: (Muscle) -> Unit,
+    onNavigateToScreen: (Screen) -> Unit
 ) {
 
     Scaffold(
@@ -133,6 +138,12 @@ private fun WorkoutContent(
                     }
                 },
                 navigationIcon = { BackButton(navigateBack) }
+            )
+        },
+        bottomBar = {
+            BottomBar(
+                onClick = { onNavigateToScreen(it) },
+                currentScreen = Screen.Workout
             )
         }
     ) {
@@ -531,7 +542,8 @@ private fun WorkoutContentPreview() {
         onShowDialog = {},
         onDismissDialog = {},
         onAddExercise = {_, _ -> },
-        onNavigateToExercises = {}
+        onNavigateToExercises = {},
+        onNavigateToScreen = {}
     )
 
 }

@@ -55,14 +55,11 @@ fun RootNavGraph(
                 navigateToScreen = {
 
                     when (it) {
-                        Screen.Calendar,
                         Screen.Gym,
-                        Screen.Cheat -> {
-                            navController.navigate(it.name)
-                        }
+                        Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
                         Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
 
-                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) }
+                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
                     }
                 },
@@ -89,7 +86,14 @@ fun RootNavGraph(
             route = CheatMealsRoute
         ) {
             CheatMealsScreen(
-                navigateToScreen = { navController.navigate(it.name) { launchSingleTop = true } }
+                navigateToScreen = {
+                    when (it) {
+                        Screen.Calendar,
+                        Screen.Gym -> { navController.navigate(it.name) { launchSingleTop = true } }
+                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
+                        else -> {}
+                    }
+                }
             )
         }
 
@@ -97,7 +101,16 @@ fun RootNavGraph(
             route = GymRoute
         ) {
             GymSessionsScreen(
-                navigateToScreen = { navController.navigate(it.name) { launchSingleTop = true } }
+                navigateToScreen = {
+
+                    when (it) {
+                        Screen.Calendar,
+                        Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
+                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
+                        else -> {}
+                    }
+
+                }
             )
         }
 
@@ -112,7 +125,18 @@ fun RootNavGraph(
         ) {
             WorkoutScreen(
                 navigateBack = { navController.popBackStack() },
-                onNavigateToExercises = { muscle -> navController.navigate(Screen.Exercise.params(muscle)) }
+                onNavigateToExercises = { muscle -> navController.navigate(Screen.Exercise.params(muscle)) },
+                onNavigateToScreen = {
+                    when (it) {
+                        Screen.Calendar,
+                        Screen.Gym,
+                        Screen.Cheat -> {
+                            navController.navigate(it.name)
+                        }
+                        else -> {}
+                    }
+                }
+
             )
         }
 
