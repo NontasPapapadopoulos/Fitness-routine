@@ -10,6 +10,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,6 +46,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -256,36 +259,6 @@ private suspend fun toggleDrawerState(drawerState: DrawerState) {
 
 
 
-@Composable
-private fun Filters(
-    options: List<Choice>,
-    selectedOption: Choice,
-    select: (Choice) -> Unit
-) {
-
-    Text(text = "Select an option: ")
-
-    options.forEach { option ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(3.dp)
-        ) {
-            RadioButton(
-                selected = (option == selectedOption),
-                onClick = {
-                    select(option)
-                }
-            )
-
-            Text(
-                text = option.value,
-                modifier = Modifier.padding(start = 3.dp)
-            )
-        }
-    }
-
-}
-
 
 @Composable
 private fun Day(
@@ -331,52 +304,54 @@ private fun Week(
     selectedChoice: Choice
 ) {
     Row {
-        days.forEach { day ->
-            val reportForDay = dailyReports.find { it.date == day.date.toDate() }
 
-            Day(
-                day = day,
-                currentDay = currentDay,
-                isCurrentMonth = isCurrentMonth,
-                performedWorkout = reportForDay?.performedWorkout ?: false,
-                hadCreatine = reportForDay?.hadCreatine ?: false,
-                hadCheatMeal = reportForDay?.hadCheatMeal ?: false,
-                navigateToDailyReport = navigateToDailyReport,
-                selectedChoice = selectedChoice
-            )
-        }
     }
 }
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Month(
-    weeks: List<List<Day>>,
+    days: List<Day>,
     nameOfMonth: String,
     currentMonth: String,
     currentDay: String,
     dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit,
-    selectedChoice: Choice
+    selectedChoice: Choice,
+    emptyBoxes: Int
 ) {
 
     val isCurrentMonth = currentMonth == nameOfMonth
-
-    Column {
-        Text(text = nameOfMonth)
-        weeks.forEach { week ->
-            Week(
-                days = week,
-                currentDay = currentDay,
-                isCurrentMonth = isCurrentMonth,
-                dailyReports = dailyReports,
-                navigateToDailyReport = navigateToDailyReport,
-                selectedChoice = selectedChoice
+    FlowRow(
+        maxItemsInEachRow = 7
+    ) {
+        (0..<emptyBoxes).forEach {
+            Box(
+                modifier = Modifier
+                    .padding(1.dp)
+                    .size(45.dp)
+                    .border(1.dp, Color.Red)
+                    .background(color = Color.Gray )
             )
         }
-    }
-}
+        days.forEach { day ->
+            val reportForDay = dailyReports.find { it.date == day.date.toDate() }
+                Day(
+                    day = day,
+                    currentDay = currentDay,
+                    isCurrentMonth = isCurrentMonth,
+                    performedWorkout = reportForDay?.performedWorkout ?: false,
+                    hadCreatine = reportForDay?.hadCreatine ?: false,
+                    hadCheatMeal = reportForDay?.hadCheatMeal ?: false,
+                    navigateToDailyReport = navigateToDailyReport,
+                    selectedChoice = selectedChoice
+                )
+            }
 
+        }
+
+}
 
 @Composable
 private fun YearlyCalendar(
@@ -391,12 +366,15 @@ private fun YearlyCalendar(
     selectedChoice: Choice
 ) {
     val isCurrentYear = year.toString() == currentYear
+    Text(text = year.toString())
 
     LazyColumn(
         state = state
     ) {
 
         months.forEachIndexed { index, month ->
+            val emptyBoxes = getEmptyBoxes(month.days.first())
+
             val firstWeek = month.days.take(7)
             val secondWeek = month.days.filter { it.dayOfMonth in 8..14 }
             val thirdWeek = month.days.filter { it.dayOfMonth in 15..21 }
@@ -406,15 +384,18 @@ private fun YearlyCalendar(
             val weeks = listOf(firstWeek, secondWeek, thirdWeek, fourthWeek, lastWeek)
 
             item(key = index) {
-                Text(text = year.toString())
+                Text(text = month.monthName)
+                DaysHeader()
+
                 Month(
-                    weeks = weeks,
+                    days = month.days,
                     nameOfMonth = month.monthName,
                     currentMonth = currentMonth,
                     currentDay = currentDay,
                     dailyReports = dailyReports,
                     navigateToDailyReport = navigateToDailyReport,
-                    selectedChoice = selectedChoice
+                    selectedChoice = selectedChoice,
+                    emptyBoxes = emptyBoxes
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -422,6 +403,72 @@ private fun YearlyCalendar(
         }
 
     }
+}
+
+
+private fun getEmptyBoxes(firstDay: Day): Int {
+    return when(firstDay.dayOfWeekName.lowercase()) {
+        "monday" -> 0
+        "tuesday" -> 1
+        "wednesday" -> 2
+        "thursday" -> 3
+        "friday" -> 4
+        "saturday" -> 5
+        "sunday" -> 6
+        else -> 0
+    }
+}
+
+@Composable
+private fun DaysHeader() {
+    val dayHeaders = listOf("M", "T", "W", "T", "F", "S", "S")
+
+    Row {
+        dayHeaders.forEach { dayName ->
+            Box(
+                modifier = Modifier
+                    .padding(1.dp)
+                    .size(45.dp)
+                    .border(1.dp, Color.Green),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = dayName)
+            }
+        }
+    }
+}
+
+
+
+
+@Composable
+private fun Filters(
+    options: List<Choice>,
+    selectedOption: Choice,
+    select: (Choice) -> Unit
+) {
+
+    Text(text = "Select an option: ")
+
+    options.forEach { option ->
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(3.dp)
+        ) {
+            RadioButton(
+                selected = (option == selectedOption),
+                onClick = {
+                    select(option)
+                }
+            )
+
+            Text(
+                text = option.value,
+                modifier = Modifier.padding(start = 3.dp)
+            )
+        }
+    }
+
 }
 
 
