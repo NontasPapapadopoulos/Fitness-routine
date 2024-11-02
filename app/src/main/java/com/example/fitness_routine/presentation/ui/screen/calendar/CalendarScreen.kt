@@ -294,19 +294,6 @@ private fun Day(
 
 }
 
-@Composable
-private fun Week(
-    days: List<Day>,
-    currentDay: String,
-    isCurrentMonth: Boolean,
-    dailyReports: List<DailyReportDomainEntity>,
-    navigateToDailyReport: (Long) -> Unit,
-    selectedChoice: Choice
-) {
-    Row {
-
-    }
-}
 
 
 @OptIn(ExperimentalLayoutApi::class)
