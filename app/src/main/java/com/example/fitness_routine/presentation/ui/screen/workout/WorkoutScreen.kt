@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -131,12 +132,19 @@ private fun WorkoutContent(
             TopAppBar(
                 title = {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 24.dp)
+                        ,
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Workout")
-                        Text(text = content.date.toFormattedDate())
+
+                        Column {
+                            Text(text = "Workout")
+                            Text(text = content.date.toFormattedDate())
+                        }
+
+                        AddBreak(addBreak = { onShowDialog(Dialog.Break) })
 
                     }
                 },
@@ -174,7 +182,7 @@ private fun WorkoutContent(
                 ) {
                     Text(text = muscle.name)
 
-                    AddBreak(addBreak = { onShowDialog(Dialog.Break) })
+                    AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
 
                 }
 
@@ -196,13 +204,11 @@ private fun WorkoutContent(
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
 
                         AddSet(addSet = { onAddSet(muscle, exercise) })
-
                     }
                 }
 
@@ -217,6 +223,7 @@ private fun WorkoutContent(
 
                     }
                 }
+
 
             }
 
@@ -410,7 +417,7 @@ private fun AddBreak(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = "Break")
-
+        Spacer(modifier = Modifier.width(4.dp))
         Icon(Icons.Outlined.Timer, contentDescription = null)
     }
 }

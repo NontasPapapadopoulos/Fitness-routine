@@ -16,7 +16,6 @@ import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import com.example.fitness_routine.presentation.util.getCurrentDate
-import com.example.fitness_routine.presentation.util.getDate
 import kotlinx.coroutines.delay
 
 
@@ -116,7 +115,7 @@ fun RootNavGraph(
 
 
         composable(
-            route = WorkoutRout,
+            route = WorkoutRoute,
             arguments = listOf(
                 navArgument(NavigationArgument.Date.param) {
                     type = NavType.LongType

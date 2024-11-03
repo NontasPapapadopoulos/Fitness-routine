@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
@@ -102,7 +103,6 @@ fun CalendarScreen(
         is CalendarState.Content -> {
             Content(
                 content = state,
-                onSelectChoice = { viewModel.add(CalendarEvent.SelectChoice(it)) },
                 navigateToDailyReport = { navigateToDailyReport(it) },
                 navigateToScreen = { navigateToScreen(it) },
             )
@@ -120,7 +120,6 @@ fun CalendarScreen(
 @Composable
 private fun Content(
     content: CalendarState.Content,
-    onSelectChoice: (Choice) -> Unit,
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
 ) {
@@ -153,21 +152,24 @@ private fun Content(
 
                     NavigationDrawerItem(
                         label = { Text(text = "Exercises") },
-                        selected = false,
+                        selected = true,
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
                             navigateToScreen(Screen.Exercise)
                         }
                     )
 
-                    Filters(
-                        options = Choice.entries,
-                        selectedOption = content.selectedChoice,
-                        select = {
-                            onSelectChoice(it)
+
+                    NavigationDrawerItem(
+                        label = { Text(text = "Settings") },
+                        selected = true,
+                        onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
+                            navigateToScreen(Screen.Settings)
                         }
                     )
+
+
 
                     Spacer(modifier = Modifier.weight(1f))
 
@@ -427,36 +429,6 @@ private fun DaysHeader() {
 
 
 
-@Composable
-private fun Filters(
-    options: List<Choice>,
-    selectedOption: Choice,
-    select: (Choice) -> Unit
-) {
-
-    Text(text = "Select an option: ")
-
-    options.forEach { option ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(3.dp)
-        ) {
-            RadioButton(
-                selected = (option == selectedOption),
-                onClick = {
-                    select(option)
-                },
-                modifier = Modifier.testTag(option.name)
-            )
-
-            Text(
-                text = option.value,
-                modifier = Modifier.padding(start = 3.dp)
-            )
-        }
-    }
-
-}
 
 
 @Preview
@@ -468,7 +440,6 @@ private fun CalendarScreenPreview() {
             selectedChoice = Choice.Workout,
             reports = generateReports()
         ),
-        onSelectChoice = {},
         navigateToDailyReport = {},
         navigateToScreen = {},
     )

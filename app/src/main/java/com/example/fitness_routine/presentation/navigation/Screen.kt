@@ -8,6 +8,7 @@ enum class Screen {
     Cheat,
     Workout,
     Exercise,
+    Settings
 }
 
 
@@ -22,7 +23,8 @@ val ReportsRoute = "${Screen.Report.name}/${NavigationArgument.Date.addBrackets(
 val GymRoute = Screen.Gym.name
 val CheatMealsRoute = Screen.Cheat.name
 val ExerciseRoute = "${Screen.Exercise.name}/${NavigationArgument.Muscle.addBrackets()}"
-val WorkoutRout = "${Screen.Workout.name}/${NavigationArgument.Date.addBrackets()}"
+val WorkoutRoute = "${Screen.Workout.name}/${NavigationArgument.Date.addBrackets()}"
+val SettingsRoute = Screen.Settings.name
 
 
 

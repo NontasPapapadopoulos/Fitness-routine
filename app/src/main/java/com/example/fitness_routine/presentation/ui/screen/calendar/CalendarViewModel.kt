@@ -2,7 +2,9 @@ package com.example.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
+import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,16 +21,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class CalendarViewModel @Inject constructor(
-    getDailyReports: GetDailyReports
+    getDailyReports: GetDailyReports,
+    getSettings: GetSettings
 ): BlocViewModel<CalendarEvent, CalendarState>() {
 
     private val currentDateFlow = MutableSharedFlow<String>()
-    private val choiceFlow = MutableSharedFlow<Choice>()
 
     private val dailyReportsFlow = getDailyReports.execute(Unit)
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
+    private val choiceFlow = getSettings.execute(Unit)
+        .map { it.getOrThrow() }
+        .map { Choice.valueOf(it.choice) }
+        .catch { addError(it) }
 
     override val _uiState: StateFlow<CalendarState> = combine(
         dailyReportsFlow.onStart { emit(listOf()) },
@@ -39,8 +45,8 @@ open class CalendarViewModel @Inject constructor(
         CalendarState.Content(
             reports = reports,
             currentDate = currentDate,
-            selectedChoice = choice,
-        )
+            selectedChoice = choice
+            )
 
     }.stateIn(
         scope = viewModelScope,
@@ -49,18 +55,10 @@ open class CalendarViewModel @Inject constructor(
     )
 
 
-    init {
-        on(CalendarEvent.SelectChoice::class) {
-            choiceFlow.emit(it.choice)
-
-        }
-    }
-
 }
 
 
 sealed interface CalendarEvent {
-    data class SelectChoice(val choice: Choice): CalendarEvent
 }
 
 
@@ -77,9 +75,3 @@ sealed interface CalendarState {
 
 }
 
-
-enum class Choice(val value: String) {
-    Workout("Performed Workout"),
-    Creatine("Had Creatine"),
-    Cheat("Had a Cheat meal")
-}

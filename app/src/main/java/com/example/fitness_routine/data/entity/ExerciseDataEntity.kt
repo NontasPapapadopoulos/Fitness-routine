@@ -11,5 +11,4 @@ data class ExerciseDataEntity(
     val id: Long = 0,
     val name: String,
     val muscle: Muscle,
-//    val index: Int
 )

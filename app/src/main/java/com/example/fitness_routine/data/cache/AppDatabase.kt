@@ -11,6 +11,7 @@ import com.example.fitness_routine.data.entity.BreakDataEntity
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
 import com.example.fitness_routine.data.entity.ExerciseDataEntity
 import com.example.fitness_routine.data.entity.SetDataEntity
+import com.example.fitness_routine.data.entity.SettingsDataEntity
 import com.example.fitness_routine.data.entity.WorkoutDataEntity
 import com.example.fitness_routine.data.util.Converters
 
@@ -21,7 +22,8 @@ import com.example.fitness_routine.data.util.Converters
         WorkoutDataEntity::class,
         SetDataEntity::class,
         ExerciseDataEntity::class,
-        BreakDataEntity::class
+        BreakDataEntity::class,
+        SettingsDataEntity::class
     ],
     exportSchema = false,
     version = 1
