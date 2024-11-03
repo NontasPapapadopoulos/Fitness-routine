@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain
+package com.example.fitness_routine
 
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity

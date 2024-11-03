@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class DeleteDailyReport @Inject constructor(
+open class DeleteDailyReport @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, DeleteDailyReport.Params>(dispatcher) {

@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ReportViewModel @Inject constructor(
+open class ReportViewModel @Inject constructor(
     getDailyReport: GetDailyReport,
     private val deleteReport: DeleteDailyReport,
     private val updateReport: UpdateDailyReport,
@@ -83,7 +83,7 @@ class ReportViewModel @Inject constructor(
 
 
 
-        on(ReportEvent.UpdateField::class) {
+        on(clazz = ReportEvent.UpdateField::class) {
             onState<ReportState.Content> { state ->
 
                 val dailyReport = when(it.field) {

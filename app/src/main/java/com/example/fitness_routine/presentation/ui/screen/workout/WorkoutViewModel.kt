@@ -18,6 +18,7 @@ import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
 import com.example.fitness_routine.presentation.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -66,6 +67,7 @@ class WorkoutViewModel @Inject constructor(
         _navigateToExercisesFlow.asSharedFlow()
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val _uiState: StateFlow<WorkoutState> = combine(
         exercisesFlow,
         getSetsFlow,
@@ -80,7 +82,6 @@ class WorkoutViewModel @Inject constructor(
             musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
             dailyReport = dailyReport,
             dialog = dialog
-
         )
 
     }.stateIn(

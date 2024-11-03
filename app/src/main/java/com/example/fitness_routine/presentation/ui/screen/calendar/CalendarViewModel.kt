@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor(
+open class CalendarViewModel @Inject constructor(
     getDailyReports: GetDailyReports
 ): BlocViewModel<CalendarEvent, CalendarState>() {
 

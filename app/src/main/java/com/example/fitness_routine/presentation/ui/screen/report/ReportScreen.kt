@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,16 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.DELETE_BUTTON
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.GYM_NOTES_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.MUSCLE_ITEM
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.PROTEIN_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_CHECK_BOX
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 
@@ -106,6 +118,8 @@ private fun Content(
                         Text(text = "Fitness Diary")
 
                         Text(text = content.date.toFormattedDate())
+                        Icon(Icons.Default.Delete, contentDescription = null,
+                            modifier = Modifier.testTag(DELETE_BUTTON))
                     }
                 },
                 navigationIcon = { BackButton(navigateBack) }
@@ -125,32 +139,37 @@ private fun Content(
             CheckBoxQuestion(
                 text = "Workout: ",
                 isChecked = content.dailyReport.performedWorkout,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) }
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
+                testTag = WORKOUT_CHECK_BOX
             )
 
             CheckBoxQuestion(
                 text = "Cheat Meal: ",
                 isChecked = content.dailyReport.hadCheatMeal,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) }
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) },
+                testTag = CHEAT_MEAL_CHECK_BOX
             )
 
 
             Input(
                 label = "Protein grams: ",
                 value = content.dailyReport.proteinGrams,
-                onValueChange = { onUpdateTextField(it, Field.ProteinGrams) }
+                onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
+                testTag = PROTEIN_TEXT_FIELD
             )
 
             Input(
                 label = "Liters of water: ",
                 value = content.dailyReport.litersOfWater,
-                onValueChange = { onUpdateTextField(it, Field.LitersOfWater) }
+                onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
+                testTag = WATER_TEXT_FIELD
             )
 
             Input(
                 label = "Cardio minutes: ",
                 value = content.dailyReport.cardioMinutes,
-                onValueChange = { onUpdateTextField(it, Field.CardioMinutes) }
+                onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
+                testTag = CARDIO_TEXT_FIELD
             )
 
 
@@ -162,12 +181,14 @@ private fun Content(
             CheckBoxQuestion(
                 text = "Creatine: ",
                 isChecked = content.dailyReport.hadCreatine,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) }
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) },
+                testTag = CREATINE_CHECK_BOX
             )
 
             MusclesTrained(
                 selectedMuscles = content.dailyReport.musclesTrained,
-                onSelectMuscle = { onSelectMuscle(it) }
+                onSelectMuscle = { onSelectMuscle(it) },
+                testTag = MUSCLE_ITEM
             )
 
             GymNotes(
@@ -238,6 +259,7 @@ private fun GymNotes(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
+                .testTag(GYM_NOTES_TEXT_FIELD)
         )
 
     }
@@ -274,7 +296,9 @@ private fun Star(
         Icons.Default.Star,
         contentDescription = null,
         tint = color,
-        modifier = Modifier.clickable { onLevelChange(sequence) }
+        modifier = Modifier
+            .clickable { onLevelChange(sequence) }
+            .testTag(SLEEP_QUALITY)
     )
 }
 
@@ -283,7 +307,8 @@ private fun Input(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+    testTag: String
 ) {
 
     Row(
@@ -298,7 +323,9 @@ private fun Input(
         TextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .testTag(testTag),
             singleLine = true,
             keyboardOptions = keyboardOptions
         )
@@ -311,7 +338,8 @@ private fun Input(
 private fun CheckBoxQuestion(
     text: String,
     isChecked: Boolean,
-    onCheckedChange:  (Boolean) -> Unit
+    onCheckedChange:  (Boolean) -> Unit,
+    testTag: String
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -320,7 +348,11 @@ private fun CheckBoxQuestion(
     ) {
         Text(text = text)
 
-        Checkbox(checked = isChecked, onCheckedChange = onCheckedChange)
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = onCheckedChange,
+            modifier = Modifier.testTag(testTag)
+        )
     }
 }
 
@@ -352,4 +384,20 @@ private fun ReportPreview() {
         navigateToWorkout = {},
         onSelectMuscle = {},
     )
+}
+
+class ReportScreenConstants private constructor() {
+    companion object {
+        const val WORKOUT_CHECK_BOX = "workout_check_box"
+        const val CHEAT_MEAL_CHECK_BOX = "cheat_meal_check_box"
+        const val CREATINE_CHECK_BOX = "creatine_check_box"
+        const val PROTEIN_TEXT_FIELD = "protein_text_field"
+        const val WATER_TEXT_FIELD = "water_text_field"
+        const val CARDIO_TEXT_FIELD = "cardio_text_field"
+        const val MUSCLE_ITEM = "muscle_item_"
+        const val SLEEP_QUALITY = "sleep_quality"
+        const val GYM_NOTES_TEXT_FIELD = "gym_notes_text_field"
+        const val DELETE_BUTTON = "delete_button"
+
+    }
 }

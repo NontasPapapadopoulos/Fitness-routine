@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.domain.entity.enums.Muscle
 
@@ -18,7 +19,8 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 @Composable
 fun MusclesTrained(
     onSelectMuscle: (String) -> Unit,
-    selectedMuscles: List<String>
+    selectedMuscles: List<String>,
+    testTag: String
 ) {
 
 
@@ -27,7 +29,8 @@ fun MusclesTrained(
             Muscle(
                 muscle = it,
                 isSelected = selectedMuscles.contains(it.name),
-                select = { onSelectMuscle(it.name) }
+                select = { onSelectMuscle(it.name) },
+                testTag = testTag
             )
         }
     }
@@ -39,7 +42,8 @@ fun MusclesTrained(
 private fun Muscle(
     muscle: Muscle,
     isSelected: Boolean,
-    select: () -> Unit
+    select: () -> Unit,
+    testTag: String
 ) {
 
     val color = if (isSelected) Color.Red else Color.Black
@@ -51,6 +55,7 @@ private fun Muscle(
             .clickable { select() }
             .border(BorderStroke(1.dp, color = color), shape = CircleShape)
             .padding(horizontal = 10.dp, vertical = 5.dp)
+            .testTag(testTag + muscle.name)
 
     )
 

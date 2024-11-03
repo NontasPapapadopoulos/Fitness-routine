@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,6 +58,8 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.DAY
+import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
 import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
@@ -192,7 +195,8 @@ private fun Content(
                     },
                     navigationIcon = {
                         IconButton(
-                            onClick = { coroutineScope.launch { toggleDrawerState(drawerState) } }
+                            onClick = { coroutineScope.launch { toggleDrawerState(drawerState) } },
+                            modifier = Modifier.testTag(SIDE_MENU_BUTTON)
                         ) {
                             Icon(Icons.Filled.Menu, contentDescription = "Menu")
                         }
@@ -269,7 +273,8 @@ private fun Day(
     hadCheatMeal: Boolean,
     hadCreatine: Boolean,
     navigateToDailyReport: (Long) -> Unit,
-    selectedChoice: Choice
+    selectedChoice: Choice,
+    modifier: Modifier
 ) {
 
     val isCurrentDay = currentDay.toInt() == day.dayOfMonth
@@ -281,7 +286,7 @@ private fun Day(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(1.dp)
             .size(45.dp)
             .border(1.dp, Color.Red)
@@ -332,7 +337,8 @@ private fun Month(
                     hadCreatine = reportForDay?.hadCreatine ?: false,
                     hadCheatMeal = reportForDay?.hadCheatMeal ?: false,
                     navigateToDailyReport = navigateToDailyReport,
-                    selectedChoice = selectedChoice
+                    selectedChoice = selectedChoice,
+                    modifier = Modifier.testTag(DAY + nameOfMonth)
                 )
             }
 
@@ -362,13 +368,6 @@ private fun YearlyCalendar(
         months.forEachIndexed { index, month ->
             val emptyBoxes = getEmptyBoxes(month.days.first())
 
-            val firstWeek = month.days.take(7)
-            val secondWeek = month.days.filter { it.dayOfMonth in 8..14 }
-            val thirdWeek = month.days.filter { it.dayOfMonth in 15..21 }
-            val fourthWeek = month.days.filter { it.dayOfMonth in 22..28 }
-            val lastWeek = month.days.filter { it.dayOfMonth > 28 }
-
-            val weeks = listOf(firstWeek, secondWeek, thirdWeek, fourthWeek, lastWeek)
 
             item(key = index) {
                 Text(text = month.monthName)
@@ -446,7 +445,8 @@ private fun Filters(
                 selected = (option == selectedOption),
                 onClick = {
                     select(option)
-                }
+                },
+                modifier = Modifier.testTag(option.name)
             )
 
             Text(
@@ -492,5 +492,13 @@ fun generateReports(): List<DailyReportDomainEntity> {
             cardioMinutes = "30",
             date = date
         )
+    }
+}
+
+
+class CalendarScreenConstants private constructor() {
+    companion object {
+        const val SIDE_MENU_BUTTON = "side_menu_button"
+        const val DAY = "day"
     }
 }

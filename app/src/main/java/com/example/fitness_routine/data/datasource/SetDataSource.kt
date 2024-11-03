@@ -25,7 +25,7 @@ class SetDataSourceImpl @Inject constructor(
     }
 
     override suspend fun addSet(set: SetDataEntity) {
-        setDao.put(set)
+        setDao.update(set)
     }
 
     override suspend fun deleteSet(set: SetDataEntity) {

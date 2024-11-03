@@ -157,7 +157,8 @@ private fun WorkoutContent(
 
             MusclesTrained(
                 selectedMuscles = content.musclesTrained.map { it.name },
-                onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it)) }
+                onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it)) },
+                testTag = "xx"
             )
 
 

@@ -1,8 +1,8 @@
 package com.example.fitness_routine.domain.interactor.set
 
-import com.example.fitness_routine.domain.DummyEntities
+import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.domain.repository.SetRepository
-import com.example.fitness_routine.domain.set
+import com.example.fitness_routine.set
 import com.example.fitness_routine.domain.toTimeStamp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first

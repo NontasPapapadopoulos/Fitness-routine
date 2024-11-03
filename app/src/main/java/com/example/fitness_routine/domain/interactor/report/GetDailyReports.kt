@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetDailyReports @Inject constructor(
+open class GetDailyReports @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<List<DailyReportDomainEntity>, Unit>(dispatcher) {

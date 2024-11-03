@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,6 +42,11 @@ import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.ADD_EXERCISE_BUTTON
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.DELETE_EXERCISE
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EXERCISE_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
 
 @Composable
 fun ExerciseScreen(
@@ -125,7 +131,8 @@ private fun ExerciseContent(
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
-                onExpandedChange = { expanded = !expanded }
+                onExpandedChange = { expanded = !expanded },
+                modifier = Modifier.testTag(MUSCLE_GROUP_DROPDOWN)
             ) {
                 TextField(
                     value = selectedOption,
@@ -151,7 +158,8 @@ private fun ExerciseContent(
                             onClick = {
                                 selectedOption = option.name
                                 expanded = false
-                            }
+                            },
+                            modifier = Modifier.testTag(MUSCLE_GROUP_DROPDOWN_ITEM + option.name)
                         )
                     }
                 }
@@ -171,7 +179,8 @@ private fun ExerciseContent(
                 OutlinedTextField(
                     value = content.newExercise,
                     onValueChange = { onTextChanged(it) },
-                    modifier = Modifier.weight(0.55f),
+                    modifier = Modifier.weight(0.55f)
+                        .testTag(EXERCISE_TEXT_FIELD),
                     singleLine = true
                 )
 
@@ -180,6 +189,7 @@ private fun ExerciseContent(
                 Button(
                     onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
                     modifier = Modifier.weight(0.45f)
+                        .testTag(ADD_EXERCISE_BUTTON)
                 ) {
                     Text(text = "Add Exercise")
                 }
@@ -206,7 +216,9 @@ private fun Exercise(
     ) {
         Text(text = exercise.name)
 
-        IconButton(onClick =  { delete(exercise) }) {
+        IconButton(
+            onClick =  { delete(exercise) },
+            modifier = Modifier.testTag(DELETE_EXERCISE + exercise.name)) {
             Icon(Icons.Default.Delete, contentDescription = null)
         }
     }
@@ -238,5 +250,15 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
             name = "exercise name",
 //            index = it
         )
+    }
+}
+
+class ExerciseScreenConstants private constructor() {
+    companion object {
+        const val EXERCISE_TEXT_FIELD = "exercise_text_field"
+        const val ADD_EXERCISE_BUTTON = "add_exercise_button"
+        const val DELETE_EXERCISE = "delete_exercise"
+        const val MUSCLE_GROUP_DROPDOWN = "muscle_group_drop_down"
+        const val MUSCLE_GROUP_DROPDOWN_ITEM = "muscle_group_drop_down_item"
     }
 }

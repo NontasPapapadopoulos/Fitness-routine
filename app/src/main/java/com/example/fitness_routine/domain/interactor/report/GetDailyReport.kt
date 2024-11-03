@@ -10,7 +10,7 @@ import java.util.Date
 import javax.inject.Inject
 
 
-class GetDailyReport @Inject constructor(
+open class GetDailyReport @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<DailyReportDomainEntity, GetDailyReport.Params>(dispatcher) {

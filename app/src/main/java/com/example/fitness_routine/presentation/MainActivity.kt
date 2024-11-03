@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.fitness_routine.presentation.navigation.RootNavGraph
-import com.example.fitness_routine.presentation.ui.theme.FitnessroutineTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.core.view.WindowCompat
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            FitnessroutineTheme {
+            AppTheme {
                 MakeSystemBarsTransparent()
                 Scaffold(modifier = Modifier
                     .fillMaxSize()

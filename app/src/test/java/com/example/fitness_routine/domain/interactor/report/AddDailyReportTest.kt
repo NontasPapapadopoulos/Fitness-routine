@@ -1,15 +1,13 @@
 package com.example.fitness_routine.domain.interactor.report
 
-import com.example.fitness_routine.domain.DummyEntities
-import com.example.fitness_routine.domain.dailyReport
-import com.example.fitness_routine.domain.interactor.report.AddDailyReport
+import com.example.fitness_routine.DummyEntities
+import com.example.fitness_routine.dailyReport
 import com.example.fitness_routine.domain.repository.DailyRoutineRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

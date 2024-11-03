@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class UpdateDailyReport @Inject constructor(
+open class UpdateDailyReport @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, UpdateDailyReport.Params>(dispatcher) {
