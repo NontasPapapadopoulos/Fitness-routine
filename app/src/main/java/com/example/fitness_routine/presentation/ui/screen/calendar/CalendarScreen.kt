@@ -152,7 +152,7 @@ private fun Content(
 
                     NavigationDrawerItem(
                         label = { Text(text = "Exercises") },
-                        selected = true,
+                        selected = false,
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
                             navigateToScreen(Screen.Exercise)
@@ -162,7 +162,7 @@ private fun Content(
 
                     NavigationDrawerItem(
                         label = { Text(text = "Settings") },
-                        selected = true,
+                        selected = false,
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
                             navigateToScreen(Screen.Settings)

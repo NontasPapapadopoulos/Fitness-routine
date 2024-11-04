@@ -6,6 +6,7 @@ import com.example.fitness_routine.data.cache.AppDatabase
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
+import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
 import dagger.Module
 import dagger.Provides
@@ -51,4 +52,10 @@ object DbModule {
         return database.getExerciseDao()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideSettingsDao(database: AppDatabase): SettingsDao {
+        return database.getSettingsDao()
+    }
 }

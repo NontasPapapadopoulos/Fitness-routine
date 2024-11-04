@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.ui.screen.settings
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
+import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,18 +19,15 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    getSettings: GetSettings
+open class SettingsViewModel @Inject constructor(
+    private val getSettings: GetSettings,
+    private val changeSettings: ChangeSettings
 ): BlocViewModel<SettingsEvent, SettingsState>(){
 
 
-
-    private val choiceFlow = getSettings.execute(Unit)
-        .map { it.getOrThrow() }
-        .catch { addError(it) }
-
     override val _uiState: StateFlow<SettingsState> = getSettings.execute(Unit)
         .map { it.getOrThrow() }
+        .onStart { emit(SettingsDomainEntity(choice = Choice.Workout.name, isDarkModeEnabled = true, breakDuration = "" )) }
         .catch { addError(it) }
         .map { settings ->
             SettingsState.Content(settings)
@@ -43,19 +41,33 @@ class SettingsViewModel @Inject constructor(
     init {
 
         on(SettingsEvent.SelectChoice::class) {
-//            choiceFlow.emit(it.choice)
+            onState<SettingsState.Content> { state ->
+                changeSettings.execute(ChangeSettings.Params(state.settings.copy(choice = it.choice.name))).fold(
+                    onSuccess = {},
+                    onFailure = { addError(it) }
+                )
+            }
         }
 
         on(SettingsEvent.TextChanged::class) {
-//            breakSecondsFlow.emit(it.text)
+            onState<SettingsState.Content> { state ->
+                changeSettings.execute(ChangeSettings.Params(state.settings.copy(breakDuration = it.text))).fold(
+                    onSuccess = {},
+                    onFailure = { addError(it) }
+                )
+            }
         }
 
         on(SettingsEvent.ToggleDarkMode::class) {
             onState<SettingsState.Content> { state ->
-//                isDarkModeEnabled.emit(!state.settings.isDarkModeEnabled)
+                val isEnabled = !state.settings.isDarkModeEnabled
+                changeSettings.execute(ChangeSettings.Params(state.settings.copy(isDarkModeEnabled = isEnabled))).fold(
+                    onSuccess = {},
+                    onFailure = { addError(it) }
+                )
             }
-        }
 
+        }
 
     }
 

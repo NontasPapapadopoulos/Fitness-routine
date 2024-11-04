@@ -32,6 +32,9 @@ import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.BREAK_DURATION_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.CHOICE_RADIO_BUTTON
+import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.DARK_MODE_SWITCH
 
 
 @Composable
@@ -93,12 +96,15 @@ private fun SettingsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .padding(24.dp),
+
         ) {
 
             Filters(
                 options = Choice.entries,
                 selectedOption = Choice.valueOf(content.settings.choice),
-                select = onSelectChoice
+                select = onSelectChoice,
+                testTag = CHOICE_RADIO_BUTTON
             )
 
 
@@ -109,9 +115,8 @@ private fun SettingsContent(
                 label = { Text(text = "Break time duration in seconds")},
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.testTag(BREAK_DURATION_TEXT_FIELD)
             )
-
-
 
 
             Row(
@@ -124,7 +129,9 @@ private fun SettingsContent(
 
                 Switch(
                     checked = content.settings.isDarkModeEnabled,
-                    onCheckedChange = { onToggleDarkMode() }
+                    onCheckedChange = { onToggleDarkMode() },
+                    modifier = Modifier.testTag(DARK_MODE_SWITCH)
+
                 )
             }
 
@@ -137,7 +144,8 @@ private fun SettingsContent(
 private fun Filters(
     options: List<Choice>,
     selectedOption: Choice,
-    select: (Choice) -> Unit
+    select: (Choice) -> Unit,
+    testTag: String
 ) {
 
     Text(text = "Select an option: ")
@@ -152,7 +160,7 @@ private fun Filters(
                 onClick = {
                     select(option)
                 },
-                modifier = Modifier.testTag(option.name)
+                modifier = Modifier.testTag(testTag + option.name)
             )
 
             Text(
@@ -181,4 +189,13 @@ private fun SettingsContentPreview() {
         onToggleDarkMode = {},
         onTextChanged = {},
     )
+}
+
+
+class SettingsScreenConstants private constructor() {
+    companion object {
+        const val BREAK_DURATION_TEXT_FIELD = "break_duration"
+        const val DARK_MODE_SWITCH = "dark_mode_switch"
+        const val CHOICE_RADIO_BUTTON = "choice_radio_button"
+    }
 }

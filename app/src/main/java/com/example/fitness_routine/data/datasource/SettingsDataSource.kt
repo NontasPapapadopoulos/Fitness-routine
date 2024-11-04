@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface SettingsDataSource {
-    fun getSettings(): Flow<SettingsDataEntity>
+    fun getSettings(): Flow<SettingsDataEntity?>
+
+    suspend fun changeSettings(settings: SettingsDataEntity)
 }
 
 
@@ -15,8 +17,12 @@ class SettingsDataSourceImpl @Inject constructor(
     private val settingsDao: SettingsDao
 ): SettingsDataSource {
 
-    override fun getSettings(): Flow<SettingsDataEntity> {
+    override fun getSettings(): Flow<SettingsDataEntity?> {
         return settingsDao.getSettings()
+    }
+
+    override suspend fun changeSettings(settings: SettingsDataEntity) {
+        settingsDao.put(settings)
     }
 
 

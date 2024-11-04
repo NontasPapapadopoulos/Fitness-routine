@@ -4,6 +4,7 @@ import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
+import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import java.util.Date
@@ -51,4 +52,12 @@ val DummyEntities.set: SetDomainEntity
         exercise = "",
         weight = 0,
         repeats = 0
+    )
+
+
+val DummyEntities.settings: SettingsDomainEntity
+    get() = SettingsDomainEntity(
+        isDarkModeEnabled = true,
+        breakDuration = "",
+        choice = ""
     )

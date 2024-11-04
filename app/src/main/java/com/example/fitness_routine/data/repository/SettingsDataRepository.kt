@@ -1,6 +1,7 @@
 package com.example.fitness_routine.data.repository
 
 import com.example.fitness_routine.data.datasource.SettingsDataSource
+import com.example.fitness_routine.data.mapper.toData
 import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.repository.SettingsRepository
@@ -12,7 +13,13 @@ class SettingsDataRepository @Inject constructor(
     private val settingsDataSource: SettingsDataSource
 ): SettingsRepository {
 
-    override fun getSettings(): Flow<SettingsDomainEntity> {
-        return settingsDataSource.getSettings().map { it.toDomain() }
+    override fun getSettings(): Flow<SettingsDomainEntity?> {
+        return settingsDataSource.getSettings().map { it?.toDomain() }
     }
+
+    override suspend fun changeSettings(settings: SettingsDomainEntity) {
+        settingsDataSource.changeSettings(settings.toData())
+    }
+
+
 }

@@ -14,6 +14,7 @@ import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
+import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import com.example.fitness_routine.presentation.util.getCurrentDate
 import kotlinx.coroutines.delay
@@ -57,7 +58,7 @@ fun RootNavGraph(
                         Screen.Gym,
                         Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
                         Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
-
+                        Screen.Settings -> { navController.navigate(Screen.Settings.name) { launchSingleTop = true } }
                         Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
                     }
@@ -150,6 +151,13 @@ fun RootNavGraph(
             )
         ) {
             ExerciseScreen(navigateBack = { navController.popBackStack() })
+        }
+
+
+        composable(
+            route = SettingsRoute
+        ) {
+            SettingsScreen(navigateBack = { navController.popBackStack() })
         }
 
     }

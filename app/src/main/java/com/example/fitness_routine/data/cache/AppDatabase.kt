@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
+import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
 import com.example.fitness_routine.data.entity.BreakDataEntity
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
@@ -39,4 +40,5 @@ abstract class AppDatabase(): RoomDatabase() {
 
     abstract fun getExerciseDao(): ExerciseDao
 
+    abstract fun getSettingsDao(): SettingsDao
 }
