@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -178,3 +179,19 @@ fun DisplaySplashScreen(
     }
 
 }
+
+
+fun NavHostController.navigateSingleTopToxxx(route: String) =
+    this.navigate(route) { launchSingleTop = true }
+
+
+fun NavHostController.navigateSingleTopTo(route: String) =
+    this.navigate(route) {
+        popUpTo(
+            this@navigateSingleTopTo.graph.findStartDestination().id
+        ) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }

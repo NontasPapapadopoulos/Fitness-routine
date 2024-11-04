@@ -49,6 +49,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -215,7 +217,9 @@ private fun Content(
 
             Column(
                 modifier = Modifier
-                    .padding(it))
+                    .padding(it)
+                    .semantics { contentDescription = Screen.Calendar.name }
+            )
             {
                 Column(
                     modifier = Modifier

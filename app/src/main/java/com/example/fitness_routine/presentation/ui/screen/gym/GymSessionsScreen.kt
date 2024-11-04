@@ -15,6 +15,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -96,7 +98,8 @@ private fun GymSessionsContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it),
+                .padding(it)
+                .semantics { contentDescription = Screen.Gym.name },
 
             ) {
 

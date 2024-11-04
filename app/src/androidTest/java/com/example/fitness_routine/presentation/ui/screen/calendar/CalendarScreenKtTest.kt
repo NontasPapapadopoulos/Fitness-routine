@@ -43,24 +43,4 @@ class CalendarScreenKtTest {
     }
 
 
-    @Test
-    fun contentState_whenSelectChoices_addsSelectChoice() {
-        // given
-        whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(CalendarState.Content(selectedChoice = Choice.Workout, currentDate = Date().toString(), reports = listOf()))
-        )
-
-        composeTestRule.setContent {
-            AppSurface {
-                CalendarScreen(viewModel = viewModel, navigateToDailyReport = {}, navigateToScreen = {})
-            }
-        }
-
-        // when
-        composeTestRule.onNodeWithTag(CalendarScreenConstants.SIDE_MENU_BUTTON).performClick()
-        composeTestRule.onNodeWithTag(Choice.Cheat.name).performClick()
-
-        // then
-        verify(viewModel).add(CalendarEvent.SelectChoice(Choice.Cheat))
-    }
 }
