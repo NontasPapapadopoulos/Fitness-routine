@@ -1,13 +1,18 @@
 package com.example.fitness_routine.presentation.ui.screen.settings
 
 import com.example.fitness_routine.DummyEntities
+import com.example.fitness_routine.InlineClassesAnswer
+import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
 import com.example.fitness_routine.presentation.ui.screen.onEvents
 import com.example.fitness_routine.settings
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 
@@ -23,7 +28,7 @@ import org.mockito.kotlin.whenever
 @RunWith(MockitoJUnitRunner::class)
 class SettingsViewModelTest {
 
-    @get: Rule
+    @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var viewModel: SettingsViewModel
@@ -34,11 +39,17 @@ class SettingsViewModelTest {
     @Mock
     private lateinit var changeSettings: ChangeSettings
 
+    private val settingsFlow: MutableStateFlow<Result<SettingsDomainEntity>> =
+        MutableStateFlow(Result.success(settings))
 
     @Before
     fun setUp() = runTest {
         whenever(getSettings.execute(Unit)).thenReturn(flowOf(Result.success(settings)))
-        whenever(changeSettings.execute(any())).thenReturn(Result.success(Unit))
+
+    }
+
+    private fun emitSettings(settings: SettingsDomainEntity) = runBlocking {
+        settingsFlow.emit(Result.success(settings))
     }
 
 
@@ -60,6 +71,13 @@ class SettingsViewModelTest {
 
     @Test
     fun onToggleSwitchButton_changesDarkMode() = runTest {
+        whenever(changeSettings.execute(any())).thenAnswer(InlineClassesAnswer { invocation ->
+            val params = invocation.getArgument<ChangeSettings.Params>(0)
+            val settings = settingsFlow.value.getOrThrow()
+            emitSettings(settings.copy(isDarkModeEnabled = params.settings.isDarkModeEnabled))
+            Result.success(Unit)
+        })
+
         initViewModel()
 
         onEvents(
@@ -80,6 +98,13 @@ class SettingsViewModelTest {
 
     @Test
     fun onTextChanged_changesBreakDuration() = runTest {
+        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
+            val params = invocation.getArgument<ChangeSettings.Params>(0)
+            val settings = settingsFlow.value.getOrThrow()
+            emitSettings(settings.copy(breakDuration = params.settings.breakDuration))
+            Result.success(Unit)
+        })
+
         initViewModel()
 
         onEvents(
@@ -91,6 +116,32 @@ class SettingsViewModelTest {
                     SettingsState.Idle,
                     defaultContent,
                     defaultContent.copy(settings.copy(breakDuration = "text"))
+                ),
+                collectedStates
+            )
+        }
+    }
+
+    @Test
+    fun onSelectChoice_changesChoice() = runTest {
+        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
+            val params = invocation.getArgument<ChangeSettings.Params>(0)
+            val settings = settingsFlow.value.getOrThrow()
+            emitSettings(settings.copy(choice = params.settings.choice))
+            Result.success(Unit)
+        })
+
+        initViewModel()
+
+        onEvents(
+            viewModel,
+            SettingsEvent.SelectChoice(Choice.Creatine)
+        ) { collectedStates ->
+            assertEquals(
+                listOf(
+                    SettingsState.Idle,
+                    defaultContent,
+                    defaultContent.copy(settings.copy(choice = Choice.Creatine.name))
                 ),
                 collectedStates
             )
