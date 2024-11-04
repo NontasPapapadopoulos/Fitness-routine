@@ -70,7 +70,8 @@ fun BottomBar(
                 val isSelected = it.screen == currentScreen
 
                 Column(
-                    modifier = Modifier.clickable { onClick(it.screen) }
+                    modifier = Modifier
+                        .clickable { onClick(it.screen) }
                         .testTag(it.screen.name),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
