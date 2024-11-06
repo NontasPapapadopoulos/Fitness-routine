@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
-open class GetSettings @Inject constructor(
+class GetSettings @Inject constructor(
     private val settingsRepository: SettingsRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<SettingsDomainEntity, Unit>(dispatcher) {

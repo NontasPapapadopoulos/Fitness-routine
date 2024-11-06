@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
+import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
@@ -13,6 +14,7 @@ import com.example.fitness_routine.domain.interactor.report.UpdateDailyReport
 import com.example.fitness_routine.domain.interactor.set.CreateNewSet
 import com.example.fitness_routine.domain.interactor.set.DeleteSet
 import com.example.fitness_routine.domain.interactor.set.GetSets
+import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.domain.toMuscles
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
@@ -42,6 +44,7 @@ class WorkoutViewModel @Inject constructor(
     private val deleteSet: DeleteSet,
     private val updateReport: UpdateDailyReport,
     private val initDailyReport: InitDailyReport,
+    private val getSettings: GetSettings,
     private val savedStateHandle: SavedStateHandle
 ): BlocViewModel<WorkoutEvent, WorkoutState>() {
 
@@ -59,6 +62,11 @@ class WorkoutViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
+    private val settingsFlow = getSettings.execute(Unit)
+        .map { it.getOrThrow() }
+        .map { it.breakDuration }
+        .catch { addError(it) }
+
 
     private val dialogFlow = MutableSharedFlow<Dialog?>()
 
@@ -72,8 +80,9 @@ class WorkoutViewModel @Inject constructor(
         exercisesFlow,
         getSetsFlow,
         suspend { initDailyReport() }.asFlow().flatMapLatest { dailyReport },
-        dialogFlow.onStart { emit(null) }
-    ) { exercises, sets, dailyReport, dialog ->
+        dialogFlow.onStart { emit(null) },
+        settingsFlow
+    ) { exercises, sets, dailyReport, dialog, breakTimeDuration ->
 
         WorkoutState.Content(
             sets = sets,
@@ -81,7 +90,8 @@ class WorkoutViewModel @Inject constructor(
             date = date,
             musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
             dailyReport = dailyReport,
-            dialog = dialog
+            dialog = dialog,
+            breakTimeDuration = breakTimeDuration
         )
 
     }.stateIn(
@@ -196,6 +206,7 @@ sealed interface WorkoutState {
         val exercises: List<ExerciseDomainEntity>,
         val musclesTrained: List<Muscle>,
         val dailyReport: DailyReportDomainEntity,
-        val dialog: Dialog?
+        val dialog: Dialog?,
+        val breakTimeDuration: String
     ): WorkoutState
 }

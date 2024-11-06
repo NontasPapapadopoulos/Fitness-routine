@@ -1,8 +1,11 @@
 package com.example.fitness_routine.presentation.ui.screen.workout
 
+import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,11 +50,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
+import com.example.fitness_routine.domain.entity.SettingsDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
@@ -132,7 +140,8 @@ private fun WorkoutContent(
             TopAppBar(
                 title = {
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(horizontal = 24.dp)
                         ,
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -241,6 +250,7 @@ private fun WorkoutContent(
 
                 Dialog.Break -> {
                     BreakDialog(
+                        breakDuration = content.breakTimeDuration,
                         onDismissDialog = onDismissDialog
                     )
                 }
@@ -349,26 +359,38 @@ fun AddExerciseDialog(
 
 
 
+@SuppressLint("DefaultLocale", "RememberReturnType")
 @Composable
 fun BreakDialog(
+    breakDuration: String,
     onDismissDialog: () -> Unit
 ) {
-    var seconds by remember { mutableStateOf(0) }
-    var isRunning by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val mediaPlayer = remember {
+        MediaPlayer.create(context, R.raw.bell_ring)
+    }
 
-    val minutes = seconds / 60
-    val displaySeconds = seconds % 60
+    var isRunning by remember { mutableStateOf(false) }
+    var remainingSeconds by remember { mutableStateOf(breakDuration.toInt()) }
+
+    val minutes = remainingSeconds / 60
+    val displaySeconds = remainingSeconds % 60
 
     val time = String.format("%02d:%02d", minutes, displaySeconds)
 
-    LaunchedEffect(isRunning, seconds) {
+    LaunchedEffect(isRunning, remainingSeconds) {
         if (isRunning) {
-            while (true) {
+            while (remainingSeconds > 0) {
                 delay(1000L)
-                seconds += 1
+                remainingSeconds -= 1
+            }
+            if (remainingSeconds == 0) {
+                isRunning = false
+                mediaPlayer.start()
             }
         }
     }
+
 
     AlertDialog(
         onDismissRequest = {},
@@ -379,17 +401,42 @@ fun BreakDialog(
             Icon(Icons.Outlined.Timer, contentDescription = null)
         },
         text = {
-            Text(
-                text = time,
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = time,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         },
         confirmButton = {
             val text = if (isRunning) "Reset" else "Start"
             Button(
                 onClick = {
-                    if (isRunning) seconds = 0 else isRunning = true
+                    // reset
+                    if (remainingSeconds > 0) {
+                        if (isRunning) {
+                            remainingSeconds = breakDuration.toInt()
+                        } 
+                        else {
+                            isRunning = true
+                        }
+                    } else {
+                        remainingSeconds = breakDuration.toInt()
+                        isRunning = true
+                    }
+
+//                    if (isRunning && remainingSeconds > 0 ) {
+//                        remainingSeconds = breakDuration.toInt()
+//                    } else if (!isRunning && remainingSeconds > 0) {
+//                        isRunning = true
+//                    } else {
+//                        remainingSeconds = breakDuration.toInt()
+//                        isRunning = true
+//                    }
+
                 }
             ) {
                 Text(text)
@@ -404,8 +451,15 @@ fun BreakDialog(
             ) {
                 Text(text)
             }
-        }
+        },
+        properties = DialogProperties(dismissOnClickOutside = true)
     )
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mediaPlayer.release()
+        }
+    }
 }
 
 @Composable
@@ -506,8 +560,6 @@ private fun AddExercise(
         horizontalArrangement = Arrangement.Center
     ) {
 
-
-
         Text(text = "Add Exercise")
         IconButton(
             onClick = addExercise
@@ -545,7 +597,8 @@ private fun WorkoutContentPreview() {
             date = 1728939600000,
             musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
             dailyReport = getDailyReport(),
-            dialog = null
+            dialog = null,
+            breakTimeDuration = "60"
         ),
         navigateBack = {},
         onAddSet = {_, _ -> },
@@ -565,7 +618,8 @@ private fun WorkoutContentPreview() {
 @Composable
 private fun BreakDialogPreview() {
     BreakDialog(
-        onDismissDialog = {}
+        onDismissDialog = {},
+        breakDuration = "60"
     )
 }
 
