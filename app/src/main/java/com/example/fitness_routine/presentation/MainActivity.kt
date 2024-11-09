@@ -33,9 +33,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-//                MakeSystemBarsTransparent()
+                MakeSystemBarsTransparent()
                 Scaffold(modifier = Modifier
-                    .fillMaxSize()
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.navigationBars)) { innerPadding ->
                     innerPadding

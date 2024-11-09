@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Settings")
 data class SettingsDataEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Long = 0,
     val choice: String,
     @ColumnInfo(defaultValue = "")
