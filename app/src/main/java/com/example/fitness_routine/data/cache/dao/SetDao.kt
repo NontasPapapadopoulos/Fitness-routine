@@ -15,7 +15,7 @@ interface SetDao {
     @Query("SELECT * FROM `set` WHERE workoutDate = :date")
     fun getSets(date: Long): Flow<List<SetDataEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun put(set: SetDataEntity)
 
     @Update

@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.room.Update
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
@@ -14,6 +15,7 @@ import com.example.fitness_routine.domain.interactor.report.UpdateDailyReport
 import com.example.fitness_routine.domain.interactor.set.CreateNewSet
 import com.example.fitness_routine.domain.interactor.set.DeleteSet
 import com.example.fitness_routine.domain.interactor.set.GetSets
+import com.example.fitness_routine.domain.interactor.set.UpdateSet
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.domain.toMuscles
 import com.example.fitness_routine.presentation.BlocViewModel
@@ -40,6 +42,7 @@ class WorkoutViewModel @Inject constructor(
     private val getExercises: GetExercises,
     private val getSets: GetSets,
     private val getDailyReport: GetDailyReport,
+    private val updateSet: UpdateSet,
     private val createNewSet: CreateNewSet,
     private val deleteSet: DeleteSet,
     private val updateReport: UpdateDailyReport,
@@ -164,6 +167,19 @@ class WorkoutViewModel @Inject constructor(
         on(WorkoutEvent.NavigateToExercises::class) {
             _navigateToExercisesFlow.emit(it.muscle)
         }
+
+        on(WorkoutEvent.UpdateSet::class) {
+            println("updated set: ${it.set}")
+            val set = when(it.field) {
+                SetField.Weight -> { it.set.copy(weight = it.value) }
+                SetField.Repeat -> { it.set.copy(repeats = it.value)  }
+            }
+
+            updateSet.execute(UpdateSet.Params(set = set)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
     }
 
     private suspend fun initDailyReport() {
@@ -186,6 +202,7 @@ sealed interface WorkoutEvent {
     data class AddNewSet(val muscle: Muscle, val exercise: String): WorkoutEvent
     data class AddNewExercise(val muscle: Muscle, val exercise: String): WorkoutEvent
     data class DeleteSet(val set: SetDomainEntity): WorkoutEvent
+    data class UpdateSet(val set: SetDomainEntity, val field: SetField, val value: String): WorkoutEvent
     data class SelectMuscle(val muscle: Muscle): WorkoutEvent
     data class NavigateToExercises(val muscle: Muscle): WorkoutEvent
     data class ShowDialog(val dialog: Dialog?): WorkoutEvent
@@ -194,7 +211,10 @@ sealed interface WorkoutEvent {
 
 }
 
-
+enum class SetField {
+    Weight,
+    Repeat
+}
 
 sealed interface WorkoutState {
 

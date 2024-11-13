@@ -111,6 +111,7 @@ fun WorkoutScreen(
             onShowDialog = { viewModel.add(WorkoutEvent.ShowDialog(it)) },
             onDismissDialog = { viewModel.add(WorkoutEvent.DismissDialog) },
             onAddExercise = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewExercise(muscle, exercise)) },
+            onUpdateSet = { set, field, value -> viewModel.add(WorkoutEvent.UpdateSet(set, field, value)) },
             onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) },
             onNavigateToScreen = onNavigateToScreen
         )
@@ -127,6 +128,7 @@ private fun WorkoutContent(
     navigateBack: () -> Unit,
     onAddSet: (Muscle, String) -> Unit,
     onDeleteSet: (SetDomainEntity) -> Unit,
+    onUpdateSet: (SetDomainEntity, SetField, String) -> Unit,
     onSelectMuscle: (Muscle) -> Unit,
     onShowDialog: (Dialog) -> Unit,
     onDismissDialog: () -> Unit,
@@ -206,7 +208,8 @@ private fun WorkoutContent(
                         Set(
                             set = set,
                             index = index + 1,
-                            delete = { onDeleteSet(set) }
+                            delete = { onDeleteSet(set) },
+                            update = { set, field, value -> onUpdateSet(set, field, value ) }
                         )
 
                     }
@@ -481,7 +484,8 @@ private fun AddBreak(
 private fun Set(
     set: SetDomainEntity,
     index: Int,
-    delete: (SetDomainEntity) -> Unit
+    delete: (SetDomainEntity) -> Unit,
+    update: (SetDomainEntity, SetField, String) -> Unit,
 ) {
 
     Row(
@@ -498,7 +502,7 @@ private fun Set(
 
         OutlinedTextField(
             value = set.weight.toString(),
-            onValueChange = {},
+            onValueChange = { update(set, SetField.Weight, it) },
             singleLine = true,
             label = { Text(text = "Weight") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -511,7 +515,7 @@ private fun Set(
 
         OutlinedTextField(
             value = set.repeats.toString(),
-            onValueChange = {},
+            onValueChange = { update(set, SetField.Repeat, it) },
             singleLine = true,
             label = { Text(text = "Repeats") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -519,6 +523,7 @@ private fun Set(
             ),
             modifier = Modifier.weight(0.5f)
         )
+
 
         IconButton(onClick = { delete(set) } ) {
             Icon(Icons.Default.Delete, contentDescription = null)
@@ -574,15 +579,15 @@ private fun AddExercise(
 @Composable
 private fun SetPreview() {
     val setDomainEntity = SetDomainEntity(
-        id = 0,
+        id = "",
         workoutDate = 1L,
         muscle = Muscle.Biceps,
         exercise = "Excercise",
-        weight = 20,
-        repeats = 8
+        weight = "20",
+        repeats = "8"
     )
     
-    Set(set = setDomainEntity, delete = {}, index = 1)
+    Set(set = setDomainEntity, delete = {}, index = 1, update = { _, _, _-> })
 }
 
 
@@ -608,7 +613,8 @@ private fun WorkoutContentPreview() {
         onDismissDialog = {},
         onAddExercise = {_, _ -> },
         onNavigateToExercises = {},
-        onNavigateToScreen = {}
+        onNavigateToScreen = {},
+        onUpdateSet = { _, _, _-> }
     )
 
 }
@@ -640,12 +646,12 @@ private fun AddExerciseDialogPreview() {
 private fun generateSets(): List<SetDomainEntity> {
     return  (0..12).map {
         SetDomainEntity(
-            id = it.toLong(),
+            id = "",
             workoutDate = 100000L,
             muscle = if (it < 6 ) Muscle.Chest else Muscle.Biceps,
             exercise = if (it % 2 == 0) "Exercise 1" else "Exercise 2",
-            weight = 30,
-            repeats = 12
+            weight = "30",
+            repeats = "12"
         )
     }
 

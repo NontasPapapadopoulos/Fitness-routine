@@ -20,11 +20,11 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 //    indices = [Index(value = ["workoutDate"])]
 )
 data class SetDataEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: String,
     val workoutDate: Long,
     val muscle: Muscle,
     val exercise: String,
-    val weight: Int,
-    val repeats: Int,
+    val weight: String,
+    val repeats: String,
 )
