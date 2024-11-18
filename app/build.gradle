@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
     //  id 'kotlin-kapt'
 }
 
@@ -147,5 +148,6 @@ dependencies {
 //    debugImplementation("androidx.compose.ui:ui-test-manifest:2.8.3")
 
 
-
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }

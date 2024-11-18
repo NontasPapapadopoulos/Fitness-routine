@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673481352767",
+    "project_id": "fitness-diary-c3b58",
+    "storage_bucket": "fitness-diary-c3b58.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673481352767:android:98699749edf5c518a1ba8a",
+        "android_client_info": {
+          "package_name": "com.example.fitness_routine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBltvSsNaSqLIe_32cF3jqbLklWQt9K5s4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
