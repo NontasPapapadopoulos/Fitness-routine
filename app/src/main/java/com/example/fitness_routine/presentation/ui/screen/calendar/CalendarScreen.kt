@@ -183,7 +183,7 @@ private fun Content(
                         label = {
                             Text(
                                 text = "Exercises",
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.secondary,
                                 style = MaterialTheme.typography.titleLarge
                             ) },
                         selected = false,
@@ -198,7 +198,7 @@ private fun Content(
                         label = {
                             Text(
                                 text = "Settings",
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.secondary,
                                 style = MaterialTheme.typography.titleLarge
                             ) },
                         selected = false,
@@ -231,7 +231,7 @@ private fun Content(
                         ) {
                             Text(
                                 text = "Fitness Diary",
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.secondary,
                                 style = MaterialTheme.typography.titleLarge
                             )
                         }
@@ -610,19 +610,50 @@ private fun DaysHeader() {
 
 @Preview
 @Composable
-private fun CalendarScreenPreview() {
-    AppTheme(darkTheme = true) {
-        Content(
-            content = CalendarState.Content(
-                currentDate = getDate(),
-                selectedChoice = Choice.Workout,
-                reports = generateReports()
-            ),
-            navigateToDailyReport = {},
-            navigateToScreen = {},
-        )
-    }
+private fun CalendarScreenPreviewDark() {
+    Column {
+        AppTheme(darkTheme = true) {
+            Content(
+                content = CalendarState.Content(
+                    currentDate = getDate(),
+                    selectedChoice = Choice.Workout,
+                    reports = generateReports()
+                ),
+                navigateToDailyReport = {},
+                navigateToScreen = {},
+            )
+        }
 
+        AppTheme {
+            Content(
+                content = CalendarState.Content(
+                    currentDate = getDate(),
+                    selectedChoice = Choice.Workout,
+                    reports = generateReports()
+                ),
+                navigateToDailyReport = {},
+                navigateToScreen = {},
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CalendarScreenPreview() {
+    Column {
+        AppTheme() {
+            Content(
+                content = CalendarState.Content(
+                    currentDate = getDate(),
+                    selectedChoice = Choice.Workout,
+                    reports = generateReports()
+                ),
+                navigateToDailyReport = {},
+                navigateToScreen = {},
+            )
+        }
+    }
 }
 
 

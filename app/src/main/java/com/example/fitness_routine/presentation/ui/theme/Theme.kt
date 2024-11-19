@@ -51,7 +51,7 @@ fun AppTheme(
 ) {
     val colorScheme = when {
         darkTheme -> darkScheme
-        else -> LightColorScheme
+        else -> lightScheme
     }
 
     MaterialTheme(
@@ -65,7 +65,7 @@ private val darkScheme = darkColorScheme(
     onPrimary = onPrimaryDark,
     primaryContainer = primaryContainerDark,
     onPrimaryContainer = onPrimaryContainerDark,
-//    secondary = secondaryDark,
+    secondary = secondaryDark,
 //    onSecondary = onSecondaryDark,
 //    secondaryContainer = secondaryContainerDark,
 //    onSecondaryContainer = onSecondaryContainerDark,
