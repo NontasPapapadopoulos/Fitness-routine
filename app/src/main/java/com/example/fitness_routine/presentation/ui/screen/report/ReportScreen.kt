@@ -52,6 +52,7 @@ import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenCon
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_CHECK_BOX
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 
@@ -362,28 +363,31 @@ private fun CheckBoxQuestion(
 @Composable
 @Preview
 private fun ReportPreview() {
-    Content(
-        content = ReportState.Content(
-            date = 1728939600000,
-            dailyReport = DailyReportDomainEntity(
-                gymNotes = "WoW",
-                proteinGrams = "140",
-                sleepQuality = "3",
-                performedWorkout = false,
-                hadCreatine = false,
-                hadCheatMeal = false,
-                musclesTrained = listOf(),
-                litersOfWater = "2.5",
-                cardioMinutes = "30",
-                date = Date()
-            )
-        ),
-        navigateBack = {},
-        onUpdateTextField = { _, _ -> },
-        onUpdateCheckField = { _, _ -> },
-        navigateToWorkout = {},
-        onSelectMuscle = {},
-    )
+    AppTheme(darkTheme = true) {
+        Content(
+            content = ReportState.Content(
+                date = 1728939600000,
+                dailyReport = DailyReportDomainEntity(
+                    gymNotes = "WoW",
+                    proteinGrams = "140",
+                    sleepQuality = "3",
+                    performedWorkout = false,
+                    hadCreatine = false,
+                    hadCheatMeal = false,
+                    musclesTrained = listOf(),
+                    litersOfWater = "2.5",
+                    cardioMinutes = "30",
+                    date = Date()
+                )
+            ),
+            navigateBack = {},
+            onUpdateTextField = { _, _ -> },
+            onUpdateCheckField = { _, _ -> },
+            navigateToWorkout = {},
+            onSelectMuscle = {},
+        )
+    }
+
 }
 
 class ReportScreenConstants private constructor() {

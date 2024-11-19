@@ -105,7 +105,7 @@ data class BottomBarChoice(
 @Composable
 @Preview
 private fun BottomBarPreview() {
-    AppTheme {
+    AppTheme(darkTheme = true) {
         BottomBar(
             onClick = {},
             currentScreen = Screen.Calendar,

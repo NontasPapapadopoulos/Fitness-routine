@@ -304,10 +304,10 @@ private fun Day(
     }
 
     val borderColor = if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.primary
-    else Color.Gray
+    else MaterialTheme.colorScheme.onPrimaryContainer
 
 
-    val backgroundColor =  if (isCurrentDay && isCurrentMonth) Color.Gray
+    val backgroundColor =  if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.onPrimaryContainer
     else if (isChoiceCompleted) {
         when (selectedChoice) {
             Choice.Workout -> MaterialTheme.colorScheme.primary
@@ -315,9 +315,9 @@ private fun Day(
             Choice.Cheat -> colorResource(R.color.cheat_meal)
         }
     }
-    else {
-        Color.Gray
-    }
+    else
+        MaterialTheme.colorScheme.onPrimaryContainer
+
 
     val textColor = if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
 
@@ -416,43 +416,66 @@ private fun YearlyCalendar(
 
 
             item(key = index) {
-                Column(
-                    modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
-                        .background(color = Color.Gray, shape = RoundedCornerShape(contentSpacing4))
-                        .padding(contentSpacing6)
-
-
-
-                ) {
-                    val isCurrentMonth = currentMonth == month.monthName
-                    if (isCurrentMonth)
-                        Text(
-                            text = "${getDayOfWeek().take(3)}, ${month.monthName.take(3)} $currentDay",
-                            style = MaterialTheme.typography.headlineLarge,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    else
-                        Text(text = month.monthName)
-
-
-                    DaysHeader()
-
-                    Month(
-                        days = month.days,
-                        nameOfMonth = month.monthName,
-                        currentMonth = currentMonth,
-                        currentDay = currentDay,
-                        dailyReports = dailyReports,
-                        navigateToDailyReport = navigateToDailyReport,
-                        selectedChoice = selectedChoice,
-                        emptyBoxes = emptyBoxes
-                    )
-                }
+                MonthContainer(
+                    currentMonth = currentMonth,
+                    month = month,
+                    currentDay = currentDay,
+                    dailyReports = dailyReports,
+                    navigateToDailyReport = navigateToDailyReport,
+                    selectedChoice = selectedChoice,
+                    emptyBoxes = emptyBoxes
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
 
+    }
+}
+
+@Composable
+private fun MonthContainer(
+    currentMonth: String,
+    month: Month,
+    currentDay: String,
+    dailyReports: List<DailyReportDomainEntity>,
+    navigateToDailyReport: (Long) -> Unit,
+    selectedChoice: Choice,
+    emptyBoxes: Int
+) {
+    Column(
+        modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape = RoundedCornerShape(contentSpacing4)
+            )
+            .padding(contentSpacing6)
+
+
+    ) {
+        val isCurrentMonth = currentMonth == month.monthName
+        if (isCurrentMonth)
+            Text(
+                text = "${getDayOfWeek().take(3)}, ${month.monthName.take(3)} $currentDay",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        else
+            Text(text = month.monthName)
+
+
+        DaysHeader()
+
+        Month(
+            days = month.days,
+            nameOfMonth = month.monthName,
+            currentMonth = currentMonth,
+            currentDay = currentDay,
+            dailyReports = dailyReports,
+            navigateToDailyReport = navigateToDailyReport,
+            selectedChoice = selectedChoice,
+            emptyBoxes = emptyBoxes
+        )
     }
 }
 
@@ -500,7 +523,7 @@ private fun DaysHeader() {
 @Preview
 @Composable
 private fun CalendarScreenPreview() {
-    AppTheme {
+    AppTheme(darkTheme = true) {
         Content(
             content = CalendarState.Content(
                 currentDate = getDate(),

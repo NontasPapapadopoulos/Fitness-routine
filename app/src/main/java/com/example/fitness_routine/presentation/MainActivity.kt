@@ -22,18 +22,14 @@ import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                MakeSystemBarsTransparent()
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.navigationBars)) { innerPadding ->
@@ -43,21 +39,6 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
-        }
-    }
-
-
-
-    @Composable
-    private fun MakeSystemBarsTransparent() {
-        val systemUiController = rememberSystemUiController()
-        val useDarkIcons = !isSystemInDarkTheme()
-
-        SideEffect {
-            systemUiController.setSystemBarsColor(
-                color = Color.Transparent,
-                darkIcons = useDarkIcons
-            )
         }
     }
 
