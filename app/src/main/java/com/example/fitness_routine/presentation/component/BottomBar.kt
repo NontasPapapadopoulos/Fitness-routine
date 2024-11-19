@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Fastfood
@@ -27,6 +28,8 @@ import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
 fun BottomBar(
@@ -59,11 +62,11 @@ fun BottomBar(
 
     Surface(
         tonalElevation = 2.dp,
-        shadowElevation = 2.dp
+        shadowElevation = 2.dp,
+        color = MaterialTheme.colorScheme.onPrimaryContainer
     ) {
         Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp),
+            .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -74,7 +77,8 @@ fun BottomBar(
                 Column(
                     modifier = Modifier
                         .clickable { onClick(it.screen) }
-                        .testTag(it.screen.name),
+                        .testTag(it.screen.name)
+                        .padding(vertical = contentSpacing4),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(

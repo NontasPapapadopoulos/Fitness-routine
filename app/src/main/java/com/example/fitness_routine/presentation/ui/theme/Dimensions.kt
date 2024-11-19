@@ -22,6 +22,7 @@ val contentSpacing17 = 68.dp
 
 val contentSize1 = 4.dp
 val contentSize2 = 8.dp
+val contentSize3 = 12.dp
 val contentSize4 = 16.dp
 val contentSize5 = 20.dp
 val contentSize6 = 24.dp
