@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
 fun BottomBar(
@@ -57,11 +62,11 @@ fun BottomBar(
 
     Surface(
         tonalElevation = 2.dp,
-        shadowElevation = 2.dp
+        shadowElevation = 2.dp,
+        color = MaterialTheme.colorScheme.onPrimaryContainer
     ) {
         Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp),
+            .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -72,18 +77,19 @@ fun BottomBar(
                 Column(
                     modifier = Modifier
                         .clickable { onClick(it.screen) }
-                        .testTag(it.screen.name),
+                        .testTag(it.screen.name)
+                        .padding(vertical = contentSpacing4),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         it.icon,
                         contentDescription = null,
-                        tint = if (isSelected) Color.Red else Color.Black
+                        tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = it.text,
-                        color = if (isSelected) Color.Red else Color.Black
+                        color =  if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
@@ -103,8 +109,11 @@ data class BottomBarChoice(
 @Composable
 @Preview
 private fun BottomBarPreview() {
-    BottomBar(
-        onClick = {},
-        currentScreen = Screen.Calendar,
-    )
+    AppTheme(darkTheme = true) {
+        BottomBar(
+            onClick = {},
+            currentScreen = Screen.Calendar,
+        )
+    }
+
 }

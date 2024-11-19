@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.ui.screen.splash
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,12 +13,16 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 
 
 @Composable
 fun SplashScreen() {
 
-    Scaffold {
+    Scaffold(
+        contentColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
 
         Box(
             modifier = Modifier
@@ -28,7 +33,11 @@ fun SplashScreen() {
             contentAlignment = Alignment.Center
         ) {
 
-            Text(text = "Fitness routine")
+            Text(
+                text = "Fitness routine tracker",
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleLarge
+            )
 
         }
     }
@@ -41,5 +50,7 @@ fun SplashScreen() {
 @Preview
 @Composable
 private fun SplashScreenPreview() {
-    SplashScreen()
+    AppTheme(darkTheme = true) {
+        SplashScreen()
+    }
 }

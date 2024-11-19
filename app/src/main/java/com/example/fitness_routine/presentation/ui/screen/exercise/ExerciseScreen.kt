@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +19,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,6 +49,7 @@ import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScree
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EXERCISE_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 
 @Composable
 fun ExerciseScreen(
@@ -219,7 +222,7 @@ private fun Exercise(
         IconButton(
             onClick =  { delete(exercise) },
             modifier = Modifier.testTag(DELETE_EXERCISE + exercise.name)) {
-            Icon(Icons.Default.Delete, contentDescription = null)
+            Icon(Icons.Default.RemoveCircleOutline, contentDescription = null, tint = MaterialTheme.colorScheme.onError)
         }
     }
 
@@ -229,17 +232,20 @@ private fun Exercise(
 @Preview
 @Composable
 private fun ExerciseContentPreview() {
-    ExerciseContent(
-        content = ExerciseState.Content(
-            exercises = generateExercises(),
-            newExercise = "bench press",
-            preSelectedMuscle = Muscle.Chest
-        ),
-        onNavigateBack = {},
-        onAddExercise = {},
-        onDeleteExercise = {},
-        onTextChanged = {}
-    )
+    AppTheme(darkTheme = true) {
+        ExerciseContent(
+            content = ExerciseState.Content(
+                exercises = generateExercises(),
+                newExercise = "bench press",
+                preSelectedMuscle = Muscle.Chest
+            ),
+            onNavigateBack = {},
+            onAddExercise = {},
+            onDeleteExercise = {},
+            onTextChanged = {}
+        )
+    }
+
 }
 
 private fun generateExercises(): List<ExerciseDomainEntity> {

@@ -150,6 +150,11 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+
+    implementation "androidx.compose.material3:material3:1.2.0"
+
+
 //    implementation("com.google.firebase:firebase-ath-ktx")
 //    implementation("com.google.firebase:firebase-auth:23.1.0")
     implementation("com.google.firebase:firebase-auth")

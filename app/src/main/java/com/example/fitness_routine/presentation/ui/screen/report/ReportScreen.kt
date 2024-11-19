@@ -1,6 +1,7 @@
 package com.example.fitness_routine.presentation.ui.screen.report
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -20,6 +23,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -30,14 +35,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
@@ -52,6 +61,11 @@ import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenCon
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_CHECK_BOX
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import com.example.fitness_routine.presentation.util.getIcon
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 
@@ -118,8 +132,11 @@ private fun Content(
                         Text(text = "Fitness Diary")
 
                         Text(text = content.date.toFormattedDate())
-                        Icon(Icons.Default.Delete, contentDescription = null,
-                            modifier = Modifier.testTag(DELETE_BUTTON))
+                        Icon(Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onError,
+                            modifier = Modifier.testTag(DELETE_BUTTON)
+                        )
                     }
                 },
                 navigationIcon = { BackButton(navigateBack) }
@@ -135,21 +152,43 @@ private fun Content(
                 .padding(20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            
-            CheckBoxQuestion(
-                text = "Workout: ",
+
+            ChoiceItem(
+                option = Choice.Workout,
                 isChecked = content.dailyReport.performedWorkout,
                 onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
-                testTag = WORKOUT_CHECK_BOX
+                testTag = WORKOUT_CHECK_BOX,
+                icon = Choice.Workout.getIcon()
             )
 
-            CheckBoxQuestion(
-                text = "Cheat Meal: ",
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
+            ChoiceItem(
+                option = Choice.Creatine,
+                isChecked = content.dailyReport.hadCreatine,
+                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) },
+                testTag = CREATINE_CHECK_BOX,
+                icon = Choice.Creatine.getIcon()
+            )
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
+
+            ChoiceItem(
+                option = Choice.Cheat,
                 isChecked = content.dailyReport.hadCheatMeal,
                 onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) },
-                testTag = CHEAT_MEAL_CHECK_BOX
+                testTag = CHEAT_MEAL_CHECK_BOX,
+                icon = Choice.Cheat.getIcon()
             )
 
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
+            SleepQuality(
+                level = if (content.dailyReport.sleepQuality.isNotEmpty()) content.dailyReport.sleepQuality.toInt() else 0,
+                onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
+            )
+
+            Spacer(modifier = Modifier.height(contentSpacing2))
 
             Input(
                 label = "Protein grams: ",
@@ -158,12 +197,17 @@ private fun Content(
                 testTag = PROTEIN_TEXT_FIELD
             )
 
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
+
             Input(
                 label = "Liters of water: ",
                 value = content.dailyReport.litersOfWater,
                 onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
                 testTag = WATER_TEXT_FIELD
             )
+
+            Spacer(modifier = Modifier.height(contentSpacing2))
 
             Input(
                 label = "Cardio minutes: ",
@@ -172,24 +216,16 @@ private fun Content(
                 testTag = CARDIO_TEXT_FIELD
             )
 
-
-            SleepQuality(
-                level = if (content.dailyReport.sleepQuality.isNotEmpty()) content.dailyReport.sleepQuality.toInt() else 0,
-                onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
-            )
-
-            CheckBoxQuestion(
-                text = "Creatine: ",
-                isChecked = content.dailyReport.hadCreatine,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) },
-                testTag = CREATINE_CHECK_BOX
-            )
+            Spacer(modifier = Modifier.height(contentSpacing2))
 
             MusclesTrained(
                 selectedMuscles = content.dailyReport.musclesTrained,
                 onSelectMuscle = { onSelectMuscle(it) },
                 testTag = MUSCLE_ITEM
             )
+
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
 
             GymNotes(
                 notes = content.dailyReport.gymNotes,
@@ -198,12 +234,14 @@ private fun Content(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Button(onClick = { navigateToWorkout(content.date) },
+            Button(
+                onClick = { navigateToWorkout(content.date) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
             ) {
-                Text(text = "Note workout details ")
+                Text(
+                    text = "Note workout details"
+                )
             }
 
         }
@@ -334,56 +372,111 @@ private fun Input(
 }
 
 
+//@Composable
+//private fun CheckBoxQuestion(
+//    text: String,
+//    isChecked: Boolean,
+//    onCheckedChange:  (Boolean) -> Unit,
+//    testTag: String
+//) {
+//    Row(
+//        modifier = Modifier.fillMaxWidth(),
+//        horizontalArrangement = Arrangement.SpaceBetween,
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        Text(text = text)
+//
+//
+//    }
+//}
+
 @Composable
-private fun CheckBoxQuestion(
-    text: String,
+private fun ChoiceItem(
+    option: Choice,
     isChecked: Boolean,
     onCheckedChange:  (Boolean) -> Unit,
-    testTag: String
+    testTag: String,
+    icon: ImageVector
 ) {
+
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape =  RoundedCornerShape(contentSpacing2)
+            )
+            .padding(contentSpacing2),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = text)
 
+
+        val color = when(option) {
+            Choice.Workout -> MaterialTheme.colorScheme.primary
+            Choice.Creatine -> colorResource(R.color.creatine)
+            Choice.Cheat -> colorResource(R.color.cheat_meal)
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                modifier =
+                Modifier.background(color = color, shape = RoundedCornerShape(contentSpacing4))
+                    .padding(contentSpacing3)
+            )
+
+            Spacer(modifier = Modifier.width(contentSpacing2))
+
+            Text(
+                text = option.value,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+        }
         Checkbox(
             checked = isChecked,
             onCheckedChange = onCheckedChange,
             modifier = Modifier.testTag(testTag)
         )
-    }
-}
 
+    }
+
+}
 
 
 
 @Composable
 @Preview
 private fun ReportPreview() {
-    Content(
-        content = ReportState.Content(
-            date = 1728939600000,
-            dailyReport = DailyReportDomainEntity(
-                gymNotes = "WoW",
-                proteinGrams = "140",
-                sleepQuality = "3",
-                performedWorkout = false,
-                hadCreatine = false,
-                hadCheatMeal = false,
-                musclesTrained = listOf(),
-                litersOfWater = "2.5",
-                cardioMinutes = "30",
-                date = Date()
-            )
-        ),
-        navigateBack = {},
-        onUpdateTextField = { _, _ -> },
-        onUpdateCheckField = { _, _ -> },
-        navigateToWorkout = {},
-        onSelectMuscle = {},
-    )
+    AppTheme(darkTheme = true) {
+        Content(
+            content = ReportState.Content(
+                date = 1728939600000,
+                dailyReport = DailyReportDomainEntity(
+                    gymNotes = "WoW",
+                    proteinGrams = "140",
+                    sleepQuality = "3",
+                    performedWorkout = false,
+                    hadCreatine = false,
+                    hadCheatMeal = false,
+                    musclesTrained = listOf(),
+                    litersOfWater = "2.5",
+                    cardioMinutes = "30",
+                    date = Date()
+                )
+            ),
+            navigateBack = {},
+            onUpdateTextField = { _, _ -> },
+            onUpdateCheckField = { _, _ -> },
+            navigateToWorkout = {},
+            onSelectMuscle = {},
+        )
+    }
+
 }
 
 class ReportScreenConstants private constructor() {

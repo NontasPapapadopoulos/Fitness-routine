@@ -27,7 +27,7 @@ import com.example.fitness_routine.data.util.Converters
         SettingsDataEntity::class
     ],
     exportSchema = false,
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase(): RoomDatabase() {

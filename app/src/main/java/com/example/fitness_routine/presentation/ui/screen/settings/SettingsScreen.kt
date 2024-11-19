@@ -1,14 +1,26 @@
 package com.example.fitness_routine.presentation.ui.screen.settings
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ElectricBolt
+import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -20,21 +32,35 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.Role.Companion.Switch
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
+import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.BREAK_DURATION_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.CHOICE_RADIO_BUTTON
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.DARK_MODE_SWITCH
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSize3
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing5
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
+import com.example.fitness_routine.presentation.util.getColor
+import com.example.fitness_routine.presentation.util.getIcon
 
 
 @Composable
@@ -151,44 +177,83 @@ private fun Filters(
     Text(text = "Select an option: ")
 
     options.forEach { option ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(3.dp)
-        ) {
-            RadioButton(
-                selected = (option == selectedOption),
-                onClick = {
-                    select(option)
-                },
-                modifier = Modifier.testTag(testTag + option.name)
-            )
-
-            Text(
-                text = option.value,
-                modifier = Modifier.padding(start = 3.dp)
-            )
-        }
+        ChoiceItem(
+            option = option,
+            selectedOption = selectedOption,
+            select = select,
+            icon = option.getIcon()
+        )
+        Spacer(modifier = Modifier.height(contentSpacing2))
     }
 
 }
 
+@Composable
+private fun ChoiceItem(
+    icon: ImageVector,
+    option: Choice,
+    selectedOption: Choice,
+    select: (Choice) -> Unit
+) {
+
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.onPrimaryContainer, shape =  RoundedCornerShape(contentSpacing2))
+            .padding(contentSpacing4),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                modifier =
+                Modifier.background(color = option.getColor(), shape = RoundedCornerShape(contentSpacing4))
+                    .padding(contentSpacing3)
+            )
+
+            Spacer(modifier = Modifier.width(contentSpacing2))
+
+            Text(
+                text = option.value,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+        }
+        RadioButton(
+            selected = (option == selectedOption),
+            onClick = { select(option) },
+//            modifier = Modifier.testTag(testTag + option.name)
+        )
+
+    }
+
+}
 
 @Preview
 @Composable
 private fun SettingsContentPreview() {
-    SettingsContent(
-        content = SettingsState.Content(
-            SettingsDomainEntity(
-            choice = Choice.Workout.name,
-            breakDuration = "60",
-            isDarkModeEnabled = true
-            )
-        ),
-        onNavigateBack = {},
-        onSelectChoice = {},
-        onToggleDarkMode = {},
-        onTextChanged = {},
-    )
+    AppTheme(darkTheme = true) {
+        SettingsContent(
+            content = SettingsState.Content(
+                SettingsDomainEntity(
+                    choice = Choice.Workout.name,
+                    breakDuration = "60",
+                    isDarkModeEnabled = true
+                )
+            ),
+            onNavigateBack = {},
+            onSelectChoice = {},
+            onToggleDarkMode = {},
+            onTextChanged = {},
+        )
+    }
 }
 
 
