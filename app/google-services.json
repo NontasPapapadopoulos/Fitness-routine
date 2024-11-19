@@ -12,7 +12,20 @@
           "package_name": "com.example.fitness_routine"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "673481352767-fcrhh1guggkf9u2ln0qvd9tvaai935t1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fitness_routine",
+            "certificate_hash": "ea47186e811450b5e5ab34f30239688a3eaf1bd6"
+          }
+        },
+        {
+          "client_id": "673481352767-kb4v5ep1le5q3j0ath41j5cdpt0t253g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBltvSsNaSqLIe_32cF3jqbLklWQt9K5s4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673481352767-7252pt8rm03lra5nm972m0jicitaf41m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

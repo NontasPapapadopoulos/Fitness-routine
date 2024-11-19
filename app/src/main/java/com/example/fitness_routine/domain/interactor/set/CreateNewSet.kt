@@ -19,6 +19,7 @@ class CreateNewSet @Inject constructor(
 
 
     override suspend fun invoke(params: Params) {
+
         val emptySet = SetDomainEntity(
             workoutDate = params.workoutDate,
             muscle = params.muscle,
