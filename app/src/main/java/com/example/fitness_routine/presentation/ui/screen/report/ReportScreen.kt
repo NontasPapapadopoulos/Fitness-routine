@@ -234,12 +234,14 @@ private fun Content(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Button(onClick = { navigateToWorkout(content.date) },
+            Button(
+                onClick = { navigateToWorkout(content.date) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
             ) {
-                Text(text = "Note workout details ")
+                Text(
+                    text = "Note workout details"
+                )
             }
 
         }

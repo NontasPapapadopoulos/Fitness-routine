@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -65,6 +66,7 @@ import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -151,7 +153,7 @@ private fun WorkoutContent(
                     ) {
 
                         Column {
-                            Text(text = "Workout")
+                            Text(text= "Workout")
                             Text(text = content.date.toFormattedDate())
                         }
 
@@ -224,17 +226,17 @@ private fun WorkoutContent(
                     }
                 }
 
-                if (setsByExercise.isEmpty()) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
-
-                    }
-                }
+//                if (setsByExercise.isEmpty()) {
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//
+//                        AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
+//
+//                    }
+//                }
 
 
             }
@@ -526,7 +528,10 @@ private fun Set(
 
 
         IconButton(onClick = { delete(set) } ) {
-            Icon(Icons.Default.Delete, contentDescription = null)
+            Icon(
+                Icons.Default.RemoveCircleOutline,
+                tint = MaterialTheme.colorScheme.onError,
+                contentDescription = null)
         }
     }
 }
@@ -544,11 +549,18 @@ private fun AddSet(
         horizontalArrangement = Arrangement.Center
     ) {
 
-        Text(text = "Add new Set")
+        Text(
+            text = "Add new Set",
+            color = MaterialTheme.colorScheme.primary
+        )
         IconButton(
             onClick = addSet
         ) {
-            Icon(Icons.Default.AddCircleOutline, contentDescription = null)
+            Icon(
+                Icons.Default.AddCircleOutline,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = null
+            )
         }
     }
 }
@@ -565,11 +577,18 @@ private fun AddExercise(
         horizontalArrangement = Arrangement.Center
     ) {
 
-        Text(text = "Add Exercise")
+        Text(
+            text = "Add Exercise",
+            color = MaterialTheme.colorScheme.primary
+        )
         IconButton(
             onClick = addExercise
         ) {
-            Icon(Icons.Default.AddCircleOutline, contentDescription = null)
+            Icon(
+                Icons.Default.AddCircleOutline,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = null
+            )
         }
     }
 }
@@ -595,28 +614,29 @@ private fun SetPreview() {
 @Preview
 @Composable
 private fun WorkoutContentPreview() {
-    WorkoutContent(
-        content = WorkoutState.Content(
-            sets = generateSets(),
-            exercises = generateExercises(),
-            date = 1728939600000,
-            musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
-            dailyReport = getDailyReport(),
-            dialog = null,
-            breakTimeDuration = "60"
-        ),
-        navigateBack = {},
-        onAddSet = {_, _ -> },
-        onDeleteSet = {},
-        onSelectMuscle = {},
-        onShowDialog = {},
-        onDismissDialog = {},
-        onAddExercise = {_, _ -> },
-        onNavigateToExercises = {},
-        onNavigateToScreen = {},
-        onUpdateSet = { _, _, _-> }
-    )
-
+    AppTheme(darkTheme = true) {
+        WorkoutContent(
+            content = WorkoutState.Content(
+                sets = generateSets(),
+                exercises = generateExercises(),
+                date = 1728939600000,
+                musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
+                dailyReport = getDailyReport(),
+                dialog = null,
+                breakTimeDuration = "60"
+            ),
+            navigateBack = {},
+            onAddSet = { _, _ -> },
+            onDeleteSet = {},
+            onSelectMuscle = {},
+            onShowDialog = {},
+            onDismissDialog = {},
+            onAddExercise = { _, _ -> },
+            onNavigateToExercises = {},
+            onNavigateToScreen = {},
+            onUpdateSet = { _, _, _ -> }
+        )
+    }
 }
 
 
@@ -633,13 +653,16 @@ private fun BreakDialogPreview() {
 @Preview
 @Composable
 private fun AddExerciseDialogPreview() {
-    AddExerciseDialog(
-        onDismissDialog = {},
-        exercises = generateExercises(),
-        selectedMuscle = Muscle.Chest,
-        onAddExercise = {_, _ ->},
-        onNavigateToExercises = {}
-    )
+    AppTheme(darkTheme = true) {
+        AddExerciseDialog(
+            onDismissDialog = {},
+            exercises = generateExercises(),
+            selectedMuscle = Muscle.Chest,
+            onAddExercise = {_, _ ->},
+            onNavigateToExercises = {}
+        )
+    }
+
 }
 
 
