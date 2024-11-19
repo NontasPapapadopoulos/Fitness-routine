@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 
 @Composable
 fun BottomBar(
@@ -78,12 +80,12 @@ fun BottomBar(
                     Icon(
                         it.icon,
                         contentDescription = null,
-                        tint = if (isSelected) Color.Red else Color.Black
+                        tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = it.text,
-                        color = if (isSelected) Color.Red else Color.Black
+                        color =  if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
                     )
                 }
 
@@ -103,8 +105,11 @@ data class BottomBarChoice(
 @Composable
 @Preview
 private fun BottomBarPreview() {
-    BottomBar(
-        onClick = {},
-        currentScreen = Screen.Calendar,
-    )
+    AppTheme {
+        BottomBar(
+            onClick = {},
+            currentScreen = Screen.Calendar,
+        )
+    }
+
 }

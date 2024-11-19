@@ -105,3 +105,10 @@ data class CustomCalendar(val years: List<Year>)
 
 
 
+fun getDayOfWeek(): String {
+    val currentDate = getDate()
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val date = LocalDate.parse(currentDate, formatter)
+    val dayOfWeek = date.dayOfWeek
+    return dayOfWeek.toString().lowercase().replaceFirstChar { it.uppercase() }
+}
