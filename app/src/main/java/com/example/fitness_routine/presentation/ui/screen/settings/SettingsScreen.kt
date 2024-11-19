@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ElectricBolt
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,6 +47,8 @@ import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
+import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.BREAK_DURATION_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.CHOICE_RADIO_BUTTON
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.DARK_MODE_SWITCH
@@ -56,6 +59,8 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing5
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
+import com.example.fitness_routine.presentation.util.getColor
+import com.example.fitness_routine.presentation.util.getIcon
 
 
 @Composable
@@ -172,12 +177,11 @@ private fun Filters(
     Text(text = "Select an option: ")
 
     options.forEach { option ->
-
         ChoiceItem(
             option = option,
             selectedOption = selectedOption,
             select = select,
-            icon = Icons.Filled.Fastfood
+            icon = option.getIcon()
         )
         Spacer(modifier = Modifier.height(contentSpacing2))
     }
@@ -201,11 +205,6 @@ private fun ChoiceItem(
     ) {
 
 
-        val color = when(option) {
-            Choice.Workout -> MaterialTheme.colorScheme.primary
-            Choice.Creatine -> colorResource(R.color.creatine)
-            Choice.Cheat -> colorResource(R.color.cheat_meal)
-        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -214,7 +213,7 @@ private fun ChoiceItem(
                 icon,
                 contentDescription = null,
                 modifier =
-                Modifier.background(color = color, shape = RoundedCornerShape(contentSpacing4))
+                Modifier.background(color = option.getColor(), shape = RoundedCornerShape(contentSpacing4))
                     .padding(contentSpacing3)
             )
 

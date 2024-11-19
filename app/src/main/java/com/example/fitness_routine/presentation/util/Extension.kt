@@ -1,6 +1,20 @@
 package com.example.fitness_routine.presentation.util
 
+import android.graphics.drawable.VectorDrawable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ElectricBolt
+import androidx.compose.material.icons.filled.Fastfood
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
+import com.example.fitness_routine.R
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
+import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -31,3 +45,20 @@ fun List<String>.convertToString(): String = this.joinToString(separator = ",")
 
 
 fun List<String>.toMuscles(): List<Muscle> = if (this.isEmpty()) listOf() else this.map { Muscle.valueOf(it) }
+
+
+fun Choice.getIcon(): ImageVector =
+    when(this) {
+        Choice.Workout -> Icons.Default.FitnessCenter
+        Choice.Creatine -> Icons.Default.ElectricBolt
+        Choice.Cheat -> Icons.Default.Fastfood
+    }
+
+
+@Composable
+fun Choice.getColor(): Color =
+    when(this) {
+        Choice.Workout -> MaterialTheme.colorScheme.primary
+        Choice.Creatine -> colorResource(R.color.creatine)
+        Choice.Cheat -> colorResource(R.color.cheat_meal)
+    }
