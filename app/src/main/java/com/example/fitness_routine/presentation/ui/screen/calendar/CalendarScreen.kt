@@ -225,16 +225,11 @@ private fun Content(
             topBar = {
                 TopAppBar(
                     title = {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceAround
-                        ) {
-                            Text(
-                                text = "Fitness Diary",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
+                        Text(
+                            text = "Fitness Diary",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleLarge
+                        )
                     },
                     navigationIcon = {
                         IconButton(
@@ -672,7 +667,8 @@ fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             cardioMinutes = "30",
-            date = date
+            date = date,
+            meal = ""
         )
     }
 }

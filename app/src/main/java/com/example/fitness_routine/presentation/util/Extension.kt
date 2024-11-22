@@ -37,6 +37,12 @@ fun Date.toFormattedDate(): String {
     return formatter.format(this)
 }
 
+//fun Date.format(): Date {
+//    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+//    val formattedDateString = formatter.format(this)
+//    return formatter.parse(formattedDateString)!!
+//}
+
 
 fun String.toList(): List<String> = this.split(",").map { it.trim() }
 

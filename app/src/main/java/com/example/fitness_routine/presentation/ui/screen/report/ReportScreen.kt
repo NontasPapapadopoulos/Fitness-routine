@@ -24,6 +24,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,6 +54,7 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.DELETE_BUTTON
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.GYM_NOTES_TEXT_FIELD
@@ -183,6 +185,15 @@ private fun Content(
 
             Spacer(modifier = Modifier.height(contentSpacing2))
 
+            if (content.dailyReport.hadCheatMeal) {
+                CheatMeal(
+                    meal = content.dailyReport.meal,
+                    onValueChange = { onUpdateTextField(it, Field.CheatMeal) }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(contentSpacing2))
+
             SleepQuality(
                 level = if (content.dailyReport.sleepQuality.isNotEmpty()) content.dailyReport.sleepQuality.toInt() else 0,
                 onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
@@ -289,15 +300,35 @@ private fun GymNotes(
     onValueChange: (String) -> Unit
 ) {
     Column {
-        Text(text = "Gym notes: ")
 
-        TextField(
+        OutlinedTextField(
             value = notes,
+            label = { Text(text = "Gym Notes") },
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
                 .testTag(GYM_NOTES_TEXT_FIELD)
+        )
+
+    }
+
+}
+
+
+@Composable
+private fun CheatMeal(
+    meal: String,
+    onValueChange: (String) -> Unit
+) {
+    Column {
+
+        OutlinedTextField(
+            value = meal,
+            onValueChange = onValueChange,
+            label = { Text(text = "Meal") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(CHEAT_MEAL_TEXT_FIELD)
         )
 
     }
@@ -400,10 +431,11 @@ private fun ChoiceItem(
 ) {
 
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
-                shape =  RoundedCornerShape(contentSpacing2)
+                shape = RoundedCornerShape(contentSpacing2)
             )
             .padding(contentSpacing2),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -424,7 +456,8 @@ private fun ChoiceItem(
                 icon,
                 contentDescription = null,
                 modifier =
-                Modifier.background(color = color, shape = RoundedCornerShape(contentSpacing4))
+                Modifier
+                    .background(color = color, shape = RoundedCornerShape(contentSpacing4))
                     .padding(contentSpacing3)
             )
 
@@ -462,10 +495,11 @@ private fun ReportPreview() {
                     sleepQuality = "3",
                     performedWorkout = false,
                     hadCreatine = false,
-                    hadCheatMeal = false,
+                    hadCheatMeal = true,
                     musclesTrained = listOf(),
                     litersOfWater = "2.5",
                     cardioMinutes = "30",
+                    meal = "Burger",
                     date = Date()
                 )
             ),
@@ -490,6 +524,7 @@ class ReportScreenConstants private constructor() {
         const val MUSCLE_ITEM = "muscle_item_"
         const val SLEEP_QUALITY = "sleep_quality"
         const val GYM_NOTES_TEXT_FIELD = "gym_notes_text_field"
+        const val CHEAT_MEAL_TEXT_FIELD = "cheat_meal_text_field"
         const val DELETE_BUTTON = "delete_button"
 
     }

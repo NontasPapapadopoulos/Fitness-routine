@@ -93,6 +93,7 @@ open class ReportViewModel @Inject constructor(
                     Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value.toList())
                     Field.CardioMinutes -> state.dailyReport.copy(cardioMinutes = it.value)
                     Field.ProteinGrams -> state.dailyReport.copy(proteinGrams = it.value)
+                    Field.CheatMeal -> state.dailyReport.copy(meal = it.value)
                 }
 
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
@@ -105,6 +106,7 @@ open class ReportViewModel @Inject constructor(
 
                 val dailyReport = state.dailyReport
                 val updatedMuscles = dailyReport.musclesTrained
+                    .filterNot { it.isEmpty() }
                     .toMutableList()
                     .apply {
                         if (contains(it.muscle)) remove(it.muscle) else add(it.muscle)
@@ -164,5 +166,6 @@ enum class Field {
     LitersOfWater,
     TrainedMuscles,
     CardioMinutes,
-    ProteinGrams
+    ProteinGrams,
+    CheatMeal
 }

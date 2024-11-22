@@ -1,12 +1,20 @@
 package com.example.fitness_routine.presentation.ui.screen.gym
 
 import android.widget.Toast
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -18,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -25,7 +34,10 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.toFormattedDate
+import com.example.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -35,6 +47,7 @@ import java.util.Date
 fun GymSessionsScreen(
     viewModel: GymSessionsViewModel = hiltViewModel(),
     navigateToScreen: (Screen) -> Unit,
+    navigateToWorkoutScreen: (Long) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -54,7 +67,8 @@ fun GymSessionsScreen(
         is GymSessionsState.Content -> {
             GymSessionsContent(
                 content = state,
-                navigateToScreen = navigateToScreen
+                navigateToScreen = navigateToScreen,
+                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) }
             )
         }
         GymSessionsState.Idle -> {
@@ -70,7 +84,8 @@ fun GymSessionsScreen(
 @Composable
 private fun GymSessionsContent(
     content: GymSessionsState.Content,
-    navigateToScreen: (Screen) -> Unit
+    navigateToScreen: (Screen) -> Unit,
+    navigateToWorkoutScreen: (Long) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -80,8 +95,7 @@ private fun GymSessionsContent(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text(text = "Fitness Diary")
-
+                        Text(text = "Workout Sessions")
                     }
                 },
 
@@ -98,22 +112,65 @@ private fun GymSessionsContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it)
-                .semantics { contentDescription = Screen.Gym.name },
+                .verticalScroll(rememberScrollState())
+                .padding(contentSpacing4)
+                .padding(it),
+            //.semantics { contentDescription = Screen.Gym.name },
 
-            ) {
+        ) {
 
-            content.dailyReports
-                .filter { it.performedWorkout }
-                .map { it.date }
-                .forEachIndexed { index, date ->
+            SessionsContainer(
+                content.dailyReports,
+                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) }
+            )
 
-                    Text(text = "${index +1} -  ${date.toFormattedDate()}")
-                }
         }
     }
 }
 
+
+@Composable
+private fun SessionsContainer(
+    reports: List<DailyReportDomainEntity>,
+    navigateToWorkoutScreen: (Long) -> Unit
+) {
+
+    val monthGroups = reports
+        .filter { it.performedWorkout }
+        .groupBy {
+            val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            localDate.month
+        }
+
+    monthGroups.onEachIndexed { _, entry ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(contentSpacing2)
+                )
+                .padding(contentSpacing4)
+
+        ) {
+            Text(text = entry.key.name)
+            Spacer(modifier = Modifier.height(contentSpacing4))
+
+            entry.value.onEachIndexed { index, report ->
+                Text(
+                    text = "${index + 1} - ${report.date.toFormattedDate()} - ${report.musclesTrained.joinToString()}",
+                    modifier = Modifier.clickable { navigateToWorkoutScreen(report.date.toTimeStamp()) }
+                )
+
+                if (index < entry.value.size -1 )
+                    Spacer(modifier = Modifier.height(contentSpacing4))
+
+            }
+        }
+        Spacer(modifier = Modifier.height(contentSpacing2))
+    }
+}
 
 
 
@@ -124,7 +181,8 @@ private fun GymSessionsContentPreview() {
         content = GymSessionsState.Content(
             dailyReports = generateReports()
         ),
-        navigateToScreen = {}
+        navigateToScreen = {},
+        navigateToWorkoutScreen = {}
     )
 }
 
@@ -142,7 +200,8 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             cardioMinutes = "30",
-            date = date
+            date = date,
+            meal = ""
         )
     }
 }

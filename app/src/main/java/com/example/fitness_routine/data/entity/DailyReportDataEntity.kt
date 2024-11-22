@@ -20,7 +20,8 @@ data class DailyReportDataEntity(
     val gymNotes: String,
     val sleepQuality: String, // from 1 to 5
     val litersOfWater: String,
-    val musclesTrained: String
+    val musclesTrained: String,
+    val meal: String
 )
 
 

@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.workout
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
+import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -337,26 +338,36 @@ fun AddExerciseDialog(
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = {
-                        onAddExercise(selectedMuscle, selectedOption)
-                        onDismissDialog()
-                    }
-                ) {
-                    Text("Confirm")
-                }
-            },
-            dismissButton = {
+
                 Row {
                     Button(onClick = { onNavigateToExercises(selectedMuscle) }) {
                         Text(text = "Add more")
                     }
 
-                    Button(onClick = onDismissDialog) {
-                        Text("Cancel")
-                    }
                 }
 
+            },
+            dismissButton = {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = onDismissDialog,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Cancel")
+                    }
+
+                    Spacer(modifier = Modifier.weight(0.1f))
+
+                    Button(
+                        onClick = {
+                            onAddExercise(selectedMuscle, selectedOption)
+                            onDismissDialog()
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Confirm")
+                    }
+                }
             }
         )
     }
@@ -705,6 +716,8 @@ private fun getDailyReport(): DailyReportDomainEntity {
         sleepQuality = "4",
         proteinGrams = "120",
         cardioMinutes = "30",
-        date = date
+        date = date,
+        meal = ""
     )
 }
+//8 Pro API 35 is already running. If that is not the case, delete /home/nondas/.android/avd/Pixel_8_Pro_API_35.avd/*.lock and try again

@@ -103,7 +103,6 @@ fun RootNavGraph(
         ) {
             GymSessionsScreen(
                 navigateToScreen = {
-
                     when (it) {
                         Screen.Calendar,
                         Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
@@ -111,7 +110,8 @@ fun RootNavGraph(
                         else -> {}
                     }
 
-                }
+                },
+                navigateToWorkoutScreen = { date -> navController.navigate(Screen.Workout.params(date)) }
             )
         }
 

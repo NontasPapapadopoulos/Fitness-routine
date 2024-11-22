@@ -3,16 +3,10 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
-<!--      <SelectionState runConfigName="Fitness-Diary">-->
         <option name="selectionMode" value="DROPDOWN" />
-<!--        <DropdownSelection timestamp="2024-11-19T08:02:05.402869100Z">-->
-<!--          <Target type="DEFAULT_BOOT">-->
-<!--            <handle>-->
-<!--              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\n.papadopoulos\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />-->
-<!--            </handle>-->
-<!--          </Target>-->
-<!--        </DropdownSelection>-->
-<!--        <DialogSelection />-->
+      </SelectionState>
+      <SelectionState runConfigName="routeNavHost()">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

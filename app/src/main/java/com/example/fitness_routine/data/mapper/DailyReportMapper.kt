@@ -19,7 +19,8 @@ fun DailyReportDataEntity.toDomain(): DailyReportDomainEntity = DailyReportDomai
     litersOfWater = litersOfWater,
     musclesTrained = musclesTrained.toList(),
     cardioMinutes = cardioMinutes,
-    date = date.toDate()
+    date = date.toDate(),
+    meal = meal
 )
 
 
@@ -34,5 +35,6 @@ fun DailyReportDomainEntity.toData(): DailyReportDataEntity = DailyReportDataEnt
     litersOfWater = litersOfWater,
     musclesTrained = musclesTrained.convertToString(),
     cardioMinutes = cardioMinutes,
-    date = date.toTimeStamp()
+    date = date.toTimeStamp(),
+    meal = meal
 )
