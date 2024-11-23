@@ -18,15 +18,21 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -283,7 +289,7 @@ private fun NutritionTab(
     Input(
         label = "Protein: ",
         unit = "gr",
-        value = dailyReport.proteinGrams.asTextFieldValue(),
+        value = dailyReport.proteinGrams,
         onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
         testTag = PROTEIN_TEXT_FIELD
     )
@@ -294,7 +300,7 @@ private fun NutritionTab(
     Input(
         label = "Water: ",
         unit = "Liters",
-        value = dailyReport.litersOfWater.asTextFieldValue(),
+        value = dailyReport.litersOfWater,
         onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
         testTag = WATER_TEXT_FIELD
     )
@@ -310,18 +316,12 @@ private fun WorkoutTab(
     onSelectMuscle: (String) -> Unit,
     date: Long
 ) {
-    Spacer(modifier = Modifier.height(contentSpacing2))
 
-    Input(
-        label = "Cardio minutes: ",
-        unit = "minutes",
-        value = dailyReport.cardioMinutes.asTextFieldValue(),
-        onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
-        testTag = CARDIO_TEXT_FIELD
-    )
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
         ChoiceItem(
             option = Choice.Workout,
             isChecked = dailyReport.performedWorkout,
@@ -493,7 +493,7 @@ private fun Star(
 private fun Input(
     label: String,
     unit: String,
-    value: TextFieldValue,
+    value: String,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     testTag: String
@@ -510,7 +510,7 @@ private fun Input(
 
 
         OutlinedTextField(
-            value = value,
+            value = value.asTextFieldValue(),
             onValueChange = { onValueChange(it.text) },
             label = { Text(unit) },
             modifier = Modifier
