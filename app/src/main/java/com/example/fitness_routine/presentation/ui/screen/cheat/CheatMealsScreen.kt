@@ -33,6 +33,7 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
 import java.time.ZoneId
@@ -139,13 +140,13 @@ private fun MealsContainer(reports: List<DailyReportDomainEntity>) {
                     .padding(contentSpacing4)
 
             ) {
-                Text(text = entry.key.name)
+                Text(text = entry.key.name.capitalize())
                 Spacer(modifier = Modifier.height(contentSpacing4))
 
                 entry.value.onEachIndexed { index, report ->
                     Text(text = "${index + 1} - ${report.date.toFormattedDate()} - ${report.meal}")
 
-                    if (index < entry.value.size -1 )
+                    if (index < entry.value.size - 1)
                         Spacer(modifier = Modifier.height(contentSpacing4))
 
                 }

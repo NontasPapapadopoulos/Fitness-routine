@@ -110,5 +110,5 @@ fun getDayOfWeek(): String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     val date = LocalDate.parse(currentDate, formatter)
     val dayOfWeek = date.dayOfWeek
-    return dayOfWeek.toString().lowercase().replaceFirstChar { it.uppercase() }
+    return dayOfWeek.toString().capitalize()
 }

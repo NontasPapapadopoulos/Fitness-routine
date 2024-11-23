@@ -36,6 +36,7 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import com.example.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
@@ -154,7 +155,7 @@ private fun SessionsContainer(
                 .padding(contentSpacing4)
 
         ) {
-            Text(text = entry.key.name)
+            Text(text = entry.key.name.capitalize())
             Spacer(modifier = Modifier.height(contentSpacing4))
 
             entry.value.onEachIndexed { index, report ->
