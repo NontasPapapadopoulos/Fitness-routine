@@ -210,7 +210,7 @@ private fun Content(
 
             Input(
                 label = "Protein grams: ",
-                value = content.dailyReport.proteinGrams,
+                value = content.dailyReport.proteinGrams.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
                 testTag = PROTEIN_TEXT_FIELD
             )
@@ -220,7 +220,7 @@ private fun Content(
 
             Input(
                 label = "Liters of water: ",
-                value = content.dailyReport.litersOfWater,
+                value = content.dailyReport.litersOfWater.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
                 testTag = WATER_TEXT_FIELD
             )
@@ -229,7 +229,7 @@ private fun Content(
 
             Input(
                 label = "Cardio minutes: ",
-                value = content.dailyReport.cardioMinutes,
+                value = content.dailyReport.cardioMinutes.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
                 testTag = CARDIO_TEXT_FIELD
             )
@@ -309,9 +309,9 @@ private fun GymNotes(
     Column {
 
         OutlinedTextField(
-            value = notes,
+            value = notes.asTextFieldValue(),
             label = { Text(text = "Gym Notes") },
-            onValueChange = onValueChange,
+            onValueChange = { onValueChange(it.text) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -330,24 +330,13 @@ private fun CheatMeal(
 ) {
     Column {
 
-        val cursorPosition = remember {
-            mutableStateOf(selectAllPosition)
-        }
-        val value = meal.asTextFieldValue(cursorPosition.value)
+        val cursorPosition = remember { mutableStateOf(meal.length) }
+        val value = meal.asTextFieldValue()
 
         OutlinedTextField(
             value = value,
             onValueChange = { textFieldValue ->
-                if (textFieldValue.text != meal && !textFieldValue.text.contains('\n')) {
-                    cursorPosition.value = meal.updateCursor(cursorPosition.value, textFieldValue.text)
-                    onValueChange(textFieldValue.text)
-                }
-                else if (cursorPosition.value == selectAllPosition) {
-                    cursorPosition.value = meal.moveCursorToEnd()
-                }
-                else {
-                    cursorPosition.value = meal.moveCursorToEnd()
-                }
+                onValueChange(textFieldValue.text)
             },
             singleLine = true,
             label = { Text(text = "Meal") },
@@ -399,7 +388,7 @@ private fun Star(
 @Composable
 private fun Input(
     label: String,
-    value: String,
+    value: TextFieldValue,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     testTag: String
@@ -412,11 +401,13 @@ private fun Input(
         Text(
             text = label,
             modifier = Modifier.weight(1f)
+
         )
 
-        TextField(
+
+        OutlinedTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = { onValueChange(it.text) },
             modifier = Modifier
                 .weight(1f)
                 .testTag(testTag),
@@ -428,23 +419,6 @@ private fun Input(
 }
 
 
-//@Composable
-//private fun CheckBoxQuestion(
-//    text: String,
-//    isChecked: Boolean,
-//    onCheckedChange:  (Boolean) -> Unit,
-//    testTag: String
-//) {
-//    Row(
-//        modifier = Modifier.fillMaxWidth(),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Text(text = text)
-//
-//
-//    }
-//}
 
 @Composable
 private fun ChoiceItem(

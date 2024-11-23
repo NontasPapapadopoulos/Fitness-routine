@@ -68,6 +68,7 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.util.asTextFieldValue
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -226,19 +227,6 @@ private fun WorkoutContent(
                         AddSet(addSet = { onAddSet(muscle, exercise) })
                     }
                 }
-
-//                if (setsByExercise.isEmpty()) {
-//                    Row(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        horizontalArrangement = Arrangement.SpaceBetween,
-//                        verticalAlignment = Alignment.CenterVertically
-//                    ) {
-//
-//                        AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
-//
-//                    }
-//                }
-
 
             }
 
@@ -514,8 +502,8 @@ private fun Set(
 
 
         OutlinedTextField(
-            value = set.weight.toString(),
-            onValueChange = { update(set, SetField.Weight, it) },
+            value = set.weight.asTextFieldValue(),
+            onValueChange = { update(set, SetField.Weight, it.text) },
             singleLine = true,
             label = { Text(text = "Weight") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -527,8 +515,8 @@ private fun Set(
         Spacer(modifier = Modifier.width(10.dp))
 
         OutlinedTextField(
-            value = set.repeats.toString(),
-            onValueChange = { update(set, SetField.Repeat, it) },
+            value = set.repeats.asTextFieldValue(),
+            onValueChange = { update(set, SetField.Repeat, it.text) },
             singleLine = true,
             label = { Text(text = "Repeats") },
             keyboardOptions = KeyboardOptions.Default.copy(
