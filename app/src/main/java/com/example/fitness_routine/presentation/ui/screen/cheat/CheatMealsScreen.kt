@@ -182,7 +182,8 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             proteinGrams = "120",
             cardioMinutes = "30",
             date = date,
-            meal = "Burger"
+            meal = "Burger",
+            cardio = ""
         )
     }
 }

@@ -20,7 +20,8 @@ fun DailyReportDataEntity.toDomain(): DailyReportDomainEntity = DailyReportDomai
     musclesTrained = musclesTrained.toList(),
     cardioMinutes = cardioMinutes,
     date = date.toDate(),
-    meal = meal
+    meal = meal,
+    cardio = cardio
 )
 
 
@@ -36,5 +37,6 @@ fun DailyReportDomainEntity.toData(): DailyReportDataEntity = DailyReportDataEnt
     musclesTrained = musclesTrained.convertToString(),
     cardioMinutes = cardioMinutes,
     date = date.toTimeStamp(),
-    meal = meal
+    meal = meal,
+    cardio = cardio
 )

@@ -717,7 +717,8 @@ private fun getDailyReport(): DailyReportDomainEntity {
         proteinGrams = "120",
         cardioMinutes = "30",
         date = date,
-        meal = ""
+        meal = "",
+        cardio = ""
     )
 }
 //8 Pro API 35 is already running. If that is not the case, delete /home/nondas/.android/avd/Pixel_8_Pro_API_35.avd/*.lock and try again

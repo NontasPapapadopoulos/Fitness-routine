@@ -18,23 +18,30 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,19 +50,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_DROP_DOWN
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TYPE_DROP_DOWN_ITEM
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
@@ -130,6 +140,9 @@ private fun Content(
     onSelectMuscle: (String) -> Unit
 ) {
 
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val tabs = listOf(Tab.Workout, Tab.Nutrition)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -147,6 +160,8 @@ private fun Content(
                             modifier = Modifier.testTag(DELETE_BUTTON)
                         )
                     }
+
+
                 },
                 navigationIcon = { BackButton(navigateBack) }
             )
@@ -158,114 +173,203 @@ private fun Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(20.dp)
+                .padding(contentSpacing4)
                 .verticalScroll(rememberScrollState())
         ) {
 
-            ChoiceItem(
-                option = Choice.Workout,
-                isChecked = content.dailyReport.performedWorkout,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
-                testTag = WORKOUT_CHECK_BOX,
-                icon = Choice.Workout.getIcon()
+
+            Tabs(
+                selectedTabIndex = selectedTabIndex,
+                selectTab = { selectedTabIndex = it },
+                tabs = tabs
             )
 
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            ChoiceItem(
-                option = Choice.Creatine,
-                isChecked = content.dailyReport.hadCreatine,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) },
-                testTag = CREATINE_CHECK_BOX,
-                icon = Choice.Creatine.getIcon()
-            )
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-
-            ChoiceItem(
-                option = Choice.Cheat,
-                isChecked = content.dailyReport.hadCheatMeal,
-                onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) },
-                testTag = CHEAT_MEAL_CHECK_BOX,
-                icon = Choice.Cheat.getIcon()
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            if (content.dailyReport.hadCheatMeal) {
-                CheatMeal(
-                    meal = content.dailyReport.meal,
-                    onValueChange = { onUpdateTextField(it, Field.CheatMeal) }
-                )
+            val selectedTab = tabs[selectedTabIndex]
+            when (selectedTab) {
+                is Tab.Nutrition -> {
+                    NutritionTab(
+                        dailyReport = content.dailyReport,
+                        onUpdateCheckField = { isChecked, field -> onUpdateCheckField(isChecked, field) },
+                        onUpdateTextField = { value, field -> onUpdateTextField(value, field) }
+                    )
+                }
+                is Tab.Workout -> {
+                    WorkoutTab(
+                        dailyReport = content.dailyReport,
+                        onUpdateCheckField = { isChecked, field -> onUpdateCheckField(isChecked, field) },
+                        onUpdateTextField = { value, field -> onUpdateTextField(value, field) },
+                        navigateToWorkout = navigateToWorkout,
+                        onSelectMuscle = onSelectMuscle,
+                        date = content.date
+                    )
+                }
             }
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            SleepQuality(
-                level = if (content.dailyReport.sleepQuality.isNotEmpty()) content.dailyReport.sleepQuality.toInt() else 0,
-                onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            Input(
-                label = "Protein grams: ",
-                value = content.dailyReport.proteinGrams,
-                onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
-                testTag = PROTEIN_TEXT_FIELD
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-
-            Input(
-                label = "Liters of water: ",
-                value = content.dailyReport.litersOfWater,
-                onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
-                testTag = WATER_TEXT_FIELD
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            Input(
-                label = "Cardio minutes: ",
-                value = content.dailyReport.cardioMinutes,
-                onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
-                testTag = CARDIO_TEXT_FIELD
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-            MusclesTrained(
-                selectedMuscles = content.dailyReport.musclesTrained,
-                onSelectMuscle = { onSelectMuscle(it) },
-                testTag = MUSCLE_ITEM
-            )
-
-            Spacer(modifier = Modifier.height(contentSpacing2))
-
-
-            GymNotes(
-                notes = content.dailyReport.gymNotes,
-                onValueChange = { onUpdateTextField(it, Field.GymNotes) }
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = { navigateToWorkout(content.date) },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Note workout details"
-                )
-            }
-
         }
     }
 
+}
 
+
+@Composable
+private fun Tabs(
+    selectedTabIndex: Int,
+    selectTab: (Int) -> Unit,
+    tabs: List<Tab>
+) {
+    TabRow(
+        selectedTabIndex = selectedTabIndex,
+        tabs = {
+            tabs.forEachIndexed { index, tab ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(contentSpacing3)
+                        .clickable { selectTab(index) }
+                ) {
+                    Icon(imageVector = tab.icon, contentDescription = null)
+
+                    Spacer(modifier = Modifier.width(contentSpacing2))
+
+                    Text(
+                        text = tab.name,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                }
+            }
+        }
+    )
+}
+
+
+
+@Composable
+private fun NutritionTab(
+    dailyReport: DailyReportDomainEntity,
+    onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
+    onUpdateTextField: (String, Field) -> Unit,
+) {
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    ChoiceItem(
+        option = Choice.Creatine,
+        isChecked = dailyReport.hadCreatine,
+        onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Creatine) },
+        testTag = CREATINE_CHECK_BOX,
+        icon = Choice.Creatine.getIcon()
+    )
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    ChoiceItem(
+        option = Choice.Cheat,
+        isChecked = dailyReport.hadCheatMeal,
+        onCheckedChange = { onUpdateCheckField(it, CheckBoxField.CheatMeal) },
+        testTag = CHEAT_MEAL_CHECK_BOX,
+        icon = Choice.Cheat.getIcon()
+    )
+
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    if (dailyReport.hadCheatMeal) {
+        CheatMeal(
+            meal = dailyReport.meal,
+            onValueChange = { onUpdateTextField(it, Field.CheatMeal) }
+        )
+    }
+
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    SleepQuality(
+        level = if (dailyReport.sleepQuality.isNotEmpty()) dailyReport.sleepQuality.toInt() else 0,
+        onLevelChange = { onUpdateTextField(it.toString(), Field.SleepQuality) }
+    )
+
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    Input(
+        label = "Protein grams: ",
+        value = dailyReport.proteinGrams,
+        onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
+        testTag = PROTEIN_TEXT_FIELD
+    )
+
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+
+    Input(
+        label = "Liters of water: ",
+        value = dailyReport.litersOfWater,
+        onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
+        testTag = WATER_TEXT_FIELD
+    )
+
+}
+
+@Composable
+private fun WorkoutTab(
+    dailyReport: DailyReportDomainEntity,
+    onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
+    onUpdateTextField: (String, Field) -> Unit,
+    navigateToWorkout: (Long) -> Unit,
+    onSelectMuscle: (String) -> Unit,
+    date: Long
+) {
+    Spacer(modifier = Modifier.height(contentSpacing2))
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        ChoiceItem(
+            option = Choice.Workout,
+            isChecked = dailyReport.performedWorkout,
+            onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
+            testTag = WORKOUT_CHECK_BOX,
+            icon = Choice.Workout.getIcon()
+        )
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+        Input(
+            label = "Cardio minutes: ",
+            value = dailyReport.cardioMinutes,
+            onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
+            testTag = CARDIO_TEXT_FIELD
+        )
+
+        if (dailyReport.cardioMinutes.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(contentSpacing2))
+            CardioType()
+        }
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+        MusclesTrained(
+            selectedMuscles = dailyReport.musclesTrained,
+            onSelectMuscle = { onSelectMuscle(it) },
+            testTag = MUSCLE_ITEM
+        )
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+
+        GymNotes(
+            notes = dailyReport.gymNotes,
+            onValueChange = { onUpdateTextField(it, Field.GymNotes) }
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Button(
+            onClick = { navigateToWorkout(date) },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "Note workout details"
+            )
+        }
+    }
 
 }
 
@@ -293,9 +397,6 @@ private fun SleepQuality(
         )
 
     }
-
-
-
 }
 
 
@@ -428,23 +529,7 @@ private fun Input(
 }
 
 
-//@Composable
-//private fun CheckBoxQuestion(
-//    text: String,
-//    isChecked: Boolean,
-//    onCheckedChange:  (Boolean) -> Unit,
-//    testTag: String
-//) {
-//    Row(
-//        modifier = Modifier.fillMaxWidth(),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Text(text = text)
-//
-//
-//    }
-//}
+
 
 @Composable
 private fun ChoiceItem(
@@ -505,6 +590,54 @@ private fun ChoiceItem(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CardioType() {
+
+    val cardioTypes = Cardio.entries
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOption by remember {
+        mutableStateOf("")
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier.testTag(CARDIO_DROP_DOWN)
+    ) {
+        TextField(
+            value = selectedOption,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Cardio") },
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            cardioTypes.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option.name) },
+                    onClick = {
+                        selectedOption = option.name
+                        expanded = false
+                    },
+                    modifier = Modifier.testTag(CARDIO_TYPE_DROP_DOWN_ITEM + option.name)
+                )
+            }
+        }
+    }
+
+}
+
 
 
 @Composable
@@ -525,7 +658,8 @@ private fun ReportPreview() {
                     litersOfWater = "2.5",
                     cardioMinutes = "30",
                     meal = "Burger",
-                    date = Date()
+                    date = Date(),
+                    cardio = Cardio.Bicycle.name
                 )
             ),
             navigateBack = {},
@@ -551,6 +685,13 @@ class ReportScreenConstants private constructor() {
         const val GYM_NOTES_TEXT_FIELD = "gym_notes_text_field"
         const val CHEAT_MEAL_TEXT_FIELD = "cheat_meal_text_field"
         const val DELETE_BUTTON = "delete_button"
+        const val CARDIO_DROP_DOWN = "cardio_drop_down"
+        const val CARDIO_TYPE_DROP_DOWN_ITEM = "cardio_type_drop_down_item"
 
     }
+}
+
+sealed class Tab(val name: String, val icon: ImageVector) {
+    object Nutrition: Tab("Nutrition", Icons.Filled.Restaurant)
+    object Workout: Tab("Workout", Icons.Filled.SportsGymnastics)
 }

@@ -94,6 +94,7 @@ open class ReportViewModel @Inject constructor(
                     Field.CardioMinutes -> state.dailyReport.copy(cardioMinutes = it.value)
                     Field.ProteinGrams -> state.dailyReport.copy(proteinGrams = it.value)
                     Field.CheatMeal -> state.dailyReport.copy(meal = it.value)
+                    Field.Cardio -> state.dailyReport.copy(cardio = it.value)
                 }
 
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
@@ -167,5 +168,6 @@ enum class Field {
     TrainedMuscles,
     CardioMinutes,
     ProteinGrams,
-    CheatMeal
+    CheatMeal,
+    Cardio
 }
