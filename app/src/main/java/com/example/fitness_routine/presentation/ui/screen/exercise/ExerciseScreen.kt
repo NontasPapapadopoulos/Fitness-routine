@@ -191,6 +191,7 @@ private fun ExerciseContent(
 
                 Button(
                     onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
+                    enabled = content.newExercise.isNotEmpty(),
                     modifier = Modifier.weight(0.45f)
                         .testTag(ADD_EXERCISE_BUTTON)
                 ) {

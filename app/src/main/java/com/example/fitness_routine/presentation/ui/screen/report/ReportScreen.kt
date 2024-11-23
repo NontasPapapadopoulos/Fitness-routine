@@ -18,20 +18,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Restaurant
-import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -160,8 +155,6 @@ private fun Content(
                             modifier = Modifier.testTag(DELETE_BUTTON)
                         )
                     }
-
-
                 },
                 navigationIcon = { BackButton(navigateBack) }
             )
@@ -288,8 +281,9 @@ private fun NutritionTab(
     Spacer(modifier = Modifier.height(contentSpacing2))
 
     Input(
-        label = "Protein grams: ",
-        value = dailyReport.proteinGrams,
+        label = "Protein: ",
+        unit = "gr",
+        value = dailyReport.proteinGrams.asTextFieldValue(),
         onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
         testTag = PROTEIN_TEXT_FIELD
     )
@@ -298,8 +292,9 @@ private fun NutritionTab(
 
 
     Input(
-        label = "Liters of water: ",
-        value = dailyReport.litersOfWater,
+        label = "Water: ",
+        unit = "Liters",
+        value = dailyReport.litersOfWater.asTextFieldValue(),
         onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
         testTag = WATER_TEXT_FIELD
     )
@@ -317,6 +312,13 @@ private fun WorkoutTab(
 ) {
     Spacer(modifier = Modifier.height(contentSpacing2))
 
+    Input(
+        label = "Cardio minutes: ",
+        unit = "minutes",
+        value = dailyReport.cardioMinutes.asTextFieldValue(),
+        onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
+        testTag = CARDIO_TEXT_FIELD
+    )
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -331,7 +333,8 @@ private fun WorkoutTab(
         Spacer(modifier = Modifier.height(contentSpacing2))
 
         Input(
-            label = "Cardio minutes: ",
+            label = "Cardio: ",
+            unit = "minutes",
             value = dailyReport.cardioMinutes,
             onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
             testTag = CARDIO_TEXT_FIELD
@@ -410,9 +413,9 @@ private fun GymNotes(
     Column {
 
         OutlinedTextField(
-            value = notes,
+            value = notes.asTextFieldValue(),
             label = { Text(text = "Gym Notes") },
-            onValueChange = onValueChange,
+            onValueChange = { onValueChange(it.text) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -431,24 +434,13 @@ private fun CheatMeal(
 ) {
     Column {
 
-        val cursorPosition = remember {
-            mutableStateOf(selectAllPosition)
-        }
-        val value = meal.asTextFieldValue(cursorPosition.value)
+        val cursorPosition = remember { mutableStateOf(meal.length) }
+        val value = meal.asTextFieldValue()
 
         OutlinedTextField(
             value = value,
             onValueChange = { textFieldValue ->
-                if (textFieldValue.text != meal && !textFieldValue.text.contains('\n')) {
-                    cursorPosition.value = meal.updateCursor(cursorPosition.value, textFieldValue.text)
-                    onValueChange(textFieldValue.text)
-                }
-                else if (cursorPosition.value == selectAllPosition) {
-                    cursorPosition.value = meal.moveCursorToEnd()
-                }
-                else {
-                    cursorPosition.value = meal.moveCursorToEnd()
-                }
+                onValueChange(textFieldValue.text)
             },
             singleLine = true,
             label = { Text(text = "Meal") },
@@ -500,7 +492,8 @@ private fun Star(
 @Composable
 private fun Input(
     label: String,
-    value: String,
+    unit: String,
+    value: TextFieldValue,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     testTag: String
@@ -515,9 +508,11 @@ private fun Input(
             modifier = Modifier.weight(1f)
         )
 
-        TextField(
+
+        OutlinedTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = { onValueChange(it.text) },
+            label = { Text(unit) },
             modifier = Modifier
                 .weight(1f)
                 .testTag(testTag),

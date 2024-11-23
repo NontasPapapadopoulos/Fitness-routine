@@ -77,6 +77,7 @@ fun Choice.getColor(): Color =
 
 
 fun String.asTextFieldValue() = TextFieldValue(this, selection = TextRange(this.length))
+//fun String.asTextFieldValue(position: Int) = TextFieldValue(this, selection = TextRange(position))
 
 fun String.asTextFieldValue(cursorPosition: Int): TextFieldValue {
     return if (cursorPosition == selectAllPosition) {
