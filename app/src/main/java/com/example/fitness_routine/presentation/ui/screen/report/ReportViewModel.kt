@@ -16,6 +16,7 @@ import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.toList
 import com.example.fitness_routine.presentation.util.toMuscles
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
@@ -37,6 +38,12 @@ open class ReportViewModel @Inject constructor(
 ): BlocViewModel<ReportEvent, ReportState>() {
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
+
+    private val cheatMealFlow = MutableSharedFlow<String>()
+    private val gymNotesFlow = MutableSharedFlow<String>()
+    private val proteinGramsFlow = MutableSharedFlow<String>()
+    private val cardioMinutesFlow = MutableSharedFlow<String>()
+    private val litersOfWaterFlow = MutableSharedFlow<String>()
 
     private val  dailyReportFlow = getDailyReport.execute(GetDailyReport.Params(date = date.toDate()))
         .map { it.getOrThrow() }

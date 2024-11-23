@@ -209,7 +209,8 @@ private fun Content(
             Spacer(modifier = Modifier.height(contentSpacing2))
 
             Input(
-                label = "Protein grams: ",
+                label = "Protein: ",
+                unit = "gr",
                 value = content.dailyReport.proteinGrams.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.ProteinGrams) },
                 testTag = PROTEIN_TEXT_FIELD
@@ -219,7 +220,8 @@ private fun Content(
 
 
             Input(
-                label = "Liters of water: ",
+                label = "Water: ",
+                unit = "Liters",
                 value = content.dailyReport.litersOfWater.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.LitersOfWater) },
                 testTag = WATER_TEXT_FIELD
@@ -229,6 +231,7 @@ private fun Content(
 
             Input(
                 label = "Cardio minutes: ",
+                unit = "minutes",
                 value = content.dailyReport.cardioMinutes.asTextFieldValue(),
                 onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
                 testTag = CARDIO_TEXT_FIELD
@@ -388,6 +391,7 @@ private fun Star(
 @Composable
 private fun Input(
     label: String,
+    unit: String,
     value: TextFieldValue,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -408,6 +412,7 @@ private fun Input(
         OutlinedTextField(
             value = value,
             onValueChange = { onValueChange(it.text) },
+            label = { Text(unit) },
             modifier = Modifier
                 .weight(1f)
                 .testTag(testTag),
