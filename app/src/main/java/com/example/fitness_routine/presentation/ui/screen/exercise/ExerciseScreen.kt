@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScree
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 
 @Composable
 fun ExerciseScreen(
@@ -174,7 +176,7 @@ private fun ExerciseContent(
                 Exercise(exercise = it, delete = { onDeleteExercise(it) })
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(contentSpacing6))
 
             Row(
                 modifier = Modifier.fillMaxWidth()

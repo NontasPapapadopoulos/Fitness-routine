@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
@@ -44,6 +45,7 @@ import java.util.Date
 fun CheatMealsScreen(
     viewModel: CheatMealsViewModel = hiltViewModel(),
     navigateToScreen: (Screen) -> Unit,
+    navigateBack: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -63,7 +65,8 @@ fun CheatMealsScreen(
         is CheatMealsState.Content -> {
             CheatMealsContent(
                 content = state,
-                navigateToScreen = navigateToScreen
+                navigateToScreen = navigateToScreen,
+                navigateBack = navigateBack
             )
         }
         CheatMealsState.Idle -> {
@@ -79,7 +82,8 @@ fun CheatMealsScreen(
 @Composable
 private fun CheatMealsContent(
     content: CheatMealsState.Content,
-    navigateToScreen: (Screen) -> Unit
+    navigateToScreen: (Screen) -> Unit,
+    navigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -93,6 +97,7 @@ private fun CheatMealsContent(
 
                     }
                 },
+                navigationIcon = { BackButton(navigateBack) }
 
             )
         },
@@ -163,7 +168,8 @@ private fun CheatMealsContentPreview() {
         content = CheatMealsState.Content(
             dailyReports = generateReports()
         ),
-        navigateToScreen = {}
+        navigateToScreen = {},
+        navigateBack = {}
     )
 }
 

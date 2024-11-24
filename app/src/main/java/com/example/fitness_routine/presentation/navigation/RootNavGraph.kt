@@ -94,7 +94,8 @@ fun RootNavGraph(
                         Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
                     }
-                }
+                },
+                navigateBack = { navController.popBackStack() }
             )
         }
 
@@ -111,7 +112,8 @@ fun RootNavGraph(
                     }
 
                 },
-                navigateToWorkoutScreen = { date -> navController.navigate(Screen.Workout.params(date)) }
+                navigateToWorkoutScreen = { date -> navController.navigate(Screen.Workout.params(date)) },
+                navigateBack = { navController.popBackStack() }
             )
         }
 

@@ -53,6 +53,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.R
@@ -170,10 +171,10 @@ private fun Content(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
-                .padding(contentSpacing4)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .padding(contentSpacing4)
         ) {
 
 
@@ -342,7 +343,10 @@ private fun WorkoutTab(
 
         if (dailyReport.cardioMinutes.isNotEmpty()) {
             Spacer(modifier = Modifier.height(contentSpacing2))
-            CardioType()
+            CardioType(
+                selectedCardio = dailyReport.cardio,
+                onUpdateTextField = onUpdateTextField
+            )
         }
 
         Spacer(modifier = Modifier.height(contentSpacing2))
@@ -511,7 +515,7 @@ private fun Input(
 
         OutlinedTextField(
             value = value.asTextFieldValue(),
-            onValueChange = { onValueChange(it.text) },
+            onValueChange = { if (it.text.isDigitsOnly()) onValueChange(it.text) },
             label = { Text(unit) },
             modifier = Modifier
                 .weight(1f)
@@ -587,12 +591,19 @@ private fun ChoiceItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CardioType() {
+private fun CardioType(
+    selectedCardio: String,
+    onUpdateTextField: (String, Field) -> Unit
+) {
 
     val cardioTypes = Cardio.entries
     var expanded by remember { mutableStateOf(false) }
+
     var selectedOption by remember {
-        mutableStateOf("")
+        mutableStateOf(
+            if (selectedCardio.isEmpty()) Cardio.Walking.name
+            else Cardio.valueOf(selectedCardio).name
+        )
     }
 
     ExposedDropdownMenuBox(
@@ -622,7 +633,7 @@ private fun CardioType() {
                 DropdownMenuItem(
                     text = { Text(option.name) },
                     onClick = {
-                        selectedOption = option.name
+                        onUpdateTextField(option.name, Field.Cardio)
                         expanded = false
                     },
                     modifier = Modifier.testTag(CARDIO_TYPE_DROP_DOWN_ITEM + option.name)

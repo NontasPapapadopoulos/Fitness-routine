@@ -53,6 +53,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.R
@@ -68,6 +69,7 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.asTextFieldValue
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
@@ -148,8 +150,7 @@ private fun WorkoutContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                        ,
+                            .padding(horizontal = 24.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -179,7 +180,7 @@ private fun WorkoutContent(
                 .fillMaxSize()
                 .padding(it)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp)
+                .padding(contentSpacing4)
         ) {
 
             MusclesTrained(
@@ -503,7 +504,7 @@ private fun Set(
 
         OutlinedTextField(
             value = set.weight.asTextFieldValue(),
-            onValueChange = { update(set, SetField.Weight, it.text) },
+            onValueChange = { if (it.text.isDigitsOnly()) update(set, SetField.Weight, it.text) },
             singleLine = true,
             label = { Text(text = "Weight") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -516,7 +517,7 @@ private fun Set(
 
         OutlinedTextField(
             value = set.repeats.asTextFieldValue(),
-            onValueChange = { update(set, SetField.Repeat, it.text) },
+            onValueChange = { if (it.text.isDigitsOnly()) update(set, SetField.Repeat, it.text) },
             singleLine = true,
             label = { Text(text = "Repeats") },
             keyboardOptions = KeyboardOptions.Default.copy(

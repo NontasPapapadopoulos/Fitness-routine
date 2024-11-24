@@ -524,8 +524,9 @@ private fun SelectionItem(color: Color, text: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            modifier = Modifier.size(contentSize2)
-            .background(color, shape = CircleShape)
+            modifier = Modifier
+                .size(contentSize2)
+                .background(color, shape = CircleShape)
         )
 
         Spacer(modifier = Modifier.width(contentSize1))

@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
@@ -30,10 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
@@ -48,7 +54,8 @@ import java.util.Date
 fun GymSessionsScreen(
     viewModel: GymSessionsViewModel = hiltViewModel(),
     navigateToScreen: (Screen) -> Unit,
-    navigateToWorkoutScreen: (Long) -> Unit
+    navigateToWorkoutScreen: (Long) -> Unit,
+    navigateBack: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -69,7 +76,8 @@ fun GymSessionsScreen(
             GymSessionsContent(
                 content = state,
                 navigateToScreen = navigateToScreen,
-                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) }
+                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
+                navigateBack = navigateBack
             )
         }
         GymSessionsState.Idle -> {
@@ -86,7 +94,8 @@ fun GymSessionsScreen(
 private fun GymSessionsContent(
     content: GymSessionsState.Content,
     navigateToScreen: (Screen) -> Unit,
-    navigateToWorkoutScreen: (Long) -> Unit
+    navigateToWorkoutScreen: (Long) -> Unit,
+    navigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -99,7 +108,7 @@ private fun GymSessionsContent(
                         Text(text = "Workout Sessions")
                     }
                 },
-
+                navigationIcon = { BackButton(navigateBack) }
             )
         },
         bottomBar = {
@@ -122,7 +131,8 @@ private fun GymSessionsContent(
 
             SessionsContainer(
                 content.dailyReports,
-                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) }
+                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
+                navigateBack = navigateBack
             )
 
         }
@@ -133,7 +143,8 @@ private fun GymSessionsContent(
 @Composable
 private fun SessionsContainer(
     reports: List<DailyReportDomainEntity>,
-    navigateToWorkoutScreen: (Long) -> Unit
+    navigateToWorkoutScreen: (Long) -> Unit,
+    navigateBack: () -> Unit
 ) {
 
     val monthGroups = reports
@@ -159,32 +170,69 @@ private fun SessionsContainer(
             Spacer(modifier = Modifier.height(contentSpacing4))
 
             entry.value.onEachIndexed { index, report ->
-                Text(
-                    text = "${index + 1} - ${report.date.toFormattedDate()} - ${report.musclesTrained.joinToString()}",
+                SessionItem(
+                    index = index,
+                    report = report,
                     modifier = Modifier.clickable { navigateToWorkoutScreen(report.date.toTimeStamp()) }
+
                 )
-
-                if (index < entry.value.size -1 )
+                if (index < entry.value.size -1) {
+                    Spacer(modifier = Modifier.height(contentSpacing2))
+                    HorizontalDivider()
                     Spacer(modifier = Modifier.height(contentSpacing4))
-
+                }
             }
         }
         Spacer(modifier = Modifier.height(contentSpacing2))
     }
 }
 
+@Composable
+private fun SessionItem(
+    index: Int,
+    report: DailyReportDomainEntity,
+    modifier: Modifier
+) {
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(text = "${index + 1}")
+
+        Spacer(modifier = Modifier.width(contentSpacing4))
+        Column {
+            Text(
+                text = "${report.date.toFormattedDate()} - ${report.musclesTrained.joinToString()}",
+            )
+
+            val hasCardio = report.cardioMinutes.isNotEmpty()
+
+            if (hasCardio) {
+                Text(text = "${report.cardio} - ${report.cardioMinutes} minutes")
+            }
+        }
+
+
+    }
+
+}
 
 
 @Composable
 @Preview
 private fun GymSessionsContentPreview() {
-    GymSessionsContent(
-        content = GymSessionsState.Content(
-            dailyReports = generateReports()
-        ),
-        navigateToScreen = {},
-        navigateToWorkoutScreen = {}
-    )
+    AppTheme {
+        GymSessionsContent(
+            content = GymSessionsState.Content(
+                dailyReports = generateReports()
+            ),
+            navigateToScreen = {},
+            navigateToWorkoutScreen = {},
+            navigateBack = {}
+        )
+    }
+
 }
 
 private fun generateReports(): List<DailyReportDomainEntity> {
@@ -203,7 +251,7 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             cardioMinutes = "30",
             date = date,
             meal = "",
-            cardio = ""
+            cardio = Cardio.Walking.name
         )
     }
 }
