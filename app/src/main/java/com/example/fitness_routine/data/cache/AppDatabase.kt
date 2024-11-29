@@ -30,7 +30,7 @@ import com.example.fitness_routine.data.util.Converters
         CardioDataEntity::class,
     ],
     exportSchema = false,
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase(): RoomDatabase() {
