@@ -3,6 +3,7 @@ package com.example.fitness_routine.presentation.di
 import android.app.Application
 import androidx.room.Room
 import com.example.fitness_routine.data.cache.AppDatabase
+import com.example.fitness_routine.data.cache.dao.CardioDao
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
@@ -57,5 +58,11 @@ object DbModule {
     @Singleton
     fun provideSettingsDao(database: AppDatabase): SettingsDao {
         return database.getSettingsDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provide(database: AppDatabase): CardioDao {
+        return database.getCardioDao()
     }
 }

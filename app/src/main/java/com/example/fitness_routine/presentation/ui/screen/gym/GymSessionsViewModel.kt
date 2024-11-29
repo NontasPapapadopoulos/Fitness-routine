@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.gym
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.interactor.cardio.GetCardios
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GymSessionsViewModel @Inject constructor(
-    getDailyReports: GetDailyReports
+    getDailyReports: GetDailyReports,
+    getCardios: GetCardios,
 ): BlocViewModel<GymSessionsEvent, GymSessionsState>() {
 
 
@@ -23,6 +25,7 @@ class GymSessionsViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
+//    private val cardiosFlow = getCardios.execute(Unit)
 
     override val _uiState: StateFlow<GymSessionsState> = dailyReportsFlow.map {
         GymSessionsState.Content(

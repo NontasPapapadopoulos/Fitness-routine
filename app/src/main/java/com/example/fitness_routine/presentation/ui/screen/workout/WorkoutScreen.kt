@@ -61,6 +61,7 @@ import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.SettingsDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
@@ -704,10 +705,7 @@ private fun getDailyReport(): DailyReportDomainEntity {
         musclesTrained = listOf(Muscle.Legs.name),
         sleepQuality = "4",
         proteinGrams = "120",
-        cardioMinutes = "30",
         date = date,
         meal = "",
-        cardio = ""
     )
 }
-//8 Pro API 35 is already running. If that is not the case, delete /home/nondas/.android/avd/Pixel_8_Pro_API_35.avd/*.lock and try again

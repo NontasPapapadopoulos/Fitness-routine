@@ -206,11 +206,11 @@ private fun SessionItem(
                 text = "${report.date.toFormattedDate()} - ${report.musclesTrained.joinToString()}",
             )
 
-            val hasCardio = report.cardioMinutes.isNotEmpty()
-
-            if (hasCardio) {
-                Text(text = "${report.cardio} - ${report.cardioMinutes} minutes")
-            }
+//            val hasCardio = report.cardioMinutes.isNotEmpty()
+//
+//            if (hasCardio) {
+//                Text(text = "${report.cardio} - ${report.cardioMinutes} minutes")
+//            }
         }
 
 
@@ -248,10 +248,8 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             musclesTrained = listOf(Muscle.Legs.name),
             sleepQuality = "4",
             proteinGrams = "120",
-            cardioMinutes = "30",
             date = date,
             meal = "",
-            cardio = Cardio.Walking.name
         )
     }
 }

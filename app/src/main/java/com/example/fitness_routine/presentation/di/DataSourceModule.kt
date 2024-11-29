@@ -1,10 +1,13 @@
 package com.example.fitness_routine.presentation.di
 
+import com.example.fitness_routine.data.cache.dao.CardioDao
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
 import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
+import com.example.fitness_routine.data.datasource.CardioDataSource
+import com.example.fitness_routine.data.datasource.CardioDataSourceImpl
 import com.example.fitness_routine.data.datasource.DailyRoutineDataSource
 import com.example.fitness_routine.data.datasource.DailyRoutineDataSourceImpl
 import com.example.fitness_routine.data.datasource.ExerciseDataSource
@@ -56,5 +59,11 @@ object DataSourceModule {
     @Singleton
     fun provideSettingsDataSource(dao: SettingsDao): SettingsDataSource {
         return SettingsDataSourceImpl(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardioDataSource(dao: CardioDao): CardioDataSource {
+        return CardioDataSourceImpl(dao)
     }
 }

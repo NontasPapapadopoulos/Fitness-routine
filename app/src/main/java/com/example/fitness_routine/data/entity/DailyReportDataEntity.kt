@@ -17,13 +17,12 @@ data class DailyReportDataEntity(
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,
     val proteinGrams: String,
-    val cardioMinutes: String,
     val gymNotes: String,
     val sleepQuality: String, // from 1 to 5
     val litersOfWater: String,
     val musclesTrained: String,
     val meal: String,
-    val cardio: String
 )
+
 
 

@@ -11,7 +11,7 @@ import javax.inject.Inject
 interface DailyRoutineDataSource {
     fun getDailyReports(): Flow<List<DailyReportDataEntity>>
 
-    fun getDailyReport(date: Date): Flow<DailyReportDataEntity>
+    fun getDailyReport(date: Long): Flow<DailyReportDataEntity>
 
     suspend fun update(report: DailyReportDataEntity)
 
@@ -33,8 +33,8 @@ class DailyRoutineDataSourceImpl @Inject constructor(
         return dao.getReports()
     }
 
-    override fun getDailyReport(date: Date): Flow<DailyReportDataEntity> {
-        return dao.getReportFlow(date.toTimeStamp()).filterNotNull()
+    override fun getDailyReport(date: Long): Flow<DailyReportDataEntity> {
+        return dao.getReportFlow(date).filterNotNull()
     }
 
     override suspend fun update(report: DailyReportDataEntity) {
@@ -65,13 +65,11 @@ class DailyRoutineDataSourceImpl @Inject constructor(
         hadCreatine = false,
         hadCheatMeal = false,
         proteinGrams = "",
-        cardioMinutes = "",
         gymNotes = "",
         sleepQuality = "",
         litersOfWater = "",
         musclesTrained = "",
         meal = "",
-        cardio = ""
     )
 
 

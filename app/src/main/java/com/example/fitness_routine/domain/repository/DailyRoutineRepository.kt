@@ -8,7 +8,7 @@ interface DailyRoutineRepository {
 
     fun getDailyReports(): Flow<List<DailyReportDomainEntity>>
 
-    fun getDailyReport(date: Date): Flow<DailyReportDomainEntity>
+    fun getDailyReport(date: Long): Flow<DailyReportDomainEntity>
 
     suspend fun update(report: DailyReportDomainEntity)
 

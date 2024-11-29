@@ -667,10 +667,8 @@ fun generateReports(): List<DailyReportDomainEntity> {
             musclesTrained = listOf(Muscle.Legs.name),
             sleepQuality = "4",
             proteinGrams = "120",
-            cardioMinutes = "30",
             date = date,
             meal = "",
-            cardio = ""
         )
     }
 }

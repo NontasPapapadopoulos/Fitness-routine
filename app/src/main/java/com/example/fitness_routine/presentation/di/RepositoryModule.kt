@@ -1,15 +1,18 @@
 package com.example.fitness_routine.presentation.di
 
+import com.example.fitness_routine.data.datasource.CardioDataSource
 import com.example.fitness_routine.data.datasource.DailyRoutineDataSource
 import com.example.fitness_routine.data.datasource.ExerciseDataSource
 import com.example.fitness_routine.data.datasource.SetDataSource
 import com.example.fitness_routine.data.datasource.SettingsDataSource
 import com.example.fitness_routine.data.datasource.WorkoutDataSource
+import com.example.fitness_routine.data.repository.CardioDataRepository
 import com.example.fitness_routine.data.repository.DailyRoutineDataRepository
 import com.example.fitness_routine.data.repository.ExerciseDataRepository
 import com.example.fitness_routine.data.repository.SetDataRepository
 import com.example.fitness_routine.data.repository.SettingsDataRepository
 import com.example.fitness_routine.data.repository.WorkoutDataRepository
+import com.example.fitness_routine.domain.repository.CardioRepository
 import com.example.fitness_routine.domain.repository.DailyRoutineRepository
 import com.example.fitness_routine.domain.repository.ExerciseRepository
 import com.example.fitness_routine.domain.repository.SetRepository
@@ -68,5 +71,14 @@ object RepositoryModule {
         settingsDataSource: SettingsDataSource
     ): SettingsRepository {
         return SettingsDataRepository(settingsDataSource)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideCardioRepository(
+        cardioDataSource: CardioDataSource
+    ): CardioRepository {
+        return CardioDataRepository(cardioDataSource)
     }
 }

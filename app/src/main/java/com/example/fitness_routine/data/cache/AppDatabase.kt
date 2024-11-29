@@ -3,12 +3,14 @@ package com.example.fitness_routine.data.cache
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.fitness_routine.data.cache.dao.CardioDao
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
 import com.example.fitness_routine.data.cache.dao.SetDao
 import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
 import com.example.fitness_routine.data.entity.BreakDataEntity
+import com.example.fitness_routine.data.entity.CardioDataEntity
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
 import com.example.fitness_routine.data.entity.ExerciseDataEntity
 import com.example.fitness_routine.data.entity.SetDataEntity
@@ -24,7 +26,8 @@ import com.example.fitness_routine.data.util.Converters
         SetDataEntity::class,
         ExerciseDataEntity::class,
         BreakDataEntity::class,
-        SettingsDataEntity::class
+        SettingsDataEntity::class,
+        CardioDataEntity::class,
     ],
     exportSchema = false,
     version = 2
@@ -41,4 +44,6 @@ abstract class AppDatabase(): RoomDatabase() {
     abstract fun getExerciseDao(): ExerciseDao
 
     abstract fun getSettingsDao(): SettingsDao
+
+    abstract fun getCardioDao(): CardioDao
 }

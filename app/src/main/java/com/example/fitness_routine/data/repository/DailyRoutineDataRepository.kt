@@ -17,7 +17,7 @@ class DailyRoutineDataRepository(
         return dailyRoutineDataSource.getDailyReports().map { report -> report.map { it.toDomain() } }
     }
 
-    override fun getDailyReport(date: Date): Flow<DailyReportDomainEntity> {
+    override fun getDailyReport(date: Long): Flow<DailyReportDomainEntity> {
         return dailyRoutineDataSource.getDailyReport(date).map { it.toDomain() }
     }
 

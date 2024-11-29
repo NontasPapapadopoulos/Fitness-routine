@@ -17,7 +17,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.Star
@@ -28,13 +30,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,21 +53,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.R
+import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_DROP_DOWN
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TYPE_DROP_DOWN_ITEM
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
@@ -84,10 +82,8 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.asTextFieldValue
 import com.example.fitness_routine.presentation.util.getIcon
-import com.example.fitness_routine.presentation.util.moveCursorToEnd
-import com.example.fitness_routine.presentation.util.selectAllPosition
+import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.toFormattedDate
-import com.example.fitness_routine.presentation.util.updateCursor
 import java.util.Date
 
 @Composable
@@ -121,7 +117,10 @@ fun ReportScreen(
                 navigateToWorkout = { navigateToWorkout(it) },
                 onUpdateCheckField = { isChecked, field -> viewModel.add(ReportEvent.UpdateCheckBox(isChecked = isChecked, checkBoxField = field)) },
                 onUpdateTextField = { value, field ->  viewModel.add(ReportEvent.UpdateField(value = value, field = field)) },
-                onSelectMuscle = { viewModel.add(ReportEvent.SelectMuscle(it)) }
+                onSelectMuscle = { viewModel.add(ReportEvent.SelectMuscle(it)) },
+                onAddCardio = { viewModel.add(ReportEvent.AddCardio) },
+                onUpdateCardio = { cardio, field, value -> viewModel.add(ReportEvent.UpdateCardio(cardio, field, value))},
+                onDeleteCardio = { viewModel.add(ReportEvent.DeleteCardio(it)) },
             )
         }
 
@@ -139,7 +138,10 @@ private fun Content(
     navigateToWorkout: (Long) -> Unit,
     onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
     onUpdateTextField: (String, Field) -> Unit,
-    onSelectMuscle: (String) -> Unit
+    onSelectMuscle: (String) -> Unit,
+    onAddCardio: () -> Unit,
+    onUpdateCardio: (CardioDomainEntity, CardioField, String) -> Unit,
+    onDeleteCardio: (CardioDomainEntity) -> Unit,
 ) {
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -196,11 +198,16 @@ private fun Content(
                 is Tab.Workout -> {
                     WorkoutTab(
                         dailyReport = content.dailyReport,
+                        date = content.date,
+                        cardios = content.cardios,
                         onUpdateCheckField = { isChecked, field -> onUpdateCheckField(isChecked, field) },
                         onUpdateTextField = { value, field -> onUpdateTextField(value, field) },
                         navigateToWorkout = navigateToWorkout,
                         onSelectMuscle = onSelectMuscle,
-                        date = content.date
+                        onAddCardio = onAddCardio,
+                        onDeleteCardio = onDeleteCardio,
+                        onUpdateCardio = onUpdateCardio
+
                     )
                 }
             }
@@ -240,6 +247,79 @@ private fun Tabs(
             }
         }
     )
+}
+
+
+@Composable
+private fun WorkoutTab(
+    dailyReport: DailyReportDomainEntity,
+    cardios: List<CardioDomainEntity>,
+    onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
+    onUpdateTextField: (String, Field) -> Unit,
+    navigateToWorkout: (Long) -> Unit,
+    onSelectMuscle: (String) -> Unit,
+    onAddCardio: () -> Unit,
+    onDeleteCardio: (CardioDomainEntity) -> Unit,
+    onUpdateCardio: (CardioDomainEntity, CardioField, String) -> Unit,
+    date: Long
+) {
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+        ChoiceItem(
+            option = Choice.Workout,
+            isChecked = dailyReport.performedWorkout,
+            onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
+            testTag = WORKOUT_CHECK_BOX,
+            icon = Choice.Workout.getIcon()
+        )
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+
+        cardios.forEach {
+            CardioItem(
+                cardio = it,
+                onUpdateCardio = { cardio, field, value -> onUpdateCardio(cardio, field, value) },
+                testTag = "Cardio_$it",
+                addCardio = onAddCardio,
+                deleteCardio = { if (cardios.size > 1) onDeleteCardio(it) } ,
+            )
+        }
+
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+        MusclesTrained(
+            selectedMuscles = dailyReport.musclesTrained,
+            onSelectMuscle = { onSelectMuscle(it) },
+            testTag = MUSCLE_ITEM
+        )
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
+
+
+        GymNotes(
+            notes = dailyReport.gymNotes,
+            onValueChange = { onUpdateTextField(it, Field.GymNotes) }
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Button(
+            onClick = { navigateToWorkout(date) },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "Note workout details"
+            )
+        }
+    }
+
 }
 
 
@@ -308,77 +388,7 @@ private fun NutritionTab(
 
 }
 
-@Composable
-private fun WorkoutTab(
-    dailyReport: DailyReportDomainEntity,
-    onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
-    onUpdateTextField: (String, Field) -> Unit,
-    navigateToWorkout: (Long) -> Unit,
-    onSelectMuscle: (String) -> Unit,
-    date: Long
-) {
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Spacer(modifier = Modifier.height(contentSpacing2))
-
-        ChoiceItem(
-            option = Choice.Workout,
-            isChecked = dailyReport.performedWorkout,
-            onCheckedChange = { onUpdateCheckField(it, CheckBoxField.Workout) },
-            testTag = WORKOUT_CHECK_BOX,
-            icon = Choice.Workout.getIcon()
-        )
-
-        Spacer(modifier = Modifier.height(contentSpacing2))
-
-        Input(
-            label = "Cardio: ",
-            unit = "minutes",
-            value = dailyReport.cardioMinutes,
-            onValueChange = { onUpdateTextField(it, Field.CardioMinutes) },
-            testTag = CARDIO_TEXT_FIELD
-        )
-
-        if (dailyReport.cardioMinutes.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(contentSpacing2))
-            CardioType(
-                selectedCardio = dailyReport.cardio,
-                onUpdateTextField = onUpdateTextField
-            )
-        }
-
-        Spacer(modifier = Modifier.height(contentSpacing2))
-
-        MusclesTrained(
-            selectedMuscles = dailyReport.musclesTrained,
-            onSelectMuscle = { onSelectMuscle(it) },
-            testTag = MUSCLE_ITEM
-        )
-
-        Spacer(modifier = Modifier.height(contentSpacing2))
-
-
-        GymNotes(
-            notes = dailyReport.gymNotes,
-            onValueChange = { onUpdateTextField(it, Field.GymNotes) }
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { navigateToWorkout(date) },
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Note workout details"
-            )
-        }
-    }
-
-}
 
 
 @Composable
@@ -528,7 +538,63 @@ private fun Input(
 }
 
 
+@Composable
+private fun CardioItem(
+    cardio: CardioDomainEntity,
+    onUpdateCardio: (CardioDomainEntity, CardioField, String) -> Unit,
+    addCardio: () -> Unit,
+    deleteCardio: (CardioDomainEntity) -> Unit,
+    testTag: String,
+) {
 
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        CardioType(
+            selectedCardio = cardio.type,
+            onUpdateCardio = { onUpdateCardio(cardio, CardioField.Type, it) },
+            modifier = Modifier.weight(1f)
+        )
+
+        Spacer(modifier = Modifier.width(contentSpacing4))
+
+        OutlinedTextField(
+            value = cardio.minutes.asTextFieldValue(),
+            onValueChange = {
+                if (it.text.isDigitsOnly())
+                    onUpdateCardio(cardio, CardioField.Minutes, it.text)
+                            },
+            label = { Text("min") },
+            modifier = Modifier
+                .weight(0.8f)
+                .testTag(testTag),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        )
+
+        Row(modifier = Modifier.weight(0.5f)) {
+            IconButton(onClick = addCardio) {
+                Icon(
+                    imageVector = Icons.Default.AddCircleOutline,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+
+            IconButton(onClick = { deleteCardio(cardio) } ) {
+                Icon(
+                    imageVector = Icons.Default.RemoveCircleOutline,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+
+    }
+
+}
 
 @Composable
 private fun ChoiceItem(
@@ -593,32 +659,32 @@ private fun ChoiceItem(
 @Composable
 private fun CardioType(
     selectedCardio: String,
-    onUpdateTextField: (String, Field) -> Unit
+    onUpdateCardio: (String) -> Unit,
+    modifier: Modifier
 ) {
 
     val cardioTypes = Cardio.entries
     var expanded by remember { mutableStateOf(false) }
 
-    var selectedOption by remember {
-        mutableStateOf(
-            if (selectedCardio.isEmpty()) Cardio.Walking.name
-            else Cardio.valueOf(selectedCardio).name
-        )
-    }
+//    var selectedOption by remember {
+//        mutableStateOf(
+//            if (selectedCardio.isEmpty()) Cardio.Walking.name
+//            else Cardio.valueOf(selectedCardio).name
+//        )
+//    }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = Modifier.testTag(CARDIO_DROP_DOWN)
+        modifier = modifier.testTag(CARDIO_DROP_DOWN)
     ) {
-        TextField(
-            value = selectedOption,
+        OutlinedTextField(
+            value = selectedCardio,
             onValueChange = {},
             readOnly = true,
             label = { Text("Cardio") },
-            modifier = Modifier
-                .menuAnchor()
-                .fillMaxWidth(),
+            modifier = modifier
+                .menuAnchor(),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
@@ -633,7 +699,8 @@ private fun CardioType(
                 DropdownMenuItem(
                     text = { Text(option.name) },
                     onClick = {
-                        onUpdateTextField(option.name, Field.Cardio)
+                        onUpdateCardio(option.name)
+//                        onUpdateTextField(option.name, Field.Cardio)
                         expanded = false
                     },
                     modifier = Modifier.testTag(CARDIO_TYPE_DROP_DOWN_ITEM + option.name)
@@ -662,17 +729,19 @@ private fun ReportPreview() {
                     hadCheatMeal = true,
                     musclesTrained = listOf(),
                     litersOfWater = "2.5",
-                    cardioMinutes = "30",
                     meal = "Burger",
                     date = Date(),
-                    cardio = Cardio.Bicycle.name
-                )
+                ),
+                cardios = listOf()
             ),
             navigateBack = {},
             onUpdateTextField = { _, _ -> },
             onUpdateCheckField = { _, _ -> },
             navigateToWorkout = {},
             onSelectMuscle = {},
+            onAddCardio = {},
+            onUpdateCardio = { _, _, _ ->},
+            onDeleteCardio = {},
         )
     }
 

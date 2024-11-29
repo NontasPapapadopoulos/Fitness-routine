@@ -19,7 +19,7 @@ import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class DeleteExerciseTest {
+class DeleteCardioTest {
 
     private lateinit var deleteExercise: DeleteExercise
 

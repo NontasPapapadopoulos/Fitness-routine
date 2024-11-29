@@ -21,5 +21,5 @@ open class GetDailyReport @Inject constructor(
     }
 
 
-    data class Params(val date: Date)
+    data class Params(val date: Long)
 }

@@ -61,7 +61,7 @@ class WorkoutViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
-    private val  dailyReport = getDailyReport.execute(GetDailyReport.Params(date = date.toDate()))
+    private val  dailyReport = getDailyReport.execute(GetDailyReport.Params(date = date))
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
