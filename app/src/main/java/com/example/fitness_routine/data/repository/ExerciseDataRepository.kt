@@ -25,6 +25,10 @@ class ExerciseDataRepository @Inject constructor(
         exerciseDataSource.add(exercise.toData())
     }
 
+    override suspend fun edit(oldName: String, newName: String) {
+        exerciseDataSource.edit(oldName, newName)
+    }
+
     override suspend fun delete(exercise: ExerciseDomainEntity) {
         exerciseDataSource.delete(exercise.toData())
     }

@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.exercise
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.RemoveCircleOutline
+import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -47,6 +51,7 @@ import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.ADD_EXERCISE_BUTTON
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.DELETE_EXERCISE
+import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EDIT_EXERCISE
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EXERCISE_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
@@ -81,7 +86,11 @@ fun ExerciseScreen(
                 onNavigateBack = navigateBack,
                 onAddExercise = { viewModel.add(ExerciseEvent.Add(it)) },
                 onDeleteExercise = { viewModel.add(ExerciseEvent.Delete(it)) },
-                onTextChanged = { viewModel.add(ExerciseEvent.TextChanged(it)) }
+                onTextChanged = { viewModel.add(ExerciseEvent.TextChanged(it)) },
+                onSelectExercise = { viewModel.add(ExerciseEvent.SelectExercise(it)) },
+                onUpdateExercise = { viewModel.add(ExerciseEvent.UpdateExercise) },
+                onNewExerciseNameTextChanged = { viewModel.add(ExerciseEvent.NewExerciseNameTextChanged(it)) },
+                onDismissDialog = { viewModel.add(ExerciseEvent.DismissDialog) }
             )
         }
         ExerciseState.Idle -> { LoadingBox() }
@@ -99,7 +108,11 @@ private fun ExerciseContent(
     onNavigateBack: () -> Unit,
     onAddExercise: (Muscle) -> Unit,
     onDeleteExercise: (ExerciseDomainEntity) -> Unit,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
+    onSelectExercise: (ExerciseDomainEntity) -> Unit,
+    onUpdateExercise: () -> Unit,
+    onNewExerciseNameTextChanged: (String) -> Unit,
+    onDismissDialog: () -> Unit
 ) {
 
     Scaffold(
@@ -173,7 +186,11 @@ private fun ExerciseContent(
             val muscleExercises = content.exercises.filter { it.muscle.name == selectedOption }
 
             muscleExercises.forEach {
-                Exercise(exercise = it, delete = { onDeleteExercise(it) })
+                Exercise(
+                    exercise = it,
+                    delete = { onDeleteExercise(it) },
+                    onSelectExercise = onSelectExercise
+                )
             }
 
             Spacer(modifier = Modifier.height(contentSpacing6))
@@ -184,7 +201,8 @@ private fun ExerciseContent(
                 OutlinedTextField(
                     value = content.newExercise,
                     onValueChange = { onTextChanged(it) },
-                    modifier = Modifier.weight(0.55f)
+                    modifier = Modifier
+                        .weight(0.55f)
                         .testTag(EXERCISE_TEXT_FIELD),
                     singleLine = true
                 )
@@ -194,7 +212,8 @@ private fun ExerciseContent(
                 Button(
                     onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
                     enabled = content.newExercise.isNotEmpty(),
-                    modifier = Modifier.weight(0.45f)
+                    modifier = Modifier
+                        .weight(0.45f)
                         .testTag(ADD_EXERCISE_BUTTON)
                 ) {
                     Text(text = "Add Exercise")
@@ -205,15 +224,82 @@ private fun ExerciseContent(
             Spacer(modifier = Modifier.weight(1f))
 
 
+            if (content.selectedExercise != null) {
+                EditExerciseDialog(
+                    selectedExercise = content.selectedExercise!!.name,
+                    onUpdateExercise = onUpdateExercise,
+                    onNewExerciseNameTextChanged = onNewExerciseNameTextChanged,
+                    onDismissDialog = onDismissDialog,
+                    newName = content.newName
+                )
+            }
         }
 
     }
 }
 
 @Composable
+private fun EditExerciseDialog(
+    selectedExercise: String,
+    newName: String,
+    onUpdateExercise: () -> Unit,
+    onNewExerciseNameTextChanged: (String) -> Unit,
+    onDismissDialog: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = {},
+        title = {
+            Text(text = "Break")
+        },
+        icon = {
+            Icon(Icons.Outlined.Timer, contentDescription = null)
+        },
+        text = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column {
+                    Text(
+                        text = "Rename $selectedExercise: ",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+
+
+                    OutlinedTextField(
+                        value = newName,
+                        onValueChange = { onNewExerciseNameTextChanged(it) },
+                        label = { Text(text = "New exercise name") },
+                        singleLine = true,
+
+                    )
+                }
+
+
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onUpdateExercise
+            ) {
+                Text("Rename")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismissDialog) {
+                Text(text = "Cancel")
+            }
+        },
+        properties = DialogProperties(dismissOnClickOutside = true)
+    )
+}
+
+@Composable
 private fun Exercise(
     exercise: ExerciseDomainEntity,
-    delete: (ExerciseDomainEntity) -> Unit
+    delete: (ExerciseDomainEntity) -> Unit,
+    onSelectExercise: (ExerciseDomainEntity) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -222,11 +308,20 @@ private fun Exercise(
     ) {
         Text(text = exercise.name)
 
-        IconButton(
-            onClick =  { delete(exercise) },
-            modifier = Modifier.testTag(DELETE_EXERCISE + exercise.name)) {
-            Icon(Icons.Default.RemoveCircleOutline, contentDescription = null, tint = MaterialTheme.colorScheme.onError)
+        Row {
+            IconButton(
+                onClick =  { onSelectExercise(exercise) },
+                modifier = Modifier.testTag(EDIT_EXERCISE + exercise.name)) {
+                Icon(Icons.Default.Edit, contentDescription = null, tint = MaterialTheme.colorScheme.secondary)
+            }
+
+            IconButton(
+                onClick =  { delete(exercise) },
+                modifier = Modifier.testTag(DELETE_EXERCISE + exercise.name)) {
+                Icon(Icons.Default.RemoveCircleOutline, contentDescription = null, tint = MaterialTheme.colorScheme.onError)
+            }
         }
+
     }
 
 }
@@ -240,12 +335,18 @@ private fun ExerciseContentPreview() {
             content = ExerciseState.Content(
                 exercises = generateExercises(),
                 newExercise = "bench press",
-                preSelectedMuscle = Muscle.Chest
+                preSelectedMuscle = Muscle.Chest,
+                selectedExercise = null,
+                newName = ""
             ),
             onNavigateBack = {},
             onAddExercise = {},
             onDeleteExercise = {},
-            onTextChanged = {}
+            onTextChanged = {},
+            onUpdateExercise = {},
+            onSelectExercise = {},
+            onNewExerciseNameTextChanged = {},
+            onDismissDialog = {},
         )
     }
 
@@ -267,6 +368,7 @@ class ExerciseScreenConstants private constructor() {
         const val EXERCISE_TEXT_FIELD = "exercise_text_field"
         const val ADD_EXERCISE_BUTTON = "add_exercise_button"
         const val DELETE_EXERCISE = "delete_exercise"
+        const val EDIT_EXERCISE = "edit_exercise"
         const val MUSCLE_GROUP_DROPDOWN = "muscle_group_drop_down"
         const val MUSCLE_GROUP_DROPDOWN_ITEM = "muscle_group_drop_down_item"
     }

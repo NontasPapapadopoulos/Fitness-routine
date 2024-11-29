@@ -7,12 +7,10 @@ import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 fun ExerciseDataEntity.toDomain(): ExerciseDomainEntity = ExerciseDomainEntity(
     name = name,
     muscle = muscle,
-//    index = index
 )
 
 
 fun ExerciseDomainEntity.toData(): ExerciseDataEntity = ExerciseDataEntity(
     name = name,
     muscle = muscle,
-//    index = index
 )

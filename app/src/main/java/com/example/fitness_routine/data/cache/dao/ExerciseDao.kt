@@ -22,4 +22,6 @@ interface ExerciseDao {
     @Query("DELETE FROM exercise WHERE name = :exercise")
     suspend fun delete(exercise: String)
 
+    @Query("UPDATE exercise SET name = :newName WHERE name = :oldName")
+    suspend fun edit(oldName: String, newName: String)
 }

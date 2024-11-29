@@ -11,6 +11,7 @@ interface ExerciseDataSource {
     fun getExercises(): Flow<List<ExerciseDataEntity>>
 
     suspend fun add(exercise: ExerciseDataEntity)
+    suspend fun edit(oldName: String, newName: String)
 
     suspend fun delete(exercise: ExerciseDataEntity)
 
@@ -27,6 +28,10 @@ class ExerciseDataSourceImpl @Inject constructor(
 
     override suspend fun add(exercise: ExerciseDataEntity) {
         exerciseDao.put(exercise)
+    }
+
+    override suspend fun edit(oldName: String, newName: String) {
+        exerciseDao.edit(oldName, newName)
     }
 
     override suspend fun delete(exercise: ExerciseDataEntity) {
