@@ -14,8 +14,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DirectionsRun
+import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,12 +30,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Muscle
@@ -130,7 +133,7 @@ private fun GymSessionsContent(
         ) {
 
             SessionsContainer(
-                content.dailyReports,
+                content.workoutSessions,
                 navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
                 navigateBack = navigateBack
             )
@@ -142,15 +145,15 @@ private fun GymSessionsContent(
 
 @Composable
 private fun SessionsContainer(
-    reports: List<DailyReportDomainEntity>,
+    sessions: List<WorkoutSession>,
     navigateToWorkoutScreen: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
 
-    val monthGroups = reports
-        .filter { it.performedWorkout }
+    val monthGroups = sessions
+        .filter { it.report.performedWorkout }
         .groupBy {
-            val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            val localDate = it.report.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             localDate.month
         }
 
@@ -169,11 +172,11 @@ private fun SessionsContainer(
             Text(text = entry.key.name.capitalize())
             Spacer(modifier = Modifier.height(contentSpacing4))
 
-            entry.value.onEachIndexed { index, report ->
+            entry.value.onEachIndexed { index, session ->
                 SessionItem(
                     index = index,
-                    report = report,
-                    modifier = Modifier.clickable { navigateToWorkoutScreen(report.date.toTimeStamp()) }
+                    session = session,
+                    modifier = Modifier.clickable { navigateToWorkoutScreen(session.report.date.toTimeStamp()) }
 
                 )
                 if (index < entry.value.size -1) {
@@ -190,7 +193,7 @@ private fun SessionsContainer(
 @Composable
 private fun SessionItem(
     index: Int,
-    report: DailyReportDomainEntity,
+    session: WorkoutSession,
     modifier: Modifier
 ) {
 
@@ -203,14 +206,29 @@ private fun SessionItem(
         Spacer(modifier = Modifier.width(contentSpacing4))
         Column {
             Text(
-                text = "${report.date.toFormattedDate()} - ${report.musclesTrained.joinToString()}",
+                text = "${session.report.date.toFormattedDate()} - ${session.report.musclesTrained.joinToString()}",
             )
 
-//            val hasCardio = report.cardioMinutes.isNotEmpty()
-//
-//            if (hasCardio) {
-//                Text(text = "${report.cardio} - ${report.cardioMinutes} minutes")
-//            }
+            val hasCardio = session.cardios.isNotEmpty()
+                    && session.cardios[0].type.isNotEmpty() && session.cardios[0].minutes.toInt() > 0
+
+            if (hasCardio) {
+                session.cardios.forEach { cardio ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MonitorHeart,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(contentSpacing2))
+                        Text(text = "${cardio.type} - ${cardio.minutes} minutes")
+                    }
+
+                }
+
+            }
         }
 
 
@@ -225,7 +243,7 @@ private fun GymSessionsContentPreview() {
     AppTheme {
         GymSessionsContent(
             content = GymSessionsState.Content(
-                dailyReports = generateReports()
+                workoutSessions = workoutSessions()
             ),
             navigateToScreen = {},
             navigateToWorkoutScreen = {},
@@ -233,6 +251,30 @@ private fun GymSessionsContentPreview() {
         )
     }
 
+}
+
+private fun workoutSessions(): List<WorkoutSession> {
+    return (1..10).map {
+        val localDate = LocalDate.of(2024, 1, it)
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        WorkoutSession(
+            report = DailyReportDomainEntity(
+                performedWorkout = if (it > 3) true else false,
+                hadCheatMeal = if (it > 2) true else false,
+                hadCreatine = true,
+                litersOfWater = "2.5",
+                gymNotes = "",
+                musclesTrained = listOf(Muscle.Legs.name),
+                sleepQuality = "4",
+                proteinGrams = "120",
+                date = date,
+                meal = "",
+            ),
+            cardios = listOf(
+                CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
+            )
+        )
+    }
 }
 
 private fun generateReports(): List<DailyReportDomainEntity> {

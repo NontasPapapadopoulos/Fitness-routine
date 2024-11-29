@@ -19,6 +19,12 @@ class CardioDataRepository @Inject constructor(
         }
     }
 
+    override fun getCardios(): Flow<List<CardioDomainEntity>> {
+        return cardioDataSource.getCardios().map { cardios ->
+            cardios.map { it.toDomain() }
+        }
+    }
+
     override suspend fun put(cardio: CardioDomainEntity) {
         cardioDataSource.put(cardio.toData())
     }

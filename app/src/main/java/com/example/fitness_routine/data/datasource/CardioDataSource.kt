@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 interface CardioDataSource {
     fun getCardios(date: Long): Flow<List<CardioDataEntity>>
+    fun getCardios(): Flow<List<CardioDataEntity>>
     suspend fun put(cardio: CardioDataEntity)
     suspend fun delete(cardio: CardioDataEntity)
     suspend fun init(date: Long)
@@ -19,6 +20,10 @@ class CardioDataSourceImpl @Inject constructor(
 ): CardioDataSource {
     override fun getCardios(date: Long): Flow<List<CardioDataEntity>> {
         return cardioDao.getCardiosFlow(date)
+    }
+
+    override fun getCardios(): Flow<List<CardioDataEntity>> {
+        return cardioDao.getCardiosFlow()
     }
 
     override suspend fun put(cardio: CardioDataEntity) {

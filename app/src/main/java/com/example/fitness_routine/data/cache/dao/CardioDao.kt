@@ -14,6 +14,9 @@ interface CardioDao {
     @Query("SELECT * FROM cardio WHERE date = :date")
     fun getCardiosFlow(date: Long): Flow<List<CardioDataEntity>>
 
+    @Query("SELECT * FROM cardio")
+    fun getCardiosFlow(): Flow<List<CardioDataEntity>>
+
     @Query("SELECT COUNT(*) FROM cardio WHERE date = :date")
     fun getNumberOfCardios(date: Long): Int
 

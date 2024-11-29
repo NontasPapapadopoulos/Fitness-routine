@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CardioRepository {
     fun getCardios(date: Long): Flow<List<CardioDomainEntity>>
+    fun getCardios(): Flow<List<CardioDomainEntity>>
     suspend fun put(cardio: CardioDomainEntity)
     suspend fun delete(cardio: CardioDomainEntity)
     suspend fun init(date: Long)
