@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fitnessroutine"
         android:icon="@mipmap/logo_foreground"
-        android:roundIcon="@mipmap/logo_foreground"
+        android:roundIcon="@mipmap/logo_round"
         tools:targetApi="31">
         <activity
             android:name="com.example.fitness_routine.presentation.MainActivity"
