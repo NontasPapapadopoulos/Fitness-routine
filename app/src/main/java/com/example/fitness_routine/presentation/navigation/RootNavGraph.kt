@@ -40,7 +40,7 @@ fun RootNavGraph(
 
             DisplaySplashScreen(
                 navController = navController,
-                milliseconds = 50L,
+                milliseconds = 1000L,
                 route = Screen.Calendar.name
             )
 

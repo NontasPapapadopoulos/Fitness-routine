@@ -2,7 +2,6 @@ package com.example.fitness_routine.presentation.ui.screen.workout
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,13 +18,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -44,12 +41,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -60,9 +57,6 @@ import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Cardio
-import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
@@ -144,6 +138,8 @@ private fun WorkoutContent(
     onNavigateToScreen: (Screen) -> Unit
 ) {
 
+    val showBreakDialog = rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -161,7 +157,7 @@ private fun WorkoutContent(
                             Text(text = content.date.toFormattedDate())
                         }
 
-                        AddBreak(addBreak = { onShowDialog(Dialog.Break) })
+                        AddBreak(addBreak = { showBreakDialog.value = true })
 
                     }
                 },
@@ -233,6 +229,8 @@ private fun WorkoutContent(
             }
 
 
+
+
             when (content.dialog) {
                 is Dialog.AddExercise -> {
                     AddExerciseDialog(
@@ -244,7 +242,7 @@ private fun WorkoutContent(
                     )
                 }
 
-                Dialog.Break -> {
+                is Dialog.Break -> {
                     BreakDialog(
                         breakDuration = content.breakTimeDuration,
                         onDismissDialog = onDismissDialog
@@ -252,6 +250,13 @@ private fun WorkoutContent(
                 }
 
                 null -> {}
+            }
+
+            if (showBreakDialog.value) {
+                BreakDialog(
+                    breakDuration = content.breakTimeDuration,
+                    onDismissDialog = { showBreakDialog.value = false }
+                )
             }
         }
     }
@@ -376,8 +381,8 @@ fun BreakDialog(
         MediaPlayer.create(context, R.raw.bell_ring)
     }
 
-    var isRunning by remember { mutableStateOf(false) }
-    var remainingSeconds by remember { mutableStateOf(breakDuration.toInt()) }
+    var isRunning by rememberSaveable { mutableStateOf(false) }
+    var remainingSeconds by rememberSaveable { mutableStateOf(breakDuration.toInt()) }
 
     val minutes = remainingSeconds / 60
     val displaySeconds = remainingSeconds % 60
