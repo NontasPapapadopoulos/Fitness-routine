@@ -138,7 +138,6 @@ private fun WorkoutContent(
     onNavigateToScreen: (Screen) -> Unit
 ) {
 
-    val showBreakDialog = rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -157,7 +156,7 @@ private fun WorkoutContent(
                             Text(text = content.date.toFormattedDate())
                         }
 
-                        AddBreak(addBreak = { showBreakDialog.value = true })
+                        AddBreak(addBreak = { onShowDialog(Dialog.Break) })
 
                     }
                 },
@@ -250,13 +249,6 @@ private fun WorkoutContent(
                 }
 
                 null -> {}
-            }
-
-            if (showBreakDialog.value) {
-                BreakDialog(
-                    breakDuration = content.breakTimeDuration,
-                    onDismissDialog = { showBreakDialog.value = false }
-                )
             }
         }
     }

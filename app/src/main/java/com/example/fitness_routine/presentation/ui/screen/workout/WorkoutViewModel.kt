@@ -99,7 +99,7 @@ class WorkoutViewModel @Inject constructor(
 
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.Lazily,
         initialValue = WorkoutState.Idle
     )
 
