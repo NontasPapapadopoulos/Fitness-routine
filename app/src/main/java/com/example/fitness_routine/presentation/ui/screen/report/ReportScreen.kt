@@ -568,7 +568,7 @@ private fun CardioItem(
                             },
             label = { Text("min") },
             modifier = Modifier
-                .weight(0.8f)
+                .weight(0.7f)
                 .testTag(testTag),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

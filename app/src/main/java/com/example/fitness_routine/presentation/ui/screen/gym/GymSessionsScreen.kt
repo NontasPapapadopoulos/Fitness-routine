@@ -214,24 +214,22 @@ private fun SessionItem(
 
             if (hasCardio) {
                 session.cardios.forEach { cardio ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.MonitorHeart,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(contentSpacing2))
-                        Text(text = "${cardio.type} - ${cardio.minutes} minutes")
+                    if (cardio.type.isNotEmpty()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.MonitorHeart,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(contentSpacing2))
+                            Text(text = "${cardio.type} - ${cardio.minutes} minutes")
+                        }
                     }
-
                 }
-
             }
         }
-
-
     }
 
 }
