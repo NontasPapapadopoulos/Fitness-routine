@@ -292,7 +292,7 @@ fun AddExerciseDialog(
                         expanded = expanded,
                         onExpandedChange = { expanded = !expanded }
                     ) {
-                        TextField(
+                        OutlinedTextField(
                             value = selectedOption,
                             onValueChange = {},
                             readOnly = true,
@@ -328,7 +328,7 @@ fun AddExerciseDialog(
 
                 Row {
                     Button(onClick = { onNavigateToExercises(selectedMuscle) }) {
-                        Text(text = "Add more")
+                        Text(text = "More")
                     }
 
                 }

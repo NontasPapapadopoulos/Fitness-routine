@@ -205,8 +205,9 @@ private fun SessionItem(
 
         Spacer(modifier = Modifier.width(contentSpacing4))
         Column {
+            val musclesTrained = if (session.report.musclesTrained.isNotEmpty()) " - " + session.report.musclesTrained.joinToString() else ""
             Text(
-                text = "${session.report.date.toFormattedDate()} - ${session.report.musclesTrained.joinToString()}",
+                text = "${session.report.date.toFormattedDate()} $musclesTrained",
             )
 
             val hasCardio = session.cardios.isNotEmpty()
@@ -262,7 +263,7 @@ private fun workoutSessions(): List<WorkoutSession> {
                 hadCreatine = true,
                 litersOfWater = "2.5",
                 gymNotes = "",
-                musclesTrained = listOf(Muscle.Legs.name),
+                musclesTrained = if (it == 4) listOf() else listOf(Muscle.Legs.name),
                 sleepQuality = "4",
                 proteinGrams = "120",
                 date = date,
@@ -285,7 +286,7 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             hadCreatine = true,
             litersOfWater = "2.5",
             gymNotes = "",
-            musclesTrained = listOf(Muscle.Legs.name),
+            musclesTrained = if (it == 1) listOf() else listOf(Muscle.Legs.name),
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,

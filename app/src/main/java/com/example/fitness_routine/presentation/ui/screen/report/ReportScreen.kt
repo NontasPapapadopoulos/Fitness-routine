@@ -724,7 +724,7 @@ private fun ReportPreview() {
                     gymNotes = "WoW",
                     proteinGrams = "140",
                     sleepQuality = "3",
-                    performedWorkout = false,
+                    performedWorkout = true,
                     hadCreatine = false,
                     hadCheatMeal = true,
                     musclesTrained = listOf(),
