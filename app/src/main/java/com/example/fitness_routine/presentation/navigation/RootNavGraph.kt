@@ -56,13 +56,13 @@ fun RootNavGraph(
             CalendarScreen(
                 navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
                 navigateToScreen = {
-
                     when (it) {
                         Screen.Gym,
                         Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
                         Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
                         Screen.Settings -> { navController.navigate(Screen.Settings.name) { launchSingleTop = true } }
                         Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
+                        Screen.Measurements -> { navController.navigate(Screen.Measurements.name) { launchSingleTop = true } }
                         else -> {}
                     }
                 },

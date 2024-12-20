@@ -128,7 +128,7 @@ fun CalendarScreen(
                 content = state,
                 navigateToDailyReport = { navigateToDailyReport(it) },
                 navigateToScreen = { navigateToScreen(it) },
-                onSelect = { viewModel.add(CalendarEvent.SelectChoice(it)) }
+                onSelect = { viewModel.add(CalendarEvent.SelectChoice(it)) },
             )
         }
 
@@ -207,6 +207,21 @@ private fun Content(
                         onClick = {
                             coroutineScope.launch { toggleDrawerState(drawerState) }
                             navigateToScreen(Screen.Settings)
+                        }
+                    )
+
+
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Measurements",
+                                color = MaterialTheme.colorScheme.secondary,
+                                style = MaterialTheme.typography.titleLarge
+                            ) },
+                        selected = false,
+                        onClick = {
+                            coroutineScope.launch { toggleDrawerState(drawerState) }
+                            navigateToScreen(Screen.Measurements)
                         }
                     )
 
@@ -698,7 +713,7 @@ private fun CalendarScreenPreviewDark() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
-                onSelect = {}
+                onSelect = {},
             )
         }
 
@@ -711,7 +726,7 @@ private fun CalendarScreenPreviewDark() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
-                onSelect = {}
+                onSelect = {},
             )
         }
     }
@@ -730,7 +745,7 @@ private fun CalendarScreenPreview() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
-                onSelect = {}
+                onSelect = {},
             )
         }
     }
