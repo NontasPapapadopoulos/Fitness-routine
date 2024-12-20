@@ -297,7 +297,7 @@ private fun Content(
 
                     Choices(onSelect, content)
 
-                    Spacer(modifier = Modifier.height(contentSpacing2))
+                    Spacer(modifier = Modifier.height(contentSpacing3))
 
                 }
             }
@@ -323,8 +323,12 @@ private fun Choices(
     onSelect: (Choice) -> Unit,
     content: CalendarState.Content
 ) {
-    Choice.entries.forEach {
-        Column {
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround
+    ){
+        Choice.entries.forEach {
             ChoiceItem(
                 choice = it,
                 onSelect = { onSelect(it) },
@@ -687,9 +691,9 @@ private fun ChoiceItem(
             Spacer(modifier = Modifier.width(contentSpacing2))
 
             Text(
-                text = choice.value,
+                text = choice.name,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyMedium
             )
 
         }
