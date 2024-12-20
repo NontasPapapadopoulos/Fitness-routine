@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -66,6 +65,7 @@ import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.asTextFieldValue
+import com.example.fitness_routine.presentation.util.isCurrentDate
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -138,7 +138,6 @@ private fun WorkoutContent(
     onNavigateToScreen: (Screen) -> Unit
 ) {
 
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -146,7 +145,7 @@ private fun WorkoutContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp),
+                            .padding(horizontal = contentSpacing4),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -164,10 +163,12 @@ private fun WorkoutContent(
             )
         },
         bottomBar = {
-            BottomBar(
-                onClick = { onNavigateToScreen(it) },
-                currentScreen = Screen.Workout
-            )
+            if (content.date.isCurrentDate()) {
+                BottomBar(
+                    onClick = { onNavigateToScreen(it) },
+                    currentScreen = Screen.Workout
+                )
+            }
         }
     ) {
 
@@ -186,7 +187,7 @@ private fun WorkoutContent(
             )
 
 
-            content.musclesTrained.forEach { muscle ->
+            content.musclesTrained.forEachIndexed { muscleIndex, muscle ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -202,6 +203,7 @@ private fun WorkoutContent(
                     .filter { it.muscle == muscle }
                     .groupBy { it.exercise }
 
+
                 setsByExercise.forEach { (exercise, sets) ->
                     Text(text = exercise)
 
@@ -215,10 +217,15 @@ private fun WorkoutContent(
 
                     }
 
+                    val isLastExercise = content.musclesTrained.size - 1 == muscleIndex
+                            && setsByExercise[exercise] == setsByExercise.entries.last()
+
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(bottom = if (isLastExercise) contentSpacing4 else 0.dp),
                         horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+
                     ) {
 
                         AddSet(addSet = { onAddSet(muscle, exercise) })
@@ -538,7 +545,6 @@ private fun Set(
 @Composable
 private fun AddSet(
     addSet: () -> Unit,
-
 ) {
 
     Row(
@@ -551,15 +557,14 @@ private fun AddSet(
             text = "Add new Set",
             color = MaterialTheme.colorScheme.primary
         )
-        IconButton(
-            onClick = addSet
-        ) {
-            Icon(
-                Icons.Default.AddCircleOutline,
-                tint = MaterialTheme.colorScheme.primary,
-                contentDescription = null
-            )
-        }
+
+        Icon(
+            Icons.Default.AddCircleOutline,
+            tint = MaterialTheme.colorScheme.primary,
+            contentDescription = null,
+            modifier = Modifier.padding(contentSpacing4)
+        )
+
     }
 }
 
@@ -638,14 +643,14 @@ private fun WorkoutContentPreview() {
 }
 
 
-@Preview
-@Composable
-private fun BreakDialogPreview() {
-    BreakDialog(
-        onDismissDialog = {},
-        breakDuration = "60"
-    )
-}
+//@Preview
+//@Composable
+//private fun BreakDialogPreview() {
+//    BreakDialog(
+//        onDismissDialog = {},
+//        breakDuration = "60"
+//    )
+//}
 
 
 @Preview
@@ -665,11 +670,11 @@ private fun AddExerciseDialogPreview() {
 
 
 private fun generateSets(): List<SetDomainEntity> {
-    return  (0..12).map {
+    return  (0..6).map {
         SetDomainEntity(
             id = "",
             workoutDate = 100000L,
-            muscle = if (it < 6 ) Muscle.Chest else Muscle.Biceps,
+            muscle = if (it > 4 ) Muscle.Chest else Muscle.Biceps,
             exercise = if (it % 2 == 0) "Exercise 1" else "Exercise 2",
             weight = "30",
             repeats = "12"

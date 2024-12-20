@@ -94,6 +94,9 @@ fun getCurrentDate(): Long {
     return Date.from(instant).toTimeStamp()
 }
 
+fun Long.isCurrentDate() =
+    getCurrentDate() == this
+
 
 data class Day(val dayOfMonth: Int, val dayOfWeekName: String, val date: Long)
 

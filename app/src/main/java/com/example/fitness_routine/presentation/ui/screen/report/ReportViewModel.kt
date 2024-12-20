@@ -1,17 +1,27 @@
 package com.example.fitness_routine.presentation.ui.screen.report
 
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.fitness_routine.data.entity.CheatMealDataEntity
 import com.example.fitness_routine.domain.entity.CardioDomainEntity
+import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Cardio
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.domain.interactor.cardio.AddCardio
 import com.example.fitness_routine.domain.interactor.cardio.DeleteCardio
 import com.example.fitness_routine.domain.interactor.cardio.GetCardios
 import com.example.fitness_routine.domain.interactor.cardio.InitCardio
 import com.example.fitness_routine.domain.interactor.cardio.UpdateCardio
+import com.example.fitness_routine.domain.interactor.cheat.AddCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.DeleteCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.GetCheatMeals
+import com.example.fitness_routine.domain.interactor.cheat.InitCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.UpdateCheatMeal
+import com.example.fitness_routine.domain.interactor.note.AddNote
+import com.example.fitness_routine.domain.interactor.note.DeleteNote
+import com.example.fitness_routine.domain.interactor.note.GetNotes
+import com.example.fitness_routine.domain.interactor.note.InitNote
+import com.example.fitness_routine.domain.interactor.note.UpdateNote
 import com.example.fitness_routine.domain.interactor.report.AddDailyReport
 import com.example.fitness_routine.domain.interactor.report.DeleteDailyReport
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
@@ -21,11 +31,8 @@ import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
 import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.toList
-import com.example.fitness_routine.presentation.util.toMuscles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
@@ -42,14 +49,23 @@ open class ReportViewModel @Inject constructor(
     getDailyReport: GetDailyReport,
     private val deleteReport: DeleteDailyReport,
     private val updateReport: UpdateDailyReport,
-    private val createReport: AddDailyReport,
     private val savedStateHandle: SavedStateHandle,
     private val initDailyReport: InitDailyReport,
     private val initCardio: InitCardio,
     private val getCardios: GetCardios,
     private val deleteCardio: DeleteCardio,
     private val updateCardio: UpdateCardio,
-    private val addCardio: AddCardio
+    private val addCardio: AddCardio,
+    private val getCheatMeals: GetCheatMeals,
+    private val getNotes: GetNotes,
+    private val initNote: InitNote,
+    private val initCheatMeal: InitCheatMeal,
+    private val addCheatMeal: AddCheatMeal,
+    private val deleteCheatMeal: DeleteCheatMeal,
+    private val updateCheatMeal: UpdateCheatMeal,
+    private val addNote: AddNote,
+    private val deleteNote: DeleteNote,
+    private val updateNote: UpdateNote
 ): BlocViewModel<ReportEvent, ReportState>() {
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
@@ -62,17 +78,27 @@ open class ReportViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
+    private val cheatMealsFlow = getCheatMeals.execute(GetCheatMeals.Params(date = date))
+        .map { it.getOrThrow() }
+        .catch { addError(it) }
 
+    private val notesFlow = getNotes.execute(GetNotes.Params(date = date))
+        .map { it.getOrThrow() }
+        .catch { addError(it) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val _uiState: StateFlow<ReportState> = combine(
         suspend { initCardio() }.asFlow().flatMapLatest { cardiosFlow },
         suspend { initDailyReport() }.asFlow().flatMapLatest { dailyReportFlow },
-    ) { cardios, report,  ->
+        suspend { initNote() }.asFlow().flatMapLatest { notesFlow },
+        suspend { initCheatMeal() }.asFlow().flatMapLatest { cheatMealsFlow }
+    ) { cardios, report, notes, cheatMeals ->
         ReportState.Content(
             date = date,
             dailyReport = report,
-            cardios = cardios
+            cardios = cardios,
+            notes = notes,
+            cheatMeals = cheatMeals
         )
     }.stateIn(
         scope = viewModelScope,
@@ -108,7 +134,6 @@ open class ReportViewModel @Inject constructor(
         }
 
 
-
         on(clazz = ReportEvent.UpdateField::class) {
             onState<ReportState.Content> { state ->
 
@@ -122,7 +147,6 @@ open class ReportViewModel @Inject constructor(
                 }
 
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
-
             }
         }
 
@@ -178,6 +202,51 @@ open class ReportViewModel @Inject constructor(
             )
         }
 
+
+        on(ReportEvent.AddCheatMeal::class) {
+            addCheatMeal.execute(AddCheatMeal.Params(date = date.toDate(), meal = "")).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(ReportEvent.UpdateCheatMeal::class) {
+            val updatedCheatMeal = it.meal.copy(meal = it.value)
+            updateCheatMeal.execute(UpdateCheatMeal.Params(updatedCheatMeal)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(ReportEvent.DeleteCheatMeal::class) {
+            deleteCheatMeal.execute(DeleteCheatMeal.Params(it.meal)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(ReportEvent.AddNote::class) {
+            addNote.execute(AddNote.Params(date = date.toDate(), note = "")).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(ReportEvent.UpdateNote::class) {
+            val updatedNote = it.note.copy(note = it.value)
+            updateNote.execute(UpdateNote.Params(updatedNote)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(ReportEvent.DeleteNote::class) {
+            deleteNote.execute(DeleteNote.Params(it.note)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+
     }
 
     private suspend fun initDailyReport() {
@@ -192,6 +261,17 @@ open class ReportViewModel @Inject constructor(
         )
     }
 
+    private suspend fun initCheatMeal() {
+        initCheatMeal.execute(InitCheatMeal.Params(date)).fold(
+            onSuccess = {}, onFailure = { addError(it) }
+        )
+    }
+
+    private suspend fun initNote() {
+        initNote.execute(InitNote.Params(date)).fold(
+            onSuccess = {}, onFailure = { addError(it) }
+        )
+    }
 
 }
 
@@ -211,6 +291,14 @@ sealed interface ReportEvent {
     data class UpdateCheckBox(val isChecked: Boolean, val checkBoxField: CheckBoxField): ReportEvent
     data class UpdateField(val value: String, val field: Field): ReportEvent
     data class SelectMuscle(val muscle: String): ReportEvent
+
+    data class DeleteNote(val note: NoteDomainEntity): ReportEvent
+    data class UpdateNote(val note: NoteDomainEntity, val value: String): ReportEvent
+    object AddNote: ReportEvent
+
+    object AddCheatMeal: ReportEvent
+    data class DeleteCheatMeal(val meal: CheatMealDomainEntity): ReportEvent
+    data class UpdateCheatMeal(val meal: CheatMealDomainEntity, val value: String): ReportEvent
 }
 
 
@@ -221,7 +309,9 @@ sealed interface ReportState {
     data class Content(
         val date: Long,
         val dailyReport: DailyReportDomainEntity,
-        val cardios: List<CardioDomainEntity>
+        val cardios: List<CardioDomainEntity>,
+        val notes: List<NoteDomainEntity>,
+        val cheatMeals: List<CheatMealDomainEntity>
     ): ReportState
 
 }

@@ -9,11 +9,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
 import com.example.fitness_routine.presentation.ui.screen.splash.SplashScreen
 import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
 import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
+import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
@@ -79,7 +81,8 @@ fun RootNavGraph(
 
             ReportScreen(
                 navigateBack = { navController.popBackStack() },
-                navigateToWorkout = { date -> navController.navigate(Screen.Workout.params(date)) }
+                navigateToWorkout = { date -> navController.navigate(Screen.Workout.params(date)) },
+                navigateToBodyMeasurement = { date -> navController.navigate(Screen.Measurement.params(date)) }
             )
         }
 
@@ -161,6 +164,30 @@ fun RootNavGraph(
             route = SettingsRoute
         ) {
             SettingsScreen(navigateBack = { navController.popBackStack() })
+        }
+
+
+        composable(
+            route = MeasurementRoute,
+            arguments = listOf(
+                navArgument(NavigationArgument.Date.param) {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            BodyMeasurementScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+
+
+        composable(
+            route = MeasurementRoute
+        ) {
+            MeasurementsScreen(
+                navigateBack = { navController.popBackStack() },
+                navigateToBodyMeasurement = { date -> navController.navigate(Screen.Measurement.params(date)) }
+            )
         }
 
     }

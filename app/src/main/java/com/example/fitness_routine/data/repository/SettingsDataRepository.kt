@@ -4,6 +4,7 @@ import com.example.fitness_routine.data.datasource.SettingsDataSource
 import com.example.fitness_routine.data.mapper.toData
 import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.SettingsDomainEntity
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,6 +20,10 @@ class SettingsDataRepository @Inject constructor(
 
     override suspend fun changeSettings(settings: SettingsDomainEntity) {
         settingsDataSource.changeSettings(settings.toData())
+    }
+
+    override suspend fun changeChoice(choice: Choice) {
+        settingsDataSource.changeChoice(choice)
     }
 
 

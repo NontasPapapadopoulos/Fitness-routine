@@ -3,9 +3,12 @@ package com.example.fitness_routine.presentation.di
 import android.app.Application
 import androidx.room.Room
 import com.example.fitness_routine.data.cache.AppDatabase
+import com.example.fitness_routine.data.cache.dao.BodyMeasurementDao
 import com.example.fitness_routine.data.cache.dao.CardioDao
+import com.example.fitness_routine.data.cache.dao.CheatMealDao
 import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.cache.dao.ExerciseDao
+import com.example.fitness_routine.data.cache.dao.NoteDao
 import com.example.fitness_routine.data.cache.dao.SetDao
 import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
@@ -62,7 +65,27 @@ object DbModule {
 
     @Provides
     @Singleton
-    fun provide(database: AppDatabase): CardioDao {
+    fun provideCardioDao(database: AppDatabase): CardioDao {
         return database.getCardioDao()
     }
+
+
+    @Provides
+    @Singleton
+    fun provideNoteDao(database: AppDatabase): NoteDao {
+        return database.getNoteDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCheatMealDao(database: AppDatabase): CheatMealDao {
+        return database.getCheatMealDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBodyMeasurementDao(database: AppDatabase): BodyMeasurementDao {
+        return database.getBodyMeasurementDao()
+    }
+
 }

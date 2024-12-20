@@ -3,8 +3,8 @@ package com.example.fitness_routine.domain.entity
 import java.util.Date
 
 
-data class CheatMealDomainEntity(
+data class NoteDomainEntity(
     val id: String,
     val date: Date,
-    val meal: String,
+    val note: String,
 )

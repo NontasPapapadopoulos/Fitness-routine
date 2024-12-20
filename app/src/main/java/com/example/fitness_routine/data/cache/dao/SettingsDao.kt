@@ -16,4 +16,8 @@ interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(settings: SettingsDataEntity)
 
+
+    @Query("UPDATE Settings SET choice = :choice")
+    suspend fun changeChoice(choice: String)
+
 }

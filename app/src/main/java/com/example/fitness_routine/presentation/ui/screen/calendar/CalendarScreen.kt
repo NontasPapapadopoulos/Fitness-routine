@@ -69,7 +69,6 @@ import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BottomBar
-import com.example.fitness_routine.presentation.component.ContentWithDivider
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.DAY
@@ -77,11 +76,11 @@ import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScree
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize1
 import com.example.fitness_routine.presentation.ui.theme.contentSize2
-import com.example.fitness_routine.presentation.ui.theme.contentSize4
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing17
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing1
+
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing5
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.Calendar
@@ -92,6 +91,7 @@ import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
 import com.example.fitness_routine.presentation.util.getDayOfWeek
+import com.example.fitness_routine.presentation.util.getIcon
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
@@ -128,6 +128,7 @@ fun CalendarScreen(
                 content = state,
                 navigateToDailyReport = { navigateToDailyReport(it) },
                 navigateToScreen = { navigateToScreen(it) },
+                onSelect = { viewModel.add(CalendarEvent.SelectChoice(it)) }
             )
         }
 
@@ -145,6 +146,7 @@ private fun Content(
     content: CalendarState.Content,
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
+    onSelect: (Choice) -> Unit
 ) {
 
     val currentYear = getCurrentYear()
@@ -276,7 +278,12 @@ private fun Content(
                         selectedChoice = content.selectedChoice
                     )
 
-                    Selections()
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Choices(onSelect, content)
+
+                    Spacer(modifier = Modifier.height(contentSpacing2))
+
                 }
             }
         }
@@ -294,6 +301,22 @@ private fun Content(
         }
     }
 
+}
+
+@Composable
+private fun Choices(
+    onSelect: (Choice) -> Unit,
+    content: CalendarState.Content
+) {
+    Choice.entries.forEach {
+        Column {
+            ChoiceItem(
+                choice = it,
+                onSelect = { onSelect(it) },
+                isSelected = content.selectedChoice == it
+            )
+        }
+    }
 }
 
 private suspend fun toggleDrawerState(drawerState: DrawerState) {
@@ -600,6 +623,64 @@ private fun DaysHeader() {
 }
 
 
+@Composable
+private fun ChoiceItem(
+    choice: Choice,
+    isSelected: Boolean,
+    onSelect: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(contentSpacing1)
+            .background(
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape = RoundedCornerShape(contentSpacing2)
+            )
+            .then(
+                if (isSelected) {
+                    Modifier.border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(contentSpacing2)
+                    )
+                } else Modifier
+            )
+            .padding(contentSpacing2)
+            .clickable { onSelect() },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        val color = when (choice) {
+            Choice.Workout -> MaterialTheme.colorScheme.primary
+            Choice.Creatine -> colorResource(R.color.creatine)
+            Choice.Cheat -> colorResource(R.color.cheat_meal)
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                choice.getIcon(),
+                contentDescription = null,
+                modifier =
+                Modifier
+                    .background(color = color, shape = RoundedCornerShape(contentSpacing2))
+                    .padding(contentSpacing1)
+            )
+
+            Spacer(modifier = Modifier.width(contentSpacing2))
+
+            Text(
+                text = choice.value,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+        }
+    }
+}
+
 
 
 
@@ -617,6 +698,7 @@ private fun CalendarScreenPreviewDark() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
+                onSelect = {}
             )
         }
 
@@ -629,6 +711,7 @@ private fun CalendarScreenPreviewDark() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
+                onSelect = {}
             )
         }
     }
@@ -647,6 +730,7 @@ private fun CalendarScreenPreview() {
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
+                onSelect = {}
             )
         }
     }

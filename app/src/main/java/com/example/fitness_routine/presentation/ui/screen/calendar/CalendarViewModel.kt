@@ -2,8 +2,11 @@ package com.example.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
+import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
+import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.util.getDate
@@ -22,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class CalendarViewModel @Inject constructor(
     getDailyReports: GetDailyReports,
-    getSettings: GetSettings
+    getSettings: GetSettings,
+    private val changeChoice: ChangeChoice
 ): BlocViewModel<CalendarEvent, CalendarState>() {
 
     private val currentDateFlow = MutableSharedFlow<String>()
@@ -55,10 +59,19 @@ open class CalendarViewModel @Inject constructor(
     )
 
 
+    init {
+        on(CalendarEvent.SelectChoice::class) {
+            changeChoice.execute(ChangeChoice.Params(it.choice)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
+    }
 }
 
 
 sealed interface CalendarEvent {
+    data class SelectChoice(val choice: Choice): CalendarEvent
 }
 
 
