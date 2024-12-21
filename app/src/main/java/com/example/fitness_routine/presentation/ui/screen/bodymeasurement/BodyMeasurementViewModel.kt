@@ -45,14 +45,28 @@ class BodyMeasurementViewModel @Inject constructor(
 
 
     init {
-
         on(MeasurementEvent.UpdateField::class) {
-
+            onState<MeasurementState.Content>{ state ->
+                val measurement = state.bodyMeasurement
+                val updatedMeasurement = when(it.field) {
+                    MeasurementField.Weight -> measurement.copy(weight = it.value.toFloat())
+                    MeasurementField.Fat -> measurement.copy(fat = it.value.toFloat())
+                    MeasurementField.MuscleMass -> measurement.copy(muscleMass = it.value.toFloat())
+                    MeasurementField.BMI -> measurement.copy(bmi = it.value.toFloat())
+                    MeasurementField.TBW -> measurement.copy(tbw = it.value.toFloat())
+                    MeasurementField.BMR -> measurement.copy(bmr = it.value.toFloat())
+                    MeasurementField.VisceralFat -> measurement.copy(visceralFat = it.value.toInt())
+                    MeasurementField.MetabolicAge -> measurement.copy(metabolicAge = it.value.toInt())
+                }
+                updateBodyMeasurement.execute(UpdateBodyMeasurement.Params(updatedMeasurement))
+                    .fold(
+                        onSuccess = {},
+                        onFailure = { addError(it) }
+                    )
+            }
         }
 
     }
-
-
 
 }
 

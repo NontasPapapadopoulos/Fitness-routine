@@ -63,11 +63,11 @@ fun BodyMeasurementScreen(
         is MeasurementState.Content -> {
             BodyMeasurementContent(
                 content = state,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                onUpdateField = { field, value -> viewModel.add(MeasurementEvent.UpdateField(field, value)) }
             )
         }
     }
-
 }
 
 
@@ -76,7 +76,8 @@ fun BodyMeasurementScreen(
 @Composable
 private fun BodyMeasurementContent(
     content: MeasurementState.Content,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onUpdateField: (MeasurementField, String) -> Unit
 ) {
 
     Scaffold(
@@ -106,7 +107,7 @@ private fun BodyMeasurementContent(
                 label = "Weight",
                 unit = "kg",
                 value = content.bodyMeasurement.weight.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.Weight, it) },
                 testTag = WEIGHT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -115,7 +116,7 @@ private fun BodyMeasurementContent(
                 label = "Fat",
                 unit = "%",
                 value = content.bodyMeasurement.fat.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.Fat, it) },
                 testTag = FAT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -124,7 +125,7 @@ private fun BodyMeasurementContent(
                 label = "Muscle Mass",
                 unit = "kg",
                 value = content.bodyMeasurement.muscleMass.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.MuscleMass, it) },
                 testTag = MUSCLE_MASS_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -133,7 +134,7 @@ private fun BodyMeasurementContent(
                 label = "BMI",
                 unit = "%",
                 value = content.bodyMeasurement.bmi.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.BMI, it) },
                 testTag = BMI_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -142,7 +143,7 @@ private fun BodyMeasurementContent(
                 label = "TBW",
                 unit = "",
                 value = content.bodyMeasurement.tbw.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.TBW, it) },
                 testTag = TBW_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -151,7 +152,7 @@ private fun BodyMeasurementContent(
                 label = "BMR",
                 unit = "",
                 value = content.bodyMeasurement.bmr.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.BMR, it) },
                 testTag = BMR_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -160,7 +161,7 @@ private fun BodyMeasurementContent(
                 label = "Visceral Fat",
                 unit = "",
                 value = content.bodyMeasurement.visceralFat.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.VisceralFat, it) },
                 testTag = VISCERAL_FAT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -169,7 +170,7 @@ private fun BodyMeasurementContent(
                 label = "Metabolic Age",
                 unit = "",
                 value = content.bodyMeasurement.metabolicAge.toString(),
-                onValueChange = {},
+                onValueChange = { onUpdateField(MeasurementField.MetabolicAge, it) },
                 testTag = METABOLIC_AGE_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
@@ -199,7 +200,8 @@ private fun MeasurementsContentPreview() {
                     metabolicAge = 15
                 ),
             ),
-            navigateBack = {}
+            navigateBack = {},
+            onUpdateField = { _, _, -> }
         )
     }
 }
