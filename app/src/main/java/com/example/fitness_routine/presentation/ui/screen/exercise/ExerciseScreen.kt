@@ -153,7 +153,7 @@ private fun ExerciseContent(
                 onExpandedChange = { expanded = !expanded },
                 modifier = Modifier.testTag(MUSCLE_GROUP_DROPDOWN)
             ) {
-                TextField(
+                OutlinedTextField(
                     value = selectedOption,
                     onValueChange = {},
                     readOnly = true,
