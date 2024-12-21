@@ -1,10 +1,8 @@
-package com.example.fitness_routine.presentation.ui.screen.cheat
+package com.example.fitness_routine.presentation.ui.screen.notes
 
 import android.widget.Toast
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,27 +25,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
+import java.time.Month
 import java.time.ZoneId
 import java.util.Date
 
 
 @Composable
-fun CheatMealsScreen(
-    viewModel: CheatMealsViewModel = hiltViewModel(),
-    navigateToScreen: (Screen) -> Unit,
+fun NotesScreen(
+    viewModel: NotesViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
 
@@ -64,14 +59,13 @@ fun CheatMealsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
-        is CheatMealsState.Content -> {
-            CheatMealsContent(
+        is NotesState.Content -> {
+            NotesContent(
                 content = state,
-                navigateToScreen = navigateToScreen,
                 navigateBack = navigateBack
             )
         }
-        CheatMealsState.Idle -> {
+        NotesState.Idle -> {
             LoadingBox()
         }
     }
@@ -82,27 +76,20 @@ fun CheatMealsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CheatMealsContent(
-    content: CheatMealsState.Content,
-    navigateToScreen: (Screen) -> Unit,
+private fun NotesContent(
+    content: NotesState.Content,
     navigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Fitness Diary")
+                    Text(text = "Workout Sessions")
                 },
                 navigationIcon = { BackButton(navigateBack) }
-
             )
         },
-        bottomBar = {
-            BottomBar(
-                onClick = { navigateToScreen(it) },
-                currentScreen = Screen.Cheat
-            )
-        }
+
     ) {
 
         Column(
@@ -111,74 +98,125 @@ private fun CheatMealsContent(
                 .verticalScroll(rememberScrollState())
                 .padding(contentSpacing4)
                 .padding(it),
+
         ) {
 
-            MealsContainer(content.meals)
-        }
+            NotesContainer(
+                content.notes,
+            )
 
+        }
+    }
+}
+
+
+@Composable
+private fun NotesContainer(
+    sessions: List<NoteDomainEntity>,
+) {
+
+    val monthGroups = groupByMonth(sessions)
+
+    monthGroups.onEachIndexed { _, entry ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(contentSpacing2)
+                )
+                .padding(contentSpacing4)
+
+        ) {
+            MonthName(entry)
+
+            Spacer(modifier = Modifier.height(contentSpacing4))
+
+            val days = groupByDate(entry)
+
+            days.onEachIndexed { index, note ->
+                DailyNotes(notes = note.value)
+                if (index < entry.value.size - 1) {
+                    Spacer(modifier = Modifier.height(contentSpacing2))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(contentSpacing4))
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(contentSpacing2))
     }
 }
 
 @Composable
-private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
+private fun MonthName(entry: Map.Entry<Month, List<NoteDomainEntity>>) {
+    Text(text = entry.key.name.capitalize())
+}
 
-    val monthGroups = meals
+@Composable
+private fun groupByMonth(sessions: List<NoteDomainEntity>) =
+    sessions
         .groupBy {
             val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             localDate.month
         }
 
-        monthGroups.onEachIndexed { _, entry ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(contentSpacing2)
-                    )
-                    .padding(contentSpacing4)
-
-            ) {
-                Text(text = entry.key.name.capitalize())
-                Spacer(modifier = Modifier.height(contentSpacing4))
-
-                entry.value.onEachIndexed { index, report ->
-                    Text(text = "${index + 1} - ${report.date.toFormattedDate()} - ${report.meal}")
-
-                    if (index < entry.value.size - 1)
-                        Spacer(modifier = Modifier.height(contentSpacing4))
-
-                }
-        }
-            Spacer(modifier = Modifier.height(contentSpacing2))
+@Composable
+private fun groupByDate(entry: Map.Entry<Month, List<NoteDomainEntity>>) =
+    entry.value.groupBy {
+        val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        localDate.dayOfYear
     }
+
+@Composable
+private fun DailyNotes(
+    notes: List<NoteDomainEntity>
+) {
+    Text(text = notes.first().date.toFormattedDate())
+    notes.forEach {
+        Text(
+            text = "• ${it.note}",
+        )
+    }
+
 }
 
 
 @Composable
 @Preview
-private fun CheatMealsContentPreview() {
+private fun GymSessionsContentPreview() {
     AppTheme {
-        CheatMealsContent(
-            content = CheatMealsState.Content(
-                meals = generateMeals()
+        NotesContent(
+            content = NotesState.Content(
+                notes = generateNotes()
             ),
-            navigateToScreen = {},
             navigateBack = {}
         )
     }
 
 }
 
-private fun generateMeals(): List<CheatMealDomainEntity> {
+private fun generateNotes(): List<NoteDomainEntity> {
     return (1..10).map {
-        val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
+        val localDate = LocalDate.of(2024, 1, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-        CheatMealDomainEntity(
-            id = "",
+
+        NoteDomainEntity(
             date = date,
-            meal = "Burger",
+            note = "Note $it",
+            id = ""
         )
-    }
+
+    }.plus((1..10).map {
+        val localDate = LocalDate.of(2024, 1, it)
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
+        NoteDomainEntity(
+            date = date,
+            note = "Note $it",
+            id = ""
+        )
+
+    })
 }
+

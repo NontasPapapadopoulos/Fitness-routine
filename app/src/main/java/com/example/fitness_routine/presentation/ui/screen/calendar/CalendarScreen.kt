@@ -226,6 +226,21 @@ private fun Content(
                     )
 
 
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Notes",
+                                color = MaterialTheme.colorScheme.secondary,
+                                style = MaterialTheme.typography.titleLarge
+                            ) },
+                        selected = false,
+                        onClick = {
+                            coroutineScope.launch { toggleDrawerState(drawerState) }
+                            navigateToScreen(Screen.Notes)
+                        }
+                    )
+
+
 
                     Spacer(modifier = Modifier.weight(1f))
 

@@ -1,9 +1,9 @@
 package com.example.fitness_routine.presentation.ui.screen.cheat
 
 import androidx.lifecycle.viewModelScope
+import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.interactor.report.GetDailyReport
-import com.example.fitness_routine.domain.interactor.report.GetDailyReports
+import com.example.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
 import com.example.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,16 +16,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheatMealsViewModel @Inject constructor(
-    getDailyReports: GetDailyReports
+    getCheatMeals: GetAllCheatMeals
 ): BlocViewModel<CheatMealsEvent, CheatMealsState>() {
 
-    private val dailyReportsFlow = getDailyReports.execute(Unit)
+    private val dailyReportsFlow = getCheatMeals.execute(Unit)
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
     override val _uiState: StateFlow<CheatMealsState> = dailyReportsFlow.map {
         CheatMealsState.Content(
-            dailyReports = it
+            meals = it
         )
     }.stateIn(
         scope = viewModelScope,
@@ -45,5 +45,5 @@ sealed interface CheatMealsEvent {
 
 sealed interface CheatMealsState {
     object Idle : CheatMealsState
-    data class Content(val dailyReports: List<DailyReportDomainEntity>) : CheatMealsState
+    data class Content(val meals: List<CheatMealDomainEntity>) : CheatMealsState
 }

@@ -11,6 +11,7 @@ enum class Screen {
     Settings,
     Measurement,
     Measurements,
+    Notes
 }
 
 
@@ -29,6 +30,7 @@ val WorkoutRoute = "${Screen.Workout.name}/${NavigationArgument.Date.addBrackets
 val SettingsRoute = Screen.Settings.name
 val MeasurementRoute = "${Screen.Measurement.name}/${NavigationArgument.Date.addBrackets()}"
 val MeasurementsRoute = Screen.Measurements.name
+val NotesRoute = Screen.Notes.name
 
 
 

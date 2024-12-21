@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.navigation
 
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
+import com.example.fitness_routine.presentation.ui.screen.notes.NotesScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
@@ -60,9 +62,10 @@ fun RootNavGraph(
                         Screen.Gym,
                         Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
                         Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
-                        Screen.Settings -> { navController.navigate(Screen.Settings.name) { launchSingleTop = true } }
+                        Screen.Settings -> { navController.navigate(SettingsRoute) { launchSingleTop = true } }
                         Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
-                        Screen.Measurements -> { navController.navigate(Screen.Measurements.name) { launchSingleTop = true } }
+                        Screen.Measurements -> { navController.navigate(MeasurementsRoute) { launchSingleTop = true } }
+                        Screen.Notes -> { navController.navigate(NotesRoute)  { launchSingleTop = true } }
                         else -> {}
                     }
                 },
@@ -187,6 +190,15 @@ fun RootNavGraph(
             MeasurementsScreen(
                 navigateBack = { navController.popBackStack() },
                 navigateToBodyMeasurement = { date -> navController.navigate(Screen.Measurement.params(date)) }
+            )
+        }
+
+
+        composable(
+            route = NotesRoute
+        ) {
+            NotesScreen(
+                navigateBack = { navController.popBackStack() }
             )
         }
 

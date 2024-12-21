@@ -19,7 +19,7 @@ import org.mockito.kotlin.whenever
 import java.util.Date
 
 @RunWith(MockitoJUnitRunner::class)
-class GymSessionsViewModelTest {
+class NotesViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()

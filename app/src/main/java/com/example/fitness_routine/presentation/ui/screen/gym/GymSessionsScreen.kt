@@ -104,12 +104,7 @@ private fun GymSessionsContent(
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(text = "Workout Sessions")
-                    }
+                    Text(text = "Workout Sessions")
                 },
                 navigationIcon = { BackButton(navigateBack) }
             )
