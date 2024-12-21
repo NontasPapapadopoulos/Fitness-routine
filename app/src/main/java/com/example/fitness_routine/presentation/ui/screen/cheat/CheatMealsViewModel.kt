@@ -2,7 +2,6 @@ package com.example.fitness_routine.presentation.ui.screen.cheat
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
 import com.example.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,11 +18,11 @@ class CheatMealsViewModel @Inject constructor(
     getCheatMeals: GetAllCheatMeals
 ): BlocViewModel<CheatMealsEvent, CheatMealsState>() {
 
-    private val dailyReportsFlow = getCheatMeals.execute(Unit)
+    private val cheatMealsFlow = getCheatMeals.execute(Unit)
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
-    override val _uiState: StateFlow<CheatMealsState> = dailyReportsFlow.map {
+    override val _uiState: StateFlow<CheatMealsState> = cheatMealsFlow.map {
         CheatMealsState.Content(
             meals = it
         )
@@ -33,9 +32,7 @@ class CheatMealsViewModel @Inject constructor(
         initialValue = CheatMealsState.Idle
     )
 
-
 }
-
 
 
 sealed interface CheatMealsEvent {

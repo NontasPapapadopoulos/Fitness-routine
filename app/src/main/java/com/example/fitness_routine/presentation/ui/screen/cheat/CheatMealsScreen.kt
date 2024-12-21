@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,6 +40,7 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
+import java.time.Month
 import java.time.ZoneId
 import java.util.Date
 
@@ -91,7 +93,7 @@ private fun CheatMealsContent(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Fitness Diary")
+                    Text(text = "Cheat Meals")
                 },
                 navigationIcon = { BackButton(navigateBack) }
 
@@ -122,11 +124,7 @@ private fun CheatMealsContent(
 @Composable
 private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
 
-    val monthGroups = meals
-        .groupBy {
-            val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-            localDate.month
-        }
+    val monthGroups = groupByMonth(meals)
 
         monthGroups.onEachIndexed { _, entry ->
             Column(
@@ -140,20 +138,57 @@ private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
                     .padding(contentSpacing4)
 
             ) {
-                Text(text = entry.key.name.capitalize())
+                MonthName(entry)
                 Spacer(modifier = Modifier.height(contentSpacing4))
 
-                entry.value.onEachIndexed { index, report ->
-                    Text(text = "${index + 1} - ${report.date.toFormattedDate()} - ${report.meal}")
+                val days = groupByDate(entry)
 
-                    if (index < entry.value.size - 1)
+                days.onEachIndexed { index, day ->
+                    DailyCheatMeals(day.value)
+
+                    if (index < days.size - 1) {
+                        Spacer(modifier = Modifier.height(contentSpacing2))
+                        HorizontalDivider()
                         Spacer(modifier = Modifier.height(contentSpacing4))
-
+                    }
                 }
+
         }
             Spacer(modifier = Modifier.height(contentSpacing2))
     }
 }
+
+@Composable
+private fun DailyCheatMeals(
+    meals: List<CheatMealDomainEntity>
+) {
+    Text(text = meals.first().date.toFormattedDate())
+    meals.forEach {
+        Text(
+            text = "• ${it.meal}",
+        )
+    }
+}
+
+@Composable
+private fun groupByDate(entry: Map.Entry<Month, List<CheatMealDomainEntity>>) =
+    entry.value.groupBy {
+        val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        localDate.dayOfYear
+    }
+
+@Composable
+private fun MonthName(entry: Map.Entry<Month, List<CheatMealDomainEntity>>) {
+    Text(text = entry.key.name.capitalize())
+}
+
+@Composable
+private fun groupByMonth(meals: List<CheatMealDomainEntity>) =
+    meals
+        .groupBy {
+            val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            localDate.month
+        }
 
 
 @Composable
@@ -180,5 +215,15 @@ private fun generateMeals(): List<CheatMealDomainEntity> {
             date = date,
             meal = "Burger",
         )
-    }
+    }.plus(
+        (1..10).map {
+            val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
+            val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            CheatMealDomainEntity(
+                id = "",
+                date = date,
+                meal = "Burger",
+            )
+        }
+    )
 }

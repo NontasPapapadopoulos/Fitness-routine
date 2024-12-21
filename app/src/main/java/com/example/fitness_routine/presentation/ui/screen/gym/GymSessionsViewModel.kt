@@ -55,7 +55,6 @@ class GymSessionsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = GymSessionsState.Idle
     )
-
 }
 
 

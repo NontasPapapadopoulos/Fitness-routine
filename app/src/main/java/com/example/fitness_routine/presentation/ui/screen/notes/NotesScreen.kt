@@ -84,7 +84,7 @@ private fun NotesContent(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Workout Sessions")
+                    Text(text = "Notes")
                 },
                 navigationIcon = { BackButton(navigateBack) }
             )
@@ -135,9 +135,9 @@ private fun NotesContainer(
 
             val days = groupByDate(entry)
 
-            days.onEachIndexed { index, note ->
-                DailyNotes(notes = note.value)
-                if (index < entry.value.size - 1) {
+            days.onEachIndexed { index, day ->
+                DailyNotes(notes = day.value)
+                if (index < days.size - 1) {
                     Spacer(modifier = Modifier.height(contentSpacing2))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(contentSpacing4))
@@ -184,7 +184,7 @@ private fun DailyNotes(
 
 @Composable
 @Preview
-private fun GymSessionsContentPreview() {
+private fun NotesContentPreview() {
     AppTheme {
         NotesContent(
             content = NotesState.Content(
@@ -198,7 +198,7 @@ private fun GymSessionsContentPreview() {
 
 private fun generateNotes(): List<NoteDomainEntity> {
     return (1..10).map {
-        val localDate = LocalDate.of(2024, 1, it)
+        val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
         NoteDomainEntity(
@@ -208,9 +208,8 @@ private fun generateNotes(): List<NoteDomainEntity> {
         )
 
     }.plus((1..10).map {
-        val localDate = LocalDate.of(2024, 1, it)
+        val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-
         NoteDomainEntity(
             date = date,
             note = "Note $it",
