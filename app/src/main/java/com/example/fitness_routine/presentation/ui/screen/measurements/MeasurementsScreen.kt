@@ -40,6 +40,10 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 import com.example.fitness_routine.presentation.util.toFormattedDate
+import com.example.fitness_routine.presentation.util.toTimeStamp
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 
 @Composable
 fun MeasurementsScreen(
@@ -162,7 +166,7 @@ private fun MeasurementItem(
     ) {
 
         Text(
-            text = measurement.date.toString()
+            text = measurement.date.toFormattedDate()
         )
 
         Spacer(modifier = Modifier.width(contentSpacing6))
@@ -206,7 +210,11 @@ private fun MeasurementsContentPreview() {
 
 
 private fun generateMeasurements() =
-    (1..11).map {
+
+
+(1..11).map {
+    val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
+    val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         BodyMeasurementDomainEntity(
             id = "",
             weight = 0f,
@@ -217,6 +225,6 @@ private fun generateMeasurements() =
             bmi = 0f,
             tbw = 0f,
             visceralFat = 0,
-            date = 0L
+            date = date.toTimeStamp()
         )
     }
