@@ -39,9 +39,9 @@ import com.example.fitness_routine.data.util.Converters
         CheatMealDataEntity::class,
         BodyMeasurementDataEntity::class
     ],
-    autoMigrations = [
-        AutoMigration(from = 4, to = 5, spec = Migrations.Migrate4to5::class)
-                     ],
+//    autoMigrations = [
+//        AutoMigration(from = 4, to = 5, )//spec = Migrations.Migrate4to5::class)
+//                     ],
     exportSchema = false,
     version = 5
 )

@@ -688,7 +688,6 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
             name = "exercise name",
-//            index = it
         )
     }
 }
@@ -703,11 +702,9 @@ private fun getDailyReport(): DailyReportDomainEntity {
         hadCheatMeal = false,
         hadCreatine = true,
         litersOfWater = "2.5",
-        gymNotes = "",
         musclesTrained = listOf(Muscle.Legs.name),
         sleepQuality = "4",
         proteinGrams = "120",
         date = date,
-        meal = "",
     )
 }

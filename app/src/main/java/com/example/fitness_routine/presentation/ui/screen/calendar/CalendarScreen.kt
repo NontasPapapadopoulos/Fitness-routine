@@ -781,12 +781,10 @@ fun generateReports(): List<DailyReportDomainEntity> {
             hadCheatMeal = false,
             hadCreatine = true,
             litersOfWater = "2.5",
-            gymNotes = "",
             musclesTrained = listOf(Muscle.Legs.name),
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
-            meal = "",
         )
     }
 }

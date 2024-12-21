@@ -65,11 +65,9 @@ class DailyRoutineDataSourceImpl @Inject constructor(
         hadCreatine = false,
         hadCheatMeal = false,
         proteinGrams = "",
-        gymNotes = "",
         sleepQuality = "",
         litersOfWater = "",
         musclesTrained = "",
-        meal = "",
     )
 
 

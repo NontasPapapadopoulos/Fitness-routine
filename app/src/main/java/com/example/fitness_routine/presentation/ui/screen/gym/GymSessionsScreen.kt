@@ -257,12 +257,10 @@ private fun workoutSessions(): List<WorkoutSession> {
                 hadCheatMeal = if (it > 2) true else false,
                 hadCreatine = true,
                 litersOfWater = "2.5",
-                gymNotes = "",
                 musclesTrained = if (it == 4) listOf() else listOf(Muscle.Legs.name),
                 sleepQuality = "4",
                 proteinGrams = "120",
                 date = date,
-                meal = "",
             ),
             cardios = listOf(
                 CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
@@ -280,12 +278,10 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             hadCheatMeal = if (it > 2) true else false,
             hadCreatine = true,
             litersOfWater = "2.5",
-            gymNotes = "",
             musclesTrained = if (it == 1) listOf() else listOf(Muscle.Legs.name),
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
-            meal = "",
         )
     }
 }
