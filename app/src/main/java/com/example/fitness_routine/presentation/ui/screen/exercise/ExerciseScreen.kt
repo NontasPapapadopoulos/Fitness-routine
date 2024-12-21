@@ -57,6 +57,7 @@ import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScree
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 
 @Composable
@@ -208,7 +209,7 @@ private fun ExerciseContent(
                     singleLine = true
                 )
 
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(contentSpacing3))
 
                 Button(
                     onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
