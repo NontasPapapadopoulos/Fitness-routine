@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.SettingsAccessibility
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Cardio
@@ -168,6 +170,7 @@ private fun SessionsContainer(
             Spacer(modifier = Modifier.height(contentSpacing4))
 
             entry.value.onEachIndexed { index, session ->
+
                 SessionItem(
                     index = index,
                     session = session,
@@ -191,6 +194,7 @@ private fun SessionItem(
     session: WorkoutSession,
     modifier: Modifier
 ) {
+
 
     Row(
         modifier = modifier,
@@ -225,9 +229,33 @@ private fun SessionItem(
                     }
                 }
             }
+            BodyMeasurement(session)
         }
     }
 
+}
+
+@Composable
+private fun BodyMeasurement(
+    session: WorkoutSession,
+) {
+    if (session.measurement != null) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Weight: ${session.measurement.weight}kg - Fat:${session.measurement.fat}%",
+                color = MaterialTheme.colorScheme.primary
+            )
+
+            Icon(
+                Icons.Default.SettingsAccessibility, null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
 }
 
 
@@ -264,7 +292,19 @@ private fun workoutSessions(): List<WorkoutSession> {
             ),
             cardios = listOf(
                 CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
-            )
+            ),
+            measurement = if (it == 4) BodyMeasurementDomainEntity(
+                weight = 82F,
+                fat = 15F,
+                muscleMass = 70F,
+                bmi = 0f,
+                tbw = 0f,
+                metabolicAge = 1,
+                visceralFat = 0,
+                bmr = 0f,
+                id = "",
+                date = date.toTimeStamp()
+            ) else null
         )
     }
 }
