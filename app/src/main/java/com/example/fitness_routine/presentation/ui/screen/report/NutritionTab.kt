@@ -51,7 +51,6 @@ fun NutritionTab(
     onUpdateMeal: (CheatMealDomainEntity, String) -> Unit,
     onDeleteCheatMeal: (CheatMealDomainEntity) -> Unit,
     onAddCheatMeal: () -> Unit,
-    navigateToBodyMeasurement: () -> Unit,
 ) {
 
     Column {
@@ -119,30 +118,8 @@ fun NutritionTab(
 
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        BodyMeasurementButton(
-            navigateToBodyMeasurement = { navigateToBodyMeasurement() }
-        )
-
-
     }
 
-}
-
-@Composable
-private fun BodyMeasurementButton(
-    navigateToBodyMeasurement: () -> Unit,
-) {
-    Button(
-        onClick = { navigateToBodyMeasurement() },
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = "Body Measurement"
-        )
-    }
 }
 
 
@@ -273,7 +250,6 @@ private fun NutritionTabPreview() {
     AppTheme {
         NutritionTab(
             dailyReport = DailyReportDomainEntity(
-            gymNotes = "WoW",
             proteinGrams = "140",
             sleepQuality = "3",
             performedWorkout = true,
@@ -281,7 +257,6 @@ private fun NutritionTabPreview() {
             hadCheatMeal = true,
             musclesTrained = listOf(),
             litersOfWater = "2.5",
-            meal = "Burger",
             date = Date(),
         ),
             onUpdateTextField = { _, _ -> },
@@ -289,7 +264,6 @@ private fun NutritionTabPreview() {
             onUpdateMeal = { _, _, -> },
             onAddCheatMeal = {},
             onDeleteCheatMeal = {},
-            navigateToBodyMeasurement = {},
             cheatMeals = generateCheatMeals()
         )
     }

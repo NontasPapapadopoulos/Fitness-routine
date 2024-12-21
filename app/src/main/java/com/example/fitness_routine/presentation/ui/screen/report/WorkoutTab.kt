@@ -288,7 +288,6 @@ private fun WorkoutTabPreview() {
     AppTheme {
         WorkoutTab(
             dailyReport = DailyReportDomainEntity(
-                gymNotes = "WoW",
                 proteinGrams = "140",
                 sleepQuality = "3",
                 performedWorkout = true,
@@ -296,7 +295,6 @@ private fun WorkoutTabPreview() {
                 hadCheatMeal = true,
                 musclesTrained = listOf(),
                 litersOfWater = "2.5",
-                meal = "Burger",
                 date = Date(),
             ),
             notes = generateNotes(),

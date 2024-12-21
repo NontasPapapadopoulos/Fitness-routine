@@ -206,7 +206,6 @@ private fun generateNotes(): List<NoteDomainEntity> {
             note = "Note $it",
             id = ""
         )
-
     }.plus((1..10).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())

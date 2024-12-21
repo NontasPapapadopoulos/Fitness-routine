@@ -138,12 +138,10 @@ open class ReportViewModel @Inject constructor(
             onState<ReportState.Content> { state ->
 
                 val dailyReport = when(it.field) {
-                    Field.GymNotes -> state.dailyReport.copy(gymNotes = it.value)
                     Field.SleepQuality -> state.dailyReport.copy(sleepQuality = it.value)
                     Field.LitersOfWater -> state.dailyReport.copy(litersOfWater = it.value)
                     Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value.toList())
                     Field.ProteinGrams -> state.dailyReport.copy(proteinGrams = it.value)
-                    Field.CheatMeal -> state.dailyReport.copy(meal = it.value)
                 }
 
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
@@ -329,15 +327,9 @@ enum class CheckBoxField {
 }
 
 enum class Field {
-    GymNotes,
     SleepQuality,
     LitersOfWater,
     TrainedMuscles,
     ProteinGrams,
-    CheatMeal,
 }
 
-data class CardioItem(
-    val type: String,
-    val minutes: String
-)

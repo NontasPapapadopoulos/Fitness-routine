@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.ui.screen.cheat
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -125,35 +126,36 @@ private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
 
     val monthGroups = groupByMonth(meals)
 
-        monthGroups.onEachIndexed { _, entry ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(contentSpacing2)
-                    )
-                    .padding(contentSpacing4)
+    monthGroups.onEachIndexed { _, entry ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(contentSpacing2)
+                )
+                .padding(contentSpacing4)
 
-            ) {
-                MonthName(entry)
-                Spacer(modifier = Modifier.height(contentSpacing4))
+        ) {
+            MonthName(entry)
+            Spacer(modifier = Modifier.height(contentSpacing4))
 
-                val days = groupByDate(entry)
+            val days = groupByDate(entry)
 
-                days.onEachIndexed { index, day ->
-                    DailyCheatMeals(day.value)
+            days.onEachIndexed { index, day ->
+                DailyCheatMeals(day.value)
 
-                    if (index < days.size - 1) {
-                        Spacer(modifier = Modifier.height(contentSpacing2))
-                        HorizontalDivider()
-                        Spacer(modifier = Modifier.height(contentSpacing4))
-                    }
+                if (index < days.size - 1) {
+                    Spacer(modifier = Modifier.height(contentSpacing2))
+                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(contentSpacing4))
                 }
+            }
 
         }
-            Spacer(modifier = Modifier.height(contentSpacing2))
+
+        Spacer(modifier = Modifier.height(contentSpacing2))
     }
 }
 

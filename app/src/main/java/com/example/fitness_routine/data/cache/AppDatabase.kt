@@ -1,5 +1,6 @@
 package com.example.fitness_routine.data.cache
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -38,8 +39,11 @@ import com.example.fitness_routine.data.util.Converters
         CheatMealDataEntity::class,
         BodyMeasurementDataEntity::class
     ],
+    autoMigrations = [
+        AutoMigration(from = 4, to = 5, spec = Migrations.Migrate4to5::class)
+                     ],
     exportSchema = false,
-    version = 4
+    version = 5
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase(): RoomDatabase() {

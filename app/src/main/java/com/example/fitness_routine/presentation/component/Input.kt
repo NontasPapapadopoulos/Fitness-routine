@@ -46,6 +46,6 @@ fun Input(
             singleLine = true,
             keyboardOptions = keyboardOptions
         )
-    }
 
+}
 }

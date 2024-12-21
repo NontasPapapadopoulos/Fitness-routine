@@ -162,7 +162,6 @@ private fun Content(
                 navigationIcon = { BackButton(navigateBack) }
             )
         },
-
     ) {
 
         Column(
@@ -172,7 +171,6 @@ private fun Content(
                 .verticalScroll(rememberScrollState())
                 .padding(contentSpacing4)
         ) {
-
 
             Tabs(
                 selectedTabIndex = selectedTabIndex,
@@ -191,7 +189,12 @@ private fun Content(
                         onAddCheatMeal = onAddCheatMeal,
                         onUpdateMeal = { meal, value -> onUpdateCheatMeal(meal, value) },
                         onDeleteCheatMeal = { onDeleteCheatMeal(it) },
-                         navigateToBodyMeasurement = { navigateToBodyMeasurement(content.date) }
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    BodyMeasurementButton(
+                        navigateToBodyMeasurement = { navigateToBodyMeasurement(content.date) }
                     )
                 }
                 is Tab.Workout -> {
@@ -233,6 +236,23 @@ private fun WorkoutButton(
         )
     }
 }
+
+@Composable
+private fun BodyMeasurementButton(
+    navigateToBodyMeasurement: () -> Unit,
+) {
+    Button(
+        onClick = { navigateToBodyMeasurement() },
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "Body Measurement"
+        )
+    }
+}
+
+
 
 
 @Composable
@@ -330,14 +350,6 @@ fun ChoiceCheckBoxItem(
 
 
 
-
-
-
-
-
-
-
-
 @Composable
 @Preview
 private fun ReportPreview() {
@@ -346,7 +358,6 @@ private fun ReportPreview() {
             content = ReportState.Content(
                 date = 1728939600000,
                 dailyReport = DailyReportDomainEntity(
-                    gymNotes = "WoW",
                     proteinGrams = "140",
                     sleepQuality = "3",
                     performedWorkout = true,
@@ -354,7 +365,6 @@ private fun ReportPreview() {
                     hadCheatMeal = true,
                     musclesTrained = listOf(),
                     litersOfWater = "2.5",
-                    meal = "Burger",
                     date = Date(),
                 ),
                 cardios = listOf(
