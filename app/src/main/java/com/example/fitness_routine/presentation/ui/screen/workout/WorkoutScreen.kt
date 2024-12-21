@@ -554,7 +554,7 @@ private fun AddSet(
     ) {
 
         Text(
-            text = "Add new Set",
+            text = "Add Set",
             color = MaterialTheme.colorScheme.primary
         )
 

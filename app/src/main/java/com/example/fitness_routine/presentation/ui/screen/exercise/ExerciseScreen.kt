@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -202,7 +203,7 @@ private fun ExerciseContent(
                     value = content.newExercise,
                     onValueChange = { onTextChanged(it) },
                     modifier = Modifier
-                        .weight(0.55f)
+                        .weight(0.7f)
                         .testTag(EXERCISE_TEXT_FIELD),
                     singleLine = true
                 )
@@ -213,10 +214,10 @@ private fun ExerciseContent(
                     onClick = { onAddExercise(Muscle.valueOf(selectedOption)) },
                     enabled = content.newExercise.isNotEmpty(),
                     modifier = Modifier
-                        .weight(0.45f)
+                        .weight(0.3f)
                         .testTag(ADD_EXERCISE_BUTTON)
                 ) {
-                    Text(text = "Add Exercise")
+                    Text(text = "Add")
                 }
             }
 
@@ -306,9 +307,14 @@ private fun Exercise(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = exercise.name)
+        Text(
+            text = exercise.name,
+            modifier = Modifier.weight(0.8f)
+        )
 
-        Row {
+        Row(
+            modifier = Modifier.weight(0.2f)
+        ) {
             IconButton(
                 onClick =  { onSelectExercise(exercise) },
                 modifier = Modifier.testTag(EDIT_EXERCISE + exercise.name)) {
@@ -357,8 +363,7 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
 
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
-            name = "exercise name",
-//            index = it
+            name = "exercise name exercise name",
         )
     }
 }
