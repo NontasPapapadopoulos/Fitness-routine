@@ -50,7 +50,7 @@ open class CalendarViewModel @Inject constructor(
             reports = reports,
             currentDate = currentDate,
             selectedChoice = choice
-            )
+        )
 
     }.stateIn(
         scope = viewModelScope,
