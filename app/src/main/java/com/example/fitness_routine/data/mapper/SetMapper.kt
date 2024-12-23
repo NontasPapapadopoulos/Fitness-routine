@@ -6,7 +6,7 @@ import com.example.fitness_routine.domain.entity.SetDomainEntity
 
 fun SetDomainEntity.toData(): SetDataEntity = SetDataEntity(
     id = id,
-    workoutDate = workoutDate,
+    workoutDate = date,
     repeats = repeats,
     weight = weight,
     muscle = muscle,
@@ -16,7 +16,7 @@ fun SetDomainEntity.toData(): SetDataEntity = SetDataEntity(
 
 fun SetDataEntity.toDomain(): SetDomainEntity = SetDomainEntity(
     id = id,
-    workoutDate = workoutDate,
+    date = workoutDate,
     repeats = repeats,
     weight = weight,
     muscle = muscle,

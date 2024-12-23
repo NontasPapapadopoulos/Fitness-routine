@@ -15,6 +15,10 @@ interface SetDao {
     @Query("SELECT * FROM `set` WHERE workoutDate = :date")
     fun getSets(date: Long): Flow<List<SetDataEntity>>
 
+    @Query("SELECT * FROM `set`")
+    fun getAllSets(): Flow<List<SetDataEntity>>
+
+
     @Insert
     suspend fun put(set: SetDataEntity)
 

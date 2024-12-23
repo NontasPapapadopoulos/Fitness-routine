@@ -16,6 +16,12 @@ class SetDataRepository(
             .map { sets -> sets.map { it.toDomain() } }
     }
 
+    override fun getAllSets(): Flow<List<SetDomainEntity>> {
+        return setDataSource.getAllSets()
+            .map { sets -> sets.map { it.toDomain() } }
+    }
+
+
     override suspend fun addSet(set: SetDomainEntity) {
         setDataSource.addSet(set.toData())
     }

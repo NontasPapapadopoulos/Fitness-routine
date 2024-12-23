@@ -53,6 +53,6 @@ class GetSetsTest {
 
 
     companion object {
-        val set = DummyEntities.set.copy(workoutDate = Date().toTimeStamp())
+        val set = DummyEntities.set.copy(date = Date().toTimeStamp())
     }
 }

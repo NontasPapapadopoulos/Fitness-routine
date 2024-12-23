@@ -2,11 +2,14 @@ package com.example.fitness_routine.presentation.ui.screen.analytics
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.CardioDomainEntity
+import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.interactor.GetWorkouts
 import com.example.fitness_routine.domain.interactor.cardio.GetAllCardios
+import com.example.fitness_routine.domain.interactor.set.GetAllSets
 import com.example.fitness_routine.presentation.BlocViewModel
+import com.example.fitness_routine.presentation.util.toDate
+import com.example.fitness_routine.presentation.util.toTimeStamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,11 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
-    getWorkouts: GetWorkouts,
+    getAllSets: GetAllSets,
     getAllCardios: GetAllCardios
 ): BlocViewModel<AnalyticsEvent, AnalyticsState>()  {
 
-    private val getWorkoutsFlow = getWorkouts.execute(Unit)
+    private val getAllSetsFlow = getAllSets.execute(Unit)
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
@@ -43,19 +46,31 @@ class AnalyticsViewModel @Inject constructor(
     private val xxx = MutableSharedFlow<String>()
 
     override val _uiState: StateFlow<AnalyticsState> = combine(
-        getWorkoutsFlow.onStart { emit(listOf()) },
+        getAllSetsFlow.onStart { emit(listOf()) },
         getCardiosFow.onStart { emit(listOf()) },
         showCardiosFlow.onStart { emit(true) },
         showGymSessionsFlow.onStart { emit(true) },
         fromDateFlow.onStart { emit("") },
 //        toDateFlow.onStart { emit(Date()) },
 //        selectedMusclesFlow.onStart { emit(Muscle.entries.toList()) },
-    ) { workouts, cardios, showCardios, showGymSessions, fromDate,  ->
+    ) { workoutSets, cardios, showCardios, showGymSessions, fromDate,  ->
 
+        val cardiosByDate = cardios.groupBy { it.date }
+        val setsByDate = workoutSets.groupBy { it.date.toDate() }
+        val allDates = (cardiosByDate.keys + setsByDate.keys).toSet()
+
+        val workouts = allDates.map { date ->
+            val cardioList = cardiosByDate[date].orEmpty()
+            val gymSession = setsByDate[date]
+            Workout(
+                date = date,
+                cardios = cardioList,
+                gymSession = gymSession
+            )
+        }
 
         AnalyticsState.Content(
-            workoutSessions = workouts,
-            cardios = cardios,
+            workouts = workouts,
             showCardios = showCardios,
             showWorkoutSessions = showGymSessions,
             fromDate = fromDate,
@@ -107,6 +122,12 @@ class AnalyticsViewModel @Inject constructor(
 
 }
 
+data class Workout(
+    val date: Date,
+    val cardios: List<CardioDomainEntity>?,
+    val gymSession: List<SetDomainEntity>?
+)
+
 sealed interface AnalyticsEvent {
     object GenerateReport: AnalyticsEvent
     data class ToggleGymSessions(val isChecked: Boolean): AnalyticsEvent
@@ -120,8 +141,7 @@ sealed interface AnalyticsEvent {
 sealed interface AnalyticsState {
     object Idle: AnalyticsState
     data class Content(
-        val workoutSessions: List<WorkoutDomainEntity>,
-        val cardios: List<CardioDomainEntity>,
+        val workouts: List<Workout>,
         val showCardios: Boolean,
         val showWorkoutSessions: Boolean,
         val fromDate: String,
