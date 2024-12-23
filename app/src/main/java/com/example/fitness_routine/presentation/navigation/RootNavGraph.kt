@@ -187,7 +187,7 @@ fun RootNavGraph(
 
 
         composable(
-            route = MeasurementRoute
+            route = MeasurementsRoute
         ) {
             MeasurementsScreen(
                 navigateBack = { navController.popBackStack() },
