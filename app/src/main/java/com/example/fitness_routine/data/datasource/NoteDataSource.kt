@@ -1,8 +1,6 @@
 package com.example.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.CardioDao
 import com.example.fitness_routine.data.cache.dao.NoteDao
-import com.example.fitness_routine.data.entity.CardioDataEntity
 import com.example.fitness_routine.data.entity.NoteDataEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
@@ -12,6 +10,7 @@ interface NoteDataSource {
     fun getNotes(date: Long): Flow<List<NoteDataEntity>>
     fun getNotes(): Flow<List<NoteDataEntity>>
     suspend fun put(note: NoteDataEntity)
+    suspend fun update(note: NoteDataEntity)
     suspend fun delete(note: NoteDataEntity)
     suspend fun init(date: Long)
 }
@@ -30,6 +29,10 @@ class NoteDataSourceImpl @Inject constructor(
 
     override suspend fun put(note: NoteDataEntity) {
         noteDao.put(note)
+    }
+
+    override suspend fun update(note: NoteDataEntity) {
+        noteDao.update(note.note, note.id)
     }
 
     override suspend fun delete(note: NoteDataEntity) {

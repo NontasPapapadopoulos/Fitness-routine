@@ -138,7 +138,7 @@ private fun Content(
     navigateToBodyMeasurement: (Long) -> Unit
 ) {
 
-    var selectedTabIndex by remember { mutableIntStateOf(1) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf(Tab.Workout, Tab.Nutrition)
 
     Scaffold(

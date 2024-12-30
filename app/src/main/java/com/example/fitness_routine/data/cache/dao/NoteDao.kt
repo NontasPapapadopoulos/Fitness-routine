@@ -23,6 +23,9 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(note: NoteDataEntity)
 
+    @Query("UPDATE Note SET note = :note WHERE id = :id")
+    suspend fun update(note: String, id: String)
+
     @Delete
     suspend fun delete(note: NoteDataEntity)
 }
