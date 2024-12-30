@@ -1,11 +1,8 @@
 package com.example.fitness_routine.presentation.ui.screen.cheat
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,18 +25,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
+import com.example.fitness_routine.presentation.ui.screen.gym.BodyMeasurement
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
+import com.example.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
 import java.time.Month
 import java.time.ZoneId
@@ -115,14 +113,14 @@ private fun CheatMealsContent(
                 .padding(it),
         ) {
 
-            MealsContainer(content.meals)
+            MealsContainer(content.mealWithMeasurements)
         }
 
     }
 }
 
 @Composable
-private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
+private fun MealsContainer(meals: List<MealWithMeasurement>) {
 
     val monthGroups = groupByMonth(meals)
 
@@ -146,6 +144,8 @@ private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
             days.onEachIndexed { index, day ->
                 DailyCheatMeals(day.value)
 
+                BodyMeasurement(measurement = day.value.first().measurement)
+
                 if (index < days.size - 1) {
                     Spacer(modifier = Modifier.height(contentSpacing2))
                     HorizontalDivider()
@@ -161,30 +161,30 @@ private fun MealsContainer(meals: List<CheatMealDomainEntity>) {
 
 @Composable
 private fun DailyCheatMeals(
-    meals: List<CheatMealDomainEntity>
+    meals: List<MealWithMeasurement>
 ) {
     Text(text = meals.first().date.toFormattedDate())
     meals.forEach {
         Text(
-            text = "• ${it.meal}",
+            text = "• ${it.meal?.meal}",
         )
     }
 }
 
 @Composable
-private fun groupByDate(entry: Map.Entry<Month, List<CheatMealDomainEntity>>) =
+private fun groupByDate(entry: Map.Entry<Month, List<MealWithMeasurement>>) =
     entry.value.groupBy {
         val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         localDate.dayOfYear
     }
 
 @Composable
-private fun MonthName(entry: Map.Entry<Month, List<CheatMealDomainEntity>>) {
+private fun MonthName(entry: Map.Entry<Month, List<MealWithMeasurement>>) {
     Text(text = entry.key.name.capitalize())
 }
 
 @Composable
-private fun groupByMonth(meals: List<CheatMealDomainEntity>) =
+private fun groupByMonth(meals: List<MealWithMeasurement>) =
     meals
         .groupBy {
             val localDate = it.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
@@ -198,7 +198,7 @@ private fun CheatMealsContentPreview() {
     AppTheme {
         CheatMealsContent(
             content = CheatMealsState.Content(
-                meals = generateMeals()
+                mealWithMeasurements = generateMeals()
             ),
             navigateToScreen = {},
             navigateBack = {}
@@ -207,23 +207,53 @@ private fun CheatMealsContentPreview() {
 
 }
 
-private fun generateMeals(): List<CheatMealDomainEntity> {
+private fun generateMeals(): List<MealWithMeasurement> {
     return (1..10).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-        CheatMealDomainEntity(
-            id = "",
+        MealWithMeasurement(
             date = date,
-            meal = "Burger",
+            meal = CheatMealDomainEntity(
+                id = "",
+                meal = "burger",
+                date = date
+            ),
+            measurement = BodyMeasurementDomainEntity(
+                id = "",
+                date = date.toTimeStamp(),
+                weight = 80f,
+                fat = 10f,
+                metabolicAge = 1,
+                visceralFat = 1,
+                bmr = 0f,
+                tbw = 0f,
+                bmi = 0f,
+                muscleMass = 10f
+            )
         )
     }.plus(
         (1..10).map {
             val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
             val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            CheatMealDomainEntity(
-                id = "",
-                date = date,
-                meal = "Burger",
+            MealWithMeasurement(
+                meal = CheatMealDomainEntity(
+                    id = "",
+                    meal = "burger",
+                    date = date
+                ),
+                measurement = BodyMeasurementDomainEntity(
+                    id = "",
+                    date = date.toTimeStamp(),
+                    weight = 80f,
+                    fat = 10f,
+                    metabolicAge = 1,
+                    visceralFat = 1,
+                    bmr = 0f,
+                    tbw = 0f,
+                    bmi = 0f,
+                    muscleMass = 10f
+                ),
+                date = date
             )
         }
     )

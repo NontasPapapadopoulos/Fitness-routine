@@ -40,6 +40,7 @@ import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.domain.repository.BodyMeasurementRepository
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.BottomBar
 import com.example.fitness_routine.presentation.component.LoadingBox
@@ -229,24 +230,24 @@ private fun SessionItem(
                     }
                 }
             }
-            BodyMeasurement(session)
+            BodyMeasurement(session.measurement)
         }
     }
 
 }
 
 @Composable
-private fun BodyMeasurement(
-    session: WorkoutSession,
+fun BodyMeasurement(
+    measurement: BodyMeasurementDomainEntity?
 ) {
-    if (session.measurement != null) {
+    if (measurement != null) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Weight: ${session.measurement.weight}kg - Fat:${session.measurement.fat}%",
+                text = "Weight: ${measurement.weight}kg - Fat:${measurement.fat}%",
                 color = MaterialTheme.colorScheme.primary
             )
 
