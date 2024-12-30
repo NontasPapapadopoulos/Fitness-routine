@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetBodyMeasurement @Inject constructor(
+class HasBodyMeasurement @Inject constructor(
     private val bodyMeasurementRepository: BodyMeasurementRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<BodyMeasurementDomainEntity?, GetBodyMeasurement.Params>(dispatcher) {
+): FlowUseCase<Boolean, HasBodyMeasurement.Params>(dispatcher) {
 
 
-    override fun invoke(params: Params): Flow<BodyMeasurementDomainEntity?> {
-        return bodyMeasurementRepository.getBodyMeasurement(params.date)
+    override fun invoke(params: Params): Flow<Boolean> {
+        return bodyMeasurementRepository.hasBodyMeasurement(params.date)
     }
 
     data class Params(val date: Long)

@@ -10,12 +10,12 @@ data class BodyMeasurementDataEntity(
     @PrimaryKey
     val id: String,
     val date: Long,
-    val weight: Float,
-    val fat: Float,
-    val muscleMass: Float,
-    val bmi: Float,
-    val tbw: Float,
-    val bmr: Float,
-    val visceralFat: Int,
-    val metabolicAge: Int
+    val weight: String,
+    val fat: String,
+    val muscleMass: String,
+    val bmi: String,
+    val tbw: String,
+    val bmr: String,
+    val visceralFat: String,
+    val metabolicAge: String
 )

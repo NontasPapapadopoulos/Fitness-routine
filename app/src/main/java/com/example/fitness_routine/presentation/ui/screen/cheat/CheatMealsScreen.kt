@@ -219,14 +219,14 @@ private fun generateMeals(): List<MealWithMeasurement> {
             measurement = BodyMeasurementDomainEntity(
                 id = "",
                 date = date.toTimeStamp(),
-                weight = 80f,
-                fat = 10f,
-                metabolicAge = 1,
-                visceralFat = 1,
-                bmr = 0f,
-                tbw = 0f,
-                bmi = 0f,
-                muscleMass = 10f
+                weight = "80.Kg",
+                fat = "10",
+                metabolicAge = "",
+                visceralFat = "",
+                bmr = "",
+                tbw = "",
+                bmi = "",
+                muscleMass = ""
             )
         )
     }

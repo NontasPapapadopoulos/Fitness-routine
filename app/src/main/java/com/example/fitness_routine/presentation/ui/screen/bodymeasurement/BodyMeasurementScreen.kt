@@ -4,9 +4,12 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -64,7 +67,9 @@ fun BodyMeasurementScreen(
             BodyMeasurementContent(
                 content = state,
                 navigateBack = navigateBack,
-                onUpdateField = { field, value -> viewModel.add(MeasurementEvent.UpdateField(field, value)) }
+                onUpdateField = { field, value -> viewModel.add(MeasurementEvent.UpdateField(field, value)) },
+                onAddMeasurement = { viewModel.add(MeasurementEvent.Add) },
+                onUpdateMeasurement = { viewModel.add(MeasurementEvent.Update) }
             )
         }
     }
@@ -77,7 +82,9 @@ fun BodyMeasurementScreen(
 private fun BodyMeasurementContent(
     content: MeasurementState.Content,
     navigateBack: () -> Unit,
-    onUpdateField: (MeasurementField, String) -> Unit
+    onUpdateField: (MeasurementField, String) -> Unit,
+    onAddMeasurement: () -> Unit,
+    onUpdateMeasurement: () -> Unit,
 ) {
 
     Scaffold(
@@ -106,7 +113,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "Weight",
                 unit = "kg",
-                value = content.bodyMeasurement.weight.toString(),
+                value = content.bodyMeasurement.weight,
                 onValueChange = { onUpdateField(MeasurementField.Weight, it) },
                 testTag = WEIGHT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -115,7 +122,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "Fat",
                 unit = "%",
-                value = content.bodyMeasurement.fat.toString(),
+                value = content.bodyMeasurement.fat,
                 onValueChange = { onUpdateField(MeasurementField.Fat, it) },
                 testTag = FAT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -124,7 +131,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "Muscle Mass",
                 unit = "kg",
-                value = content.bodyMeasurement.muscleMass.toString(),
+                value = content.bodyMeasurement.muscleMass,
                 onValueChange = { onUpdateField(MeasurementField.MuscleMass, it) },
                 testTag = MUSCLE_MASS_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -133,7 +140,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "BMI",
                 unit = "%",
-                value = content.bodyMeasurement.bmi.toString(),
+                value = content.bodyMeasurement.bmi,
                 onValueChange = { onUpdateField(MeasurementField.BMI, it) },
                 testTag = BMI_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -142,7 +149,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "TBW",
                 unit = "",
-                value = content.bodyMeasurement.tbw.toString(),
+                value = content.bodyMeasurement.tbw,
                 onValueChange = { onUpdateField(MeasurementField.TBW, it) },
                 testTag = TBW_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -151,7 +158,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "BMR",
                 unit = "",
-                value = content.bodyMeasurement.bmr.toString(),
+                value = content.bodyMeasurement.bmr,
                 onValueChange = { onUpdateField(MeasurementField.BMR, it) },
                 testTag = BMR_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -160,7 +167,7 @@ private fun BodyMeasurementContent(
             Input(
                 label = "Visceral Fat",
                 unit = "",
-                value = content.bodyMeasurement.visceralFat.toString(),
+                value = content.bodyMeasurement.visceralFat,
                 onValueChange = { onUpdateField(MeasurementField.VisceralFat, it) },
                 testTag = VISCERAL_FAT_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
@@ -169,11 +176,20 @@ private fun BodyMeasurementContent(
             Input(
                 label = "Metabolic Age",
                 unit = "",
-                value = content.bodyMeasurement.metabolicAge.toString(),
+                value = content.bodyMeasurement.metabolicAge,
                 onValueChange = { onUpdateField(MeasurementField.MetabolicAge, it) },
                 testTag = METABOLIC_AGE_TEXT_FIELD,
                 modifier = Modifier.padding(vertical = contentSpacing1)
             )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = if (content.hasBodyMeasurement) onUpdateMeasurement else onAddMeasurement,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = if (content.hasBodyMeasurement) "Update Measurement" else "Add Measurement")
+            }
 
         }
 
@@ -187,21 +203,24 @@ private fun MeasurementsContentPreview() {
     AppTheme {
         BodyMeasurementContent(
             content = MeasurementState.Content(
+                hasBodyMeasurement = true,
                 bodyMeasurement = BodyMeasurementDomainEntity(
                     id = "",
                     date = getCurrentDate(),
-                    weight = 80.0F,
-                    fat = 12F,
-                    muscleMass = 64F,
-                    bmi = 12F,
-                    tbw = 12F,
-                    bmr = 10F,
-                    visceralFat = 3,
-                    metabolicAge = 15
+                    weight = "",
+                    fat = "",
+                    muscleMass = "",
+                    bmi = "",
+                    tbw = "",
+                    bmr = "",
+                    visceralFat = "",
+                    metabolicAge = ""
                 ),
             ),
             navigateBack = {},
-            onUpdateField = { _, _, -> }
+            onUpdateField = { _, _, -> },
+            onAddMeasurement = {},
+            onUpdateMeasurement = {}
         )
     }
 }

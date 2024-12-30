@@ -15,7 +15,7 @@ class UpdateBodyMeasurement @Inject constructor(
 ): SuspendUseCase<Unit, UpdateBodyMeasurement.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        return bodyMeasurementRepository.put(params.measurement)
+        return bodyMeasurementRepository.update(params.measurement)
     }
 
 

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 abstract class FlowUseCase<out Type, in Params>(
     private val flowDispatcher: CoroutineDispatcher
-) where Type : Any {
+) where Type : Any? {
 
     protected abstract fun invoke(params: Params): Flow<Type>
 

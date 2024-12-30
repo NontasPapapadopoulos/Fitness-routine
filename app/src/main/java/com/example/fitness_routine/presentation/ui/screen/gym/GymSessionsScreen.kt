@@ -295,14 +295,14 @@ private fun workoutSessions(): List<WorkoutSession> {
                 CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
             ),
             measurement = if (it == 4) BodyMeasurementDomainEntity(
-                weight = 82F,
-                fat = 15F,
-                muscleMass = 70F,
-                bmi = 0f,
-                tbw = 0f,
-                metabolicAge = 1,
-                visceralFat = 0,
-                bmr = 0f,
+                weight = "82",
+                fat = "15",
+                muscleMass = "70",
+                bmi = "",
+                tbw = "",
+                metabolicAge = "",
+                visceralFat = "",
+                bmr = "",
                 id = "",
                 date = date.toTimeStamp()
             ) else null

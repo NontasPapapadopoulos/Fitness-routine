@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.ui.screen.report
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
@@ -182,7 +184,7 @@ private fun Stars(
 ) {
     Row(modifier = modifier) {
         (1..5).forEach {
-            val color = if ( it <= level) Color.Yellow else Color.Black
+            val color = if ( it <= level) Color.Yellow else Color.LightGray
 
             Star(
                 sequence = it,

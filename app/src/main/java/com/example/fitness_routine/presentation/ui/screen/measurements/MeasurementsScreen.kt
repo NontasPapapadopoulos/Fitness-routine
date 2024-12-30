@@ -210,21 +210,19 @@ private fun MeasurementsContentPreview() {
 
 
 private fun generateMeasurements() =
-
-
 (1..11).map {
     val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
     val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         BodyMeasurementDomainEntity(
             id = "",
-            weight = 0f,
-            fat = 0f,
-            metabolicAge = 0,
-            muscleMass = 0f,
-            bmr = 0f,
-            bmi = 0f,
-            tbw = 0f,
-            visceralFat = 0,
+            weight = "",
+            fat = "",
+            metabolicAge = "",
+            muscleMass = "",
+            bmr = "",
+            bmi = "",
+            tbw = "",
+            visceralFat = "",
             date = date.toTimeStamp()
         )
     }
