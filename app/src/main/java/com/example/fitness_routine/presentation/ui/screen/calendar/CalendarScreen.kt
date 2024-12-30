@@ -57,7 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.BuildConfig
+//import com.example.fitness_routine.BuildConfig
 import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
@@ -256,7 +256,7 @@ private fun Content(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Text(
-                        text = "version: ${BuildConfig.VERSION_NAME}",
+                        text = "version: 111", // ${BuildConfig.VERSION_NAME}
                         modifier = Modifier.padding(start = contentSpacing3, bottom = contentSpacing2),
                         style = MaterialTheme.typography.bodyLarge
                     )

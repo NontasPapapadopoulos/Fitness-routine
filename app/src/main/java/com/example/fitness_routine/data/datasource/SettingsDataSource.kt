@@ -8,11 +8,10 @@ import javax.inject.Inject
 
 interface SettingsDataSource {
     fun getSettings(): Flow<SettingsDataEntity?>
-
     suspend fun changeSettings(settings: SettingsDataEntity)
     suspend fun changeChoice(choice: Choice)
+    suspend fun init()
 }
-
 
 
 class SettingsDataSourceImpl @Inject constructor(
@@ -32,4 +31,17 @@ class SettingsDataSourceImpl @Inject constructor(
     }
 
 
+    override suspend fun init() {
+        if (!settingsDao.hasSettings()) {
+            settingsDao.put(getDefaultSettings())
+        }
+    }
+
+
 }
+
+private fun getDefaultSettings() = SettingsDataEntity(
+    choice = Choice.Workout.name,
+    isDarkModeEnabled = true,
+    breakDuration = "60"
+)

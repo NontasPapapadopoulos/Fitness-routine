@@ -26,5 +26,9 @@ class SettingsDataRepository @Inject constructor(
         settingsDataSource.changeChoice(choice)
     }
 
+    override suspend fun init() {
+        settingsDataSource.init()
+    }
+
 
 }

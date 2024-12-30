@@ -9,7 +9,6 @@ import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
 import com.example.fitness_routine.presentation.ui.screen.onEvents
 import com.example.fitness_routine.settings
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking

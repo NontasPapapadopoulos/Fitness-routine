@@ -20,6 +20,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize10
@@ -28,7 +29,9 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    viewModel: SplashViewModel = hiltViewModel()
+) {
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.primary,

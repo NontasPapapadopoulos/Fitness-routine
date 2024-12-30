@@ -6,15 +6,11 @@ import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -27,7 +23,6 @@ open class SettingsViewModel @Inject constructor(
 
     override val _uiState: StateFlow<SettingsState> = getSettings.execute(Unit)
         .map { it.getOrThrow() }
-        .onStart { emit(SettingsDomainEntity(choice = Choice.Workout.name, isDarkModeEnabled = true, breakDuration = "" )) }
         .catch { addError(it) }
         .map { settings ->
             SettingsState.Content(settings)

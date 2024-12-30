@@ -18,7 +18,6 @@ interface BodyMeasurementDataSource {
     suspend fun put(measurement: BodyMeasurementDataEntity)
     suspend fun update(measurement: BodyMeasurementDataEntity)
     suspend fun delete(measurement: BodyMeasurementDataEntity)
-//    suspend fun init(date: Long)
 }
 
 

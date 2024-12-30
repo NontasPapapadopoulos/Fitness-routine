@@ -20,4 +20,7 @@ interface SettingsDao {
     @Query("UPDATE Settings SET choice = :choice")
     suspend fun changeChoice(choice: String)
 
+    @Query("SELECT COUNT(*) > 0 FROM Settings")
+    suspend fun hasSettings(): Boolean
+
 }

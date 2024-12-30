@@ -2,13 +2,14 @@ package com.example.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
-import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
+import com.example.fitness_routine.presentation.Handler
+import com.example.fitness_routine.presentation.flatMapMergeWith
+import com.example.fitness_routine.presentation.toResult
 import com.example.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -38,7 +39,6 @@ open class CalendarViewModel @Inject constructor(
     private val choiceFlow = getSettings.execute(Unit)
         .map { it.getOrThrow() }
         .map { Choice.valueOf(it.choice) }
-        .catch { addError(it) }
 
     override val _uiState: StateFlow<CalendarState> = combine(
         dailyReportsFlow.onStart { emit(listOf()) },
@@ -49,7 +49,7 @@ open class CalendarViewModel @Inject constructor(
         CalendarState.Content(
             reports = reports,
             currentDate = currentDate,
-            selectedChoice = choice
+            selectedChoice = choice ?: Choice.Workout
         )
 
     }.stateIn(

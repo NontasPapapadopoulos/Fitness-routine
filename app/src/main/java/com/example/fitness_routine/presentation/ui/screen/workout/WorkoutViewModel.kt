@@ -2,11 +2,9 @@ package com.example.fitness_routine.presentation.ui.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.room.Update
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.interactor.exercise.GetExercises
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
@@ -20,7 +18,6 @@ import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.domain.toMuscles
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.example.fitness_routine.presentation.navigation.NavigationArgument
-import com.example.fitness_routine.presentation.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
