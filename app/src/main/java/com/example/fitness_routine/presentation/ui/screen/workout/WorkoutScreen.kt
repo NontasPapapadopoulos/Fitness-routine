@@ -602,7 +602,7 @@ private fun AddExercise(
 private fun SetPreview() {
     val setDomainEntity = SetDomainEntity(
         id = "",
-        workoutDate = 1L,
+        date = 1L,
         muscle = Muscle.Biceps,
         exercise = "Excercise",
         weight = "20",
@@ -673,7 +673,7 @@ private fun generateSets(): List<SetDomainEntity> {
     return  (0..6).map {
         SetDomainEntity(
             id = "",
-            workoutDate = 100000L,
+            date = 100000L,
             muscle = if (it > 4 ) Muscle.Chest else Muscle.Biceps,
             exercise = if (it % 2 == 0) "Exercise 1" else "Exercise 2",
             weight = "30",

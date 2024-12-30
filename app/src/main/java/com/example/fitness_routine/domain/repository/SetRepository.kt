@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface SetRepository {
 
     fun getSets(date: Long): Flow<List<SetDomainEntity>>
+    fun getAllSets(): Flow<List<SetDomainEntity>>
 
     suspend fun addSet(set: SetDomainEntity)
 

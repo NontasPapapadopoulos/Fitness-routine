@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 interface SetDataSource {
     fun getSets(date: Long): Flow<List<SetDataEntity>>
+    fun getAllSets(): Flow<List<SetDataEntity>>
 
     suspend fun addSet(set: SetDataEntity)
 
@@ -22,6 +23,10 @@ class SetDataSourceImpl @Inject constructor(
 ): SetDataSource {
     override fun getSets(date: Long): Flow<List<SetDataEntity>> {
         return setDao.getSets(date)
+    }
+
+    override fun getAllSets(): Flow<List<SetDataEntity>> {
+        return setDao.getAllSets()
     }
 
     override suspend fun addSet(set: SetDataEntity) {

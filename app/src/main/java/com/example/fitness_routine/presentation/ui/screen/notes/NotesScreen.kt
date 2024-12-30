@@ -33,6 +33,7 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
+import com.example.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
 import java.time.Month
 import java.time.ZoneId
@@ -135,9 +136,10 @@ private fun NotesContainer(
 
             val days = groupByDate(entry)
 
+
             days.onEachIndexed { index, day ->
                 DailyNotes(notes = day.value)
-                if (index < days.size - 1) {
+                if (index < days.size - 1 ) {
                     Spacer(modifier = Modifier.height(contentSpacing2))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(contentSpacing4))
@@ -173,11 +175,12 @@ private fun DailyNotes(
     notes: List<NoteDomainEntity>
 ) {
     Text(text = notes.first().date.toFormattedDate())
+
     notes.forEach {
-        Text(
-            text = "• ${it.note}",
-        )
-    }
+            Text(
+                text = "• ${it.note}",
+            )
+}
 
 }
 
@@ -197,7 +200,7 @@ private fun NotesContentPreview() {
 }
 
 private fun generateNotes(): List<NoteDomainEntity> {
-    return (1..10).map {
+    return (10 downTo 1).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
@@ -206,7 +209,7 @@ private fun generateNotes(): List<NoteDomainEntity> {
             note = "Note $it",
             id = ""
         )
-    }.plus((1..10).map {
+    }.plus((10 downTo 1).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         NoteDomainEntity(

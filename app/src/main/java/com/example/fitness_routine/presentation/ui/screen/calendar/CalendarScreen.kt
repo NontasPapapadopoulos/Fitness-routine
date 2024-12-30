@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,7 +27,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +37,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -51,10 +47,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
@@ -64,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.fitness_routine.BuildConfig
 import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
@@ -77,25 +71,25 @@ import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize1
 import com.example.fitness_routine.presentation.ui.theme.contentSize2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing1
-
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
-import com.example.fitness_routine.presentation.util.toDate
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
-import com.example.fitness_routine.presentation.util.getDate
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
+import com.example.fitness_routine.presentation.util.getDate
 import com.example.fitness_routine.presentation.util.getDayOfWeek
 import com.example.fitness_routine.presentation.util.getIcon
+import com.example.fitness_routine.presentation.util.toDate
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
+
 
 @Composable
 fun CalendarScreen(
@@ -170,16 +164,21 @@ private fun Content(
                     Icon(
                         Icons.Filled.FitnessCenter,
                         null,
-                        modifier = Modifier.size(100.dp)
+                        modifier = Modifier
+                            .padding(contentSpacing4)
+                            .size(100.dp),
+                        tint = MaterialTheme.colorScheme.primary
                     )
 
                     Text(
                         text  = "Your Fitness Tracker",
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(start = contentSpacing4, bottom = contentSpacing4),
                         style = MaterialTheme.typography.headlineLarge
                     )
 
-                    HorizontalDivider()
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.primary
+                    )
 
                     NavigationDrawerItem(
                         label = {
@@ -240,11 +239,27 @@ private fun Content(
                         }
                     )
 
-
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Analytics",
+                                color = MaterialTheme.colorScheme.secondary,
+                                style = MaterialTheme.typography.titleLarge
+                            ) },
+                        selected = false,
+                        onClick = {
+                            coroutineScope.launch { toggleDrawerState(drawerState) }
+                            navigateToScreen(Screen.Analytics)
+                        }
+                    )
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Text(text = "version: 1.0.0") // make this dynamic
+                    Text(
+                        text = "version: ${BuildConfig.VERSION_NAME}",
+                        modifier = Modifier.padding(start = contentSpacing3, bottom = contentSpacing2),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
 
                 }
 

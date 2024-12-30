@@ -47,7 +47,7 @@ val DummyEntities.cheatMeal: CheatMealDomainEntity
 val DummyEntities.set: SetDomainEntity
     get() = SetDomainEntity(
         id = 0,
-        workoutDate = 0,
+        date = 0,
         muscle = Muscle.Chest,
         exercise = "",
         weight = 0,

@@ -33,6 +33,8 @@ class NotesViewModel @Inject constructor(
 
             NotesState.Content(
                 notes = notes
+                    .filter { it.note.isNotEmpty() }
+                    .sortedBy { it.date }
             )
 
         }.stateIn(

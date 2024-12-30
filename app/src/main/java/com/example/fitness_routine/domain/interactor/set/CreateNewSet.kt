@@ -2,7 +2,6 @@ package com.example.fitness_routine.domain.interactor.set
 
 
 import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.executor.IoDispatcher
@@ -21,7 +20,7 @@ class CreateNewSet @Inject constructor(
     override suspend fun invoke(params: Params) {
 
         val emptySet = SetDomainEntity(
-            workoutDate = params.workoutDate,
+            date = params.workoutDate,
             muscle = params.muscle,
             exercise = params.exercise,
             weight = "",

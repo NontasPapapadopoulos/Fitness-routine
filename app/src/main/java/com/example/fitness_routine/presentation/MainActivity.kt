@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation
 
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val pdf = PdfDocument()
 
         enableEdgeToEdge()
         setContent {

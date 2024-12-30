@@ -11,7 +11,8 @@ enum class Screen {
     Settings,
     Measurement,
     Measurements,
-    Notes
+    Notes,
+    Analytics
 }
 
 
@@ -31,7 +32,7 @@ val SettingsRoute = Screen.Settings.name
 val MeasurementRoute = "${Screen.Measurement.name}/${NavigationArgument.Date.addBrackets()}"
 val MeasurementsRoute = Screen.Measurements.name
 val NotesRoute = Screen.Notes.name
-
+val AnalyticsRoute = Screen.Analytics.name
 
 
 enum class NavigationArgument (val param: String) {
