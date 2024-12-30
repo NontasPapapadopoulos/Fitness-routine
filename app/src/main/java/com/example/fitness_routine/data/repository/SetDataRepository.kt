@@ -22,16 +22,16 @@ class SetDataRepository(
     }
 
 
-    override suspend fun addSet(set: SetDomainEntity) {
-        setDataSource.addSet(set.toData())
+    override suspend fun add(set: SetDomainEntity) {
+        setDataSource.add(set.toData())
     }
 
-    override suspend fun deleteSet(set: SetDomainEntity) {
-        setDataSource.deleteSet(set.toData())
+    override suspend fun delete(set: SetDomainEntity) {
+        setDataSource.delete(set.toData())
     }
 
-    override suspend fun updateSet(set: SetDomainEntity) {
-        setDataSource.updateSet(set.toData())
+    override suspend fun update(set: SetDomainEntity) {
+        setDataSource.update(set.toData())
     }
 
 }

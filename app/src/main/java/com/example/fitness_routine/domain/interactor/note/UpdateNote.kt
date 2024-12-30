@@ -15,7 +15,7 @@ class UpdateNote @Inject constructor(
 ): SuspendUseCase<Unit, UpdateNote.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        return noteRepository.put(params.note)
+        return noteRepository.update(params.note)
     }
 
 

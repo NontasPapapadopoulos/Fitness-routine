@@ -27,7 +27,7 @@ class CreateNewSet @Inject constructor(
             repeats = "",
             id = UUID.randomUUID().toString()
         )
-        return setRepository.addSet(emptySet)
+        return setRepository.add(emptySet)
     }
 
 

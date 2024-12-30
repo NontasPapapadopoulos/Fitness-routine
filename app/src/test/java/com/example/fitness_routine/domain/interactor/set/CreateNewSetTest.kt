@@ -34,7 +34,7 @@ class CreateNewSetTest {
 
     @Test
     fun execute_createNewSet() = runTest {
-        whenever(setRepository.addSet(any())).thenReturn(Unit)
+        whenever(setRepository.add(any())).thenReturn(Unit)
 
         val result = createNewSet.execute(CreateNewSet.Params(
             exercise = "",

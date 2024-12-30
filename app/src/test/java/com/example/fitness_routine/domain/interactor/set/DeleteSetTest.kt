@@ -35,7 +35,7 @@ class DeleteSetTest {
 
     @Test
     fun execute_deleteSet() = runTest {
-        whenever(setRepository.deleteSet(any())).thenReturn(Unit)
+        whenever(setRepository.delete(any())).thenReturn(Unit)
 
         val result = deleteSet.execute(DeleteSet.Params(set))
 

@@ -2,9 +2,7 @@ package com.example.fitness_routine.domain.interactor.set
 
 
 import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.SetRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,7 +15,7 @@ class DeleteSet @Inject constructor(
 ): SuspendUseCase<Unit, DeleteSet.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        return setRepository.deleteSet(params.set)
+        return setRepository.delete(params.set)
     }
 
     data class Params(

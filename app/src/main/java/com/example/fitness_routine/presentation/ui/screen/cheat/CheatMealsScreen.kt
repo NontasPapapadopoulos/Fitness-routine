@@ -164,11 +164,13 @@ private fun DailyCheatMeals(
     cheatDay: List<MealWithMeasurement>
 ) {
     Text(text = cheatDay.first().date.toFormattedDate())
-    cheatDay.forEach {
-        it.meals?.forEach { meal ->
-            Text(
-                text = "• ${meal.meal}",
-            )
+    cheatDay.forEach { it ->
+        it.meals
+            ?.filter { it.meal.isNotEmpty() }
+            ?.forEach { meal ->
+                Text(
+                    text = "• ${meal.meal}",
+                )
         }
     }
 }

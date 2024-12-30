@@ -29,6 +29,10 @@ class NoteDataRepository @Inject constructor(
         noteDataSource.delete(note.toData())
     }
 
+    override suspend fun update(note: NoteDomainEntity) {
+        noteDataSource.update(note.toData())
+    }
+
     override suspend fun init(date: Long) {
         noteDataSource.init(date)
     }

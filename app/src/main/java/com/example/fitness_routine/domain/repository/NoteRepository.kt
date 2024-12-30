@@ -8,5 +8,6 @@ interface NoteRepository {
     fun getNotes(): Flow<List<NoteDomainEntity>>
     suspend fun put(note: NoteDomainEntity)
     suspend fun delete(note: NoteDomainEntity)
+    suspend fun update(note: NoteDomainEntity)
     suspend fun init(date: Long)
 }
