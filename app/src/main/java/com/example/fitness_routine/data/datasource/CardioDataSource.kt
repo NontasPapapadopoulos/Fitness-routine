@@ -10,6 +10,7 @@ interface CardioDataSource {
     fun getCardios(date: Long): Flow<List<CardioDataEntity>>
     fun getCardios(): Flow<List<CardioDataEntity>>
     suspend fun put(cardio: CardioDataEntity)
+    suspend fun update(cardio: CardioDataEntity)
     suspend fun delete(cardio: CardioDataEntity)
     suspend fun init(date: Long)
 }
@@ -28,6 +29,10 @@ class CardioDataSourceImpl @Inject constructor(
 
     override suspend fun put(cardio: CardioDataEntity) {
         cardioDao.put(cardio)
+    }
+
+    override suspend fun update(cardio: CardioDataEntity) {
+        cardioDao.update(cardio.id, cardio.type, cardio.minutes)
     }
 
     override suspend fun delete(cardio: CardioDataEntity) {

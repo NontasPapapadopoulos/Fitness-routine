@@ -23,9 +23,8 @@ interface CardioDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(cardio: CardioDataEntity)
 
-//    @Query("DELETE FROM cardio WHERE id =:id")
-//    suspend fun delete(id: String)
-
+    @Query("UPDATE cardio SET type = :type, minutes = :minutes WHERE id = :id")
+    suspend fun update(id: String, type: String, minutes: String)
 
     @Delete
     suspend fun delete(cardio: CardioDataEntity)

@@ -205,7 +205,7 @@ private fun SessionItem(
 
         Spacer(modifier = Modifier.width(contentSpacing4))
         Column {
-            val musclesTrained = if (session.report.musclesTrained.isNotEmpty()) " - " + session.report.musclesTrained.joinToString() else ""
+            val musclesTrained = if (session.report.musclesTrained.filter { it.isNotBlank() }.isNotEmpty()) " - " + session.report.musclesTrained.joinToString() else ""
             Text(
                 text = "${session.report.date.toFormattedDate()} $musclesTrained",
             )

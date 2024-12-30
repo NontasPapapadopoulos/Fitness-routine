@@ -16,7 +16,7 @@ class UpdateCardio @Inject constructor(
 ): SuspendUseCase<Unit, UpdateCardio.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        return cardioRepository.put(params.cardio)
+        return cardioRepository.update(params.cardio)
     }
 
 

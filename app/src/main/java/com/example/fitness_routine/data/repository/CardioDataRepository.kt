@@ -26,6 +26,10 @@ class CardioDataRepository @Inject constructor(
         }
     }
 
+    override suspend fun update(cardio: CardioDomainEntity) {
+        cardioDataSource.update(cardio.toData())
+    }
+
     override suspend fun put(cardio: CardioDomainEntity) {
         cardioDataSource.put(cardio.toData())
     }
