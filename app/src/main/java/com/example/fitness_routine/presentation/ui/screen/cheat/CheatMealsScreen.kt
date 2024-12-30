@@ -161,13 +161,15 @@ private fun MealsContainer(meals: List<MealWithMeasurement>) {
 
 @Composable
 private fun DailyCheatMeals(
-    meals: List<MealWithMeasurement>
+    cheatDay: List<MealWithMeasurement>
 ) {
-    Text(text = meals.first().date.toFormattedDate())
-    meals.forEach {
-        Text(
-            text = "• ${it.meal?.meal}",
-        )
+    Text(text = cheatDay.first().date.toFormattedDate())
+    cheatDay.forEach {
+        it.meals?.forEach { meal ->
+            Text(
+                text = "• ${meal.meal}",
+            )
+        }
     }
 }
 
@@ -213,11 +215,7 @@ private fun generateMeals(): List<MealWithMeasurement> {
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         MealWithMeasurement(
             date = date,
-            meal = CheatMealDomainEntity(
-                id = "",
-                meal = "burger",
-                date = date
-            ),
+            meals = generateMeals(date),
             measurement = BodyMeasurementDomainEntity(
                 id = "",
                 date = date.toTimeStamp(),
@@ -231,30 +229,16 @@ private fun generateMeals(): List<MealWithMeasurement> {
                 muscleMass = 10f
             )
         )
-    }.plus(
-        (1..10).map {
-            val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
-            val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-            MealWithMeasurement(
-                meal = CheatMealDomainEntity(
-                    id = "",
-                    meal = "burger",
-                    date = date
-                ),
-                measurement = BodyMeasurementDomainEntity(
-                    id = "",
-                    date = date.toTimeStamp(),
-                    weight = 80f,
-                    fat = 10f,
-                    metabolicAge = 1,
-                    visceralFat = 1,
-                    bmr = 0f,
-                    tbw = 0f,
-                    bmi = 0f,
-                    muscleMass = 10f
-                ),
-                date = date
-            )
-        }
-    )
+    }
+}
+
+
+private fun generateMeals(date: Date): List<CheatMealDomainEntity> {
+    return (0..4).map {
+        CheatMealDomainEntity(
+            id = "",
+            meal = "burger",
+            date = date
+        )
+    }
 }

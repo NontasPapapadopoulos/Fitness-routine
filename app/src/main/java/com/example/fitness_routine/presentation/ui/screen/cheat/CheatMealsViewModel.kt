@@ -42,11 +42,11 @@ class CheatMealsViewModel @Inject constructor(
         val mealsByDate = meals.groupBy { it.date }
         val measurementsByDate = measurements.groupBy { Date(it.date) }
 
-        val allDates = (mealsByDate.keys + measurementsByDate.keys).toSortedSet()
+        val allDates = (mealsByDate.keys + measurementsByDate.keys).sorted()
 
         val mealWithMeasurements = allDates.map { date ->
             MealWithMeasurement(
-                meal = mealsByDate[date]?.firstOrNull(),
+                meals = mealsByDate[date],
                 measurement = measurementsByDate[date]?.firstOrNull(),
                 date = date
             )
@@ -70,7 +70,7 @@ sealed interface CheatMealsEvent {
 
 
 data class MealWithMeasurement(
-    val meal: CheatMealDomainEntity?,
+    val meals: List<CheatMealDomainEntity>?,
     val measurement: BodyMeasurementDomainEntity?,
     val date: Date
 )
