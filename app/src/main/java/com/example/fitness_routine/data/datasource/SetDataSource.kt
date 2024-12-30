@@ -38,7 +38,7 @@ class SetDataSourceImpl @Inject constructor(
     }
 
     override suspend fun updateSet(set: SetDataEntity) {
-        setDao.update(set)
+        setDao.update(set.id, set.weight, set.repeats)
     }
 
 }

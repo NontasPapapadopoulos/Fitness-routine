@@ -22,8 +22,8 @@ interface SetDao {
     @Insert
     suspend fun put(set: SetDataEntity)
 
-    @Update
-    suspend fun update(set: SetDataEntity)
+    @Query("UPDATE `set` SET weight = :weight, repeats = :repeats WHERE id = :id")
+    suspend fun update(id: String, weight: String, repeats: String)
 
     @Delete
     suspend fun delete(set: SetDataEntity)
