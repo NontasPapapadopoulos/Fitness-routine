@@ -110,7 +110,7 @@ fun NutritionTab(
                     meal = it,
                     onUpdateMeal = { meal, value -> onUpdateMeal(meal, value) },
                     onAddCheatMeal = onAddCheatMeal,
-                    onDeleteCheatMeal = { onDeleteCheatMeal(it) }
+                    onDeleteCheatMeal = { if (cheatMeals.size > 1) onDeleteCheatMeal(it) }
                 )
             }
 

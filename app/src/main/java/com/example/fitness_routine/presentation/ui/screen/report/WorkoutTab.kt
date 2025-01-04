@@ -110,7 +110,7 @@ fun WorkoutTab(
                 note = it,
                 onUpdateNote = { note, value -> onUpdateNote(note, value) },
                 onAddNote = onAddNote,
-                onDeleteNote = { onDeleteNote(it) }
+                onDeleteNote = { if (notes.size > 1) onDeleteNote(it) }
             )
         }
 
