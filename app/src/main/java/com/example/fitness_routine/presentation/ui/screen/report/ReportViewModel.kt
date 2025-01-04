@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -91,7 +92,7 @@ open class ReportViewModel @Inject constructor(
         suspend { initCardio() }.asFlow().flatMapLatest { cardiosFlow },
         suspend { initDailyReport() }.asFlow().flatMapLatest { dailyReportFlow },
         suspend { initNote() }.asFlow().flatMapLatest { notesFlow },
-        suspend { initCheatMeal() }.asFlow().flatMapLatest { cheatMealsFlow }
+        cheatMealsFlow.onStart { emit(listOf()) }
     ) { cardios, report, notes, cheatMeals ->
         ReportState.Content(
             date = date,
@@ -122,19 +123,15 @@ open class ReportViewModel @Inject constructor(
 
         on(ReportEvent.UpdateCheckBox::class) {
             onState<ReportState.Content> { state ->
+                updateDailyReport(state, it.checkBoxField, it.isChecked)
 
-                val dailyReport = when(it.checkBoxField) {
-                    CheckBoxField.Creatine -> state.dailyReport.copy(hadCreatine = it.isChecked)
-                    CheckBoxField.Workout -> state.dailyReport.copy(performedWorkout = it.isChecked)
-                    CheckBoxField.CheatMeal -> state.dailyReport.copy(hadCheatMeal = it.isChecked)
-                }
+                if (it.checkBoxField == CheckBoxField.CheatMeal)
+                    handleCheatMealUpdate(it.isChecked)
 
-                updateReport.execute(UpdateDailyReport.Params(dailyReport))
             }
         }
 
-
-        on(clazz = ReportEvent.UpdateField::class) {
+        on(ReportEvent.UpdateField::class) {
             onState<ReportState.Content> { state ->
 
                 val dailyReport = when(it.field) {
@@ -244,7 +241,33 @@ open class ReportViewModel @Inject constructor(
                 onFailure = { addError(it) }
             )
         }
+    }
 
+    private suspend fun handleCheatMealUpdate(hasCheatMeal: Boolean) {
+        onState<ReportState.Content> { state ->
+            if (hasCheatMeal)
+                initCheatMeal()
+            else
+                deleteAllCheatMeals(state.cheatMeals)
+        }
+    }
+
+    private suspend fun initCheatMeal() {
+        initCheatMeal.execute(InitCheatMeal.Params(date)).fold(
+            onSuccess = {},
+            onFailure = { addError(it) }
+        )
+    }
+
+    private suspend fun deleteAllCheatMeals(
+        meals: List<CheatMealDomainEntity>
+    ) {
+        meals.forEach {
+            deleteCheatMeal.execute(DeleteCheatMeal.Params(it)).fold(
+                onSuccess = {},
+                onFailure = { addError(it) }
+            )
+        }
     }
 
     private suspend fun initDailyReport() {
@@ -259,15 +282,26 @@ open class ReportViewModel @Inject constructor(
         )
     }
 
-    private suspend fun initCheatMeal() {
-        initCheatMeal.execute(InitCheatMeal.Params(date)).fold(
+    private suspend fun initNote() {
+        initNote.execute(InitNote.Params(date)).fold(
             onSuccess = {}, onFailure = { addError(it) }
         )
     }
 
-    private suspend fun initNote() {
-        initNote.execute(InitNote.Params(date)).fold(
-            onSuccess = {}, onFailure = { addError(it) }
+    private suspend fun updateDailyReport(
+        state: ReportState.Content,
+        field: CheckBoxField,
+        isChecked: Boolean
+    ) {
+        val updatedReport =  when (field) {
+            CheckBoxField.Creatine -> state.dailyReport.copy(hadCreatine = isChecked)
+            CheckBoxField.Workout -> state.dailyReport.copy(performedWorkout = isChecked)
+            CheckBoxField.CheatMeal -> state.dailyReport.copy(hadCheatMeal = isChecked)
+        }
+
+        updateReport.execute(UpdateDailyReport.Params(updatedReport)).fold(
+            onSuccess = {},
+            onFailure = { addError(it) }
         )
     }
 

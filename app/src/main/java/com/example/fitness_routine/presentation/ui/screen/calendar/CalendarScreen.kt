@@ -239,24 +239,24 @@ private fun Content(
                         }
                     )
 
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = "Analytics",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            ) },
-                        selected = false,
-                        onClick = {
-                            coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Analytics)
-                        }
-                    )
+//                    NavigationDrawerItem(
+//                        label = {
+//                            Text(
+//                                text = "Analytics",
+//                                color = MaterialTheme.colorScheme.secondary,
+//                                style = MaterialTheme.typography.titleLarge
+//                            ) },
+//                        selected = false,
+//                        onClick = {
+//                            coroutineScope.launch { toggleDrawerState(drawerState) }
+//                            navigateToScreen(Screen.Analytics)
+//                        }
+//                    )
 
                     Spacer(modifier = Modifier.weight(1f))
 
                     Text(
-                        text = "version: 111", // ${BuildConfig.VERSION_NAME}
+                        text = "version: 1.0.0",
                         modifier = Modifier.padding(start = contentSpacing3, bottom = contentSpacing2),
                         style = MaterialTheme.typography.bodyLarge
                     )

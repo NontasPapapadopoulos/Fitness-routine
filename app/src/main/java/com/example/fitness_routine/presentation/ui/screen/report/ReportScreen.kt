@@ -229,6 +229,7 @@ private fun WorkoutButton(
     Button(
         onClick = { navigateToWorkout() },
         modifier = Modifier
+            .padding(top = contentSpacing4)
             .fillMaxWidth()
     ) {
         Text(
@@ -244,6 +245,7 @@ private fun BodyMeasurementButton(
     Button(
         onClick = { navigateToBodyMeasurement() },
         modifier = Modifier
+            .padding(top = contentSpacing4)
             .fillMaxWidth()
     ) {
         Text(

@@ -126,14 +126,12 @@ private fun GymSessionsContent(
                 .verticalScroll(rememberScrollState())
                 .padding(contentSpacing4)
                 .padding(it),
-            //.semantics { contentDescription = Screen.Gym.name },
 
         ) {
 
             SessionsContainer(
                 content.workoutSessions,
                 navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
-                navigateBack = navigateBack
             )
 
         }
@@ -145,11 +143,10 @@ private fun GymSessionsContent(
 private fun SessionsContainer(
     sessions: List<WorkoutSession>,
     navigateToWorkoutScreen: (Long) -> Unit,
-    navigateBack: () -> Unit
 ) {
 
     val monthGroups = sessions
-        .filter { it.report.performedWorkout }
+        .filter { it.report.performedWorkout || it.measurement != null}
         .groupBy {
             val localDate = it.report.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             localDate.month
