@@ -6,5 +6,5 @@ import java.util.Date
 data class CheatMealDomainEntity(
     val id: String,
     val date: Date,
-    val meal: String,
+    val text: String,
 )

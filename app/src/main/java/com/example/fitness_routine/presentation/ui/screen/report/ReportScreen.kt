@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 
@@ -25,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -42,9 +40,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.R
@@ -60,7 +56,6 @@ import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
-import com.example.fitness_routine.presentation.util.asTextFieldValue
 import com.example.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 import java.util.UUID
@@ -428,7 +423,7 @@ fun generateNotes() =
     (1..3).map {
         NoteDomainEntity(
             id = "",
-            note = "my gym notes",
+            text = "my gym notes",
             date = Date()
         )
     }

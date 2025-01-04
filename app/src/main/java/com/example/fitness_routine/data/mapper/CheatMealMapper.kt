@@ -9,7 +9,7 @@ import com.example.fitness_routine.domain.toTimeStamp
 fun CheatMealDataEntity.toDomain(): CheatMealDomainEntity = CheatMealDomainEntity(
     id = id,
     date = date.toDate(),
-    meal = meal
+    text = meal
 
 )
 
@@ -17,5 +17,5 @@ fun CheatMealDataEntity.toDomain(): CheatMealDomainEntity = CheatMealDomainEntit
 fun CheatMealDomainEntity.toData(): CheatMealDataEntity = CheatMealDataEntity(
     id = id,
     date = date.toTimeStamp(),
-    meal = meal
+    meal = text
 )

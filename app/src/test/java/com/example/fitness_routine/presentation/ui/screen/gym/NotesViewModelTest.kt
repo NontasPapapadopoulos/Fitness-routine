@@ -2,8 +2,12 @@ package com.example.fitness_routine.presentation.ui.screen.gym
 
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.dailyReport
+import com.example.fitness_routine.domain.interactor.note.GetAllNotes
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
+import com.example.fitness_routine.note
 import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
+import com.example.fitness_routine.presentation.ui.screen.notes.NotesState
+import com.example.fitness_routine.presentation.ui.screen.notes.NotesViewModel
 import com.example.fitness_routine.presentation.ui.screen.onEvents
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -25,13 +29,13 @@ class NotesViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
-    private lateinit var getDailyReports: GetDailyReports
+    private lateinit var getAllNotes: GetAllNotes
 
-    private lateinit var viewModel: GymSessionsViewModel
+    private lateinit var viewModel: NotesViewModel
 
     @Before
     fun setUp() {
-        whenever(getDailyReports.execute(Unit)).thenReturn(flowOf(Result.success(reports)))
+        whenever(getAllNotes.execute(Unit)).thenReturn(flowOf(Result.success(notes)))
     }
 
 
@@ -43,7 +47,7 @@ class NotesViewModelTest {
             assertEquals(
                 listOf(
                     GymSessionsState.Idle,
-                    defaultContent.copy(reports)
+                    defaultContent.copy(notes)
                 ),
                 collectedStates
             )
@@ -53,16 +57,16 @@ class NotesViewModelTest {
 
 
     private fun initViewModel() {
-        viewModel = GymSessionsViewModel(getDailyReports)
+        viewModel = NotesViewModel(getAllNotes)
     }
 
     companion object {
-        val reports = (0..10).map {
-            DummyEntities.dailyReport.copy(performedWorkout = true, date = Date())
+        val notes = (0..10).map {
+            DummyEntities.note
         }
     }
 
-    private val defaultContent = GymSessionsState.Content(
-        dailyReports = listOf()
+    private val defaultContent = NotesState.Content(
+        notes = notes
     )
 }

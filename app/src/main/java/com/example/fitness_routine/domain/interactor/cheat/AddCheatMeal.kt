@@ -20,7 +20,7 @@ class AddCheatMeal @Inject constructor(
 
         val cheatMeal = CheatMealDomainEntity(
             id = UUID.randomUUID().toString(),
-            meal = params.meal,
+            text = params.meal,
             date = params.date
         )
 

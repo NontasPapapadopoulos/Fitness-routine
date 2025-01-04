@@ -33,7 +33,6 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 import com.example.fitness_routine.presentation.util.capitalize
 import com.example.fitness_routine.presentation.util.toFormattedDate
-import com.example.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
 import java.time.Month
 import java.time.ZoneId
@@ -178,7 +177,7 @@ private fun DailyNotes(
 
     notes.forEach {
             Text(
-                text = "• ${it.note}",
+                text = "• ${it.text}",
             )
 }
 
@@ -206,7 +205,7 @@ private fun generateNotes(): List<NoteDomainEntity> {
 
         NoteDomainEntity(
             date = date,
-            note = "Note $it",
+            text = "Note $it",
             id = ""
         )
     }.plus((10 downTo 1).map {
@@ -214,7 +213,7 @@ private fun generateNotes(): List<NoteDomainEntity> {
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         NoteDomainEntity(
             date = date,
-            note = "Note $it",
+            text = "Note $it",
             id = ""
         )
 

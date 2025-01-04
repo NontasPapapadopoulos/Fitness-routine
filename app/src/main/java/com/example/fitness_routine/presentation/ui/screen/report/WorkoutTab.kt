@@ -250,7 +250,7 @@ private fun NoteItem(
     ) {
 
         OutlinedTextField(
-            value = note.note.asTextFieldValue(),
+            value = note.text.asTextFieldValue(),
             label = { Text(text = "Gym Notes") },
             onValueChange = { onUpdateNote(note, it.text) },
             singleLine = true,

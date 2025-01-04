@@ -166,10 +166,10 @@ private fun DailyCheatMeals(
     Text(text = cheatDay.first().date.toFormattedDate())
     cheatDay.forEach { it ->
         it.meals
-            ?.filter { it.meal.isNotEmpty() }
+            ?.filter { it.text.isNotEmpty() }
             ?.forEach { meal ->
                 Text(
-                    text = "• ${meal.meal}",
+                    text = "• ${meal.text}",
                 )
         }
     }
@@ -202,7 +202,7 @@ private fun CheatMealsContentPreview() {
     AppTheme {
         CheatMealsContent(
             content = CheatMealsState.Content(
-                mealWithMeasurements = generateMeals()
+                mealWithMeasurements = generateMealsWithMeasurements()
             ),
             navigateToScreen = {},
             navigateBack = {}
@@ -211,7 +211,7 @@ private fun CheatMealsContentPreview() {
 
 }
 
-private fun generateMeals(): List<MealWithMeasurement> {
+private fun generateMealsWithMeasurements(): List<MealWithMeasurement> {
     return (1..10).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
@@ -239,7 +239,7 @@ private fun generateMeals(date: Date): List<CheatMealDomainEntity> {
     return (0..4).map {
         CheatMealDomainEntity(
             id = "",
-            meal = "burger",
+            text = "burger",
             date = date
         )
     }

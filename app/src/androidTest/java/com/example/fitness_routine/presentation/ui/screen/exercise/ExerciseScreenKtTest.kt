@@ -5,10 +5,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.exercise
 import com.example.fitness_routine.presentation.component.AppSurface
 import com.example.fitness_routine.presentation.ui.screen.report.ReportEvent
+import com.example.fitness_routine.set
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*
@@ -102,7 +105,9 @@ class ExerciseScreenKtTest {
         val content = ExerciseState.Content(
             preSelectedMuscle = selectedMuscle,
             exercises = listOf(ExerciseDomainEntity(name = "bench press", muscle = Muscle.Chest)), 
-            newExercise = ""
+            newExercise = "",
+            newName = "",
+            selectedExercise = DummyEntities.exercise
         )
     }
 

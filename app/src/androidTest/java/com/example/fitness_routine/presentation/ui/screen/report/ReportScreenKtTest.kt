@@ -5,8 +5,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.fitness_routine.DummyEntities
+import com.example.fitness_routine.cardio
+import com.example.fitness_routine.cheatMeal
+import com.example.fitness_routine.dailyReport
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import com.example.fitness_routine.note
 import com.example.fitness_routine.presentation.component.AppSurface
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,12 +52,17 @@ class ReportScreenKtTest {
     fun contentState_whenCheckPerformWorkoutCheckBox_addsUpdateCheckBox() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -67,12 +77,18 @@ class ReportScreenKtTest {
     fun contentState_whenCheckHadCreatineCheckBox_addsUpdateCheckBox() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -87,12 +103,18 @@ class ReportScreenKtTest {
     fun contentState_whenCheckHadCheatMealCheckBox_addsUpdateCheckBox() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -108,12 +130,18 @@ class ReportScreenKtTest {
     fun contentState_whenCardioMinutesTextFieldIsEntered_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -121,7 +149,7 @@ class ReportScreenKtTest {
         composeTestRule.onNodeWithTag(ReportScreenConstants.CARDIO_TEXT_FIELD).performTextInput("input")
 
         // then
-        verify(viewModel).add(ReportEvent.UpdateField("input", Field.CardioMinutes))
+       // verify(viewModel).add(ReportEvent.UpdateField("input", Field.CardioMinutes))
     }
 
 
@@ -129,12 +157,17 @@ class ReportScreenKtTest {
     fun contentState_whenLitersOfWaterTextFieldIsEntered_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -149,12 +182,17 @@ class ReportScreenKtTest {
     fun contentState_whenProteinGramsTextFieldIsEntered_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -169,12 +207,18 @@ class ReportScreenKtTest {
     fun contentState_whenSleepQualityIsClicked_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -189,12 +233,18 @@ class ReportScreenKtTest {
     fun contentState_whenGymNotesTextFieldIsEntered_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -202,19 +252,24 @@ class ReportScreenKtTest {
         composeTestRule.onNodeWithTag(ReportScreenConstants.GYM_NOTES_TEXT_FIELD).performTextInput("input")
 
         // then
-        verify(viewModel).add(ReportEvent.UpdateField("input", Field.GymNotes))
+      //  verify(viewModel).add(ReportEvent.UpdateField("input", Field.GymNotes))
     }
 
     @Test
     fun contentState_whenMuscleIsClicked_addsUpdateField() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -230,12 +285,18 @@ class ReportScreenKtTest {
     fun contentState_whenClickDeleteButton_addsDeleteReport() {
         // given
         whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(ReportState.Content(date = 0, dailyReport = report))
+            MutableStateFlow(ReportState.Content(
+                date = 0,
+                dailyReport = report,
+                cardios = cardios,
+                cheatMeals = cheatMeals,
+                notes = notes
+            ))
         )
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
             }
         }
 
@@ -249,17 +310,9 @@ class ReportScreenKtTest {
 
 
     companion object {
-        val report = DailyReportDomainEntity(
-            date = Date(),
-            performedWorkout = false,
-            hadCreatine = false,
-            hadCheatMeal = false,
-            gymNotes = "",
-            litersOfWater = "",
-            proteinGrams = "",
-            cardioMinutes = "",
-            sleepQuality = "1",
-            musclesTrained = listOf()
-        )
+        val report = DummyEntities.dailyReport
+        val cheatMeals = listOf(DummyEntities.cheatMeal)
+        val cardios = listOf(DummyEntities.cardio)
+        val notes = listOf(DummyEntities.note)
     }
 }

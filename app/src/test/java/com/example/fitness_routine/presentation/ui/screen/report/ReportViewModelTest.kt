@@ -5,6 +5,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.dailyReport
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import com.example.fitness_routine.domain.interactor.cardio.AddCardio
+import com.example.fitness_routine.domain.interactor.cardio.DeleteCardio
+import com.example.fitness_routine.domain.interactor.cardio.GetCardios
+import com.example.fitness_routine.domain.interactor.cardio.InitCardio
+import com.example.fitness_routine.domain.interactor.cardio.UpdateCardio
+import com.example.fitness_routine.domain.interactor.cheat.AddCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.DeleteCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.GetCheatMeals
+import com.example.fitness_routine.domain.interactor.cheat.InitCheatMeal
+import com.example.fitness_routine.domain.interactor.cheat.UpdateCheatMeal
+import com.example.fitness_routine.domain.interactor.note.AddNote
+import com.example.fitness_routine.domain.interactor.note.DeleteNote
+import com.example.fitness_routine.domain.interactor.note.GetNotes
+import com.example.fitness_routine.domain.interactor.note.InitNote
+import com.example.fitness_routine.domain.interactor.note.UpdateNote
 import com.example.fitness_routine.domain.interactor.report.AddDailyReport
 import com.example.fitness_routine.domain.interactor.report.DeleteDailyReport
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
@@ -44,13 +59,55 @@ class ReportViewModelTest {
     private lateinit var deleteReport: DeleteDailyReport
 
     @Mock
-    private lateinit var updateDailyReport: UpdateDailyReport
-
-    @Mock
-    private lateinit var createReport: AddDailyReport
+    private lateinit var updateReport: UpdateDailyReport
 
     @Mock
     private lateinit var initDailyReport: InitDailyReport
+
+    @Mock
+    private lateinit var initCardio: InitCardio
+
+    @Mock
+    private lateinit var getCardios: GetCardios
+
+    @Mock
+    private lateinit var deleteCardio: DeleteCardio
+
+    @Mock
+    private lateinit var updateCardio: UpdateCardio
+
+    @Mock
+    private lateinit var addCardio: AddCardio
+
+    @Mock
+    private lateinit var getCheatMeals: GetCheatMeals
+
+    @Mock
+    private lateinit var getNotes: GetNotes
+
+    @Mock
+    private lateinit var initNote: InitNote
+
+    @Mock
+    private lateinit var initCheatMeal: InitCheatMeal
+
+    @Mock
+    private lateinit var addCheatMeal: AddCheatMeal
+
+    @Mock
+    private lateinit var deleteCheatMeal: DeleteCheatMeal
+
+    @Mock
+    private lateinit var updateCheatMeal: UpdateCheatMeal
+
+    @Mock
+    private lateinit var addNote: AddNote
+
+    @Mock
+    private lateinit var deleteNote: DeleteNote
+
+    @Mock
+    private lateinit var updateNote: UpdateNote
 
     private val savedStateHandle: SavedStateHandle =
         SavedStateHandle(mapOf(NavigationArgument.Date.param to date))
@@ -59,8 +116,7 @@ class ReportViewModelTest {
     fun setUp() = runTest{
         whenever(getDailyReport.execute(any())).thenReturn(flowOf(Result.success(report)))
         whenever(deleteReport.execute(any())).thenReturn(Result.success(Unit))
-        whenever(updateDailyReport.execute(any())).thenReturn(Result.success(Unit))
-        whenever(createReport.execute(any())).thenReturn(Result.success(Unit))
+
         whenever(initDailyReport.execute(any())).thenReturn(Result.success(Unit))
     }
 
@@ -119,12 +175,26 @@ class ReportViewModelTest {
 
     private fun initViewModel() {
         viewModel = ReportViewModel(
-            getDailyReport,
-            deleteReport,
-            updateDailyReport,
-            createReport,
-            savedStateHandle,
-            initDailyReport
+            getDailyReport = getDailyReport,
+            deleteReport = deleteReport,
+            updateReport = updateReport,
+            savedStateHandle = savedStateHandle,
+            initDailyReport = initDailyReport,
+            initCardio = initCardio,
+            getCardios = getCardios,
+            deleteCardio = deleteCardio,
+            updateCardio = updateCardio,
+            addCardio = addCardio,
+            getCheatMeals = getCheatMeals,
+            getNotes = getNotes,
+            initNote = initNote,
+            initCheatMeal = initCheatMeal,
+            addCheatMeal = addCheatMeal,
+            deleteCheatMeal = deleteCheatMeal,
+            updateCheatMeal = updateCheatMeal,
+            addNote = addNote,
+            deleteNote = deleteNote,
+            updateNote = updateNote
         )
     }
 
@@ -138,7 +208,10 @@ class ReportViewModelTest {
 
     private val  defaultContent = ReportState.Content(
         date = date,
-        dailyReport = DummyEntities.dailyReport
+        dailyReport = DummyEntities.dailyReport,
+        cheatMeals = listOf(),
+        notes = listOf(),
+        cardios = listOf()
     )
 
 }

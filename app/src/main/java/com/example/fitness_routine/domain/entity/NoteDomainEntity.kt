@@ -6,5 +6,5 @@ import java.util.Date
 data class NoteDomainEntity(
     val id: String,
     val date: Date,
-    val note: String,
+    val text: String,
 )

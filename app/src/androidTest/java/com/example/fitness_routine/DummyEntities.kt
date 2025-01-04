@@ -1,6 +1,6 @@
 package com.example.fitness_routine
 
-import android.provider.ContactsContract.CommonDataKinds.Note
+import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
@@ -62,6 +62,14 @@ val DummyEntities.settings: SettingsDomainEntity
         isDarkModeEnabled = true,
         breakDuration = "",
         choice = ""
+    )
+
+val DummyEntities.cardio: CardioDomainEntity
+    get() = CardioDomainEntity(
+        id = "",
+        date = Date(),
+        type = "",
+        minutes = ""
     )
 
 val DummyEntities.note: NoteDomainEntity

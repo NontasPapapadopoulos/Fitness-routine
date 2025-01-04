@@ -2,7 +2,6 @@ package com.example.fitness_routine.presentation.ui.screen.report
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.data.entity.CheatMealDataEntity
 import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -22,7 +21,6 @@ import com.example.fitness_routine.domain.interactor.note.DeleteNote
 import com.example.fitness_routine.domain.interactor.note.GetNotes
 import com.example.fitness_routine.domain.interactor.note.InitNote
 import com.example.fitness_routine.domain.interactor.note.UpdateNote
-import com.example.fitness_routine.domain.interactor.report.AddDailyReport
 import com.example.fitness_routine.domain.interactor.report.DeleteDailyReport
 import com.example.fitness_routine.domain.interactor.report.GetDailyReport
 import com.example.fitness_routine.domain.interactor.report.InitDailyReport
@@ -206,7 +204,7 @@ open class ReportViewModel @Inject constructor(
         }
 
         on(ReportEvent.UpdateCheatMeal::class) {
-            val updatedCheatMeal = it.meal.copy(meal = it.value)
+            val updatedCheatMeal = it.meal.copy(text = it.value)
             updateCheatMeal.execute(UpdateCheatMeal.Params(updatedCheatMeal)).fold(
                 onSuccess = {},
                 onFailure = { addError(it) }
@@ -228,7 +226,7 @@ open class ReportViewModel @Inject constructor(
         }
 
         on(ReportEvent.UpdateNote::class) {
-            val updatedNote = it.note.copy(note = it.value)
+            val updatedNote = it.note.copy(text = it.value)
             updateNote.execute(UpdateNote.Params(updatedNote)).fold(
                 onSuccess = {},
                 onFailure = { addError(it) }

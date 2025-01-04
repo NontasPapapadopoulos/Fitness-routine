@@ -41,7 +41,7 @@ class GetDailyReportTest {
     fun execute_getDailyReport() = runTest {
         whenever(dailyReportRepository.getDailyReport(any())).thenReturn(flowOf(report))
 
-        val result = getDailyReport.execute(GetDailyReport.Params(Date())).first()
+        val result = getDailyReport.execute(GetDailyReport.Params(100L)).first()
 
         assertEquals(
             result,

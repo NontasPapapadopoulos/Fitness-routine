@@ -134,7 +134,7 @@ private fun CheatMeal(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = contentSpacing1)
     ) {
-        val value = meal.meal.asTextFieldValue()
+        val value = meal.text.asTextFieldValue()
 
         OutlinedTextField(
             value = value,
@@ -273,6 +273,6 @@ fun generateCheatMeals() =
         CheatMealDomainEntity(
             id = "",
             date = Date(),
-            meal = "Burger"
+            text = "Burger"
         )
     }

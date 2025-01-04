@@ -4,6 +4,7 @@ import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.dailyReport
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
+import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 
 import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
@@ -35,6 +36,9 @@ class CalendarViewModelTest {
     @Mock
     private lateinit var getSettings: GetSettings
 
+    @Mock
+    private lateinit var changeChoice: ChangeChoice
+
     private lateinit var viewModel: CalendarViewModel
 
 
@@ -62,7 +66,7 @@ class CalendarViewModelTest {
     }
 
     private fun initViewModel() {
-        viewModel = CalendarViewModel(getDailyReports, getSettings)
+        viewModel = CalendarViewModel(getDailyReports, getSettings, changeChoice)
     }
 
     companion object {

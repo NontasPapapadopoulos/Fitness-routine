@@ -2,10 +2,8 @@ package com.example.fitness_routine.domain.interactor.note
 
 
 import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.CheatMealRepository
 import com.example.fitness_routine.domain.repository.NoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Date
@@ -23,7 +21,7 @@ class AddNote @Inject constructor(
         val note = NoteDomainEntity(
             id = UUID.randomUUID().toString(),
             date = params.date,
-            note = params.note
+            text = params.note
         )
 
         return noteRepository.put(note)

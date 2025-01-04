@@ -2,8 +2,8 @@ package com.example.fitness_routine.domain.interactor
 
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.cheatMeal
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
+import com.example.fitness_routine.domain.interactor.cheat.GetCheatMeals
+import com.example.fitness_routine.domain.repository.CheatMealRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -17,31 +17,32 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.whenever
+import java.util.Date
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class GetCheatDaysTest {
+class GetCheatMealsTest {
 
-    private lateinit var getCheatDays: GetCheatDays
+    private lateinit var getCheatMeals: GetCheatMeals
 
     @Mock
-    private lateinit var dailyRoutineRepository: DailyRoutineRepository
+    private lateinit var cheatMealRepository: CheatMealRepository
 
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setUp() {
-        getCheatDays = GetCheatDays(dailyRoutineRepository, dispatcher)
+        getCheatMeals = GetCheatMeals(cheatMealRepository, dispatcher)
     }
 
     @Test
     fun execute_getCheatDays() = runTest {
-        whenever(dailyRoutineRepository.getDailyReports()).thenReturn(flowOf(listOf(report)))
+        whenever(cheatMealRepository.getCheatMeals()).thenReturn(flowOf(meals))
 
-        val result = getCheatDays.execute(Unit).first()
+        val result = getCheatMeals.execute(GetCheatMeals.Params(100L)).first()
 
         assertEquals(
-            Result.success(listOf(cheatDay.copy(date = report.date))),
+            Result.success(meals),
             result
         )
 
@@ -49,7 +50,6 @@ class GetCheatDaysTest {
 
 
     companion object {
-        val report = DummyEntities.dailyReport.copy(hadCheatMeal = true)
-        val cheatDay = DummyEntities.cheatMeal
+        val meals = listOf(DummyEntities.cheatMeal)
     }
 }
