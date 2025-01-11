@@ -4,6 +4,7 @@ import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.domain.repository.SettingsRepository
 import com.example.fitness_routine.settings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -39,10 +40,10 @@ class GetSettingsTest {
     fun execute_getSettings() = runTest {
         whenever(settingsRepository.getSettings()).thenReturn(flowOf(settings))
 
-        val result = getSettings.execute(Unit)
+        val result = getSettings.execute(Unit).first()
 
         assertEquals(
-            Result.success(flowOf(settings)),
+            Result.success(settings),
             result
         )
     }

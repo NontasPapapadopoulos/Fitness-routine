@@ -78,6 +78,7 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
+import com.example.fitness_routine.presentation.util.Year
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
@@ -142,10 +143,6 @@ private fun Content(
     navigateToScreen: (Screen) -> Unit,
     onSelect: (Choice) -> Unit
 ) {
-
-    val currentYear = getCurrentYear()
-    val currentMonth = getCurrentMonth()
-    val currentDay = getCurrentDay()
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -260,11 +257,8 @@ private fun Content(
                         modifier = Modifier.padding(start = contentSpacing3, bottom = contentSpacing2),
                         style = MaterialTheme.typography.bodyLarge
                     )
-
                 }
-
             }
-
         },
         drawerState = drawerState,
     ) {
@@ -296,57 +290,58 @@ private fun Content(
             }
         ) {
 
+            val currentYear = getCurrentYear().toInt()
+            val currentMonth = getCurrentMonth()
+            val currentDay = getCurrentDay()
+
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(it)
-                    .semantics { contentDescription = Screen.Calendar.name }
+                    .semantics { contentDescription = Screen.Calendar.name },
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
 
-                    val calendar =
-                        Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
-                    val year = calendar.years[0]
+                val calendar =
+                    Calendar().createCalendar(currentYear - 1 , currentYear + 1)
+                val months = calendar.years.map { it.months }.flatten()
 
-                    YearlyCalendar(
-                        months = year.months,
-                        year = year.year,
-                        currentYear = currentYear,
-                        currentMonth = currentMonth,
-                        currentDay = currentDay,
-                        dailyReports = content.reports,
-                        navigateToDailyReport = navigateToDailyReport,
-                        state = listState,
-                        selectedChoice = content.selectedChoice
-                    )
+                YearlyCalendar(
+                    months = months,
+                    currentYear = currentYear,
+                    currentMonth = currentMonth,
+                    currentDay = currentDay,
+                    dailyReports = content.reports,
+                    navigateToDailyReport = navigateToDailyReport,
+                    state = listState,
+                    selectedChoice = content.selectedChoice
+                )
 
-                    Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
 
-                    Choices(onSelect, content)
+                Choices(onSelect, content)
 
-                    Spacer(modifier = Modifier.height(contentSpacing3))
+                Spacer(modifier = Modifier.height(contentSpacing3))
+            }
 
+            LaunchedEffect(Unit) {
+                val calendar = Calendar().createCalendar(currentYear - 1, currentYear + 1)
+                val currentMonthIndex = calendar.years.map { it.months }
+                    .flatten()
+                    .indexOfFirst {
+                        it.monthName == currentMonth && it.year == currentYear
+                    }
+
+                if (currentMonthIndex != -1) {
+                    coroutineScope.launch {
+                        listState.scrollToItem(currentMonthIndex)
+                    }
                 }
             }
         }
     }
-
-    LaunchedEffect(Unit) {
-        val calendar = Calendar().createCalendar(currentYear.toInt(), currentYear.toInt() + 1)
-        val currentMonthIndex =
-            calendar.years[0].months.indexOfFirst { it.monthName == currentMonth }
-
-        if (currentMonthIndex != -1) {
-            coroutineScope.launch {
-                listState.scrollToItem(currentMonthIndex)
-            }
-        }
-    }
-
 }
+
 
 @Composable
 private fun Choices(
@@ -376,33 +371,31 @@ private suspend fun toggleDrawerState(drawerState: DrawerState) {
 
 
 
-
 @Composable
 private fun Day(
     day: Day,
     currentDay: String,
     isCurrentMonth: Boolean,
-    performedWorkout: Boolean,
-    hadCheatMeal: Boolean,
-    hadCreatine: Boolean,
+    isCurrentYear: Boolean,
+    reportForDay: DailyReportDomainEntity?,
     navigateToDailyReport: (Long) -> Unit,
     selectedChoice: Choice,
     modifier: Modifier
 ) {
 
-    val isCurrentDay = currentDay.toInt() == day.dayOfMonth
+    val isCurrentDay = currentDay.toInt() == day.dayOfMonth && isCurrentYear && isCurrentMonth
 
     val isChoiceCompleted = when (selectedChoice) {
-        Choice.Workout -> performedWorkout
-        Choice.Creatine -> hadCreatine
-        Choice.Cheat -> hadCheatMeal
+        Choice.Workout -> reportForDay?.performedWorkout ?: false
+        Choice.Creatine -> reportForDay?.hadCreatine ?: false
+        Choice.Cheat -> reportForDay?.hadCheatMeal ?: false
     }
 
-    val borderColor = if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.primary
-    else MaterialTheme.colorScheme.onPrimaryContainer
+    val borderColor = if (isCurrentDay) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimaryContainer
+    val textColor = if (isCurrentDay) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
 
 
-    val backgroundColor =  if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.onPrimaryContainer
+    val backgroundColor =  if (isCurrentDay) MaterialTheme.colorScheme.onPrimaryContainer
     else if (isChoiceCompleted) {
         when (selectedChoice) {
             Choice.Workout -> MaterialTheme.colorScheme.primary
@@ -414,14 +407,12 @@ private fun Day(
         MaterialTheme.colorScheme.onPrimaryContainer
 
 
-    val textColor = if (isCurrentDay && isCurrentMonth) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
-
     Box(
         modifier = modifier
             .padding(2.dp)
             .size(40.dp)
             .border(
-                if (isCurrentDay && isCurrentMonth || isChoiceCompleted) 1.dp else 0.dp,
+                if (isCurrentDay || isChoiceCompleted) 1.dp else 0.dp,
                 borderColor,
                 shape = CircleShape
             )
@@ -437,7 +428,7 @@ private fun Day(
             text = day.dayOfMonth.toString(),
             color = textColor,
             style = MaterialTheme.typography.bodyLarge
-            )
+        )
     }
 
 }
@@ -451,6 +442,7 @@ private fun Month(
     nameOfMonth: String,
     currentMonth: String,
     currentDay: String,
+    isCurrentYear: Boolean,
     dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit,
     selectedChoice: Choice,
@@ -474,9 +466,8 @@ private fun Month(
                 day = day,
                 currentDay = currentDay,
                 isCurrentMonth = isCurrentMonth,
-                performedWorkout = reportForDay?.performedWorkout ?: false,
-                hadCreatine = reportForDay?.hadCreatine ?: false,
-                hadCheatMeal = reportForDay?.hadCheatMeal ?: false,
+                isCurrentYear = isCurrentYear,
+                reportForDay = reportForDay,
                 navigateToDailyReport = navigateToDailyReport,
                 selectedChoice = selectedChoice,
                 modifier = Modifier.testTag(DAY + nameOfMonth)
@@ -490,8 +481,7 @@ private fun Month(
 @Composable
 private fun YearlyCalendar(
     months: List<Month>,
-    year: Int,
-    currentYear: String,
+    currentYear: Int,
     currentMonth: String,
     currentDay: String,
     dailyReports: List<DailyReportDomainEntity>,
@@ -499,8 +489,6 @@ private fun YearlyCalendar(
     state: LazyListState,
     selectedChoice: Choice
 ) {
-    val isCurrentYear = year.toString() == currentYear
-//    Text(text = year.toString())
 
     LazyRow (
         state = state,
@@ -516,6 +504,7 @@ private fun YearlyCalendar(
                     currentMonth = currentMonth,
                     month = month,
                     currentDay = currentDay,
+                    isCurrentYear = currentYear == month.year,
                     dailyReports = dailyReports,
                     navigateToDailyReport = navigateToDailyReport,
                     selectedChoice = selectedChoice,
@@ -537,6 +526,7 @@ private fun MonthContainer(
     currentMonth: String,
     month: Month,
     currentDay: String,
+    isCurrentYear: Boolean,
     dailyReports: List<DailyReportDomainEntity>,
     navigateToDailyReport: (Long) -> Unit,
     selectedChoice: Choice,
@@ -554,7 +544,8 @@ private fun MonthContainer(
             .padding(vertical = contentSpacing6)
     ) {
 
-        MonthHeader(currentMonth, month, currentDay)
+        val isCurrentMonth = currentMonth == month.monthName && isCurrentYear
+        MonthHeader(isCurrentMonth, month, currentDay)
 
         DaysHeader()
 
@@ -563,6 +554,7 @@ private fun MonthContainer(
             nameOfMonth = month.monthName,
             currentMonth = currentMonth,
             currentDay = currentDay,
+            isCurrentYear = isCurrentYear,
             dailyReports = dailyReports,
             navigateToDailyReport = navigateToDailyReport,
             selectedChoice = selectedChoice,
@@ -613,7 +605,7 @@ private fun SelectionItem(color: Color, text: String) {
 
 @Composable
 private fun MonthHeader(
-    currentMonth: String,
+    isCurrentMonth: Boolean,
     month: Month,
     currentDay: String
 ) {
@@ -623,7 +615,6 @@ private fun MonthHeader(
             .padding(start = contentSpacing6, bottom = contentSpacing6),
         horizontalArrangement = Arrangement.Start
     ) {
-        val isCurrentMonth = currentMonth == month.monthName
         if (isCurrentMonth)
             Text(
                 text = "${getDayOfWeek().take(3)}, ${month.monthName.take(3)} $currentDay",

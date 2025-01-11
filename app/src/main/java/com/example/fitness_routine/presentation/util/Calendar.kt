@@ -11,15 +11,15 @@ class Calendar {
 
     fun createCalendar(startYear: Int, endYear: Int): CustomCalendar {
         val years = mutableListOf<Year>()
-        val months = mutableListOf<Month>()
 
         for (year in startYear..endYear) {
+            val months = mutableListOf<Month>()
             for (month in 1..12) {
                 val monthName = getMonthName(month)
                 val daysInMonth = getMonthDays(month, year)
                 val days = getDays(daysInMonth, year, month)
 
-                months.add(Month(monthName, days))
+                months.add(Month(monthName, year, days))
             }
             years.add(Year(year, months))
         }
@@ -100,7 +100,7 @@ fun Long.isCurrentDate() =
 
 data class Day(val dayOfMonth: Int, val dayOfWeekName: String, val date: Long)
 
-data class Month(val monthName: String, val days: List<Day>)
+data class Month(val monthName: String, val year: Int, val days: List<Day>)
 
 data class Year(val year: Int, val months: List<Month>)
 
