@@ -67,6 +67,8 @@ import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.DAY
 import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
+import com.example.fitness_routine.presentation.ui.screen.sidemenu.SideMenu
+import com.example.fitness_routine.presentation.ui.screen.sidemenu.toggleDrawerState
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize1
 import com.example.fitness_routine.presentation.ui.theme.contentSize2
@@ -78,7 +80,6 @@ import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
 import com.example.fitness_routine.presentation.util.Calendar
 import com.example.fitness_routine.presentation.util.Day
 import com.example.fitness_routine.presentation.util.Month
-import com.example.fitness_routine.presentation.util.Year
 import com.example.fitness_routine.presentation.util.getCurrentDay
 import com.example.fitness_routine.presentation.util.getCurrentMonth
 import com.example.fitness_routine.presentation.util.getCurrentYear
@@ -86,6 +87,7 @@ import com.example.fitness_routine.presentation.util.getDate
 import com.example.fitness_routine.presentation.util.getDayOfWeek
 import com.example.fitness_routine.presentation.util.getIcon
 import com.example.fitness_routine.presentation.util.toDate
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
@@ -151,114 +153,7 @@ private fun Content(
 
     ModalNavigationDrawer(
         drawerContent = {
-            ModalDrawerSheet(
-                modifier = Modifier.width(250.dp),
-                drawerContainerColor = MaterialTheme.colorScheme.background,
-                drawerTonalElevation = 0.dp
-            ) {
-                Column {
-
-                    Icon(
-                        Icons.Filled.FitnessCenter,
-                        null,
-                        modifier = Modifier
-                            .padding(contentSpacing4)
-                            .size(100.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-
-                    Text(
-                        text  = "Your Fitness Tracker",
-                        modifier = Modifier.padding(start = contentSpacing4, bottom = contentSpacing4),
-                        style = MaterialTheme.typography.headlineLarge
-                    )
-
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.primary
-                    )
-
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = "Exercises",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            ) },
-                        selected = false,
-                        onClick = {
-                            coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Exercise)
-                        },
-                    )
-
-
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = "Settings",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            ) },
-                        selected = false,
-                        onClick = {
-                            coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Settings)
-                        }
-                    )
-
-
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = "Measurements",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            ) },
-                        selected = false,
-                        onClick = {
-                            coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Measurements)
-                        }
-                    )
-
-
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = "Notes",
-                                color = MaterialTheme.colorScheme.secondary,
-                                style = MaterialTheme.typography.titleLarge
-                            ) },
-                        selected = false,
-                        onClick = {
-                            coroutineScope.launch { toggleDrawerState(drawerState) }
-                            navigateToScreen(Screen.Notes)
-                        }
-                    )
-
-//                    NavigationDrawerItem(
-//                        label = {
-//                            Text(
-//                                text = "Analytics",
-//                                color = MaterialTheme.colorScheme.secondary,
-//                                style = MaterialTheme.typography.titleLarge
-//                            ) },
-//                        selected = false,
-//                        onClick = {
-//                            coroutineScope.launch { toggleDrawerState(drawerState) }
-//                            navigateToScreen(Screen.Analytics)
-//                        }
-//                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Text(
-                        text = "version: 1.0.0",
-                        modifier = Modifier.padding(start = contentSpacing3, bottom = contentSpacing2),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
+            SideMenu(coroutineScope, drawerState, navigateToScreen)
         },
         drawerState = drawerState,
     ) {
@@ -304,7 +199,9 @@ private fun Content(
 
                 val calendar =
                     Calendar().createCalendar(currentYear - 1 , currentYear + 1)
-                val months = calendar.years.map { it.months }.flatten()
+                val months = calendar.years
+                    .map { it.months }
+                    .flatten()
 
                 YearlyCalendar(
                     months = months,
@@ -343,6 +240,8 @@ private fun Content(
 }
 
 
+
+
 @Composable
 private fun Choices(
     onSelect: (Choice) -> Unit,
@@ -361,12 +260,6 @@ private fun Choices(
             )
         }
     }
-}
-
-private suspend fun toggleDrawerState(drawerState: DrawerState) {
-    if (drawerState.isOpen)
-        drawerState.close()
-    else drawerState.open()
 }
 
 
@@ -720,8 +613,6 @@ private fun ChoiceItem(
         }
     }
 }
-
-
 
 
 
