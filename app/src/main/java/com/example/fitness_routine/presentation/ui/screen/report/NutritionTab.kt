@@ -144,12 +144,12 @@ private fun CheatMeal(
             singleLine = true,
             label = { Text(text = "Meal") },
             modifier = Modifier
-                .weight(0.8f)
+                .weight(0.7f)
                 .testTag(CHEAT_MEAL_TEXT_FIELD)
         )
 
 
-        Row(modifier = Modifier.weight(0.2f)) {
+        Row(modifier = Modifier.weight(0.3f)) {
             IconButton(onClick = { onAddCheatMeal() }) {
                 Icon(
                     imageVector = Icons.Default.AddCircleOutline,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -130,14 +131,14 @@ private fun CardioItem(
 ) {
 
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
+//        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         CardioType(
             selectedCardio = cardio.type,
             onUpdateCardio = { onUpdateCardio(cardio, CardioField.Type, it) },
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(0.7f)
         )
 
         Spacer(modifier = Modifier.width(contentSpacing4))
@@ -150,13 +151,13 @@ private fun CardioItem(
             },
             label = { Text("min") },
             modifier = Modifier
-                .weight(0.7f)
+                .weight(0.2f)
                 .testTag(testTag),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
 
-        Row(modifier = Modifier.weight(0.5f)) {
+        Row(modifier = Modifier.weight(0.3f)) {
             IconButton(onClick = addCardio) {
                 Icon(
                     imageVector = Icons.Default.AddCircleOutline,
@@ -246,7 +247,10 @@ private fun NoteItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = contentSpacing1)
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .padding(vertical = contentSpacing1)
+            .fillMaxWidth()
     ) {
 
         OutlinedTextField(
@@ -255,11 +259,15 @@ private fun NoteItem(
             onValueChange = { onUpdateNote(note, it.text) },
             singleLine = true,
             modifier = Modifier
-                .weight(0.8f)
+                .weight(0.7f)
                 .testTag(GYM_NOTES_TEXT_FIELD)
         )
 
-        Row(modifier = Modifier.weight(0.2f)) {
+
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.weight(0.3f)
+        ) {
             IconButton(onClick = onAddNote) {
                 Icon(
                     imageVector = Icons.Default.AddCircleOutline,

@@ -37,6 +37,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
@@ -149,6 +151,10 @@ private fun ExerciseContent(
             }
 
 
+            val focusRequester = remember {
+                FocusRequester()
+            }
+
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
@@ -205,7 +211,8 @@ private fun ExerciseContent(
                     onValueChange = { onTextChanged(it) },
                     modifier = Modifier
                         .weight(0.7f)
-                        .testTag(EXERCISE_TEXT_FIELD),
+                        .testTag(EXERCISE_TEXT_FIELD)
+                        .focusRequester(focusRequester),
                     singleLine = true
                 )
 
@@ -228,12 +235,16 @@ private fun ExerciseContent(
 
             if (content.selectedExercise != null) {
                 EditExerciseDialog(
-                    selectedExercise = content.selectedExercise!!.name,
+                    selectedExercise = content.selectedExercise.name,
                     onUpdateExercise = onUpdateExercise,
                     onNewExerciseNameTextChanged = onNewExerciseNameTextChanged,
                     onDismissDialog = onDismissDialog,
                     newName = content.newName
                 )
+            }
+
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
             }
         }
 
@@ -310,11 +321,12 @@ private fun Exercise(
     ) {
         Text(
             text = exercise.name,
-            modifier = Modifier.weight(0.8f)
+            modifier = Modifier.weight(0.7f)
         )
 
         Row(
-            modifier = Modifier.weight(0.2f)
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.weight(0.3f)
         ) {
             IconButton(
                 onClick =  { onSelectExercise(exercise) },

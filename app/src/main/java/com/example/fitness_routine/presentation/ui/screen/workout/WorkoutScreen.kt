@@ -282,7 +282,7 @@ fun AddExerciseDialog(
 
     if (exercises.isNotEmpty()) {
         var expanded by remember { mutableStateOf(false) }
-        var selectedOption by remember { mutableStateOf(exercises[0].name) }
+        var selectedOption by remember { mutableStateOf(exercises[exercises.size-1].name) }
 
         AlertDialog(
             onDismissRequest = onDismissDialog
