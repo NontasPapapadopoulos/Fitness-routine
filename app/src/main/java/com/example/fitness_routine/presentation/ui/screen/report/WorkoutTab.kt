@@ -138,7 +138,7 @@ private fun CardioItem(
         CardioType(
             selectedCardio = cardio.type,
             onUpdateCardio = { onUpdateCardio(cardio, CardioField.Type, it) },
-            modifier = Modifier.weight(0.7f)
+            modifier = Modifier.weight(0.65f)
         )
 
         Spacer(modifier = Modifier.width(contentSpacing4))
@@ -151,7 +151,7 @@ private fun CardioItem(
             },
             label = { Text("min") },
             modifier = Modifier
-                .weight(0.2f)
+                .weight(0.25f)
                 .testTag(testTag),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
