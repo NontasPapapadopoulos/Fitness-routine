@@ -146,7 +146,10 @@ private fun Content(
                     ) {
                         Text(text = "Fitness Diary")
 
-                        Text(text = content.date.toFormattedDate())
+                        Text(
+                            text = content.date.toFormattedDate(),
+                            modifier = Modifier.padding(end = contentSpacing4)
+                        )
 //                        Icon(Icons.Default.Delete,
 //                            contentDescription = null,
 //                            tint = MaterialTheme.colorScheme.onError,
