@@ -21,6 +21,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fitness_routine.presentation.component.Logo
 import com.example.fitness_routine.presentation.navigation.Screen
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize10
@@ -50,25 +51,8 @@ fun SplashScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                Icon(
-                    imageVector = Icons.Default.FitnessCenter,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.size(contentSize25)
-                )
-
-                Spacer(modifier = Modifier.height(contentSpacing4))
-
-                Text(
-                    text = "Fitness routine\ntracker",
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center
-                )
+                Logo()
             }
-
-
 
         }
     }
