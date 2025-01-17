@@ -9,9 +9,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 
-public val FitnessDiary.FitnessTracker24px: ImageVector
+public val FitnessTracker24px: ImageVector
     get() {
         if (_fitnessTracker24px != null) {
             return _fitnessTracker24px!!

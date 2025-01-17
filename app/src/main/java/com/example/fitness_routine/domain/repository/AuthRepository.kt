@@ -6,6 +6,4 @@ interface AuthRepository {
     suspend fun logout()
     suspend fun register()
     suspend fun delete()
-
-    
 }
