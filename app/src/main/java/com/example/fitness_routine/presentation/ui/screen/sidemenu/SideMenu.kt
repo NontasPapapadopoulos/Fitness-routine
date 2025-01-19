@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.sidemenu
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,7 +29,11 @@ import kotlinx.coroutines.launch
  fun SideMenu(
     coroutineScope: CoroutineScope,
     drawerState: DrawerState,
-    navigateToScreen: (Screen) -> Unit
+    hasUserLoggedIn: Boolean,
+    navigateToScreen: (Screen) -> Unit,
+    deleteAccount: () -> Unit,
+    signIn: () -> Unit,
+    signOut: () -> Unit
 ) {
     ModalDrawerSheet(
         modifier = Modifier.width(250.dp),
@@ -119,7 +124,7 @@ import kotlinx.coroutines.launch
                 }
             )
 
-//                    NavigationDrawerItem(
+            //                    NavigationDrawerItem(
 //                        label = {
 //                            Text(
 //                                text = "Analytics",
@@ -133,7 +138,47 @@ import kotlinx.coroutines.launch
 //                        }
 //                    )
 
+            
             Spacer(modifier = Modifier.weight(1f))
+
+            NavigationDrawerItem(
+                label = {
+                    Text(
+                        text = "Sign in",
+                        color = if (hasUserLoggedIn) MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.secondary,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                selected = hasUserLoggedIn,
+                onClick = { if (!hasUserLoggedIn) signIn() }
+            )
+
+            NavigationDrawerItem(
+                label = {
+                    Text(
+                        text = "Sign out",
+                        color = if (hasUserLoggedIn) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                selected = false,
+                onClick = { if (hasUserLoggedIn) signOut() } // TODO: Show a warning dialog first
+            )
+
+            NavigationDrawerItem(
+                label = {
+                    Text(
+                        text = "Delete",
+                        color = if (hasUserLoggedIn) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                selected = false,
+                onClick = { if (hasUserLoggedIn) deleteAccount() } // TODO: Show a warning dialog first
+            )
+
+
+
 
             Text(
                 text = "version: 1.0.0",

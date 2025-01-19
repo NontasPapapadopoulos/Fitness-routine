@@ -126,13 +126,9 @@ dependencies {
     // material theme
     implementation "androidx.compose.material:material-icons-extended:1.6.7"
     implementation("androidx.compose.material3:material3:1.2.1")
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    // optional - RxJava2 support
-    implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.1")
+    implementation "androidx.datastore:datastore-preferences:1.1.2"
 
-    // optional - RxJava3 support
-    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
 
     def compose_version = "1.5.3"
     testImplementation 'junit:junit:4.13.2'
@@ -153,31 +149,20 @@ dependencies {
 //    debugImplementation("androidx.compose.ui:ui-test-manifest:2.8.3")
 
 
-    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
-    implementation("com.google.firebase:firebase-analytics")
-
-    implementation("com.google.firebase:firebase-auth")
-
-    // Import the BoM for the Firebase platform
-    //implementation platform('com.google.firebase:firebase-bom:33.8.0')
-
-    // Declare the dependencies for the desired Firebase products without specifying versions
-    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
-   // implementation 'com.google.firebase:firebase-firestore'
-
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
-
-
-    // Android Credential Manager
-//    implementation("com.google.android.gms:play-services-auth:21.2.0")
-//    implementation("androidx.credentials.credentials:1.2.2")
-//    implementaton("androidx.credentials:credentials-play-services-auth:1.2.2")
-//    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-
-
-    implementation "androidx.compose.material3:material3:1.2.0"
+   implementation "androidx.compose.material3:material3:1.2.0"
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+
+    //Authentication with Credential Manager
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
 }

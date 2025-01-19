@@ -44,20 +44,25 @@ fun RootNavGraph(
             route = Screen.Splash.name
         ) {
 
-            DisplaySplashScreen(
-                navController = navController,
-                milliseconds = 1000L,
-                route = Screen.Login.name
-            )
+//            DisplaySplashScreen(
+//                navController = navController,
+//                milliseconds = 1000L,
+//                route = Screen.Login.name
+//            )
 
-            SplashScreen()
+            SplashScreen(
+                navigateToLoginScreen = { navController.navigate(Screen.Login.name) },
+                navigateToCalendarScreen = { navController.navigate(Screen.Calendar.name) }
+            )
         }
 
 
         composable(
             route = LoginRoute
         ) {
-            LoginScreen()
+            LoginScreen(
+                navigateToCalendarScreen = { navController.navigate(Screen.Calendar.name) }
+            )
         }
 
         composable(
@@ -66,6 +71,7 @@ fun RootNavGraph(
 
             CalendarScreen(
                 navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
+                navigateToLoginScreen = { navController.navigate(Screen.Login.name) },
                 navigateToScreen = { screen ->
                     when (screen) {
                         Screen.Gym,

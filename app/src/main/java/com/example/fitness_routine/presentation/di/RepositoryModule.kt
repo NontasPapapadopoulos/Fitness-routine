@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.di
 
+import android.content.Context
 import com.example.fitness_routine.data.datasource.AuthDataSource
 import com.example.fitness_routine.data.datasource.BodyMeasurementDataSource
 import com.example.fitness_routine.data.datasource.CardioDataSource
@@ -124,8 +125,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideAuthRepository(
-        authDataSource: AuthDataSource
+        authDataSource: AuthDataSource,
+        context: Context
     ): AuthRepository {
-        return AuthDataRepository(authDataSource)
+        return AuthDataRepository(authDataSource, context)
     }
 }

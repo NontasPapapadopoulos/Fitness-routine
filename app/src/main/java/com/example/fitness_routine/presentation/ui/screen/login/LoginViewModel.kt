@@ -5,10 +5,14 @@ import android.content.IntentSender
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.CreateCredentialException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.interactor.auth.PerformLogin
+import com.example.fitness_routine.domain.interactor.auth.SkipLogin
 import com.example.fitness_routine.presentation.BlocViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -16,10 +20,18 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+import com.google.firebase.Firebase
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.fold
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.tasks.await
@@ -29,20 +41,13 @@ import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    performLogin: PerformLogin,
-    application: Application
+    private val performLogin: PerformLogin,
+    private val skipLogin: SkipLogin,
 ): BlocViewModel<LoginEvent, LoginContent>() {
 
+    private val _navigationFlow = MutableSharedFlow<Boolean>()
+    val navigationFlow: SharedFlow<Boolean> = _navigationFlow
 
-
-    private lateinit var googleSignInClient: GoogleSignInClient
-
-    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(CLIENT_ID)
-        .requestEmail()
-        .build()
-
-    private var oneTapClient = Identity.getSignInClient(application.applicationContext)
 
     private val isLoadingFlow = MutableSharedFlow<Boolean>()
 
@@ -57,48 +62,26 @@ class LoginViewModel @Inject constructor(
 
 
     init {
-        googleSignInClient = GoogleSignIn.getClient(application.applicationContext, gso)
-
 
         on(LoginEvent.PerformLogin::class) {
-            signIn()
-        }
-
-    }
-
-
-    private suspend fun signIn(): IntentSender? {
-        val result = try {
-            oneTapClient.beginSignIn(buildSignInRequest()).await().let { signInResult ->
-                signInResult // Automatically closes the resource after this block
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (e is CancellationException) throw e
-            null
-        }
-        return result?.pendingIntent?.intentSender
-    }
-
-    private fun buildSignInRequest(): BeginSignInRequest {
-        return BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    // Your server's client ID, not your Android client ID.
-                    .setServerClientId(CLIENT_ID)
-                    // Only show accounts previously used to sign in.
-                    .setFilterByAuthorizedAccounts(false)
-                    .build()
+            isLoadingFlow.emit(true)
+            performLogin.execute(PerformLogin.Params(it.credential)).fold(
+                onSuccess = { navigate() },
+                onFailure = { addError(it) }
             )
-            .build()
+        }
+
+        on(LoginEvent.SkipLogin::class) {
+            skipLogin.execute(Unit).fold(
+                onSuccess = { navigate() },
+                onFailure = { addError(it) }
+            )
+        }
+
     }
 
-
-
-
-    companion object {
-        private const val CLIENT_ID = "673481352767-kb4v5ep1le5q3j0ath41j5cdpt0t253g.apps.googleusercontent.com"
+    private suspend fun navigate() {
+        _navigationFlow.emit(true)
     }
 
 }
@@ -107,7 +90,8 @@ class LoginViewModel @Inject constructor(
 
 
 interface LoginEvent {
-    object PerformLogin: LoginEvent
+    data class PerformLogin(val credential: Credential): LoginEvent
+    object SkipLogin: LoginEvent
 }
 
 data class LoginContent(

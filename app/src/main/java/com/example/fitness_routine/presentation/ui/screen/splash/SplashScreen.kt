@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
@@ -27,12 +28,27 @@ import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSize10
 import com.example.fitness_routine.presentation.ui.theme.contentSize25
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 fun SplashScreen(
+    navigateToLoginScreen: () -> Unit,
+    navigateToCalendarScreen: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        viewModel.navigationFlow.collectLatest { target ->
+            delay(1000)
+            when (target) {
+                SplashViewModel.NavigationTarget.Login -> navigateToLoginScreen()
+                SplashViewModel.NavigationTarget.Calendar -> navigateToCalendarScreen()
+            }
+        }
+    }
+
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.primary,
@@ -66,6 +82,9 @@ fun SplashScreen(
 @Composable
 private fun SplashScreenPreview() {
     AppTheme(darkTheme = true) {
-        SplashScreen()
+        SplashScreen(
+            navigateToCalendarScreen = {},
+            navigateToLoginScreen = {}
+        )
     }
 }

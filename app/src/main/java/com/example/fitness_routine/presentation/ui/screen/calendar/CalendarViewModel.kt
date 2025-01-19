@@ -3,16 +3,17 @@ package com.example.fitness_routine.presentation.ui.screen.calendar
 import androidx.lifecycle.viewModelScope
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
+import com.example.fitness_routine.domain.interactor.auth.DeleteAccount
+import com.example.fitness_routine.domain.interactor.auth.HasUserLoggedIn
+import com.example.fitness_routine.domain.interactor.auth.PerformLogout
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
 import com.example.fitness_routine.domain.interactor.settings.GetSettings
 import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.Handler
-import com.example.fitness_routine.presentation.flatMapMergeWith
-import com.example.fitness_routine.presentation.toResult
 import com.example.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -27,8 +28,14 @@ import javax.inject.Inject
 open class CalendarViewModel @Inject constructor(
     getDailyReports: GetDailyReports,
     getSettings: GetSettings,
-    private val changeChoice: ChangeChoice
+    private val changeChoice: ChangeChoice,
+    hasUserLoggedIn: HasUserLoggedIn,
+    performLogout: PerformLogout,
+    deleteAccount: DeleteAccount,
 ): BlocViewModel<CalendarEvent, CalendarState>() {
+
+    private val _navigationFlow = MutableSharedFlow<Boolean>()
+    val navigationFlow: SharedFlow<Boolean> = _navigationFlow
 
     private val currentDateFlow = MutableSharedFlow<String>()
 
@@ -40,16 +47,22 @@ open class CalendarViewModel @Inject constructor(
         .map { it.getOrThrow() }
         .map { Choice.valueOf(it.choice) }
 
+    private val hasUserLoggedInFlow = hasUserLoggedIn.execute(Unit)
+        .map { it.getOrThrow() }
+        .catch { addError(it) }
+
     override val _uiState: StateFlow<CalendarState> = combine(
         dailyReportsFlow.onStart { emit(listOf()) },
         currentDateFlow.onStart { emit(getDate()) },
-        choiceFlow.onStart { emit(Choice.Workout) }
-    ) { reports, currentDate, choice ->
+        choiceFlow.onStart { emit(Choice.Workout) },
+        hasUserLoggedInFlow.onStart { emit(false) }
+    ) { reports, currentDate, choice, hasUserLoggedIn ->
 
         CalendarState.Content(
             reports = reports,
             currentDate = currentDate,
-            selectedChoice = choice ?: Choice.Workout
+            selectedChoice = choice ?: Choice.Workout,
+            hasUserLoggedIn = hasUserLoggedIn
         )
 
     }.stateIn(
@@ -66,12 +79,28 @@ open class CalendarViewModel @Inject constructor(
                 onFailure = { addError(it) }
             )
         }
+
+        on(CalendarEvent.Logout::class) {
+            performLogout.execute(Unit).fold(
+                onSuccess = { _navigationFlow.emit(true) },
+                onFailure = { addError(it) }
+            )
+        }
+
+        on(CalendarEvent.DeleteAccount::class) {
+            deleteAccount.execute(Unit).fold(
+                onSuccess = { _navigationFlow.emit(true) },
+                onFailure = { addError(it) }
+            )
+        }
     }
 }
 
 
 sealed interface CalendarEvent {
     data class SelectChoice(val choice: Choice): CalendarEvent
+    object DeleteAccount: CalendarEvent
+    object Logout: CalendarEvent
 }
 
 
@@ -83,7 +112,8 @@ sealed interface CalendarState {
     data class Content(
         val reports: List<DailyReportDomainEntity>,
         val currentDate: String,
-        val selectedChoice: Choice
+        val selectedChoice: Choice,
+        val hasUserLoggedIn: Boolean
     ): CalendarState
 
 }

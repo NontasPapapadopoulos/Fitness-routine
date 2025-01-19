@@ -25,18 +25,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -87,7 +82,7 @@ import com.example.fitness_routine.presentation.util.getDate
 import com.example.fitness_routine.presentation.util.getDayOfWeek
 import com.example.fitness_routine.presentation.util.getIcon
 import com.example.fitness_routine.presentation.util.toDate
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
@@ -99,6 +94,7 @@ fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
+    navigateToLoginScreen: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -116,6 +112,14 @@ fun CalendarScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.navigationFlow.collectLatest { navigatge ->
+            if (navigatge) {
+                navigateToLoginScreen()
+            }
+        }
+    }
+
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -126,6 +130,9 @@ fun CalendarScreen(
                 navigateToDailyReport = { navigateToDailyReport(it) },
                 navigateToScreen = { navigateToScreen(it) },
                 onSelect = { viewModel.add(CalendarEvent.SelectChoice(it)) },
+                deleteAccount = { viewModel.add(CalendarEvent.DeleteAccount) },
+                signOut = { viewModel.add(CalendarEvent.Logout) },
+                signIn = {}
             )
         }
 
@@ -143,7 +150,10 @@ private fun Content(
     content: CalendarState.Content,
     navigateToDailyReport: (Long) -> Unit,
     navigateToScreen: (Screen) -> Unit,
-    onSelect: (Choice) -> Unit
+    onSelect: (Choice) -> Unit,
+    deleteAccount: () -> Unit,
+    signOut: () -> Unit,
+    signIn: () -> Unit,
 ) {
 
     val listState = rememberLazyListState()
@@ -153,7 +163,15 @@ private fun Content(
 
     ModalNavigationDrawer(
         drawerContent = {
-            SideMenu(coroutineScope, drawerState, navigateToScreen)
+            SideMenu(
+                coroutineScope,
+                drawerState,
+                content.hasUserLoggedIn,
+                navigateToScreen,
+                deleteAccount,
+                signIn,
+                signOut
+            )
         },
         drawerState = drawerState,
     ) {
@@ -625,11 +643,15 @@ private fun CalendarScreenPreviewDark() {
                 content = CalendarState.Content(
                     currentDate = getDate(),
                     selectedChoice = Choice.Workout,
-                    reports = generateReports()
+                    reports = generateReports(),
+                    hasUserLoggedIn = true
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
                 onSelect = {},
+                deleteAccount = {},
+                signIn = {},
+                signOut = {}
             )
         }
 
@@ -638,11 +660,15 @@ private fun CalendarScreenPreviewDark() {
                 content = CalendarState.Content(
                     currentDate = getDate(),
                     selectedChoice = Choice.Workout,
-                    reports = generateReports()
+                    reports = generateReports(),
+                    hasUserLoggedIn = true
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
                 onSelect = {},
+                deleteAccount = {},
+                signIn = {},
+                signOut = {}
             )
         }
     }
@@ -657,11 +683,15 @@ private fun CalendarScreenPreview() {
                 content = CalendarState.Content(
                     currentDate = getDate(),
                     selectedChoice = Choice.Workout,
-                    reports = generateReports()
+                    reports = generateReports(),
+                    hasUserLoggedIn = true
                 ),
                 navigateToDailyReport = {},
                 navigateToScreen = {},
                 onSelect = {},
+                deleteAccount = {},
+                signIn = {},
+                signOut = {}
             )
         }
     }

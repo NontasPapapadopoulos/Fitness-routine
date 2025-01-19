@@ -13,7 +13,7 @@ class PerformLogout @Inject constructor(
 
 
     override suspend fun invoke(params: Unit) {
-        authRepository.login()
+        authRepository.logout()
     }
 
 
