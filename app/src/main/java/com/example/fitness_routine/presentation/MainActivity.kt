@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
         val pdf = PdfDocument()
 
         enableEdgeToEdge()
+//        configureFirebaseServices()
         setContent {
 
             AppTheme {

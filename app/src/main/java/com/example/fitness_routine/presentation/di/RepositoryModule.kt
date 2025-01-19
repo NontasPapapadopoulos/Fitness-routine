@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.di
 
+import com.example.fitness_routine.data.datasource.AuthDataSource
 import com.example.fitness_routine.data.datasource.BodyMeasurementDataSource
 import com.example.fitness_routine.data.datasource.CardioDataSource
 import com.example.fitness_routine.data.datasource.CheatMealDataSource
@@ -9,6 +10,7 @@ import com.example.fitness_routine.data.datasource.ExerciseDataSource
 import com.example.fitness_routine.data.datasource.SetDataSource
 import com.example.fitness_routine.data.datasource.SettingsDataSource
 import com.example.fitness_routine.data.datasource.WorkoutDataSource
+import com.example.fitness_routine.data.repository.AuthDataRepository
 import com.example.fitness_routine.data.repository.BodyMeasurementDataRepository
 import com.example.fitness_routine.data.repository.CardioDataRepository
 import com.example.fitness_routine.data.repository.CheatMealDataRepository
@@ -18,6 +20,7 @@ import com.example.fitness_routine.data.repository.NoteDataRepository
 import com.example.fitness_routine.data.repository.SetDataRepository
 import com.example.fitness_routine.data.repository.SettingsDataRepository
 import com.example.fitness_routine.data.repository.WorkoutDataRepository
+import com.example.fitness_routine.domain.repository.AuthRepository
 import com.example.fitness_routine.domain.repository.BodyMeasurementRepository
 import com.example.fitness_routine.domain.repository.CardioRepository
 import com.example.fitness_routine.domain.repository.CheatMealRepository
@@ -115,5 +118,14 @@ object RepositoryModule {
         bodyMeasurementDataSource: BodyMeasurementDataSource
     ): BodyMeasurementRepository {
         return BodyMeasurementDataRepository(bodyMeasurementDataSource)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        authDataSource: AuthDataSource
+    ): AuthRepository {
+        return AuthDataRepository(authDataSource)
     }
 }

@@ -17,6 +17,7 @@ import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScree
 import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
+import com.example.fitness_routine.presentation.ui.screen.login.LoginScreen
 import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
 import com.example.fitness_routine.presentation.ui.screen.notes.NotesScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
@@ -46,10 +47,17 @@ fun RootNavGraph(
             DisplaySplashScreen(
                 navController = navController,
                 milliseconds = 1000L,
-                route = Screen.Calendar.name
+                route = Screen.Login.name
             )
 
             SplashScreen()
+        }
+
+
+        composable(
+            route = LoginRoute
+        ) {
+            LoginScreen()
         }
 
         composable(

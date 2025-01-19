@@ -9,6 +9,8 @@ import com.example.fitness_routine.data.cache.dao.NoteDao
 import com.example.fitness_routine.data.cache.dao.SetDao
 import com.example.fitness_routine.data.cache.dao.SettingsDao
 import com.example.fitness_routine.data.cache.dao.WorkoutDao
+import com.example.fitness_routine.data.datasource.AuthDataSource
+import com.example.fitness_routine.data.datasource.AuthDataSourceImpl
 import com.example.fitness_routine.data.datasource.BodyMeasurementDataSource
 import com.example.fitness_routine.data.datasource.BodyMeasurementDataSourceImpl
 import com.example.fitness_routine.data.datasource.CardioDataSource
@@ -94,5 +96,12 @@ object DataSourceModule {
     @Singleton
     fun provideBodyMeasurementDataSource(dao: BodyMeasurementDao): BodyMeasurementDataSource {
         return BodyMeasurementDataSourceImpl(dao)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideAuthDataSource(): AuthDataSource {
+        return AuthDataSourceImpl()
     }
 }
