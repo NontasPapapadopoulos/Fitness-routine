@@ -17,9 +17,9 @@ data class DailyReportDataEntity(
     val proteinGrams: String,
     val sleepQuality: String,
     val litersOfWater: String,
-    val musclesTrained: String,
+    val musclesTrained: List<String>,
     val cardios: List<CardioDataEntity>,
-    val workout: WorkoutDataEntity,
+    val workout: WorkoutDataEntity?,
     val notes: List<NoteDataEntity>,
     val cheatMeals: List<CheatMealDataEntity>
 )

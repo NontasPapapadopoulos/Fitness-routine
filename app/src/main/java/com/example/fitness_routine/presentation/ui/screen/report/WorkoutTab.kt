@@ -304,6 +304,11 @@ private fun WorkoutTabPreview() {
                 musclesTrained = listOf(),
                 litersOfWater = "2.5",
                 date = Date(),
+                cardios = listOf(),
+                notes = listOf(),
+                cheatMeals = listOf(),
+                id = "",
+                workout = null
             ),
             notes = generateNotes(),
             cardios = listOf(

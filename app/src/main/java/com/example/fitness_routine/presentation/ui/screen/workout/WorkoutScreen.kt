@@ -622,7 +622,7 @@ private fun WorkoutContentPreview() {
             content = WorkoutState.Content(
                 sets = generateSets(),
                 exercises = generateExercises(),
-                date = 1728939600000,
+                date = Date(),
                 musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
                 dailyReport = getDailyReport(),
                 dialog = null,
@@ -688,6 +688,7 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
             name = "exercise name",
+            id = ""
         )
     }
 }
@@ -706,5 +707,10 @@ private fun getDailyReport(): DailyReportDomainEntity {
         sleepQuality = "4",
         proteinGrams = "120",
         date = date,
+        cardios = listOf(),
+        notes = listOf(),
+        cheatMeals = listOf(),
+        id = "",
+        workout = null
     )
 }

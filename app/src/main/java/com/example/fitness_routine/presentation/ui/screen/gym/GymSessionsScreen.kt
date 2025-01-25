@@ -287,6 +287,11 @@ private fun workoutSessions(): List<WorkoutSession> {
                 sleepQuality = "4",
                 proteinGrams = "120",
                 date = date,
+                cardios = listOf(),
+                notes = listOf(),
+                cheatMeals = listOf(),
+                id = "",
+                workout = null
             ),
             cardios = listOf(
                 CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
@@ -320,6 +325,11 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
+            cardios = listOf(),
+            notes = listOf(),
+            cheatMeals = listOf(),
+            id = "",
+            workout = null
         )
     }
 }

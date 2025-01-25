@@ -16,14 +16,14 @@ import javax.inject.Inject
 class GetWorkouts @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<List<WorkoutDomainEntity>, Unit>(dispatcher) {
+): FlowUseCase<List<WorkoutDomainEntity?>, Unit>(dispatcher) {
 
 
-    override fun invoke(params: Unit): Flow<List<WorkoutDomainEntity>> {
+    override fun invoke(params: Unit): Flow<List<WorkoutDomainEntity?>> {
         return dailyRoutineRepository.getDailyReports()
                 .map { report ->
                     report.filter { it.performedWorkout }
-                        .map { WorkoutDomainEntity(it.date, it.musclesTrained.toMuscles(), listOf()) }
+                        .map { it.workout }
                 }
 
     }

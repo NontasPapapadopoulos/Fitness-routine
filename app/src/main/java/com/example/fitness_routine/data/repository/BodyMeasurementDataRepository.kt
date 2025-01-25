@@ -5,37 +5,42 @@ import com.example.fitness_routine.data.mapper.toData
 import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import com.example.fitness_routine.domain.repository.BodyMeasurementRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class BodyMeasurementDataRepository(
-    private val dataSource: BodyMeasurementDataSource
+    private val firestore: FirebaseFirestore
 ): BodyMeasurementRepository {
     override fun getBodyMeasurement(date: Long): Flow<BodyMeasurementDomainEntity?> {
-        return dataSource.getBodyMeasurement(date).map { it?.toDomain() }
+    return flowOf(null)
+    //return dataSource.getBodyMeasurement(date).map { it?.toDomain() }
     }
 
     override fun hasBodyMeasurement(date: Long): Flow<Boolean> {
-        return dataSource.hasBodyMeasurement(date)
+        return flowOf(true)
+    // return dataSource.hasBodyMeasurement(date)
     }
 
     override fun getBodyMeasurements(): Flow<List<BodyMeasurementDomainEntity>> {
-        return dataSource.getBodyMeasurements()
-            .map { list ->
-                list.map { it.toDomain() }
-            }
+        return flowOf()
+    //        return dataSource.getBodyMeasurements()
+//            .map { list ->
+//                list.map { it.toDomain() }
+//            }
     }
 
     override suspend fun put(measurement: BodyMeasurementDomainEntity) {
-        dataSource.put(measurement.toData())
+        //dataSource.put(measurement.toData())
     }
 
     override suspend fun update(measurement: BodyMeasurementDomainEntity) {
-        dataSource.update(measurement.toData())
+       // dataSource.update(measurement.toData())
     }
 
     override suspend fun delete(measurement: BodyMeasurementDomainEntity) {
-        dataSource.delete(measurement.toData())
+       // dataSource.delete(measurement.toData())
     }
 }
 

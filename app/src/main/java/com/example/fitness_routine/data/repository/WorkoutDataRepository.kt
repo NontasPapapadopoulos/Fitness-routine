@@ -6,24 +6,25 @@ import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.repository.WorkoutRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WorkoutDataRepository @Inject constructor(
-    private val workoutDataSource: WorkoutDataSource
+    private val firestore: FirebaseFirestore
 ): WorkoutRepository {
 
 
     override suspend fun addWorkout(workout: WorkoutDomainEntity) {
-        workoutDataSource.addWorkout(workout.toData())
+//        workoutDataSource.addWorkout(workout.toData())
     }
 
     override suspend fun deleteWorkout(workout: WorkoutDomainEntity) {
-        workoutDataSource.deleteWorkout(workout.toData())
+//        workoutDataSource.deleteWorkout(workout.toData())
     }
 
     override suspend fun updateWorkout(workout: WorkoutDomainEntity) {
-        workoutDataSource.updateWorkout(workout.toData())
+//        workoutDataSource.updateWorkout(workout.toData())
     }
 }

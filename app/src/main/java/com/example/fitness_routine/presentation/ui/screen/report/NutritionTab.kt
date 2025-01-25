@@ -256,6 +256,11 @@ private fun NutritionTabPreview() {
             musclesTrained = listOf(),
             litersOfWater = "2.5",
             date = Date(),
+            cardios = listOf(),
+            notes = listOf(),
+            cheatMeals = listOf(),
+            id = "",
+            workout = null
         ),
             onUpdateTextField = { _, _ -> },
             onUpdateCheckField = { _, _ -> },

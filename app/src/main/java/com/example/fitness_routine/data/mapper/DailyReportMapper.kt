@@ -18,6 +18,11 @@ fun DailyReportDataEntity.toDomain(): DailyReportDomainEntity = DailyReportDomai
     litersOfWater = litersOfWater,
     musclesTrained = musclesTrained.toList(),
     date = date,
+    id = id,
+    notes = notes.map { it.toDomain() },
+    cardios = cardios.map { it.toDomain() },
+    cheatMeals = cheatMeals.map { it.toDomain() },
+    workout = workout?.toDomain(),
 )
 
 
@@ -29,7 +34,11 @@ fun DailyReportDomainEntity.toData(): DailyReportDataEntity = DailyReportDataEnt
     proteinGrams = proteinGrams,
     sleepQuality = sleepQuality,
     litersOfWater = litersOfWater,
-    musclesTrained = musclesTrained.convertToString(),
+    musclesTrained = musclesTrained,
     date = date,
-    id = id
+    id = id,
+    notes = notes.map { it.toData() },
+    cardios = cardios.map { it.toData() },
+    cheatMeals = cheatMeals.map { it.toData() },
+    workout = workout?.toData(),
 )

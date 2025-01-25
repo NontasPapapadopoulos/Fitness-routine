@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.fitness_routine.data.util.toDate
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
 import com.example.fitness_routine.domain.entity.SetDomainEntity
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -87,7 +89,7 @@ class WorkoutViewModel @Inject constructor(
         WorkoutState.Content(
             sets = sets,
             exercises = exercises,
-            date = date,
+            date = date.toDate(),
             musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
             dailyReport = dailyReport,
             dialog = dialog,
@@ -218,7 +220,7 @@ sealed interface WorkoutState {
     object Idle: WorkoutState
 
     data class Content(
-        val date: Long,
+        val date: Date,
         val sets: List<SetDomainEntity>,
         val exercises: List<ExerciseDomainEntity>,
         val musclesTrained: List<Muscle>,

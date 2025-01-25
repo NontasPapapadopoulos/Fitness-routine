@@ -712,6 +712,11 @@ fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
+            cardios = listOf(),
+            notes = listOf(),
+            cheatMeals = listOf(),
+            id = "",
+            workout = null
         )
     }
 }

@@ -31,6 +31,7 @@ import com.example.fitness_routine.domain.repository.NoteRepository
 import com.example.fitness_routine.domain.repository.SetRepository
 import com.example.fitness_routine.domain.repository.SettingsRepository
 import com.example.fitness_routine.domain.repository.WorkoutRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,89 +46,88 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideDailyRoutineRepository(
-        dailyRoutineDataSource: DailyRoutineDataSource
+        firestore: FirebaseFirestore
     ): DailyRoutineRepository {
-        return DailyRoutineDataRepository(dailyRoutineDataSource)
+        return DailyRoutineDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideWorkoutRepository(
-        workoutDataSource: WorkoutDataSource
+        firestore: FirebaseFirestore
     ): WorkoutRepository {
-        return WorkoutDataRepository(workoutDataSource)
+        return WorkoutDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideSetRepository(
-        setDataSource: SetDataSource
+        firestore: FirebaseFirestore
     ): SetRepository {
-        return SetDataRepository(setDataSource)
+        return SetDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideExerciseRepository(
-        exerciseDataSource: ExerciseDataSource
+        firestore: FirebaseFirestore
     ): ExerciseRepository {
-        return ExerciseDataRepository(exerciseDataSource)
+        return ExerciseDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideSettingsRepository(
-        settingsDataSource: SettingsDataSource
+        firestore: FirebaseFirestore
     ): SettingsRepository {
-        return SettingsDataRepository(settingsDataSource)
+        return SettingsDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideCardioRepository(
-        cardioDataSource: CardioDataSource
+        firestore: FirebaseFirestore
     ): CardioRepository {
-        return CardioDataRepository(cardioDataSource)
+        return CardioDataRepository(firestore)
     }
 
     @Provides
     @Singleton
     fun provideCheatMealRepository(
-        cheatMealDataSource: CheatMealDataSource
+        firestore: FirebaseFirestore
     ): CheatMealRepository {
-        return CheatMealDataRepository(cheatMealDataSource)
+        return CheatMealDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideNotesRepository(
-        noteDataSource: NoteDataSource
+        firestore: FirebaseFirestore
     ): NoteRepository {
-        return NoteDataRepository(noteDataSource)
+        return NoteDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideBodyMeasurementRepository(
-        bodyMeasurementDataSource: BodyMeasurementDataSource
+        firestore: FirebaseFirestore
     ): BodyMeasurementRepository {
-        return BodyMeasurementDataRepository(bodyMeasurementDataSource)
+        return BodyMeasurementDataRepository(firestore)
     }
 
 
     @Provides
     @Singleton
     fun provideAuthRepository(
-        authDataSource: AuthDataSource,
         context: Context
     ): AuthRepository {
-        return AuthDataRepository(authDataSource, context)
+        return AuthDataRepository(context)
     }
 }
