@@ -9,7 +9,5 @@ data class ExerciseDomainEntity(
     val id: String,
     val userId: String,
     val name: String,
-    val muscle: Muscle,
-  //  val timeBreak: Int
-//    val index: Int
+    val muscle: Muscle
 )

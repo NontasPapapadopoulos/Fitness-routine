@@ -18,9 +18,5 @@ data class DailyReportDomainEntity(
     val sleepQuality: String,
     val litersOfWater: String,
     val musclesTrained: List<String>,
-//    val cardios: List<CardioDomainEntity>,
-//    val workout: WorkoutDomainEntity?,
-//    val notes: List<NoteDomainEntity>,
-//    val cheatMeals: List<CheatMealDomainEntity>
 )
 
