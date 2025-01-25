@@ -228,7 +228,8 @@ private fun generateMealsWithMeasurements(): List<MealWithMeasurement> {
                 bmr = "",
                 tbw = "",
                 bmi = "",
-                muscleMass = ""
+                muscleMass = "",
+                userId = ""
             )
         )
     }
@@ -240,7 +241,8 @@ private fun generateMeals(date: Date): List<CheatMealDomainEntity> {
         CheatMealDomainEntity(
             id = "",
             text = "burger",
-            date = date
+            date = date,
+            userId = ""
         )
     }
 }

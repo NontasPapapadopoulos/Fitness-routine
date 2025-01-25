@@ -8,6 +8,8 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.DailyRoutineRepository
 import com.example.fitness_routine.domain.repository.ExerciseRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.UUID
 import javax.inject.Inject
@@ -23,7 +25,8 @@ class AddExercise @Inject constructor(
         val exercise = ExerciseDomainEntity(
             id = UUID.randomUUID().toString(),
             name = params.exerciseName,
-            muscle = params.muscle
+            muscle = params.muscle,
+            userId = Firebase.auth.currentUser?.uid ?: ""
         )
         return exerciseRepository.add(exercise)
     }

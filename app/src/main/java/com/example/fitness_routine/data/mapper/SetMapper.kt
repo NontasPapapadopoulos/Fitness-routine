@@ -10,7 +10,8 @@ fun SetDomainEntity.toData(): SetDataEntity = SetDataEntity(
     repeats = repeats,
     weight = weight,
     muscle = muscle,
-    exercise = exercise
+    exercise = exercise,
+    userId = userId
 )
 
 
@@ -20,5 +21,6 @@ fun SetDataEntity.toDomain(): SetDomainEntity = SetDomainEntity(
     repeats = repeats,
     weight = weight,
     muscle = muscle,
-    exercise = exercise
+    exercise = exercise,
+    userId = userId
 )

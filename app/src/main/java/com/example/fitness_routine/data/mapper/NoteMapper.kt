@@ -9,12 +9,14 @@ import com.example.fitness_routine.domain.toTimeStamp
 fun NoteDataEntity.toDomain(): NoteDomainEntity = NoteDomainEntity(
     id = id,
     date = date.toDate(),
-    text = note
+    text = note,
+    userId = userId
 )
 
 
 fun NoteDomainEntity.toData(): NoteDataEntity = NoteDataEntity(
     id = id,
     date = date.toTimeStamp(),
-    note = text
+    note = text,
+    userId = userId
 )

@@ -153,5 +153,6 @@ private fun getBodyMeasurement(date: Date) = BodyMeasurementDomainEntity(
     bmr = "",
     visceralFat = "",
     metabolicAge = "",
-    date = date
+    date = date,
+    userId = ""
 )

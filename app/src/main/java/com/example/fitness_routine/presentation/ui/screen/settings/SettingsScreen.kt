@@ -233,7 +233,8 @@ private fun SettingsContentPreview() {
                     choice = Choice.Workout.name,
                     breakDuration = "60",
                     isDarkModeEnabled = true,
-                    id = ""
+                    id = "",
+                    userId = ""
                 )
             ),
             onNavigateBack = {},

@@ -5,6 +5,8 @@ import com.example.fitness_routine.domain.SuspendUseCase
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.CheatMealRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Date
 import java.util.UUID
@@ -21,7 +23,9 @@ class AddCheatMeal @Inject constructor(
         val cheatMeal = CheatMealDomainEntity(
             id = UUID.randomUUID().toString(),
             text = params.meal,
-            date = params.date
+            date = params.date,
+            userId = Firebase.auth.currentUser?.uid ?: ""
+
         )
 
         return cheatMealRepository.put(cheatMeal)

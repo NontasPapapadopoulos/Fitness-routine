@@ -8,9 +8,9 @@ import java.util.Date
 
 data class WorkoutDataEntity(
     val id: String,
+    val userId: String,
     val date: Date,
     val muscles: List<Muscle>,
-    val sets: List<SetDataEntity>
 )
 
 

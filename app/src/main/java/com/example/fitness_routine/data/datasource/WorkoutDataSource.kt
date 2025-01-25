@@ -2,7 +2,6 @@ package com.example.fitness_routine.data.datasource
 
 import com.example.fitness_routine.data.entity.WorkoutDataEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

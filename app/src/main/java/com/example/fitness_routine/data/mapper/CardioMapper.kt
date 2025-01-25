@@ -10,7 +10,8 @@ fun CardioDataEntity.toDomain(): CardioDomainEntity = CardioDomainEntity(
     id = id,
     date = date,
     type = type,
-    minutes = minutes
+    minutes = minutes,
+    userId = userId
 )
 
 
@@ -18,5 +19,6 @@ fun CardioDomainEntity.toData(): CardioDataEntity = CardioDataEntity(
     id = id,
     date = date,
     type = type,
-    minutes = minutes
+    minutes = minutes,
+    userId = userId
 )

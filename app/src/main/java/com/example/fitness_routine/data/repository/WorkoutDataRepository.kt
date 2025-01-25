@@ -4,7 +4,6 @@ import com.example.fitness_routine.data.datasource.WorkoutDataSource
 import com.example.fitness_routine.data.mapper.toData
 import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import com.example.fitness_routine.domain.repository.WorkoutRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow

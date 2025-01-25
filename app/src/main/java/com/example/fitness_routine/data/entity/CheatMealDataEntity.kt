@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 data class CheatMealDataEntity(
     val id: String,
+    val userId: String,
     val date: Long,
     val meal: String,
 )

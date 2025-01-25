@@ -14,7 +14,8 @@ fun BodyMeasurementDomainEntity.toData(): BodyMeasurementDataEntity = BodyMeasur
     tbw = tbw,
     bmr = bmr,
     visceralFat = visceralFat,
-    metabolicAge = metabolicAge
+    metabolicAge = metabolicAge,
+    userId = userId
 )
 
 
@@ -28,5 +29,6 @@ fun BodyMeasurementDataEntity.toDomain(): BodyMeasurementDomainEntity = BodyMeas
     tbw = tbw,
     bmr = bmr,
     visceralFat = visceralFat,
-    metabolicAge = metabolicAge
+    metabolicAge = metabolicAge,
+    userId = userId
 )

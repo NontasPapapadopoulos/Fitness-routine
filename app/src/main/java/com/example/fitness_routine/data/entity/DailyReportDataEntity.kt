@@ -10,6 +10,7 @@ import java.util.Date
 
 data class DailyReportDataEntity(
     val id: String,
+    val userId: String,
     val date: Date,
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,
@@ -18,10 +19,10 @@ data class DailyReportDataEntity(
     val sleepQuality: String,
     val litersOfWater: String,
     val musclesTrained: List<String>,
-    val cardios: List<CardioDataEntity>,
-    val workout: WorkoutDataEntity?,
-    val notes: List<NoteDataEntity>,
-    val cheatMeals: List<CheatMealDataEntity>
+//    val cardios: List<CardioDataEntity>,
+//    val workout: WorkoutDataEntity?,
+//    val notes: List<NoteDataEntity>,
+//    val cheatMeals: List<CheatMealDataEntity>
 )
 
 

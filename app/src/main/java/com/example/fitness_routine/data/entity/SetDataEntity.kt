@@ -7,6 +7,7 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 
 data class SetDataEntity(
     val id: String,
+    val userId: String,
     val workoutDate: Long,
     val muscle: Muscle,
     val exercise: String,

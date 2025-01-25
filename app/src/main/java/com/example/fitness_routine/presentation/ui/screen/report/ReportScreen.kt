@@ -366,18 +366,16 @@ private fun ReportPreview() {
                     musclesTrained = listOf(),
                     litersOfWater = "2.5",
                     date = Date(),
-                    cardios = listOf(),
-                    notes = listOf(),
-                    cheatMeals = listOf(),
                     id = "",
-                    workout = null
+                    userId = ""
                 ),
                 cardios = listOf(
                     CardioDomainEntity(
                     id = UUID.randomUUID().toString(),
                         date = Date(),
                         type = Cardio.Walking.name,
-                        minutes = "60"
+                        minutes = "60",
+                        userId = ""
                     ),
                 ),
                 notes = generateNotes(),
@@ -432,6 +430,7 @@ fun generateNotes() =
         NoteDomainEntity(
             id = "",
             text = "my gym notes",
-            date = Date()
+            date = Date(),
+            userId = ""
         )
     }

@@ -287,14 +287,11 @@ private fun workoutSessions(): List<WorkoutSession> {
                 sleepQuality = "4",
                 proteinGrams = "120",
                 date = date,
-                cardios = listOf(),
-                notes = listOf(),
-                cheatMeals = listOf(),
                 id = "",
-                workout = null
+                userId = ""
             ),
             cardios = listOf(
-                CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
+                CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date, userId = "")
             ),
             measurement = if (it == 4) BodyMeasurementDomainEntity(
                 weight = "82",
@@ -306,7 +303,8 @@ private fun workoutSessions(): List<WorkoutSession> {
                 visceralFat = "",
                 bmr = "",
                 id = "",
-                date = date
+                date = date,
+                userId = ""
             ) else null
         )
     }
@@ -325,11 +323,8 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
-            cardios = listOf(),
-            notes = listOf(),
-            cheatMeals = listOf(),
             id = "",
-            workout = null
+            userId = ""
         )
     }
 }

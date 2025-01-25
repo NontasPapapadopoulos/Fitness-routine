@@ -8,7 +8,8 @@ fun SettingsDataEntity.toDomain(): SettingsDomainEntity = SettingsDomainEntity(
     choice = choice,
     isDarkModeEnabled = isDarkModeEnabled,
     breakDuration = breakDuration,
-    id = id
+    id = id,
+    userId = userId
 )
 
 
@@ -17,5 +18,6 @@ fun SettingsDomainEntity.toData(): SettingsDataEntity = SettingsDataEntity(
     choice = choice,
     isDarkModeEnabled = isDarkModeEnabled,
     breakDuration = breakDuration,
-    id = id
+    id = id,
+    userId = userId
 )

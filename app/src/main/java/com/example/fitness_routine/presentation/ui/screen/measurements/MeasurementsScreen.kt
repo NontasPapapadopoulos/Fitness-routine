@@ -223,6 +223,7 @@ private fun generateMeasurements() =
             bmi = "",
             tbw = "",
             visceralFat = "",
-            date = date
+            date = date,
+            userId = ""
         )
     }

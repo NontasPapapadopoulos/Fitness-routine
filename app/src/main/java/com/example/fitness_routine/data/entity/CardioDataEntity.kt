@@ -7,6 +7,7 @@ import java.util.Date
 
 data class CardioDataEntity(
     val id: String,
+    val userId: String,
     val date: Date,
     val type: String,
     val minutes: String

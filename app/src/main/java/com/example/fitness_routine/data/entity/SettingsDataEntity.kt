@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 
 data class SettingsDataEntity(
     val id: String,
+    val userId: String,
     val choice: String,
     val isDarkModeEnabled: Boolean,
     val breakDuration: String
