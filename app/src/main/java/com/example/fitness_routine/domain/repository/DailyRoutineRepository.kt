@@ -6,9 +6,9 @@ import java.util.Date
 
 interface DailyRoutineRepository {
 
-    fun getDailyReports(): Flow<List<DailyReportDomainEntity>>
+    fun getDailyReports(userId: String): Flow<List<DailyReportDomainEntity>>
 
-    fun getDailyReport(date: Long): Flow<DailyReportDomainEntity>
+    fun getDailyReport(userId: String, date: Date): Flow<DailyReportDomainEntity>
 
     suspend fun update(report: DailyReportDomainEntity)
 
@@ -16,6 +16,6 @@ interface DailyRoutineRepository {
 
     suspend fun put(report: DailyReportDomainEntity)
 
-    suspend fun initDailyReport(date: Long)
+    suspend fun initDailyReport(userId: String, date: Date)
 
 }

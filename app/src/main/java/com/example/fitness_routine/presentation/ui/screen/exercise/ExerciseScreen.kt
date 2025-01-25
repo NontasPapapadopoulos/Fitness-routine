@@ -377,6 +377,8 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
             name = "exercise name exercise name",
+            id = "",
+            userId = ""
         )
     }
 }

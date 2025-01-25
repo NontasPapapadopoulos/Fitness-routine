@@ -1,8 +1,11 @@
 package com.example.fitness_routine.domain.entity
 
+import java.util.Date
+
 data class BodyMeasurementDomainEntity(
     val id: String,
-    val date: Long,
+    val userId: String,
+    val date: Date,
     val weight: String,
     val fat: String,
     val muscleMass: String,

@@ -53,7 +53,7 @@ class GymSessionsViewModel @Inject constructor(
             WorkoutSession(
                 report = report,
                 cardios = cardiosByDate[report.date] ?: emptyList(),
-                measurement = measurementsByDate[report.date.toTimeStamp()]?.firstOrNull()
+                measurement = measurementsByDate[report.date]?.firstOrNull()
             )
         }
 

@@ -25,10 +25,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
@@ -49,7 +47,7 @@ fun BottomBar(
             screen = Screen.Workout
         ),
         BottomBarChoice(
-            icon = FitnessDiary.FitnessTracker24px,
+            icon = FitnessTracker24px,
             text = "Gym",
             screen = Screen.Gym
         ),

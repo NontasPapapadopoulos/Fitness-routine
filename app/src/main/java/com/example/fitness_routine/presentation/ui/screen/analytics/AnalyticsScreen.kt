@@ -55,7 +55,6 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
 import com.example.fitness_routine.presentation.component.MusclesTrained
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
@@ -401,7 +400,7 @@ private fun generateWorkouts(): List<Workout> {
         Workout(
             date = date,
             cardios = listOf(
-                CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date)
+                CardioDomainEntity(id = "", type = Cardio.Walking.name, minutes = "30", date = date, userId = "")
             ),
             gymSession = (1..11).map {
                 SetDomainEntity(
@@ -410,7 +409,8 @@ private fun generateWorkouts(): List<Workout> {
                     muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
                     exercise = "Exercise $it",
                     weight = "50",
-                    repeats = "12"
+                    repeats = "12",
+                    userId = ""
                 )
             }
         )

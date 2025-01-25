@@ -48,7 +48,7 @@ import java.util.Date
 @Composable
 fun MeasurementsScreen(
     navigateBack: () -> Unit,
-    navigateToBodyMeasurement: (Long) -> Unit,
+    navigateToBodyMeasurement: (Date) -> Unit,
     viewModel: MeasurementsViewModel = hiltViewModel()
 ) {
 
@@ -86,7 +86,7 @@ fun MeasurementsScreen(
 private fun MeasurementsContent(
     content: MeasurementsState.Content,
     navigateBack: () -> Unit,
-    onNavigateToMeasurement: (Long) -> Unit
+    onNavigateToMeasurement: (Date) -> Unit
 ) {
 
     Scaffold(
@@ -223,6 +223,7 @@ private fun generateMeasurements() =
             bmi = "",
             tbw = "",
             visceralFat = "",
-            date = date.toTimeStamp()
+            date = date,
+            userId = ""
         )
     }

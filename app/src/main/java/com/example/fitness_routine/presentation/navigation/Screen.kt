@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.navigation
 
 enum class Screen {
     Splash,
+    Login,
     Calendar,
     Report,
     Gym,
@@ -22,7 +23,7 @@ fun Screen.params(vararg  params: Any?): String {
 }
 
 
-
+val LoginRoute = Screen.Login.name
 val ReportsRoute = "${Screen.Report.name}/${NavigationArgument.Date.addBrackets()}"
 val GymRoute = Screen.Gym.name
 val CheatMealsRoute = Screen.Cheat.name

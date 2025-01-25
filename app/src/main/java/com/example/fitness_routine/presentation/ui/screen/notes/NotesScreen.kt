@@ -206,7 +206,8 @@ private fun generateNotes(): List<NoteDomainEntity> {
         NoteDomainEntity(
             date = date,
             text = "Note $it",
-            id = ""
+            id = "",
+            userId = ""
         )
     }.plus((10 downTo 1).map {
         val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
@@ -214,7 +215,8 @@ private fun generateNotes(): List<NoteDomainEntity> {
         NoteDomainEntity(
             date = date,
             text = "Note $it",
-            id = ""
+            id = "",
+            userId = ""
         )
 
     })

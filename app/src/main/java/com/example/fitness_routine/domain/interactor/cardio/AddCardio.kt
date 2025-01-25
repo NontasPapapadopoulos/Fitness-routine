@@ -9,6 +9,8 @@ import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.CardioRepository
 import com.example.fitness_routine.domain.repository.DailyRoutineRepository
 import com.example.fitness_routine.domain.repository.ExerciseRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Date
 import java.util.UUID
@@ -27,7 +29,8 @@ class AddCardio @Inject constructor(
             id = UUID.randomUUID().toString(),
             type = params.type,
             minutes = params.minutes,
-            date = params.date
+            date = params.date,
+            userId = Firebase.auth.currentUser?.uid ?: ""
         )
 
         return cardioRepository.put(cardio)

@@ -15,8 +15,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.example.fitness_routine.R
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
-import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import kotlinx.coroutines.selects.select
 import java.text.SimpleDateFormat
 import java.util.Date

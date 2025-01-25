@@ -9,6 +9,7 @@ import com.example.fitness_routine.domain.toMuscles
 import com.example.fitness_routine.domain.toTimeStamp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,15 +17,16 @@ import javax.inject.Inject
 class GetWorkouts @Inject constructor(
     private val dailyRoutineRepository: DailyRoutineRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<List<WorkoutDomainEntity>, Unit>(dispatcher) {
+): FlowUseCase<List<WorkoutDomainEntity?>, Unit>(dispatcher) {
 
 
-    override fun invoke(params: Unit): Flow<List<WorkoutDomainEntity>> {
-        return dailyRoutineRepository.getDailyReports()
-                .map { report ->
-                    report.filter { it.performedWorkout }
-                        .map { WorkoutDomainEntity(it.date.toTimeStamp(), it.musclesTrained.toMuscles()) }
-                }
+    override fun invoke(params: Unit): Flow<List<WorkoutDomainEntity?>> {
+        return flowOf()
+
+//        dailyRoutineRepository.getDailyReports()
+//                .map { report ->
+//                    report.filter { it.performedWorkout }
+//                }
 
     }
 }

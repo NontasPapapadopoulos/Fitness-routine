@@ -1,15 +1,14 @@
 package com.example.fitness_routine.data.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "Cardio"
-)
+import java.time.LocalDate
+import java.util.Date
+
+
 data class CardioDataEntity(
-    @PrimaryKey
     val id: String,
-    val date: Long,
+    val userId: String,
+    val date: Date,
     val type: String,
     val minutes: String
 )

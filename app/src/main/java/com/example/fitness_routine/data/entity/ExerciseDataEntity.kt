@@ -5,10 +5,9 @@ import androidx.room.PrimaryKey
 import com.example.fitness_routine.domain.entity.enums.Muscle
 
 
-@Entity(tableName = "Exercise")
 data class ExerciseDataEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: String,
+    val userId: String,
     val name: String,
     val muscle: Muscle,
 )

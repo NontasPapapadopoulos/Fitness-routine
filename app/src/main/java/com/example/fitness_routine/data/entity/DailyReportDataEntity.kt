@@ -7,19 +7,22 @@ import java.time.LocalDate
 import java.util.Date
 
 
-@Entity(
-    tableName = "DailyReport",
-)
+
 data class DailyReportDataEntity(
-    @PrimaryKey
-    val date: Long,
+    val id: String,
+    val userId: String,
+    val date: Date,
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,
     val hadCheatMeal: Boolean,
     val proteinGrams: String,
-    val sleepQuality: String, // from 1 to 5
+    val sleepQuality: String,
     val litersOfWater: String,
-    val musclesTrained: String,
+    val musclesTrained: List<String>,
+//    val cardios: List<CardioDataEntity>,
+//    val workout: WorkoutDataEntity?,
+//    val notes: List<NoteDataEntity>,
+//    val cheatMeals: List<CheatMealDataEntity>
 )
 
 

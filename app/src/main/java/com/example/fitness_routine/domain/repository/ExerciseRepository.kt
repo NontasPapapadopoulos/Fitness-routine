@@ -6,12 +6,8 @@ import com.example.fitness_routine.domain.entity.enums.Muscle
 import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
-
-    fun getExercises(): Flow<List<ExerciseDomainEntity>>
-
+    fun getExercises(userId: String): Flow<List<ExerciseDomainEntity>>
     suspend fun add(exercise: ExerciseDomainEntity)
     suspend fun edit(oldName: String, newName: String)
-
     suspend fun delete(exercise: ExerciseDomainEntity)
-
 }

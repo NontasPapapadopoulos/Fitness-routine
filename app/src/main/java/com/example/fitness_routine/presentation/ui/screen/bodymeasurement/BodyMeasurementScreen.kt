@@ -214,7 +214,8 @@ private fun MeasurementsContentPreview() {
                     tbw = "",
                     bmr = "",
                     visceralFat = "",
-                    metabolicAge = ""
+                    metabolicAge = "",
+                    userId = ""
                 ),
             ),
             navigateBack = {},

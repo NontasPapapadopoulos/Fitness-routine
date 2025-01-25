@@ -88,13 +88,13 @@ fun createDate(day: Int, month: Int, year: Int): Long {
     return Date.from(instant).toTimeStamp()
 }
 
-fun getCurrentDate(): Long {
+fun getCurrentDate(): Date {
     val localDate = LocalDate.now()
     val instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
-    return Date.from(instant).toTimeStamp()
+    return Date.from(instant)
 }
 
-fun Long.isCurrentDate() =
+fun Date.isCurrentDate() =
     getCurrentDate() == this
 
 

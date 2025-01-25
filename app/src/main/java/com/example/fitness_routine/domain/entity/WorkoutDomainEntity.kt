@@ -1,9 +1,12 @@
 package com.example.fitness_routine.domain.entity
 
+import com.example.fitness_routine.data.entity.SetDataEntity
 import com.example.fitness_routine.domain.entity.enums.Muscle
 import java.util.Date
 
 data class WorkoutDomainEntity(
-    val date: Long,
-    val muscles: List<Muscle>
+    val id: String,
+    val userId: String,
+    val date: Date,
+    val muscles: List<Muscle>,
 )

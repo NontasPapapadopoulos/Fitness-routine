@@ -1,18 +1,16 @@
 package com.example.fitness_routine.data.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+
 import com.example.fitness_routine.domain.entity.enums.Muscle
+import java.time.LocalDate
+import java.util.Date
 
 
-@Entity(
-    tableName = "Workout"
-)
 data class WorkoutDataEntity(
-    @PrimaryKey
-    val date: Long,
+    val id: String,
+    val userId: String,
+    val date: Date,
     val muscles: List<Muscle>,
-
 )
 
 

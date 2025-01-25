@@ -66,13 +66,7 @@ class ExerciseViewModel @Inject constructor(
     init {
         on(ExerciseEvent.Add::class) {
             onState<ExerciseState.Content> { state ->
-                val exercise = ExerciseDomainEntity(
-                    name = state.newExercise,
-                    muscle = it.muscle,
-//                    index = it
-                )
-
-                addExercise.execute(AddExercise.Params(exercise)).fold(
+                addExercise.execute(AddExercise.Params(it.muscle, state.newExercise)).fold(
                     onSuccess = { newExerciseFlow.emit("") },
                     onFailure = { addError(it) }
                 )

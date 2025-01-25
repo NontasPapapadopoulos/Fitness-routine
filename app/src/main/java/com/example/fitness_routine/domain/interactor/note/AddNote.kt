@@ -5,6 +5,8 @@ import com.example.fitness_routine.domain.SuspendUseCase
 import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.domain.executor.IoDispatcher
 import com.example.fitness_routine.domain.repository.NoteRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Date
 import java.util.UUID
@@ -21,7 +23,9 @@ class AddNote @Inject constructor(
         val note = NoteDomainEntity(
             id = UUID.randomUUID().toString(),
             date = params.date,
-            text = params.note
+            text = params.note,
+            userId = Firebase.auth.currentUser?.uid ?: ""
+
         )
 
         return noteRepository.put(note)

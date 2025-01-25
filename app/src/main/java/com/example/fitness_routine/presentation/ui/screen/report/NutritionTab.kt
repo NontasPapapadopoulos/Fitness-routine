@@ -256,6 +256,8 @@ private fun NutritionTabPreview() {
             musclesTrained = listOf(),
             litersOfWater = "2.5",
             date = Date(),
+            id = "",
+            userId = ""
         ),
             onUpdateTextField = { _, _ -> },
             onUpdateCheckField = { _, _ -> },
@@ -273,6 +275,7 @@ fun generateCheatMeals() =
         CheatMealDomainEntity(
             id = "",
             date = Date(),
-            text = "Burger"
+            text = "Burger",
+            userId = ""
         )
     }

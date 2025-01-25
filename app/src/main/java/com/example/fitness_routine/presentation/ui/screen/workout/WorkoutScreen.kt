@@ -606,7 +606,8 @@ private fun SetPreview() {
         muscle = Muscle.Biceps,
         exercise = "Excercise",
         weight = "20",
-        repeats = "8"
+        repeats = "8",
+        userId = ""
     )
     
     Set(set = setDomainEntity, delete = {}, index = 1, update = { _, _, _-> })
@@ -622,7 +623,7 @@ private fun WorkoutContentPreview() {
             content = WorkoutState.Content(
                 sets = generateSets(),
                 exercises = generateExercises(),
-                date = 1728939600000,
+                date = Date(),
                 musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
                 dailyReport = getDailyReport(),
                 dialog = null,
@@ -677,7 +678,8 @@ private fun generateSets(): List<SetDomainEntity> {
             muscle = if (it > 4 ) Muscle.Chest else Muscle.Biceps,
             exercise = if (it % 2 == 0) "Exercise 1" else "Exercise 2",
             weight = "30",
-            repeats = "12"
+            repeats = "12",
+            userId = ""
         )
     }
 
@@ -688,6 +690,8 @@ private fun generateExercises(): List<ExerciseDomainEntity> {
         ExerciseDomainEntity(
             muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
             name = "exercise name",
+            id = "",
+            userId = ""
         )
     }
 }
@@ -706,5 +710,7 @@ private fun getDailyReport(): DailyReportDomainEntity {
         sleepQuality = "4",
         proteinGrams = "120",
         date = date,
+        id = "",
+        userId = ""
     )
 }

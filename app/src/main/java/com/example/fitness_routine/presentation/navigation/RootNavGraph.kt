@@ -17,6 +17,7 @@ import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScree
 import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
+import com.example.fitness_routine.presentation.ui.screen.login.LoginScreen
 import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
 import com.example.fitness_routine.presentation.ui.screen.notes.NotesScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
@@ -43,13 +44,25 @@ fun RootNavGraph(
             route = Screen.Splash.name
         ) {
 
-            DisplaySplashScreen(
-                navController = navController,
-                milliseconds = 1000L,
-                route = Screen.Calendar.name
-            )
+//            DisplaySplashScreen(
+//                navController = navController,
+//                milliseconds = 1000L,
+//                route = Screen.Login.name
+//            )
 
-            SplashScreen()
+            SplashScreen(
+                navigateToLoginScreen = { navController.navigate(Screen.Login.name) },
+                navigateToCalendarScreen = { navController.navigate(Screen.Calendar.name) }
+            )
+        }
+
+
+        composable(
+            route = LoginRoute
+        ) {
+            LoginScreen(
+                navigateToCalendarScreen = { navController.navigate(Screen.Calendar.name) }
+            )
         }
 
         composable(
@@ -58,6 +71,7 @@ fun RootNavGraph(
 
             CalendarScreen(
                 navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
+                navigateToLoginScreen = { navController.navigate(Screen.Login.name) },
                 navigateToScreen = { screen ->
                     when (screen) {
                         Screen.Gym,

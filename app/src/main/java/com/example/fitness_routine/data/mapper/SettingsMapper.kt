@@ -7,7 +7,9 @@ import com.example.fitness_routine.domain.entity.SettingsDomainEntity
 fun SettingsDataEntity.toDomain(): SettingsDomainEntity = SettingsDomainEntity(
     choice = choice,
     isDarkModeEnabled = isDarkModeEnabled,
-    breakDuration = breakDuration
+    breakDuration = breakDuration,
+    id = id,
+    userId = userId
 )
 
 
@@ -15,5 +17,7 @@ fun SettingsDataEntity.toDomain(): SettingsDomainEntity = SettingsDomainEntity(
 fun SettingsDomainEntity.toData(): SettingsDataEntity = SettingsDataEntity(
     choice = choice,
     isDarkModeEnabled = isDarkModeEnabled,
-    breakDuration = breakDuration
+    breakDuration = breakDuration,
+    id = id,
+    userId = userId
 )

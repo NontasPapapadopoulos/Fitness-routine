@@ -304,6 +304,8 @@ private fun WorkoutTabPreview() {
                 musclesTrained = listOf(),
                 litersOfWater = "2.5",
                 date = Date(),
+                id = "",
+                userId = ""
             ),
             notes = generateNotes(),
             cardios = listOf(
@@ -311,7 +313,8 @@ private fun WorkoutTabPreview() {
                     id = UUID.randomUUID().toString(),
                     date = Date(),
                     type = Cardio.Walking.name,
-                    minutes = "60"
+                    minutes = "60",
+                    userId = ""
                 ),
             ),
             onUpdateCheckField = { _, _ -> },
