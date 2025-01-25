@@ -1,16 +1,7 @@
 package com.example.fitness_routine.presentation.di
 
 import android.content.Context
-import com.example.fitness_routine.data.datasource.AuthDataSource
-import com.example.fitness_routine.data.datasource.BodyMeasurementDataSource
-import com.example.fitness_routine.data.datasource.CardioDataSource
-import com.example.fitness_routine.data.datasource.CheatMealDataSource
-import com.example.fitness_routine.data.datasource.NoteDataSource
-import com.example.fitness_routine.data.datasource.DailyRoutineDataSource
-import com.example.fitness_routine.data.datasource.ExerciseDataSource
-import com.example.fitness_routine.data.datasource.SetDataSource
-import com.example.fitness_routine.data.datasource.SettingsDataSource
-import com.example.fitness_routine.data.datasource.WorkoutDataSource
+
 import com.example.fitness_routine.data.repository.AuthDataRepository
 import com.example.fitness_routine.data.repository.BodyMeasurementDataRepository
 import com.example.fitness_routine.data.repository.CardioDataRepository

@@ -1,6 +1,5 @@
 package com.example.fitness_routine.data.repository
 
-import com.example.fitness_routine.data.datasource.NoteDataSource
 import com.example.fitness_routine.data.mapper.toData
 import com.example.fitness_routine.data.mapper.toDomain
 import com.example.fitness_routine.domain.entity.NoteDomainEntity
