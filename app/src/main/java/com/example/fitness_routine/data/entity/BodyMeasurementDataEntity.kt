@@ -1,15 +1,13 @@
 package com.example.fitness_routine.data.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "BodyMeasurement"
-)
+import java.time.LocalDate
+import java.util.Date
+
+
 data class BodyMeasurementDataEntity(
-    @PrimaryKey
     val id: String,
-    val date: Long,
+    val date: Date,
     val weight: String,
     val fat: String,
     val muscleMass: String,

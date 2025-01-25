@@ -232,7 +232,8 @@ private fun SettingsContentPreview() {
                 SettingsDomainEntity(
                     choice = Choice.Workout.name,
                     breakDuration = "60",
-                    isDarkModeEnabled = true
+                    isDarkModeEnabled = true,
+                    id = ""
                 )
             ),
             onNavigateBack = {},

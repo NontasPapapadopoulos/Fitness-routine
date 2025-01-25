@@ -4,6 +4,7 @@ import com.example.fitness_routine.domain.entity.enums.Cardio
 import java.util.Date
 
 data class DailyReportDomainEntity(
+    val id: String,
     val date: Date,
     val performedWorkout: Boolean,
     val hadCreatine: Boolean,

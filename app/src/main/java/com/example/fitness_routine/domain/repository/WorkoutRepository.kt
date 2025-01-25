@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface WorkoutRepository {
 
-    fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDomainEntity>
 
     suspend fun addWorkout(workout: WorkoutDomainEntity)
 

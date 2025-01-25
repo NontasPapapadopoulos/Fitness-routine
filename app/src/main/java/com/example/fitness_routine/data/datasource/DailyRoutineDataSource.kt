@@ -1,6 +1,5 @@
 package com.example.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.DailyReportDao
 import com.example.fitness_routine.data.entity.DailyReportDataEntity
 import com.example.fitness_routine.data.util.toTimeStamp
 import kotlinx.coroutines.flow.Flow
@@ -25,50 +24,50 @@ interface DailyRoutineDataSource {
 
 
 
-class DailyRoutineDataSourceImpl @Inject constructor(
-    private val dao: DailyReportDao
-): DailyRoutineDataSource {
-
-    override fun getDailyReports(): Flow<List<DailyReportDataEntity>> {
-        return dao.getReports()
-    }
-
-    override fun getDailyReport(date: Long): Flow<DailyReportDataEntity> {
-        return dao.getReportFlow(date).filterNotNull()
-    }
-
-    override suspend fun update(report: DailyReportDataEntity) {
-        dao.update(report)
-    }
-
-    override suspend fun delete(report: DailyReportDataEntity) {
-        dao.delete(report)
-    }
-
-    override suspend fun put(report: DailyReportDataEntity) {
-        dao.put(report)
-    }
-
-    override suspend fun initDailyReport(date: Long) {
-        val dailyReportExists = dao.getReport(date) != null
-
-        if (!dailyReportExists) {
-            val dailyReport = createDailyReport(date)
-            dao.put(dailyReport)
-        }
-
-    }
-
-    private fun createDailyReport(date: Long) = DailyReportDataEntity(
-        date = date,
-        performedWorkout = false,
-        hadCreatine = false,
-        hadCheatMeal = false,
-        proteinGrams = "",
-        sleepQuality = "",
-        litersOfWater = "",
-        musclesTrained = "",
-    )
-
-
-}
+//class DailyRoutineDataSourceImpl @Inject constructor(
+//    private val dao: DailyReportDao
+//): DailyRoutineDataSource {
+//
+//    override fun getDailyReports(): Flow<List<DailyReportDataEntity>> {
+//        return dao.getReports()
+//    }
+//
+//    override fun getDailyReport(date: Long): Flow<DailyReportDataEntity> {
+//        return dao.getReportFlow(date).filterNotNull()
+//    }
+//
+//    override suspend fun update(report: DailyReportDataEntity) {
+//        dao.update(report)
+//    }
+//
+//    override suspend fun delete(report: DailyReportDataEntity) {
+//        dao.delete(report)
+//    }
+//
+//    override suspend fun put(report: DailyReportDataEntity) {
+//        dao.put(report)
+//    }
+//
+//    override suspend fun initDailyReport(date: Long) {
+//        val dailyReportExists = dao.getReport(date) != null
+//
+//        if (!dailyReportExists) {
+//            val dailyReport = createDailyReport(date)
+//            dao.put(dailyReport)
+//        }
+//
+//    }
+//
+//    private fun createDailyReport(date: Long) = DailyReportDataEntity(
+//        date = date,
+//        performedWorkout = false,
+//        hadCreatine = false,
+//        hadCheatMeal = false,
+//        proteinGrams = "",
+//        sleepQuality = "",
+//        litersOfWater = "",
+//        musclesTrained = "",
+//    )
+//
+//
+//}

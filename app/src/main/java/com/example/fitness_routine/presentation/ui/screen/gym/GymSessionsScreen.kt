@@ -301,7 +301,7 @@ private fun workoutSessions(): List<WorkoutSession> {
                 visceralFat = "",
                 bmr = "",
                 id = "",
-                date = date.toTimeStamp()
+                date = date
             ) else null
         )
     }

@@ -220,7 +220,7 @@ private fun generateMealsWithMeasurements(): List<MealWithMeasurement> {
             meals = generateMeals(date),
             measurement = BodyMeasurementDomainEntity(
                 id = "",
-                date = date.toTimeStamp(),
+                date = date,
                 weight = "80.Kg",
                 fat = "10",
                 metabolicAge = "",

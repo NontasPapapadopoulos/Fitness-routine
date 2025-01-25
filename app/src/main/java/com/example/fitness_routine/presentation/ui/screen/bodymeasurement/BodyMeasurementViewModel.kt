@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.bodymeasurement
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.fitness_routine.data.util.toDate
 import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import com.example.fitness_routine.domain.interactor.bodymeasurement.AddBodyMeasurement
 import com.example.fitness_routine.domain.interactor.bodymeasurement.GetBodyMeasurement
@@ -50,7 +51,7 @@ class BodyMeasurementViewModel @Inject constructor(
         merge(
             existingBodyMeasurementFlow,
             bodyMeasurementFlow
-        ).onStart { emit(getBodyMeasurement(date)) }
+        ).onStart { emit(getBodyMeasurement(date.toDate())) }
     ) { hasMeasurement, measurement ->
 
             MeasurementState.Content(
@@ -142,7 +143,7 @@ enum class MeasurementField {
     MetabolicAge
 }
 
-private fun getBodyMeasurement(date: Long) = BodyMeasurementDomainEntity(
+private fun getBodyMeasurement(date: Date) = BodyMeasurementDomainEntity(
     id = "",
     weight = "",
     fat = "",

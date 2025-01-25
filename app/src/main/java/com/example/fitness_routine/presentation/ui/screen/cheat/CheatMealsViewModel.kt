@@ -40,7 +40,7 @@ class CheatMealsViewModel @Inject constructor(
     ) { meals, measurements ->
 
         val mealsByDate = meals.groupBy { it.date }
-        val measurementsByDate = measurements.groupBy { Date(it.date) }
+        val measurementsByDate = measurements.groupBy { it.date }
 
         val allDates = (mealsByDate.keys + measurementsByDate.keys).sorted()
 

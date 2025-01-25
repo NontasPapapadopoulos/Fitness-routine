@@ -1,8 +1,6 @@
 package com.example.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.WorkoutDao
 import com.example.fitness_routine.data.entity.WorkoutDataEntity
-import com.example.fitness_routine.data.entity.WorkoutWithSetsDataEntity
 import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +8,6 @@ import javax.inject.Inject
 
 interface WorkoutDataSource {
 
-    fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDataEntity>
 
     suspend fun addWorkout(workout: WorkoutDataEntity)
 
@@ -20,24 +17,24 @@ interface WorkoutDataSource {
 }
 
 
-
-class WorkoutDataSourceImpl @Inject constructor(
-    private val workoutDao: WorkoutDao
-): WorkoutDataSource {
-    override fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDataEntity> {
-        return workoutDao.getWorkoutWithSets(date)
-    }
-
-    override suspend fun addWorkout(workout: WorkoutDataEntity) {
-        workoutDao.put(workout)
-    }
-
-    override suspend fun deleteWorkout(workout: WorkoutDataEntity) {
-        workoutDao.delete(workout)
-    }
-
-    override suspend fun updateWorkout(workout: WorkoutDataEntity) {
-        workoutDao.update(workout)
-    }
-
-}
+//
+//class WorkoutDataSourceImpl @Inject constructor(
+//    private val workoutDao: WorkoutDao
+//): WorkoutDataSource {
+//    override fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDataEntity> {
+//        return workoutDao.getWorkoutWithSets(date)
+//    }
+//
+//    override suspend fun addWorkout(workout: WorkoutDataEntity) {
+//        workoutDao.put(workout)
+//    }
+//
+//    override suspend fun deleteWorkout(workout: WorkoutDataEntity) {
+//        workoutDao.delete(workout)
+//    }
+//
+//    override suspend fun updateWorkout(workout: WorkoutDataEntity) {
+//        workoutDao.update(workout)
+//    }
+//
+//}

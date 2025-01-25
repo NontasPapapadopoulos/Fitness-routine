@@ -8,7 +8,7 @@ import com.example.fitness_routine.domain.toTimeStamp
 
 fun CardioDataEntity.toDomain(): CardioDomainEntity = CardioDomainEntity(
     id = id,
-    date = date.toDate(),
+    date = date,
     type = type,
     minutes = minutes
 )
@@ -16,7 +16,7 @@ fun CardioDataEntity.toDomain(): CardioDomainEntity = CardioDomainEntity(
 
 fun CardioDomainEntity.toData(): CardioDataEntity = CardioDataEntity(
     id = id,
-    date = date.toTimeStamp(),
+    date = date,
     type = type,
     minutes = minutes
 )

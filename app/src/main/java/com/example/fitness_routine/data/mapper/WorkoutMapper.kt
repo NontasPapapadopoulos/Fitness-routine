@@ -6,11 +6,15 @@ import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
 
 fun WorkoutDomainEntity.toData(): WorkoutDataEntity = WorkoutDataEntity(
     date = date,
-    muscles = muscles
+    muscles = muscles,
+    sets = sets.toData(),
+    id = id
 )
 
 
 fun WorkoutDataEntity.toDomain(): WorkoutDomainEntity = WorkoutDomainEntity(
     date = date,
-    muscles = muscles
+    muscles = muscles,
+    id = id,
+    sets = sets.map { it.toDomain() }
 )
