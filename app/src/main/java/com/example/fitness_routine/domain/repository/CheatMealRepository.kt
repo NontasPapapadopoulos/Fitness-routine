@@ -8,6 +8,7 @@ interface CheatMealRepository {
     fun getCheatMeals(date: Long): Flow<List<CheatMealDomainEntity>>
     fun getCheatMeals(): Flow<List<CheatMealDomainEntity>>
     suspend fun put(cheatMeal: CheatMealDomainEntity)
+    suspend fun update(cheatMeal: CheatMealDomainEntity)
     suspend fun delete(cheatMeal: CheatMealDomainEntity)
     suspend fun init(date: Long)
 }

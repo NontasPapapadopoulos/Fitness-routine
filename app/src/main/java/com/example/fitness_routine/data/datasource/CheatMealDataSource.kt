@@ -13,6 +13,7 @@ interface CheatMealDataSource {
     fun getCheatMeals(date: Long): Flow<List<CheatMealDataEntity>>
     fun getCheatMeals(): Flow<List<CheatMealDataEntity>>
     suspend fun put(cheatMeal: CheatMealDataEntity)
+    suspend fun update(cheatMeal: CheatMealDataEntity)
     suspend fun delete(cheatMeal: CheatMealDataEntity)
     suspend fun init(date: Long)
 }
@@ -32,6 +33,10 @@ class CheatMealDataSourceImpl @Inject constructor(
 
     override suspend fun put(cheatMeal: CheatMealDataEntity) {
         cheatMealDao.put(cheatMeal)
+    }
+
+    override suspend fun update(cheatMeal: CheatMealDataEntity) {
+        cheatMealDao.update(cheatMeal)
     }
 
     override suspend fun delete(cheatMeal: CheatMealDataEntity) {

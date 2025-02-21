@@ -16,7 +16,7 @@ class UpdateCheatMeal @Inject constructor(
 ): SuspendUseCase<Unit, UpdateCheatMeal.Params>(dispatcher) {
 
     override suspend fun invoke(params: Params) {
-        return cheatMealRepository.put(params.cheatMeal)
+        return cheatMealRepository.update(params.cheatMeal)
     }
 
 

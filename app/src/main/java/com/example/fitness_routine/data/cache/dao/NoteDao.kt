@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.fitness_routine.data.entity.NoteDataEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -23,8 +24,11 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(note: NoteDataEntity)
 
-    @Query("UPDATE Note SET note = :note WHERE id = :id")
-    suspend fun update(note: String, id: String)
+//    @Query("UPDATE Note SET note = :note WHERE id = :id")
+//    suspend fun update(note: String, id: String)
+
+    @Update
+    suspend fun update(note: NoteDataEntity)
 
     @Delete
     suspend fun delete(note: NoteDataEntity)

@@ -25,6 +25,10 @@ class CheatMealDataRepository @Inject constructor(
         cheatMealDataSource.put(cheatMeal.toData())
     }
 
+    override suspend fun update(cheatMeal: CheatMealDomainEntity) {
+        cheatMealDataSource.update(cheatMeal.toData())
+    }
+
     override suspend fun delete(cheatMeal: CheatMealDomainEntity) {
         cheatMealDataSource.delete(cheatMeal.toData())
     }

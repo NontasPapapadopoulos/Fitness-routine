@@ -32,7 +32,7 @@ class NoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun update(note: NoteDataEntity) {
-        noteDao.update(note.note, note.id)
+        noteDao.update(note)
     }
 
     override suspend fun delete(note: NoteDataEntity) {

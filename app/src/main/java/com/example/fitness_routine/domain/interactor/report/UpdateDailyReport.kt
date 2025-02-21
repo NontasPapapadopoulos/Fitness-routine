@@ -16,7 +16,7 @@ open class UpdateDailyReport @Inject constructor(
 
 
     override suspend fun invoke(params: Params) {
-        return dailyRoutineRepository.put(params.report)
+        return dailyRoutineRepository.update(params.report)
     }
 
 
