@@ -15,7 +15,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class AddCardio @Inject constructor(
+open class AddCardio @Inject constructor(
     private val cardioRepository: CardioRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, AddCardio.Params>(dispatcher) {

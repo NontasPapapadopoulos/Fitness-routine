@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import com.example.fitness_routine.presentation.ui.screen.onEvents
+import kotlinx.coroutines.flow.flow
 
 import org.junit.Before
 import org.junit.Rule
@@ -116,8 +117,27 @@ class ReportViewModelTest {
     fun setUp() = runTest{
         whenever(getDailyReport.execute(any())).thenReturn(flowOf(Result.success(report)))
         whenever(deleteReport.execute(any())).thenReturn(Result.success(Unit))
-
         whenever(initDailyReport.execute(any())).thenReturn(Result.success(Unit))
+
+        whenever(getNotes.execute(any())).thenReturn(flowOf(Result.success(listOf())))
+        whenever(initNote.execute(any())).thenReturn(Result.success(Unit))
+        whenever(updateNote.execute(any())).thenReturn(Result.success(Unit))
+        whenever(deleteNote.execute(any())).thenReturn(Result.success(Unit))
+        whenever(addNote.execute(any())).thenReturn(Result.success(Unit))
+
+        whenever(getCardios.execute(any())).thenReturn(flowOf(Result.success(listOf())))
+        whenever(addCardio.execute(any())).thenReturn(Result.success(Unit))
+        whenever(deleteCardio.execute(any())).thenReturn(Result.success(Unit))
+        whenever(updateCardio.execute(any())).thenReturn(Result.success(Unit))
+        whenever(initCardio.execute(any())).thenReturn(Result.success(Unit))
+
+        whenever(getCheatMeals.execute(any())).thenReturn(flowOf(Result.success(listOf())))
+        whenever(addCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+        whenever(deleteCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+        whenever(updateCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+        whenever(initCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+
+
     }
 
     @Test
@@ -203,16 +223,19 @@ class ReportViewModelTest {
         val report = DummyEntities.dailyReport
         val date = Date().toTimeStamp()
 
+
+        private val defaultContent = ReportState.Content(
+            date = date,
+            dailyReport = DummyEntities.dailyReport,
+            cheatMeals = listOf(),
+            notes = listOf(),
+            cardios = listOf()
+        )
+
     }
 
 
-    private val  defaultContent = ReportState.Content(
-        date = date,
-        dailyReport = DummyEntities.dailyReport,
-        cheatMeals = listOf(),
-        notes = listOf(),
-        cardios = listOf()
-    )
+
 
 }
 

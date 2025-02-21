@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ExerciseViewModel @Inject constructor(
+open class ExerciseViewModel @Inject constructor(
     private val getExercises: GetExercises,
     private val addExercise: AddExercise,
     private val deleteExercise: DeleteExercise,

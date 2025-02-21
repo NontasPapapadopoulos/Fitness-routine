@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class DeleteCardio @Inject constructor(
+open class DeleteCardio @Inject constructor(
     private val cardioRepository: CardioRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, DeleteCardio.Params>(dispatcher) {

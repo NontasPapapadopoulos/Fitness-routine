@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.gym
 
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.dailyReport
+import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.domain.interactor.note.GetAllNotes
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.note
@@ -19,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import java.util.Date
 
@@ -35,18 +37,19 @@ class NotesViewModelTest {
 
     @Before
     fun setUp() {
-        whenever(getAllNotes.execute(Unit)).thenReturn(flowOf(Result.success(notes)))
+        whenever(getAllNotes.execute(any())).thenReturn(flowOf(Result.success(notes)))
     }
 
 
     @Test
-    fun onFlowStart_loadCheatMeals() = runTest {
+    fun onFlowStart_loadNotes() = runTest {
+
         initViewModel()
 
         onEvents(viewModel) { collectedStates ->
             assertEquals(
                 listOf(
-                    GymSessionsState.Idle,
+                    NotesState.Idle,
                     defaultContent.copy(notes)
                 ),
                 collectedStates
@@ -61,12 +64,17 @@ class NotesViewModelTest {
     }
 
     companion object {
-        val notes = (0..10).map {
+        val notes = buildList<NoteDomainEntity> {
+            DummyEntities.note
+            DummyEntities.note
             DummyEntities.note
         }
+
+        private val defaultContent = NotesState.Content(
+            notes = notes
+        )
+
     }
 
-    private val defaultContent = NotesState.Content(
-        notes = notes
-    )
+
 }

@@ -10,7 +10,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class UpdateCardio @Inject constructor(
+open class UpdateCardio @Inject constructor(
     private val cardioRepository: CardioRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, UpdateCardio.Params>(dispatcher) {

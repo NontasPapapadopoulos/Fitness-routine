@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class DeleteNote @Inject constructor(
+open class DeleteNote @Inject constructor(
     private val noteRepository: NoteRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, DeleteNote.Params>(dispatcher) {

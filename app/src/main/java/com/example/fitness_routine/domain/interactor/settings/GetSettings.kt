@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 
-class GetSettings @Inject constructor(
+open class GetSettings @Inject constructor(
     private val settingsRepository: SettingsRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<SettingsDomainEntity, Unit>(dispatcher) {

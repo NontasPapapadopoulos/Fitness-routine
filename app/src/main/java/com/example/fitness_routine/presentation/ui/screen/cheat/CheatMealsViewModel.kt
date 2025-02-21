@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CheatMealsViewModel @Inject constructor(
+open class CheatMealsViewModel @Inject constructor(
     getCheatMeals: GetAllCheatMeals,
     getAllBodyMeasurements: GetAllBodyMeasurements
 ): BlocViewModel<CheatMealsEvent, CheatMealsState>() {

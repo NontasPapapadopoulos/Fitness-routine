@@ -11,7 +11,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class AddNote @Inject constructor(
+open class AddNote @Inject constructor(
     private val noteRepository: NoteRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, AddNote.Params>(dispatcher) {

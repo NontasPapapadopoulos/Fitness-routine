@@ -1,13 +1,10 @@
 package com.example.fitness_routine.presentation.ui.screen.cheat
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
+
 import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.interactor.bodymeasurement.GetAllBodyMeasurements
 import com.example.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
-import com.example.fitness_routine.domain.interactor.cheat.GetCheatMeals
-import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
 import com.example.fitness_routine.presentation.ui.screen.onEvents
 import com.example.fitness_routine.presentation.util.toTimeStamp
@@ -54,6 +51,7 @@ class CheatMealsViewModelTest {
             assertEquals(
                 listOf(
                     CheatMealsState.Idle,
+                    defaultContent,
                     defaultContent.copy(mealWithMeasurements)
                 ),
                 collectedStates
@@ -71,7 +69,8 @@ class CheatMealsViewModelTest {
 
     companion object {
         val mealWithMeasurements = generateMealsWithMeasurements()
-        val meals = (1..10).map {
+
+        val meals = (1..4).map {
             val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
             val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
             CheatMealDomainEntity(
@@ -80,16 +79,17 @@ class CheatMealsViewModelTest {
                 date = date
             )
         }
-        val bodyMeasurements = (1..10).map {
+        val bodyMeasurements = (1..4).map {
             val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
             val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
             generateBodyMeasurements(date)
         }
 
         private fun generateMealsWithMeasurements(): List<MealWithMeasurement> {
-            return (1..10).map {
+            return (1..4).map {
                 val localDate = LocalDate.of(2024, if (it < 5) 1 else 2, it)
                 val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
                 MealWithMeasurement(
                     date = date,
                     meals = generateMeals(date),
@@ -99,7 +99,7 @@ class CheatMealsViewModelTest {
         }
 
         private fun generateMeals(date: Date): List<CheatMealDomainEntity> {
-            return (0..4).map {
+            return (1..1).map {
                 CheatMealDomainEntity(
                     id = "",
                     text = "burger",

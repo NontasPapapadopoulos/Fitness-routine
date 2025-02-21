@@ -25,8 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class CalendarViewModel @Inject constructor(
-    getDailyReports: GetDailyReports,
-    getSettings: GetSettings,
+    private val getDailyReports: GetDailyReports,
+    private val getSettings: GetSettings,
     private val changeChoice: ChangeChoice
 ): BlocViewModel<CalendarEvent, CalendarState>() {
 
@@ -38,10 +38,11 @@ open class CalendarViewModel @Inject constructor(
 
     private val choiceFlow = getSettings.execute(Unit)
         .map { it.getOrThrow() }
+        .catch { addError(it) }
         .map { Choice.valueOf(it.choice) }
 
     override val _uiState: StateFlow<CalendarState> = combine(
-        dailyReportsFlow.onStart { emit(listOf()) },
+        dailyReportsFlow,//.onStart { emit(listOf()) },
         currentDateFlow.onStart { emit(getDate()) },
         choiceFlow.onStart { emit(Choice.Workout) }
     ) { reports, currentDate, choice ->

@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class DeleteCheatMeal @Inject constructor(
+open class DeleteCheatMeal @Inject constructor(
     private val cheatMealRepository: CheatMealRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, DeleteCheatMeal.Params>(dispatcher) {

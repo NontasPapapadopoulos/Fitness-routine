@@ -17,7 +17,7 @@ import java.util.Date
 import javax.inject.Inject
 
 
-class GetCardios @Inject constructor(
+open class GetCardios @Inject constructor(
     private val cardioRepository: CardioRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<List<CardioDomainEntity>, GetCardios.Params>(dispatcher) {

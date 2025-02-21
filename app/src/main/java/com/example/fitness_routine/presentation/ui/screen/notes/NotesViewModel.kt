@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(
+open class NotesViewModel @Inject constructor(
     private val getAllNotes: GetAllNotes
 ) : BlocViewModel<NotesEvent, NotesState>() {
 

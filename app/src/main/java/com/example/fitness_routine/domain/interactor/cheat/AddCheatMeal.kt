@@ -11,7 +11,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class AddCheatMeal @Inject constructor(
+open class AddCheatMeal @Inject constructor(
     private val cheatMealRepository: CheatMealRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, AddCheatMeal.Params>(dispatcher) {

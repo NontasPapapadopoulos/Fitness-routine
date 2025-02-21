@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetCheatMeals @Inject constructor(
+open class GetCheatMeals @Inject constructor(
     private val cheatMealRepository: CheatMealRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<List<CheatMealDomainEntity>, GetCheatMeals.Params>(dispatcher) {

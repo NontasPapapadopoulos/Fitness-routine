@@ -2,6 +2,7 @@ package com.example.fitness_routine.presentation.ui.screen.calendar
 
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.dailyReport
+import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.domain.interactor.report.GetDailyReports
 import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
@@ -21,6 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import java.util.Date
 
@@ -43,9 +45,9 @@ class CalendarViewModelTest {
 
 
     @Before
-    fun setUp() = runTest {
-        whenever(getDailyReports.execute(Unit)).thenReturn(flowOf(Result.success(reports)))
-        whenever(getSettings.execute(Unit)).thenReturn(flowOf(Result.success(settings)))
+    fun setUp() = runTest  {
+        whenever(getDailyReports.execute(any())).thenReturn(flowOf(Result.success(reports)))
+        whenever(getSettings.execute(any())).thenReturn(flowOf(Result.success(settings)))
     }
 
 
@@ -58,28 +60,34 @@ class CalendarViewModelTest {
                 listOf(
                     CalendarState.Idle,
                     defaultContent,
-                    defaultContent.copy(reports, selectedChoice = Choice.valueOf(settings.choice))
+                    defaultContent.copy(reports = reports, selectedChoice = Choice.Creatine)
                 ),
                 collectedStates
             )
         }
     }
 
+
+    companion object {
+        val reports = buildList {
+            add(DummyEntities.dailyReport)
+            add(DummyEntities.dailyReport)
+            add(DummyEntities.dailyReport)
+        }
+
+
+        val settings = DummyEntities.settings.copy(choice = Choice.Creatine.value)
+
+        private val defaultContent = CalendarState.Content(
+            selectedChoice = Choice.Workout,
+            reports = listOf(),
+            currentDate = getDate()
+        )
+    }
+
+
     private fun initViewModel() {
         viewModel = CalendarViewModel(getDailyReports, getSettings, changeChoice)
     }
 
-    companion object {
-        val reports = (0..10).map {
-            DummyEntities.dailyReport.copy(performedWorkout = true, date = Date())
-        }
-
-        val settings = DummyEntities.settings
-    }
-
-    private val defaultContent = CalendarState.Content(
-        selectedChoice = Choice.valueOf(settings.choice),
-        reports = listOf(),
-        currentDate = getDate()
-    )
 }

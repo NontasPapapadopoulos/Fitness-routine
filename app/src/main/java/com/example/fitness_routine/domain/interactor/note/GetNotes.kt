@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetNotes @Inject constructor(
+open class GetNotes @Inject constructor(
     private val noteRepository: NoteRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<List<NoteDomainEntity>, GetNotes.Params>(dispatcher) {

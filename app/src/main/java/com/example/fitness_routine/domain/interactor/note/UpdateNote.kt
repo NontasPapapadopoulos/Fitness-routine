@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class UpdateNote @Inject constructor(
+open class UpdateNote @Inject constructor(
     private val noteRepository: NoteRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, UpdateNote.Params>(dispatcher) {
