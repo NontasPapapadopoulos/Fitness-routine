@@ -169,5 +169,6 @@ dependencies {
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
+    implementation 'org.mockito:mockito-android:5.15.2'
 
 }

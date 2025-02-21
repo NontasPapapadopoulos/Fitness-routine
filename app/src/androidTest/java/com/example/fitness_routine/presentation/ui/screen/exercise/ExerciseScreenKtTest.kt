@@ -22,11 +22,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(MockitoJUnitRunner::class)
 class ExerciseScreenKtTest {
 
     @get:Rule
@@ -48,7 +49,7 @@ class ExerciseScreenKtTest {
     @Test
     fun contentState_whenClickAddExerciseButton_addsAddExercise() {
         // given
-        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content))
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = null)))
         
         composeTestRule.setContent { 
             AppSurface {
@@ -57,6 +58,7 @@ class ExerciseScreenKtTest {
         }
 
         // when
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.EXERCISE_TEXT_FIELD).performTextInput("new exercise")
         composeTestRule.onNodeWithTag(ExerciseScreenConstants.ADD_EXERCISE_BUTTON).performClick()
 
         // then
