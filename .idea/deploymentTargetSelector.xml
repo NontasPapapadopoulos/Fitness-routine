@@ -5,19 +5,10 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="contentState_whenClickAddExerciseButton_addsAddExercise()">
+      <SelectionState runConfigName="Tests in 'com.example.fitness_routine'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ExerciseScreenKtTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="contentState_whenExerciseTextFieldIsEntered_addsTextChanged()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="contentState_whenClickUpdateButton_displaysEditExerciseDialog()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="contentState_whenDeleteButtonIsClicked_addsDelete()">
+      <SelectionState runConfigName="ReportScreenKtTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

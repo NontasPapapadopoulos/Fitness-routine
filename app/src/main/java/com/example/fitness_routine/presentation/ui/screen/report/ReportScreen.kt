@@ -271,6 +271,7 @@ private fun Tabs(
                     modifier = Modifier
                         .padding(contentSpacing3)
                         .clickable { selectTab(index) }
+                        .testTag(tab.testTag)
                 ) {
                     Icon(imageVector = tab.icon, contentDescription = null)
 
@@ -405,21 +406,23 @@ class ReportScreenConstants private constructor() {
         const val CREATINE_CHECK_BOX = "creatine_check_box"
         const val PROTEIN_TEXT_FIELD = "protein_text_field"
         const val WATER_TEXT_FIELD = "water_text_field"
-        const val CARDIO_TEXT_FIELD = "cardio_text_field"
+        const val CARDIO_TEXT_FIELD = "cardio_text_field_"
         const val MUSCLE_ITEM = "muscle_item_"
-        const val SLEEP_QUALITY = "sleep_quality"
+        const val SLEEP_QUALITY = "sleep_quality_"
         const val GYM_NOTES_TEXT_FIELD = "gym_notes_text_field"
         const val CHEAT_MEAL_TEXT_FIELD = "cheat_meal_text_field"
         const val DELETE_BUTTON = "delete_button"
         const val CARDIO_DROP_DOWN = "cardio_drop_down"
         const val CARDIO_TYPE_DROP_DOWN_ITEM = "cardio_type_drop_down_item"
+        const val NUTRITION_TAB = "nutrition_tab"
+        const val WORKOUT_TAB = "workout_tab"
 
     }
 }
 
-sealed class Tab(val name: String, val icon: ImageVector) {
-    object Nutrition: Tab("Nutrition", Icons.Filled.Restaurant)
-    object Workout: Tab("Workout", Icons.Filled.SportsGymnastics)
+sealed class Tab(val name: String, val icon: ImageVector, val testTag: String) {
+    object Nutrition: Tab("Nutrition", Icons.Filled.Restaurant, testTag = ReportScreenConstants.NUTRITION_TAB)
+    object Workout: Tab("Workout", Icons.Filled.SportsGymnastics, testTag = ReportScreenConstants.WORKOUT_TAB)
 }
 
 fun generateNotes() =

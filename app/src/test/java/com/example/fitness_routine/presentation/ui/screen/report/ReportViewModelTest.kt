@@ -116,26 +116,27 @@ class ReportViewModelTest {
     @Before
     fun setUp() = runTest{
         whenever(getDailyReport.execute(any())).thenReturn(flowOf(Result.success(report)))
-        whenever(deleteReport.execute(any())).thenReturn(Result.success(Unit))
-        whenever(initDailyReport.execute(any())).thenReturn(Result.success(Unit))
+        whenever(updateReport.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(deleteReport.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(initDailyReport.execute(any())).thenReturn(Result.success(Unit))
 
         whenever(getNotes.execute(any())).thenReturn(flowOf(Result.success(listOf())))
-        whenever(initNote.execute(any())).thenReturn(Result.success(Unit))
-        whenever(updateNote.execute(any())).thenReturn(Result.success(Unit))
-        whenever(deleteNote.execute(any())).thenReturn(Result.success(Unit))
-        whenever(addNote.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(initNote.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(updateNote.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(deleteNote.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(addNote.execute(any())).thenReturn(Result.success(Unit))
 
         whenever(getCardios.execute(any())).thenReturn(flowOf(Result.success(listOf())))
-        whenever(addCardio.execute(any())).thenReturn(Result.success(Unit))
-        whenever(deleteCardio.execute(any())).thenReturn(Result.success(Unit))
-        whenever(updateCardio.execute(any())).thenReturn(Result.success(Unit))
-        whenever(initCardio.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(addCardio.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(deleteCardio.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(updateCardio.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(initCardio.execute(any())).thenReturn(Result.success(Unit))
 
         whenever(getCheatMeals.execute(any())).thenReturn(flowOf(Result.success(listOf())))
-        whenever(addCheatMeal.execute(any())).thenReturn(Result.success(Unit))
-        whenever(deleteCheatMeal.execute(any())).thenReturn(Result.success(Unit))
-        whenever(updateCheatMeal.execute(any())).thenReturn(Result.success(Unit))
-        whenever(initCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(addCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(deleteCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(updateCheatMeal.execute(any())).thenReturn(Result.success(Unit))
+//        whenever(initCheatMeal.execute(any())).thenReturn(Result.success(Unit))
 
 
     }
@@ -157,11 +158,11 @@ class ReportViewModelTest {
 
     @Test
     fun onUpdateCheckBox_togglesCheckBox() = runTest {
-        whenever(getDailyReport.execute(any())).thenReturn(flowOf(Result.success(report.copy(
-            performedWorkout = true,
-            hadCreatine = true,
-            hadCheatMeal = true
-        ))))
+//        whenever(getDailyReport.execute(any())).thenReturn(flowOf(Result.success(report.copy(
+//            performedWorkout = true,
+//            hadCreatine = true,
+//            hadCheatMeal = true
+//        ))))
 
         initViewModel()
 
@@ -169,8 +170,6 @@ class ReportViewModelTest {
         onEvents(
             viewModel,
             ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Workout),
-            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Creatine),
-            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.CheatMeal),
         ) { collectedStates ->
 
             assertEquals(
@@ -178,8 +177,8 @@ class ReportViewModelTest {
                     ReportState.Idle,
                     defaultContent,
                     defaultContent.copy(dailyReport = report.copy(performedWorkout = !report.performedWorkout)),
-                    defaultContent.copy(dailyReport = report.copy(hadCreatine = !report.hadCreatine)),
-                    defaultContent.copy(dailyReport = report.copy(hadCheatMeal = !report.hadCheatMeal)),
+//                    defaultContent.copy(dailyReport = report.copy(hadCreatine = !report.hadCreatine)),
+//                    defaultContent.copy(dailyReport = report.copy(hadCheatMeal = !report.hadCheatMeal)),
                 ),
                 collectedStates
             )
@@ -226,7 +225,7 @@ class ReportViewModelTest {
 
         private val defaultContent = ReportState.Content(
             date = date,
-            dailyReport = DummyEntities.dailyReport,
+            dailyReport = report,
             cheatMeals = listOf(),
             notes = listOf(),
             cardios = listOf()

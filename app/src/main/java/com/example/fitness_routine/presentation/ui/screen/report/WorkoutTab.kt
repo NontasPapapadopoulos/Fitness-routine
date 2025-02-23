@@ -40,6 +40,7 @@ import com.example.fitness_routine.domain.entity.enums.Cardio
 import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.MusclesTrained
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_DROP_DOWN
+import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TYPE_DROP_DOWN_ITEM
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.GYM_NOTES_TEXT_FIELD
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.MUSCLE_ITEM
@@ -84,11 +85,11 @@ fun WorkoutTab(
         Spacer(modifier = Modifier.height(contentSpacing2))
 
 
-        cardios.forEach {
+        cardios.forEachIndexed { index, cardio ->
             CardioItem(
-                cardio = it,
+                cardio = cardio,
                 onUpdateCardio = { cardio, field, value -> onUpdateCardio(cardio, field, value) },
-                testTag = "Cardio_$it",
+                testTag = CARDIO_TEXT_FIELD + index,
                 addCardio = onAddCardio,
                 deleteCardio = { if (cardios.size > 1) onDeleteCardio(it) } ,
             )

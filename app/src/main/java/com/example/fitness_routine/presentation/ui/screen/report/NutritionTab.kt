@@ -185,7 +185,8 @@ private fun Stars(
             Star(
                 sequence = it,
                 color = color,
-                onLevelChange = onLevelChange
+                onLevelChange = onLevelChange,
+
             )
         }
     }
@@ -204,7 +205,7 @@ private fun Star(
         tint = color,
         modifier = Modifier
             .clickable { onLevelChange(sequence) }
-            .testTag(SLEEP_QUALITY)
+            .testTag(SLEEP_QUALITY+sequence)
     )
 }
 
