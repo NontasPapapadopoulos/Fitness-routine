@@ -260,9 +260,10 @@ private fun EditExerciseDialog(
     onDismissDialog: () -> Unit
 ) {
     AlertDialog(
+        modifier = Modifier.testTag(ExerciseScreenConstants.EDIT_DIALOG),
         onDismissRequest = {},
         title = {
-            Text(text = "Break")
+            Text(text = "Edit Exercise")
         },
         icon = {
             Icon(Icons.Outlined.Timer, contentDescription = null)
@@ -285,6 +286,7 @@ private fun EditExerciseDialog(
                         onValueChange = { onNewExerciseNameTextChanged(it) },
                         label = { Text(text = "New exercise name") },
                         singleLine = true,
+                        modifier = Modifier.testTag(ExerciseScreenConstants.NEW_EXERCISE_NAME_TEXT_FIELD)
 
                     )
                 }
@@ -294,13 +296,16 @@ private fun EditExerciseDialog(
         },
         confirmButton = {
             Button(
-                onClick = onUpdateExercise
+                onClick = onUpdateExercise,
+                modifier = Modifier.testTag(ExerciseScreenConstants.RENAME_BUTTON)
             ) {
                 Text("Rename")
             }
         },
         dismissButton = {
-            Button(onClick = onDismissDialog) {
+            Button(
+                onClick = onDismissDialog,
+                modifier = Modifier.testTag(ExerciseScreenConstants.CANCEL_BUTTON)) {
                 Text(text = "Cancel")
             }
         },
@@ -389,5 +394,9 @@ class ExerciseScreenConstants private constructor() {
         const val EDIT_EXERCISE = "edit_exercise"
         const val MUSCLE_GROUP_DROPDOWN = "muscle_group_drop_down"
         const val MUSCLE_GROUP_DROPDOWN_ITEM = "muscle_group_drop_down_item"
+        const val EDIT_DIALOG = "edit_dialog"
+        const val NEW_EXERCISE_NAME_TEXT_FIELD = "new_exercise_name_text_field"
+        const val CANCEL_BUTTON = "cancel_button"
+        const val RENAME_BUTTON = "rename_button"
     }
 }

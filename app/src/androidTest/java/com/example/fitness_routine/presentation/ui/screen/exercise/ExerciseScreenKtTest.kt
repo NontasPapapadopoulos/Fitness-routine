@@ -1,5 +1,6 @@
 package com.example.fitness_routine.presentation.ui.screen.exercise
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -45,11 +46,28 @@ class ExerciseScreenKtTest {
         whenever(viewModel.errorFlow).thenReturn(MutableSharedFlow())
     }
 
+    @Test
+    fun contentState_whenClickUpdateButton_displaysEditExerciseDialog() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = selectedExercise)))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+            }
+        }
+
+        // then
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.EDIT_DIALOG).assertIsDisplayed()
+    }
+
 
     @Test
     fun contentState_whenClickAddExerciseButton_addsAddExercise() {
         // given
-        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = null)))
+        val exercise = "new exercise"
+
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(newExercise = exercise)))
         
         composeTestRule.setContent { 
             AppSurface {
@@ -58,7 +76,6 @@ class ExerciseScreenKtTest {
         }
 
         // when
-        composeTestRule.onNodeWithTag(ExerciseScreenConstants.EXERCISE_TEXT_FIELD).performTextInput("new exercise")
         composeTestRule.onNodeWithTag(ExerciseScreenConstants.ADD_EXERCISE_BUTTON).performClick()
 
         // then
@@ -96,20 +113,103 @@ class ExerciseScreenKtTest {
         }
 
         // when
-        composeTestRule.onNodeWithTag(ExerciseScreenConstants.MUSCLE_GROUP_DROPDOWN).performClick()
-        composeTestRule.onNodeWithTag(ExerciseScreenConstants.DELETE_EXERCISE + "bench press").performClick()
+        val exercise = content.exercises.first()
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.DELETE_EXERCISE + exercise.name).performClick()
+
+        verify(viewModel).add(ExerciseEvent.Delete(exercise))
+
     }
 
-    
-    
+    @Test
+    fun contentState_whenEditButtonIsClicked_addsSelectExercise() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+            }
+        }
+
+        // when
+        val exercise = content.exercises.first()
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.EDIT_EXERCISE + exercise.name).performClick()
+
+        verify(viewModel).add(ExerciseEvent.SelectExercise(exercise))
+
+    }
+
+    @Test
+    fun contentState_EditDialogIsDisplayedAndTextFieldIsEntered_addsNewExerciseNameTextChanged() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = selectedExercise)))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+            }
+        }
+
+        // when
+        val newName = "new_name"
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.NEW_EXERCISE_NAME_TEXT_FIELD).performTextInput(newName)
+
+        verify(viewModel).add(ExerciseEvent.NewExerciseNameTextChanged(newName))
+
+    }
+
+    @Test
+    fun contentState_EditDialogIsDisplayedCancelButtonIsClicked_addsDismissDialog() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = selectedExercise)))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+            }
+        }
+
+        // when
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.CANCEL_BUTTON).performClick()
+
+        // then
+        verify(viewModel).add(ExerciseEvent.DismissDialog)
+
+    }
+
+    @Test
+    fun contentState_EditDialogIsDisplayedRenameButtonIsClicked_addsUpdateExercise() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(content.copy(selectedExercise = selectedExercise)))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+            }
+        }
+
+        // when
+        composeTestRule.onNodeWithTag(ExerciseScreenConstants.RENAME_BUTTON).performClick()
+
+        // then
+        verify(viewModel).add(ExerciseEvent.UpdateExercise)
+
+    }
+
+
+
+
+
+
     companion object {
         val selectedMuscle = Muscle.Chest
+        val selectedExercise = DummyEntities.exercise.copy(name = "bench press", muscle = Muscle.Chest)
         val content = ExerciseState.Content(
             preSelectedMuscle = selectedMuscle,
-            exercises = listOf(ExerciseDomainEntity(name = "bench press", muscle = Muscle.Chest)), 
+            exercises = listOf(selectedExercise),
             newExercise = "",
             newName = "",
-            selectedExercise = DummyEntities.exercise
+            selectedExercise = null
         )
     }
 
