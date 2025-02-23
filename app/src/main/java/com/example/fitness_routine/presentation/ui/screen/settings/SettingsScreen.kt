@@ -132,23 +132,31 @@ private fun SettingsContent(
             )
 
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Enable dark mode: ")
-
-
-                Switch(
-                    checked = content.settings.isDarkModeEnabled,
-                    onCheckedChange = { onToggleDarkMode() },
-                    modifier = Modifier.testTag(DARK_MODE_SWITCH)
-
-                )
-            }
+            //DarkMode(content, onToggleDarkMode)
 
         }
+    }
+}
+
+@Composable
+private fun DarkMode(
+    content: SettingsState.Content,
+    onToggleDarkMode: () -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = "Enable dark mode: ")
+
+
+        Switch(
+            checked = content.settings.isDarkModeEnabled,
+            onCheckedChange = { onToggleDarkMode() },
+            modifier = Modifier.testTag(DARK_MODE_SWITCH)
+
+        )
     }
 }
 
@@ -199,8 +207,7 @@ private fun ChoiceRadioButtonItem(
             Icon(
                 icon,
                 contentDescription = null,
-                modifier =
-                Modifier.background(color = option.getColor(), shape = RoundedCornerShape(contentSpacing4))
+                modifier = Modifier.background(color = option.getColor(), shape = RoundedCornerShape(contentSpacing4))
                     .padding(contentSpacing3)
             )
 
@@ -216,7 +223,7 @@ private fun ChoiceRadioButtonItem(
         RadioButton(
             selected = (option == selectedOption),
             onClick = { select(option) },
-//            modifier = Modifier.testTag(testTag + option.name)
+            modifier = Modifier.testTag(SettingsScreenConstants.CHOICE_RADIO_BUTTON + option.name)
         )
 
     }
@@ -248,6 +255,6 @@ class SettingsScreenConstants private constructor() {
     companion object {
         const val BREAK_DURATION_TEXT_FIELD = "break_duration"
         const val DARK_MODE_SWITCH = "dark_mode_switch"
-        const val CHOICE_RADIO_BUTTON = "choice_radio_button"
+        const val CHOICE_RADIO_BUTTON = "choice_radio_button_"
     }
 }

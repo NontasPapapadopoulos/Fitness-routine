@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.fitness_routine.domain.entity.enums.Choice
 import com.example.fitness_routine.presentation.component.AppSurface
 import com.example.fitness_routine.presentation.util.toTimeStamp
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -43,6 +44,22 @@ class CalendarScreenKtTest {
     }
 
 
+    @Test
+    fun xxxx() {
+
+    }
+
+
+
+
+    companion object {
+
+        val defaultContent = CalendarState.Content(
+            reports = listOf(),
+            currentDate = "25/03/2025",
+            selectedChoice = Choice.Workout
+        )
+    }
 
 
 }

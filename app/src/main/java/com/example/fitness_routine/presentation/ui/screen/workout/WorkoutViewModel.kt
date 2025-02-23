@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class WorkoutViewModel @Inject constructor(
+open class WorkoutViewModel @Inject constructor(
     private val getExercises: GetExercises,
     private val getSets: GetSets,
     private val getDailyReport: GetDailyReport,

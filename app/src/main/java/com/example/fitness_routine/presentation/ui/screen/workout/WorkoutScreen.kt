@@ -45,6 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -155,7 +156,7 @@ private fun WorkoutContent(
                             Text(text = content.date.toFormattedDate())
                         }
 
-                        AddBreak(addBreak = { onShowDialog(Dialog.Break) })
+                        Break(addBreak = { onShowDialog(Dialog.Break) })
 
                     }
                 },
@@ -183,7 +184,7 @@ private fun WorkoutContent(
             MusclesTrained(
                 selectedMuscles = content.musclesTrained.map { it.name },
                 onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it)) },
-                testTag = "xx"
+                testTag = WorkoutScreenConstants.MUSCLE
             )
 
 
@@ -193,9 +194,15 @@ private fun WorkoutContent(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = muscle.name)
+                    Text(
+                        text = muscle.name,
+                        modifier = Modifier.testTag(WorkoutScreenConstants.MUSCLE_TEXT+muscle)
+                    )
 
-                    AddExercise(addExercise = { onShowDialog(Dialog.AddExercise(muscle)) })
+                    AddExercise(
+                        addExercise = { onShowDialog(Dialog.AddExercise(muscle)) },
+                        testTag = WorkoutScreenConstants.ADD_EXERCISE + muscle
+                    )
 
                 }
 
@@ -228,7 +235,10 @@ private fun WorkoutContent(
 
                     ) {
 
-                        AddSet(addSet = { onAddSet(muscle, exercise) })
+                        AddSet(
+                            addSet = { onAddSet(muscle, exercise) },
+                            testTag = WorkoutScreenConstants.ADD_SET+muscle
+                        )
                     }
                 }
 
@@ -403,6 +413,7 @@ fun BreakDialog(
 
 
     AlertDialog(
+        modifier = Modifier.testTag(WorkoutScreenConstants.BREAK_DIALOG),
         onDismissRequest = {},
         title = {
             Text(text = "Break")
@@ -473,7 +484,7 @@ fun BreakDialog(
 }
 
 @Composable
-private fun AddBreak(
+private fun Break(
     addBreak: () -> Unit
 ) {
     Row(
@@ -482,7 +493,11 @@ private fun AddBreak(
     ) {
         Text(text = "Break")
         Spacer(modifier = Modifier.width(4.dp))
-        Icon(Icons.Outlined.Timer, contentDescription = null)
+        Icon(
+            Icons.Outlined.Timer,
+            contentDescription = null,
+            modifier = Modifier.testTag(WorkoutScreenConstants.BREAK_BUTTON)
+        )
     }
 }
 
@@ -516,6 +531,7 @@ private fun Set(
                 keyboardType = KeyboardType.Number
             ),
             modifier = Modifier.weight(0.5f)
+                .testTag(WorkoutScreenConstants.WEIGHT_TEXT_FIELD+set.id)
         )
 
         Spacer(modifier = Modifier.width(10.dp))
@@ -532,7 +548,10 @@ private fun Set(
         )
 
 
-        IconButton(onClick = { delete(set) } ) {
+        IconButton(
+            onClick = { delete(set) } ,
+            modifier = Modifier.testTag(WorkoutScreenConstants.DELETE_BUTTON+set.muscle+set.id)
+        ) {
             Icon(
                 Icons.Default.RemoveCircleOutline,
                 tint = MaterialTheme.colorScheme.onError,
@@ -545,10 +564,12 @@ private fun Set(
 @Composable
 private fun AddSet(
     addSet: () -> Unit,
+    testTag: String
 ) {
 
     Row(
-        modifier = Modifier.clickable { addSet() },
+        modifier = Modifier.clickable { addSet() }
+            .testTag(testTag),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -572,10 +593,12 @@ private fun AddSet(
 @Composable
 private fun AddExercise(
     addExercise: () -> Unit,
+    testTag: String
 ) {
 
     Row(
-        modifier = Modifier.clickable { addExercise() },
+        modifier = Modifier.clickable { addExercise() }
+            .testTag(testTag),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -707,4 +730,20 @@ private fun getDailyReport(): DailyReportDomainEntity {
         proteinGrams = "120",
         date = date,
     )
+}
+
+
+class WorkoutScreenConstants private constructor() {
+    companion object {
+        const val MUSCLE = "muscle_"
+        const val BREAK_BUTTON = "break_button"
+        const val BREAK_DIALOG = "break_dialog"
+        const val ADD_EXERCISE = "add_exercise_"
+        const val ADD_EXERCISE_DIALOG = "add_exercise_dialog"
+        const val ADD_SET = "add_set_"
+        const val DELETE_BUTTON = "delete_button_"
+        const val REPEATS_TEXT_FIELD = "repeats_text_field_"
+        const val WEIGHT_TEXT_FIELD = "weight_text_field_"
+        const val MUSCLE_TEXT = "muscle_text_"
+    }
 }
