@@ -35,7 +35,7 @@ class AddDailyReportTest {
 
     @Test
     fun execute_addDailyReport() = runTest {
-        whenever(dailyRoutineRepository.put(any())).thenReturn(Unit)
+//        whenever(dailyRoutineRepository.put(any())).thenReturn(Unit)
 
         val result = addDailyReport.execute(AddDailyReport.Params(DummyEntities.dailyReport))
 

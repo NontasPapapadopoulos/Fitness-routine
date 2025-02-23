@@ -1,6 +1,8 @@
 package com.example.fitness_routine
 
 import android.provider.ContactsContract.CommonDataKinds.Note
+import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import com.example.fitness_routine.domain.entity.CardioDomainEntity
 import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
 import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
 import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
@@ -69,4 +71,26 @@ val DummyEntities.note: NoteDomainEntity
         id = "",
         text = "",
         date = Date()
+    )
+
+val DummyEntities.measurement: BodyMeasurementDomainEntity
+    get() = BodyMeasurementDomainEntity(
+        id = "",
+        date = 0,
+        weight = "",
+        fat = "",
+        metabolicAge = "",
+        bmi = "",
+        tbw = "",
+        bmr = "",
+        visceralFat = "",
+        muscleMass = "",
+    )
+
+val DummyEntities.cardio: CardioDomainEntity
+    get() = CardioDomainEntity(
+        id = "",
+        type = "",
+        date = Date(),
+        minutes = ""
     )

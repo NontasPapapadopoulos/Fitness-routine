@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class UpdateBodyMeasurement @Inject constructor(
+open class UpdateBodyMeasurement @Inject constructor(
     private val bodyMeasurementRepository: BodyMeasurementRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, UpdateBodyMeasurement.Params>(dispatcher) {

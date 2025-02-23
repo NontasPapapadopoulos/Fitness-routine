@@ -12,7 +12,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class AddBodyMeasurement @Inject constructor(
+open class AddBodyMeasurement @Inject constructor(
     private val bodyMeasurementRepository: BodyMeasurementRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, AddBodyMeasurement.Params>(dispatcher) {

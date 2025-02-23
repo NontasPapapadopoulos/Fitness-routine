@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetBodyMeasurement @Inject constructor(
+open class GetBodyMeasurement @Inject constructor(
     private val bodyMeasurementRepository: BodyMeasurementRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): FlowUseCase<BodyMeasurementDomainEntity?, GetBodyMeasurement.Params>(dispatcher) {

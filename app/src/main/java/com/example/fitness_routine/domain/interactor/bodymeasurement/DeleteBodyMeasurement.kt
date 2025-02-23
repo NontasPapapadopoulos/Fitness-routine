@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 
-class DeleteBodyMeasurement @Inject constructor(
+open class DeleteBodyMeasurement @Inject constructor(
     private val bodyMeasurementRepository: BodyMeasurementRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ): SuspendUseCase<Unit, DeleteBodyMeasurement.Params>(dispatcher) {
