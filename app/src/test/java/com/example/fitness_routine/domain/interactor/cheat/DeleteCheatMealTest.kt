@@ -1,12 +1,9 @@
-package com.example.fitness_routine.domain.interactor
+package com.example.fitness_routine.domain.interactor.cheat
 
 import com.example.fitness_routine.DummyEntities
 import com.example.fitness_routine.cheatMeal
-import com.example.fitness_routine.domain.interactor.cheat.GetCheatMeals
 import com.example.fitness_routine.domain.repository.CheatMealRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -16,40 +13,38 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import java.util.Date
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class GetCheatMealsTest {
+class DeleteCheatMealTest {
 
-    private lateinit var getCheatMeals: GetCheatMeals
+    private lateinit var deleteCheatMeal: DeleteCheatMeal
+
 
     @Mock
     private lateinit var cheatMealRepository: CheatMealRepository
 
-    private val dispatcher = UnconfinedTestDispatcher()
+    private var dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setUp() {
-        getCheatMeals = GetCheatMeals(cheatMealRepository, dispatcher)
+        deleteCheatMeal = DeleteCheatMeal(cheatMealRepository, dispatcher)
     }
+
 
     @Test
-    fun execute_getCheatDays() = runTest {
-        whenever(cheatMealRepository.getCheatMeals()).thenReturn(flowOf(meals))
+    fun execute_addCheatMeal() = runTest {
+        whenever(cheatMealRepository.delete(any())).thenReturn(Unit)
 
-        val result = getCheatMeals.execute(GetCheatMeals.Params(100L)).first()
+        val result = deleteCheatMeal.execute(DeleteCheatMeal.Params(DummyEntities.cheatMeal))
+
 
         assertEquals(
-            Result.success(meals),
-            result
+            result,
+            Result.success(Unit)
         )
-
-    }
-
-
-    companion object {
-        val meals = listOf(DummyEntities.cheatMeal)
     }
 }

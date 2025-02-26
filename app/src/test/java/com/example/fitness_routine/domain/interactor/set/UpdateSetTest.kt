@@ -1,8 +1,9 @@
-package com.example.fitness_routine.domain.interactor.report
+package com.example.fitness_routine.domain.interactor.set
 
 import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
+import com.example.fitness_routine.domain.repository.SetRepository
+import com.example.fitness_routine.domain.toTimeStamp
+import com.example.fitness_routine.set
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -15,34 +16,39 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
-
+import java.util.Date
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class UpdateDailyReportTest {
+class UpdateSetTest {
 
-    private lateinit var updateDailyReport: UpdateDailyReport
+    private lateinit var updateSet: UpdateSet
 
     @Mock
-    private lateinit var dailyReportRepository: DailyRoutineRepository
+    private lateinit var setRepository: SetRepository
 
     private var dispatcher = UnconfinedTestDispatcher()
 
 
     @Before
     fun setUp() {
-        updateDailyReport = UpdateDailyReport(dailyReportRepository, dispatcher)
+        updateSet = UpdateSet(setRepository, dispatcher)
     }
 
 
     @Test
-    fun execute_updateDailyReport() = runTest {
-        whenever(dailyReportRepository.update(any())).thenReturn(Unit)
+    fun execute_updateSet() = runTest {
+        whenever(setRepository.update(any())).thenReturn(Unit)
 
-        val result = updateDailyReport.execute(UpdateDailyReport.Params(DummyEntities.dailyReport))
+        val result = updateSet.execute(params = UpdateSet.Params(set))
 
         assertEquals(
             result,
             Result.success(Unit)
         )
+    }
+
+
+    companion object {
+        val set = DummyEntities.set.copy(date = Date().toTimeStamp())
     }
 }

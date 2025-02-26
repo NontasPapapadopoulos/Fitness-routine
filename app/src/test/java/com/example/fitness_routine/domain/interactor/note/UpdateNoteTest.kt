@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.interactor.report
+package com.example.fitness_routine.domain.interactor.note
 
 import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
+import com.example.fitness_routine.domain.repository.NoteRepository
+import com.example.fitness_routine.note
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -15,30 +15,31 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
+import java.util.Date
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
-class UpdateDailyReportTest {
+class UpdateNoteTest {
 
-    private lateinit var updateDailyReport: UpdateDailyReport
+    private lateinit var updateNote: UpdateNote
 
     @Mock
-    private lateinit var dailyReportRepository: DailyRoutineRepository
+    private lateinit var noteRepository: NoteRepository
 
     private var dispatcher = UnconfinedTestDispatcher()
 
 
     @Before
     fun setUp() {
-        updateDailyReport = UpdateDailyReport(dailyReportRepository, dispatcher)
+        updateNote = UpdateNote(noteRepository, dispatcher)
     }
 
 
     @Test
-    fun execute_updateDailyReport() = runTest {
-        whenever(dailyReportRepository.update(any())).thenReturn(Unit)
+    fun execute_addNote() = runTest {
+        whenever(noteRepository.update(any())).thenReturn(Unit)
 
-        val result = updateDailyReport.execute(UpdateDailyReport.Params(DummyEntities.dailyReport))
+        val result = updateNote.execute(UpdateNote.Params(DummyEntities.note))
 
         assertEquals(
             result,
