@@ -91,7 +91,7 @@ fun WorkoutTab(
                 onUpdateCardio = { cardio, field, value -> onUpdateCardio(cardio, field, value) },
                 testTag = CARDIO_TEXT_FIELD + index,
                 addCardio = onAddCardio,
-                deleteCardio = { if (cardios.size > 1) onDeleteCardio(it) } ,
+                deleteCardio = { onDeleteCardio(it) } ,
             )
         }
 

@@ -156,7 +156,8 @@ private fun WorkoutContent(
                             Text(text = content.date.toFormattedDate())
                         }
 
-                        Break(addBreak = { onShowDialog(Dialog.Break) })
+                        if (content.date.isCurrentDate())
+                            Break(addBreak = { onShowDialog(Dialog.Break) })
 
                     }
                 },

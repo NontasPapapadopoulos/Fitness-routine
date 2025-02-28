@@ -207,8 +207,12 @@ private fun SessionItem(
                 text = "${session.report.date.toFormattedDate()} $musclesTrained",
             )
 
-            val hasCardio = session.cardios.isNotEmpty()
-                    && session.cardios[0].type.isNotEmpty() && session.cardios[0].minutes.toInt() > 0
+            val hasCardio = session.cardios.isNotEmpty() &&
+                    session.cardios.filter {
+                        it.type.isNotEmpty() &&
+                    it.minutes.isNotEmpty()
+                    }.size > 1
+
 
             if (hasCardio) {
                 session.cardios.forEach { cardio ->

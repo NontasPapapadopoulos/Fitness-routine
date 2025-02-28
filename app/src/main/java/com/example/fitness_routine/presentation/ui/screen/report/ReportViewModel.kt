@@ -189,10 +189,15 @@ open class ReportViewModel @Inject constructor(
         }
 
         on(ReportEvent.DeleteCardio::class) {
-            deleteCardio.execute(DeleteCardio.Params(it.cardio)).fold(
-                onSuccess = {},
-                onFailure = { addError(it) }
-            )
+            onState<ReportState.Content> { state ->
+                if (state.cardios.size == 1)
+                    updateCardio.execute(UpdateCardio.Params(cardio = it.cardio.copy(type = "", minutes = "")))
+                else
+                    deleteCardio.execute(DeleteCardio.Params(it.cardio)).fold(
+                        onSuccess = {},
+                        onFailure = { addError(it) }
+                    )
+            }
         }
 
 
