@@ -4,7 +4,7 @@
 
     
     <application
-        android:name="com.example.fitness_routine.presentation.FitnessDiaryApplication"
+        android:name="nondas.pap.fitness_routine.presentation.FitnessDiaryApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         tools:targetApi="31">
         <activity
-            android:name="com.example.fitness_routine.presentation.MainActivity"
+            android:name="nondas.pap.fitness_routine.presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Fitnessroutine">
 

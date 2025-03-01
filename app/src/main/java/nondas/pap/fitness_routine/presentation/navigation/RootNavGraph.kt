@@ -18,12 +18,12 @@ import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
 import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
 import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
 import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
-import com.example.fitness_routine.presentation.ui.screen.notes.NotesScreen
 import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
 import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import com.example.fitness_routine.presentation.util.getCurrentDate
 import kotlinx.coroutines.delay
+import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesScreen
 
 
 const val ROOT_GRAPH_ROUTE = "root"

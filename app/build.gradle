@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace "com.example.fitness_routine"
+    namespace "nondas.pap.fitness_routine"
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.fitness_routine"
+        applicationId "nondas.pap.fitness_routine"
         minSdk 26
         targetSdk 34
         versionCode 1

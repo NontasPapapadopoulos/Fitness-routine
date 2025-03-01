@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.notes
+package nondas.pap.fitness_routine.presentation.ui.screen.notes
 
 import android.widget.Toast
 import androidx.compose.foundation.border
@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fitness_routine.domain.entity.NoteDomainEntity
 import com.example.fitness_routine.presentation.component.BackButton
 import com.example.fitness_routine.presentation.component.LoadingBox
+import com.example.fitness_routine.presentation.ui.screen.notes.NotesState
+import com.example.fitness_routine.presentation.ui.screen.notes.NotesViewModel
 import com.example.fitness_routine.presentation.ui.theme.AppTheme
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
 import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
@@ -68,6 +70,8 @@ fun NotesScreen(
         NotesState.Idle -> {
             LoadingBox()
         }
+
+        else -> {}
     }
 
 
