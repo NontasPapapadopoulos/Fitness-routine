@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:673481352767:android:98699749edf5c518a1ba8a",
         "android_client_info": {
-          "package_name": "com.example.fitness_routine"
+          "package_name": "nondas.pap.fitness_routine"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "673481352767-fcrhh1guggkf9u2ln0qvd9tvaai935t1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.fitness_routine",
+            "package_name": "nondas.pap.fitness_routine",
             "certificate_hash": "ea47186e811450b5e5ab34f30239688a3eaf1bd6"
           }
         },
