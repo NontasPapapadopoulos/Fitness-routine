@@ -1,29 +1,29 @@
-package com.example.fitness_routine.data.cache
+package nondas.pap.fitness_routine.data.cache
 
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.fitness_routine.data.cache.dao.BodyMeasurementDao
-import com.example.fitness_routine.data.cache.dao.CardioDao
-import com.example.fitness_routine.data.cache.dao.CheatMealDao
-import com.example.fitness_routine.data.cache.dao.DailyReportDao
-import com.example.fitness_routine.data.cache.dao.ExerciseDao
-import com.example.fitness_routine.data.cache.dao.NoteDao
-import com.example.fitness_routine.data.cache.dao.SetDao
-import com.example.fitness_routine.data.cache.dao.SettingsDao
-import com.example.fitness_routine.data.cache.dao.WorkoutDao
-import com.example.fitness_routine.data.entity.BodyMeasurementDataEntity
-import com.example.fitness_routine.data.entity.BreakDataEntity
-import com.example.fitness_routine.data.entity.CardioDataEntity
-import com.example.fitness_routine.data.entity.CheatMealDataEntity
-import com.example.fitness_routine.data.entity.DailyReportDataEntity
-import com.example.fitness_routine.data.entity.ExerciseDataEntity
-import com.example.fitness_routine.data.entity.NoteDataEntity
-import com.example.fitness_routine.data.entity.SetDataEntity
-import com.example.fitness_routine.data.entity.SettingsDataEntity
-import com.example.fitness_routine.data.entity.WorkoutDataEntity
-import com.example.fitness_routine.data.util.Converters
+import nondas.pap.fitness_routine.data.entity.BodyMeasurementDataEntity
+import nondas.pap.fitness_routine.data.entity.BreakDataEntity
+import nondas.pap.fitness_routine.data.entity.CardioDataEntity
+import nondas.pap.fitness_routine.data.entity.CheatMealDataEntity
+import nondas.pap.fitness_routine.data.entity.DailyReportDataEntity
+import nondas.pap.fitness_routine.data.entity.ExerciseDataEntity
+import nondas.pap.fitness_routine.data.entity.NoteDataEntity
+import nondas.pap.fitness_routine.data.entity.SetDataEntity
+import nondas.pap.fitness_routine.data.entity.SettingsDataEntity
+import nondas.pap.fitness_routine.data.entity.WorkoutDataEntity
+import nondas.pap.fitness_routine.data.util.Converters
+import nondas.pap.fitness_routine.data.cache.dao.BodyMeasurementDao
+import nondas.pap.fitness_routine.data.cache.dao.CardioDao
+import nondas.pap.fitness_routine.data.cache.dao.CheatMealDao
+import nondas.pap.fitness_routine.data.cache.dao.DailyReportDao
+import nondas.pap.fitness_routine.data.cache.dao.ExerciseDao
+import nondas.pap.fitness_routine.data.cache.dao.NoteDao
+import nondas.pap.fitness_routine.data.cache.dao.SetDao
+import nondas.pap.fitness_routine.data.cache.dao.SettingsDao
+import nondas.pap.fitness_routine.data.cache.dao.WorkoutDao
 
 
 @Database(

@@ -1,10 +1,10 @@
-package com.example.fitness_routine.data.repository
+package nondas.pap.fitness_routine.data.repository
 
-import com.example.fitness_routine.data.datasource.CheatMealDataSource
-import com.example.fitness_routine.data.mapper.toData
-import com.example.fitness_routine.data.mapper.toDomain
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.repository.CheatMealRepository
+import nondas.pap.fitness_routine.data.datasource.CheatMealDataSource
+import nondas.pap.fitness_routine.data.mapper.toData
+import nondas.pap.fitness_routine.data.mapper.toDomain
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.repository.CheatMealRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

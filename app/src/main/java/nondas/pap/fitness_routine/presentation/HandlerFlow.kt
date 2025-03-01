@@ -1,8 +1,8 @@
-package com.example.fitness_routine.presentation
+package nondas.pap.fitness_routine.presentation
 
 
 
-import com.example.fitness_routine.domain.SuspendUseCase
+import nondas.pap.fitness_routine.domain.SuspendUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 

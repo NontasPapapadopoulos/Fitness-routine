@@ -1,18 +1,18 @@
-package com.example.fitness_routine.presentation.ui.screen.report
+package nondas.pap.fitness_routine.presentation.ui.screen.report
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.cardio
-import com.example.fitness_routine.cheatMeal
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.note
-import com.example.fitness_routine.presentation.component.AppSurface
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.cardio
+import nondas.pap.fitness_routine.cheatMeal
+import nondas.pap.fitness_routine.dailyReport
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.note
+import nondas.pap.fitness_routine.presentation.component.AppSurface
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*

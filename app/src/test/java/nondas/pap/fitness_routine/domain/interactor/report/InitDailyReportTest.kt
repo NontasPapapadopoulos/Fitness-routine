@@ -1,6 +1,6 @@
-package com.example.fitness_routine.domain.interactor.report
+package nondas.pap.fitness_routine.domain.interactor.report
 
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
+import nondas.pap.fitness_routine.domain.repository.DailyRoutineRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

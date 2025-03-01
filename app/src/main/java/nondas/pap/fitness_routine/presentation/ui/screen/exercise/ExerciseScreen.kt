@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.exercise
+package nondas.pap.fitness_routine.presentation.ui.screen.exercise
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -48,19 +48,19 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.ADD_EXERCISE_BUTTON
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.DELETE_EXERCISE
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EDIT_EXERCISE
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EXERCISE_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
+import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.ADD_EXERCISE_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.DELETE_EXERCISE
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EDIT_EXERCISE
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.EXERCISE_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreenConstants.Companion.MUSCLE_GROUP_DROPDOWN_ITEM
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing6
 
 @Composable
 fun ExerciseScreen(

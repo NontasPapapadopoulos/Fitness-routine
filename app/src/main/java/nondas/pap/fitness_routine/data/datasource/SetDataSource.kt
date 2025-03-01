@@ -1,8 +1,8 @@
-package com.example.fitness_routine.data.datasource
+package nondas.pap.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.SetDao
-import com.example.fitness_routine.data.entity.SetDataEntity
+import nondas.pap.fitness_routine.data.entity.SetDataEntity
 import kotlinx.coroutines.flow.Flow
+import nondas.pap.fitness_routine.data.cache.dao.SetDao
 import javax.inject.Inject
 
 interface SetDataSource {

@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.analytics
+package nondas.pap.fitness_routine.presentation.ui.screen.analytics
 
 import android.widget.Space
 import android.widget.Toast
@@ -48,18 +48,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.domain.entity.CardioDomainEntity
-import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Cardio
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.component.MusclesTrained
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
-import com.example.fitness_routine.presentation.util.toFormattedDate
+import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
+import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Cardio
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.component.MusclesTrained
+import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date

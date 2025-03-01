@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain.repository
+package nondas.pap.fitness_routine.domain.repository
 
 interface AuthRepository {
 

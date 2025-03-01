@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.navigation
+package nondas.pap.fitness_routine.presentation.navigation
 
 enum class Screen {
     Splash,

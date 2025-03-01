@@ -1,11 +1,9 @@
-package com.example.fitness_routine.data.datasource
+package nondas.pap.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.WorkoutDao
-import com.example.fitness_routine.data.entity.WorkoutDataEntity
-import com.example.fitness_routine.data.entity.WorkoutWithSetsDataEntity
-import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutWithSetsDomainEntity
+import nondas.pap.fitness_routine.data.entity.WorkoutDataEntity
+import nondas.pap.fitness_routine.data.entity.WorkoutWithSetsDataEntity
 import kotlinx.coroutines.flow.Flow
+import nondas.pap.fitness_routine.data.cache.dao.WorkoutDao
 import javax.inject.Inject
 
 interface WorkoutDataSource {

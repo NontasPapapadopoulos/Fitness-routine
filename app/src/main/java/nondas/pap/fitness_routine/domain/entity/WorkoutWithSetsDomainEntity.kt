@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain.entity
+package nondas.pap.fitness_routine.domain.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

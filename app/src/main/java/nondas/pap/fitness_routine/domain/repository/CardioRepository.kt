@@ -1,6 +1,6 @@
-package com.example.fitness_routine.domain.repository
+package nondas.pap.fitness_routine.domain.repository
 
-import com.example.fitness_routine.domain.entity.CardioDomainEntity
+import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import kotlinx.coroutines.flow.Flow
 
 interface CardioRepository {

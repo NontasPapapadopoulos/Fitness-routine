@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.repository
+package nondas.pap.fitness_routine.domain.repository
 
-import com.example.fitness_routine.data.entity.ExerciseDataEntity
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.data.entity.ExerciseDataEntity
+import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {

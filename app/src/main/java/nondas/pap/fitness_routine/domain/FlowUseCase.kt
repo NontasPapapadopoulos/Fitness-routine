@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain
+package nondas.pap.fitness_routine.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.example.fitness_routine
+package nondas.pap.fitness_routine
 
 import org.junit.Test
 

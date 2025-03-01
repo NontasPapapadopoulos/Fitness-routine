@@ -1,14 +1,14 @@
-package com.example.fitness_routine.presentation.ui.screen.settings
+package nondas.pap.fitness_routine.presentation.ui.screen.settings
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.InlineClassesAnswer
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
-import com.example.fitness_routine.domain.interactor.settings.GetSettings
-import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
-import com.example.fitness_routine.presentation.ui.screen.onEvents
-import com.example.fitness_routine.settings
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.InlineClassesAnswer
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.interactor.settings.ChangeSettings
+import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
+import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
+import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
+import nondas.pap.fitness_routine.settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking

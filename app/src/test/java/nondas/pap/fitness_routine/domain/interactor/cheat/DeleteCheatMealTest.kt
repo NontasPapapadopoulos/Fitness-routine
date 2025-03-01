@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.interactor.cheat
+package nondas.pap.fitness_routine.domain.interactor.cheat
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.cheatMeal
-import com.example.fitness_routine.domain.repository.CheatMealRepository
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.cheatMeal
+import nondas.pap.fitness_routine.domain.repository.CheatMealRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

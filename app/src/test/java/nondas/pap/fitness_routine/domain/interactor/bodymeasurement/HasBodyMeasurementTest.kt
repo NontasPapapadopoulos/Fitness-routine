@@ -1,9 +1,9 @@
-package com.example.fitness_routine.domain.interactor.bodymeasurement
+package nondas.pap.fitness_routine.domain.interactor.bodymeasurement
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.domain.repository.BodyMeasurementRepository
-import com.example.fitness_routine.measurement
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.domain.repository.BodyMeasurementRepository
+import nondas.pap.fitness_routine.measurement
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf

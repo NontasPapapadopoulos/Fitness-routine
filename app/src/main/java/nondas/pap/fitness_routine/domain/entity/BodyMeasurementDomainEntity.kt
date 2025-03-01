@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain.entity
+package nondas.pap.fitness_routine.domain.entity
 
 data class BodyMeasurementDomainEntity(
     val id: String,

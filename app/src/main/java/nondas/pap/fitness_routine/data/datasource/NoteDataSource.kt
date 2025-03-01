@@ -1,8 +1,8 @@
-package com.example.fitness_routine.data.datasource
+package nondas.pap.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.NoteDao
-import com.example.fitness_routine.data.entity.NoteDataEntity
+import nondas.pap.fitness_routine.data.entity.NoteDataEntity
 import kotlinx.coroutines.flow.Flow
+import nondas.pap.fitness_routine.data.cache.dao.NoteDao
 import java.util.UUID
 import javax.inject.Inject
 

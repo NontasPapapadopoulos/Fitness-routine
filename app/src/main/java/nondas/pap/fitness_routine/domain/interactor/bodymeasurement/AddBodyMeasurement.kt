@@ -1,11 +1,11 @@
-package com.example.fitness_routine.domain.interactor.bodymeasurement
+package nondas.pap.fitness_routine.domain.interactor.bodymeasurement
 
 
-import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.domain.entity.CardioDomainEntity
-import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.BodyMeasurementRepository
+import nondas.pap.fitness_routine.domain.SuspendUseCase
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.repository.BodyMeasurementRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Date
 import java.util.UUID

@@ -1,12 +1,12 @@
-package com.example.fitness_routine.domain.interactor
+package nondas.pap.fitness_routine.domain.interactor
 
-import com.example.fitness_routine.domain.FlowUseCase
+import nondas.pap.fitness_routine.domain.FlowUseCase
 
-import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
-import com.example.fitness_routine.domain.toMuscles
-import com.example.fitness_routine.domain.toTimeStamp
+import nondas.pap.fitness_routine.domain.entity.WorkoutDomainEntity
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.repository.DailyRoutineRepository
+import nondas.pap.fitness_routine.domain.toMuscles
+import nondas.pap.fitness_routine.domain.toTimeStamp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

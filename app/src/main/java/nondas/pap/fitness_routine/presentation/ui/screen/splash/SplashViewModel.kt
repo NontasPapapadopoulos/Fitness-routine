@@ -1,8 +1,8 @@
-package com.example.fitness_routine.presentation.ui.screen.splash
+package nondas.pap.fitness_routine.presentation.ui.screen.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.interactor.settings.InitSettings
+import nondas.pap.fitness_routine.domain.interactor.settings.InitSettings
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

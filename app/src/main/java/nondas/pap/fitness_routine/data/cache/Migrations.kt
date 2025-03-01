@@ -1,4 +1,4 @@
-package com.example.fitness_routine.data.cache
+package nondas.pap.fitness_routine.data.cache
 
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration

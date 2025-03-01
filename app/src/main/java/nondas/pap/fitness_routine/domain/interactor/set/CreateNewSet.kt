@@ -1,11 +1,11 @@
-package com.example.fitness_routine.domain.interactor.set
+package nondas.pap.fitness_routine.domain.interactor.set
 
 
-import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.SetRepository
+import nondas.pap.fitness_routine.domain.SuspendUseCase
+import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.repository.SetRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import java.util.UUID
 import javax.inject.Inject

@@ -1,15 +1,15 @@
-package com.example.fitness_routine.presentation.ui.screen.analytics
+package nondas.pap.fitness_routine.presentation.ui.screen.analytics
 
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.CardioDomainEntity
-import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.entity.WorkoutDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.interactor.cardio.GetAllCardios
-import com.example.fitness_routine.domain.interactor.set.GetAllSets
-import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.util.toDate
-import com.example.fitness_routine.presentation.util.toTimeStamp
+import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
+import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
+import nondas.pap.fitness_routine.domain.entity.WorkoutDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.interactor.cardio.GetAllCardios
+import nondas.pap.fitness_routine.domain.interactor.set.GetAllSets
+import nondas.pap.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.presentation.util.toDate
+import nondas.pap.fitness_routine.presentation.util.toTimeStamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

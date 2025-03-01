@@ -1,11 +1,11 @@
-package com.example.fitness_routine.presentation.ui.screen.cheat
+package nondas.pap.fitness_routine.presentation.ui.screen.cheat
 
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.interactor.bodymeasurement.GetAllBodyMeasurements
-import com.example.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
-import com.example.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.GetAllBodyMeasurements
+import nondas.pap.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
+import nondas.pap.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

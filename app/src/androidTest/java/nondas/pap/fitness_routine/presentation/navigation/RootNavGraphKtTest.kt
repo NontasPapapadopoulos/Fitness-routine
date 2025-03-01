@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.navigation
+package nondas.pap.fitness_routine.presentation.navigation
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,8 +11,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.example.fitness_routine.presentation.HiltComponentActivity
-import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
+import nondas.pap.fitness_routine.presentation.HiltComponentActivity
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

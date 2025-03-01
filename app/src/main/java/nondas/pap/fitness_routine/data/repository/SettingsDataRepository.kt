@@ -1,11 +1,11 @@
-package com.example.fitness_routine.data.repository
+package nondas.pap.fitness_routine.data.repository
 
-import com.example.fitness_routine.data.datasource.SettingsDataSource
-import com.example.fitness_routine.data.mapper.toData
-import com.example.fitness_routine.data.mapper.toDomain
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.repository.SettingsRepository
+import nondas.pap.fitness_routine.data.datasource.SettingsDataSource
+import nondas.pap.fitness_routine.data.mapper.toData
+import nondas.pap.fitness_routine.data.mapper.toDomain
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

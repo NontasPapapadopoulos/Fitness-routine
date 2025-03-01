@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.navigation
+package nondas.pap.fitness_routine.presentation.navigation
 
 import android.provider.Settings
 import androidx.compose.runtime.Composable
@@ -10,18 +10,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.fitness_routine.presentation.ui.screen.analytics.AnalyticsScreen
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
-import com.example.fitness_routine.presentation.ui.screen.splash.SplashScreen
-import com.example.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
-import com.example.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
-import com.example.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
-import com.example.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
-import com.example.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreen
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
-import com.example.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
-import com.example.fitness_routine.presentation.util.getCurrentDate
+import nondas.pap.fitness_routine.presentation.ui.screen.analytics.AnalyticsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.splash.SplashScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.exercise.ExerciseScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.gym.GymSessionsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.measurements.MeasurementsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
+import nondas.pap.fitness_routine.presentation.util.getCurrentDate
 import kotlinx.coroutines.delay
 import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesScreen
 

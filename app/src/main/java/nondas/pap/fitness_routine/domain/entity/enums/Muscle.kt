@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain.entity.enums
+package nondas.pap.fitness_routine.domain.entity.enums
 
 enum class Muscle {
     Chest,

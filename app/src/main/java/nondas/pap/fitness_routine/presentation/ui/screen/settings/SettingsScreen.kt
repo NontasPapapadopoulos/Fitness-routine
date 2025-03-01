@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.settings
+package nondas.pap.fitness_routine.presentation.ui.screen.settings
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -35,19 +35,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.BREAK_DURATION_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.CHOICE_RADIO_BUTTON
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.DARK_MODE_SWITCH
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
-import com.example.fitness_routine.presentation.util.getColor
-import com.example.fitness_routine.presentation.util.getIcon
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.BREAK_DURATION_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.CHOICE_RADIO_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreenConstants.Companion.DARK_MODE_SWITCH
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.util.getColor
+import nondas.pap.fitness_routine.presentation.util.getIcon
 
 
 @Composable

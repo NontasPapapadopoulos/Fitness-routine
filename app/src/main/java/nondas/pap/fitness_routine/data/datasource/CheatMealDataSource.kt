@@ -1,11 +1,8 @@
-package com.example.fitness_routine.data.datasource
+package nondas.pap.fitness_routine.data.datasource
 
-import com.example.fitness_routine.data.cache.dao.CardioDao
-import com.example.fitness_routine.data.cache.dao.CheatMealDao
-import com.example.fitness_routine.data.entity.CardioDataEntity
-import com.example.fitness_routine.data.entity.CheatMealDataEntity
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.data.entity.CheatMealDataEntity
 import kotlinx.coroutines.flow.Flow
+import nondas.pap.fitness_routine.data.cache.dao.CheatMealDao
 import java.util.UUID
 import javax.inject.Inject
 

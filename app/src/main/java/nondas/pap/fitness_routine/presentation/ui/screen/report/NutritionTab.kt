@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.report
+package nondas.pap.fitness_routine.presentation.ui.screen.report
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,21 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.presentation.component.Input
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.PROTEIN_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
-import com.example.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing1
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.util.asTextFieldValue
-import com.example.fitness_routine.presentation.util.getIcon
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.presentation.component.Input
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.PROTEIN_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing1
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.util.asTextFieldValue
+import nondas.pap.fitness_routine.presentation.util.getIcon
 import java.util.Date
 
 

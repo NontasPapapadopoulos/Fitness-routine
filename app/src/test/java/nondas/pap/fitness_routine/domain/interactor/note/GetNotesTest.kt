@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.interactor.note
+package nondas.pap.fitness_routine.domain.interactor.note
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.domain.repository.NoteRepository
-import com.example.fitness_routine.note
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.domain.repository.NoteRepository
+import nondas.pap.fitness_routine.note
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf

@@ -1,15 +1,15 @@
-package com.example.fitness_routine.presentation.ui.screen.exercise
+package nondas.pap.fitness_routine.presentation.ui.screen.exercise
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.interactor.exercise.AddExercise
-import com.example.fitness_routine.domain.interactor.exercise.DeleteExercise
-import com.example.fitness_routine.domain.interactor.exercise.EditExercise
-import com.example.fitness_routine.domain.interactor.exercise.GetExercises
-import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.navigation.NavigationArgument
+import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.interactor.exercise.AddExercise
+import nondas.pap.fitness_routine.domain.interactor.exercise.DeleteExercise
+import nondas.pap.fitness_routine.domain.interactor.exercise.EditExercise
+import nondas.pap.fitness_routine.domain.interactor.exercise.GetExercises
+import nondas.pap.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

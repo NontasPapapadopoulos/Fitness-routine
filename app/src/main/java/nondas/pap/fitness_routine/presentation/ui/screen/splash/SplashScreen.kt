@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.splash
+package nondas.pap.fitness_routine.presentation.ui.screen.splash
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,11 +21,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSize10
-import com.example.fitness_routine.presentation.ui.theme.contentSize25
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSize10
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSize25
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
 
 @Composable

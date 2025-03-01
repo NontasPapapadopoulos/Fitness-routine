@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.sidemenu
+package nondas.pap.fitness_routine.presentation.ui.screen.sidemenu
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

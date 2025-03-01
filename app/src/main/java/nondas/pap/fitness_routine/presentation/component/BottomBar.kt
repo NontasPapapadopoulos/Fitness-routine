@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.component
+package nondas.pap.fitness_routine.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,12 +24,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.presentation.navigation.Screen
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
-import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
+import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
 fun BottomBar(

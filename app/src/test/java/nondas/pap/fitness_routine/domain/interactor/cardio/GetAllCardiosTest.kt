@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.interactor.cardio
+package nondas.pap.fitness_routine.domain.interactor.cardio
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.cardio
-import com.example.fitness_routine.domain.repository.CardioRepository
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.cardio
+import nondas.pap.fitness_routine.domain.repository.CardioRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf

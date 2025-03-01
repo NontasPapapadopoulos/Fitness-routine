@@ -1,13 +1,13 @@
-package com.example.fitness_routine.presentation.ui.screen.cheat
+package nondas.pap.fitness_routine.presentation.ui.screen.cheat
 
 
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.interactor.bodymeasurement.GetAllBodyMeasurements
-import com.example.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
-import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
-import com.example.fitness_routine.presentation.ui.screen.onEvents
-import com.example.fitness_routine.presentation.util.toTimeStamp
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.GetAllBodyMeasurements
+import nondas.pap.fitness_routine.domain.interactor.cheat.GetAllCheatMeals
+import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
+import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
+import nondas.pap.fitness_routine.presentation.util.toTimeStamp
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

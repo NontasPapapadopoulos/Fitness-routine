@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.component
+package nondas.pap.fitness_routine.presentation.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

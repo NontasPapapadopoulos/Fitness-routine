@@ -1,14 +1,14 @@
-package com.example.fitness_routine.presentation.ui.screen.bodymeasurement
+package nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.domain.interactor.bodymeasurement.AddBodyMeasurement
-import com.example.fitness_routine.domain.interactor.bodymeasurement.GetBodyMeasurement
-import com.example.fitness_routine.domain.interactor.bodymeasurement.HasBodyMeasurement
-import com.example.fitness_routine.domain.interactor.bodymeasurement.UpdateBodyMeasurement
-import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.navigation.NavigationArgument
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.AddBodyMeasurement
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.GetBodyMeasurement
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.HasBodyMeasurement
+import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.UpdateBodyMeasurement
+import nondas.pap.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

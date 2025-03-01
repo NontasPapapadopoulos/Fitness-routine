@@ -1,10 +1,10 @@
-package com.example.fitness_routine.data.repository
+package nondas.pap.fitness_routine.data.repository
 
-import com.example.fitness_routine.data.datasource.DailyRoutineDataSource
-import com.example.fitness_routine.data.mapper.toData
-import com.example.fitness_routine.data.mapper.toDomain
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
+import nondas.pap.fitness_routine.data.datasource.DailyRoutineDataSource
+import nondas.pap.fitness_routine.data.mapper.toData
+import nondas.pap.fitness_routine.data.mapper.toDomain
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.repository.DailyRoutineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date

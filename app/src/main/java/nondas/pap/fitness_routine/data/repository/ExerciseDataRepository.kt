@@ -1,12 +1,12 @@
-package com.example.fitness_routine.data.repository
+package nondas.pap.fitness_routine.data.repository
 
 import androidx.datastore.dataStore
-import com.example.fitness_routine.data.datasource.ExerciseDataSource
-import com.example.fitness_routine.data.mapper.toData
-import com.example.fitness_routine.data.mapper.toDomain
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.domain.repository.ExerciseRepository
+import nondas.pap.fitness_routine.data.datasource.ExerciseDataSource
+import nondas.pap.fitness_routine.data.mapper.toData
+import nondas.pap.fitness_routine.data.mapper.toDomain
+import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.repository.ExerciseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

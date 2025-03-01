@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.measurements
+package nondas.pap.fitness_routine.presentation.ui.screen.measurements
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -32,15 +32,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
-import com.example.fitness_routine.presentation.util.toFormattedDate
-import com.example.fitness_routine.presentation.util.toTimeStamp
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing6
+import nondas.pap.fitness_routine.presentation.util.toFormattedDate
+import nondas.pap.fitness_routine.presentation.util.toTimeStamp
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date

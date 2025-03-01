@@ -1,13 +1,13 @@
-package com.example.fitness_routine.presentation.ui.screen.settings
+package nondas.pap.fitness_routine.presentation.ui.screen.settings
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.presentation.component.AppSurface
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.presentation.component.AppSurface
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*

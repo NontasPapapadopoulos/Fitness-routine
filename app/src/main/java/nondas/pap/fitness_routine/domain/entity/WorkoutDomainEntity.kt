@@ -1,6 +1,6 @@
-package com.example.fitness_routine.domain.entity
+package nondas.pap.fitness_routine.domain.entity
 
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import java.util.Date
 
 data class WorkoutDomainEntity(

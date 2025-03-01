@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.bodymeasurement
+package nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -22,23 +22,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.domain.entity.BodyMeasurementDomainEntity
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.Input
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMI_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMR_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.FAT_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.METABOLIC_AGE_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.MUSCLE_MASS_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.TBW_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.VISCERAL_FAT_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.WEIGHT_TEXT_FIELD
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing1
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing6
-import com.example.fitness_routine.presentation.util.getCurrentDate
-import com.example.fitness_routine.presentation.util.toFormattedDate
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.Input
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMI_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMR_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.FAT_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.METABOLIC_AGE_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.MUSCLE_MASS_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.TBW_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.VISCERAL_FAT_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.WEIGHT_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing1
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing6
+import nondas.pap.fitness_routine.presentation.util.getCurrentDate
+import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 
 
 @Composable

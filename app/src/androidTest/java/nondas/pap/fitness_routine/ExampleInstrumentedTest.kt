@@ -1,4 +1,4 @@
-package com.example.fitness_routine
+package nondas.pap.fitness_routine
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

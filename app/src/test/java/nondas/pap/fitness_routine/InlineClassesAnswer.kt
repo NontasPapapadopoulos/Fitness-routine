@@ -1,4 +1,4 @@
-package com.example.fitness_routine
+package nondas.pap.fitness_routine
 
 import org.mockito.internal.util.KotlinInlineClassUtil
 import org.mockito.invocation.InvocationOnMock

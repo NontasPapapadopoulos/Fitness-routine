@@ -1,7 +1,7 @@
-package com.example.fitness_routine.domain.repository
+package nondas.pap.fitness_routine.domain.repository
 
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {

@@ -1,10 +1,10 @@
-package com.example.fitness_routine.domain.interactor.settings
+package nondas.pap.fitness_routine.domain.interactor.settings
 
-import com.example.fitness_routine.domain.FlowUseCase
-import com.example.fitness_routine.domain.SuspendUseCase
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.SettingsRepository
+import nondas.pap.fitness_routine.domain.FlowUseCase
+import nondas.pap.fitness_routine.domain.SuspendUseCase
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull

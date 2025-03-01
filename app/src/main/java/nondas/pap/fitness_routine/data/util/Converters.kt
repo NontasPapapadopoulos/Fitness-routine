@@ -1,7 +1,7 @@
-package com.example.fitness_routine.data.util
+package nondas.pap.fitness_routine.data.util
 
 import androidx.room.TypeConverter
-import com.example.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 
 class Converters {
     @TypeConverter

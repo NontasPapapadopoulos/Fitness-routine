@@ -1,12 +1,12 @@
-package com.example.fitness_routine.data.mapper
+package nondas.pap.fitness_routine.data.mapper
 
-import com.example.fitness_routine.data.util.convertToString
-import com.example.fitness_routine.data.entity.DailyReportDataEntity
-import com.example.fitness_routine.data.util.toDate
-import com.example.fitness_routine.data.util.toList
-import com.example.fitness_routine.data.util.toTimeStamp
+import nondas.pap.fitness_routine.data.util.convertToString
+import nondas.pap.fitness_routine.data.entity.DailyReportDataEntity
+import nondas.pap.fitness_routine.data.util.toDate
+import nondas.pap.fitness_routine.data.util.toList
+import nondas.pap.fitness_routine.data.util.toTimeStamp
 
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 
 
 fun DailyReportDataEntity.toDomain(): DailyReportDomainEntity = DailyReportDomainEntity(

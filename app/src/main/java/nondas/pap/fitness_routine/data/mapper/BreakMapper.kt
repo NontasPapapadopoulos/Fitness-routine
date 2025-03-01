@@ -1,7 +1,7 @@
-package com.example.fitness_routine.data.mapper
+package nondas.pap.fitness_routine.data.mapper
 
-import com.example.fitness_routine.data.entity.BreakDataEntity
-import com.example.fitness_routine.domain.entity.BreakDomainEntity
+import nondas.pap.fitness_routine.data.entity.BreakDataEntity
+import nondas.pap.fitness_routine.domain.entity.BreakDomainEntity
 
 
 fun BreakDataEntity.toDomain(): BreakDomainEntity = BreakDomainEntity(

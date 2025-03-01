@@ -1,11 +1,11 @@
-package com.example.fitness_routine.presentation.ui.screen.settings
+package nondas.pap.fitness_routine.presentation.ui.screen.settings
 
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.interactor.settings.ChangeSettings
-import com.example.fitness_routine.domain.interactor.settings.GetSettings
-import com.example.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.interactor.settings.ChangeSettings
+import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
+import nondas.pap.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

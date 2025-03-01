@@ -1,4 +1,4 @@
-package com.example.fitness_routine.data.cache.dao
+package nondas.pap.fitness_routine.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -7,9 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.example.fitness_routine.data.entity.SetDataEntity
-import com.example.fitness_routine.data.entity.WorkoutDataEntity
-import com.example.fitness_routine.data.entity.WorkoutWithSetsDataEntity
+import nondas.pap.fitness_routine.data.entity.SetDataEntity
+import nondas.pap.fitness_routine.data.entity.WorkoutDataEntity
+import nondas.pap.fitness_routine.data.entity.WorkoutWithSetsDataEntity
 import kotlinx.coroutines.flow.Flow
 
 

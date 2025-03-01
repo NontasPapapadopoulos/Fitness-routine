@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.workout
+package nondas.pap.fitness_routine.presentation.ui.screen.workout
 
 import org.junit.Assert.*
 

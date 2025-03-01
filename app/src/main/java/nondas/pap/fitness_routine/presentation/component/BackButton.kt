@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.component
+package nondas.pap.fitness_routine.presentation.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack

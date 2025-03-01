@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation
+package nondas.pap.fitness_routine.presentation
 
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.fitness_routine.presentation.navigation.RootNavGraph
+import nondas.pap.fitness_routine.presentation.navigation.RootNavGraph
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 

@@ -1,7 +1,7 @@
-package com.example.fitness_routine.presentation.ui.icons
+package nondas.pap.fitness_routine.presentation.ui.icons
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import kotlin.collections.List as ____KtList
 
 public object FitnessDiary

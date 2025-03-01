@@ -1,14 +1,14 @@
-package com.example.fitness_routine.domain.interactor.set
+package nondas.pap.fitness_routine.domain.interactor.set
 
-import com.example.fitness_routine.domain.FlowUseCase
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.ExerciseDomainEntity
-import com.example.fitness_routine.domain.entity.SetDomainEntity
-import com.example.fitness_routine.domain.executor.IoDispatcher
-import com.example.fitness_routine.domain.repository.DailyRoutineRepository
-import com.example.fitness_routine.domain.repository.ExerciseRepository
-import com.example.fitness_routine.domain.repository.SetRepository
+import nondas.pap.fitness_routine.domain.FlowUseCase
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
+import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.repository.DailyRoutineRepository
+import nondas.pap.fitness_routine.domain.repository.ExerciseRepository
+import nondas.pap.fitness_routine.domain.repository.SetRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter

@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.workout
+package nondas.pap.fitness_routine.presentation.ui.screen.workout
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -6,18 +6,18 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.entity.SettingsDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.exercise
-import com.example.fitness_routine.presentation.component.AppSurface
-import com.example.fitness_routine.presentation.ui.screen.report.ReportState
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsScreen
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsState
-import com.example.fitness_routine.presentation.ui.screen.settings.SettingsViewModel
-import com.example.fitness_routine.set
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.dailyReport
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.exercise
+import nondas.pap.fitness_routine.presentation.component.AppSurface
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportState
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsState
+import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsViewModel
+import nondas.pap.fitness_routine.set
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*

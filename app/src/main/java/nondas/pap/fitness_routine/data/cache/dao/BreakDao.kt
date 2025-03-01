@@ -1,8 +1,8 @@
-package com.example.fitness_routine.data.cache.dao
+package nondas.pap.fitness_routine.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.example.fitness_routine.data.entity.BreakDataEntity
+import nondas.pap.fitness_routine.data.entity.BreakDataEntity
 import kotlinx.coroutines.flow.Flow
 
 

@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.util
+package nondas.pap.fitness_routine.presentation.util
 
 import android.graphics.drawable.VectorDrawable
 import androidx.compose.material.icons.Icons
@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import com.example.fitness_routine.R
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.entity.enums.Muscle
-import com.example.fitness_routine.presentation.ui.icons.FitnessDiary
-import com.example.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import nondas.pap.fitness_routine.R
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
+import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import kotlinx.coroutines.selects.select
 import java.text.SimpleDateFormat
 import java.util.Date

@@ -1,17 +1,17 @@
-package com.example.fitness_routine.presentation.ui.screen.calendar
+package nondas.pap.fitness_routine.presentation.ui.screen.calendar
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.interactor.report.GetDailyReports
-import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
-import com.example.fitness_routine.domain.interactor.settings.GetSettings
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.dailyReport
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReports
+import nondas.pap.fitness_routine.domain.interactor.settings.ChangeChoice
+import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
 
-import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
-import com.example.fitness_routine.presentation.ui.screen.onEvents
-import com.example.fitness_routine.presentation.util.getDate
-import com.example.fitness_routine.settings
+import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
+import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
+import nondas.pap.fitness_routine.presentation.util.getDate
+import nondas.pap.fitness_routine.settings
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

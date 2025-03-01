@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen
+package nondas.pap.fitness_routine.presentation.ui.screen
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

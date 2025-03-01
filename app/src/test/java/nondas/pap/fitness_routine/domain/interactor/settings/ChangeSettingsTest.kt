@@ -1,8 +1,8 @@
-package com.example.fitness_routine.domain.interactor.settings
+package nondas.pap.fitness_routine.domain.interactor.settings
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.domain.repository.SettingsRepository
-import com.example.fitness_routine.settings
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.domain.repository.SettingsRepository
+import nondas.pap.fitness_routine.settings
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

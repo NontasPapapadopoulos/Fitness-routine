@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation
+package nondas.pap.fitness_routine.presentation
 
 import android.app.Application
 import androidx.activity.ComponentActivity

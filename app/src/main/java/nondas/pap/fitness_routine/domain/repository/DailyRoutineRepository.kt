@@ -1,6 +1,6 @@
-package com.example.fitness_routine.domain.repository
+package nondas.pap.fitness_routine.domain.repository
 
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 

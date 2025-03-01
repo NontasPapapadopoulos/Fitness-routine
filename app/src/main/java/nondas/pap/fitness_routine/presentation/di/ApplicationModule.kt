@@ -1,8 +1,8 @@
-package com.example.fitness_routine.presentation.di
+package nondas.pap.fitness_routine.presentation.di
 
 import android.app.Application
 import android.content.Context
-import com.example.fitness_routine.domain.executor.IoDispatcher
+import nondas.pap.fitness_routine.domain.executor.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

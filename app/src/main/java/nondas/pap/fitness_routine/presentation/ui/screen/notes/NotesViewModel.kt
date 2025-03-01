@@ -1,9 +1,9 @@
-package com.example.fitness_routine.presentation.ui.screen.notes
+package nondas.pap.fitness_routine.presentation.ui.screen.notes
 
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.NoteDomainEntity
-import com.example.fitness_routine.domain.interactor.note.GetAllNotes
-import com.example.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
+import nondas.pap.fitness_routine.domain.interactor.note.GetAllNotes
+import nondas.pap.fitness_routine.presentation.BlocViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

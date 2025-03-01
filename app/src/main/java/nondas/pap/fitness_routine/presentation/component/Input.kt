@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.component
+package nondas.pap.fitness_routine.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,7 @@ import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.core.text.isDigitsOnly
-import com.example.fitness_routine.presentation.util.asTextFieldValue
+import nondas.pap.fitness_routine.presentation.util.asTextFieldValue
 
 @Composable
 fun Input(

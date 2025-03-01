@@ -1,16 +1,16 @@
-package com.example.fitness_routine.presentation.ui.screen.calendar
+package nondas.pap.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.lifecycle.viewModelScope
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.domain.interactor.report.GetDailyReports
-import com.example.fitness_routine.domain.interactor.settings.ChangeChoice
-import com.example.fitness_routine.domain.interactor.settings.GetSettings
-import com.example.fitness_routine.presentation.BlocViewModel
-import com.example.fitness_routine.presentation.Handler
-import com.example.fitness_routine.presentation.flatMapMergeWith
-import com.example.fitness_routine.presentation.toResult
-import com.example.fitness_routine.presentation.util.getDate
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReports
+import nondas.pap.fitness_routine.domain.interactor.settings.ChangeChoice
+import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
+import nondas.pap.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.presentation.Handler
+import nondas.pap.fitness_routine.presentation.flatMapMergeWith
+import nondas.pap.fitness_routine.presentation.toResult
+import nondas.pap.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

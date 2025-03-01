@@ -1,13 +1,13 @@
-package com.example.fitness_routine.presentation.ui.screen.calendar
+package nondas.pap.fitness_routine.presentation.ui.screen.calendar
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.presentation.component.AppSurface
-import com.example.fitness_routine.presentation.util.toTimeStamp
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.presentation.component.AppSurface
+import nondas.pap.fitness_routine.presentation.util.toTimeStamp
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*

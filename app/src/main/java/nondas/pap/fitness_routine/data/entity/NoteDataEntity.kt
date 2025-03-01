@@ -1,4 +1,4 @@
-package com.example.fitness_routine.data.entity
+package nondas.pap.fitness_routine.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

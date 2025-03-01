@@ -1,7 +1,7 @@
-package com.example.fitness_routine.data.mapper
+package nondas.pap.fitness_routine.data.mapper
 
-import com.example.fitness_routine.data.entity.SetDataEntity
-import com.example.fitness_routine.domain.entity.SetDomainEntity
+import nondas.pap.fitness_routine.data.entity.SetDataEntity
+import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
 
 
 fun SetDomainEntity.toData(): SetDataEntity = SetDataEntity(

@@ -1,15 +1,15 @@
-package com.example.fitness_routine.presentation.ui.screen.gym
+package nondas.pap.fitness_routine.presentation.ui.screen.gym
 
-import com.example.fitness_routine.DummyEntities
-import com.example.fitness_routine.dailyReport
-import com.example.fitness_routine.domain.entity.NoteDomainEntity
-import com.example.fitness_routine.domain.interactor.note.GetAllNotes
-import com.example.fitness_routine.domain.interactor.report.GetDailyReports
-import com.example.fitness_routine.note
-import com.example.fitness_routine.presentation.ui.screen.MainDispatcherRule
-import com.example.fitness_routine.presentation.ui.screen.notes.NotesState
-import com.example.fitness_routine.presentation.ui.screen.notes.NotesViewModel
-import com.example.fitness_routine.presentation.ui.screen.onEvents
+import nondas.pap.fitness_routine.DummyEntities
+import nondas.pap.fitness_routine.dailyReport
+import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
+import nondas.pap.fitness_routine.domain.interactor.note.GetAllNotes
+import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReports
+import nondas.pap.fitness_routine.note
+import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
+import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesState
+import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesViewModel
+import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

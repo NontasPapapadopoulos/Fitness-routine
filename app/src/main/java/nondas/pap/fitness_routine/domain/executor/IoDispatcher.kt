@@ -1,4 +1,4 @@
-package com.example.fitness_routine.domain.executor
+package nondas.pap.fitness_routine.domain.executor
 
 import javax.inject.Qualifier
 

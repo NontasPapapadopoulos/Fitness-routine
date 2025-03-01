@@ -1,6 +1,6 @@
-package com.example.fitness_routine.presentation.ui.screen
+package nondas.pap.fitness_routine.presentation.ui.screen
 
-import com.example.fitness_routine.presentation.BlocViewModel
+import nondas.pap.fitness_routine.presentation.BlocViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope

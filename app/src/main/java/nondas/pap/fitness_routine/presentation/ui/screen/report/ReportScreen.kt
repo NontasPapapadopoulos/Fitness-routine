@@ -1,4 +1,4 @@
-package com.example.fitness_routine.presentation.ui.screen.report
+package nondas.pap.fitness_routine.presentation.ui.screen.report
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -43,20 +43,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.fitness_routine.R
-import com.example.fitness_routine.domain.entity.CardioDomainEntity
-import com.example.fitness_routine.domain.entity.CheatMealDomainEntity
-import com.example.fitness_routine.domain.entity.DailyReportDomainEntity
-import com.example.fitness_routine.domain.entity.NoteDomainEntity
-import com.example.fitness_routine.domain.entity.enums.Cardio
-import com.example.fitness_routine.domain.entity.enums.Choice
-import com.example.fitness_routine.presentation.component.BackButton
-import com.example.fitness_routine.presentation.component.LoadingBox
-import com.example.fitness_routine.presentation.ui.theme.AppTheme
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing2
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing3
-import com.example.fitness_routine.presentation.ui.theme.contentSpacing4
-import com.example.fitness_routine.presentation.util.toFormattedDate
+import nondas.pap.fitness_routine.R
+import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
+import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
+import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
+import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Cardio
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.presentation.component.BackButton
+import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
+import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 import java.util.Date
 import java.util.UUID
 
