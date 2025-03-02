@@ -44,6 +44,7 @@ import nondas.pap.fitness_routine.domain.repository.BodyMeasurementRepository
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.component.MusclesTrained
 import nondas.pap.fitness_routine.presentation.navigation.Screen
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
@@ -83,7 +84,8 @@ fun GymSessionsScreen(
                 content = state,
                 navigateToScreen = navigateToScreen,
                 navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                onSelectMuscles = { viewModel.add(GymSessionsEvent.SelectMuscle(it)) }
             )
         }
         GymSessionsState.Idle -> {
@@ -101,7 +103,8 @@ private fun GymSessionsContent(
     content: GymSessionsState.Content,
     navigateToScreen: (Screen) -> Unit,
     navigateToWorkoutScreen: (Long) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onSelectMuscles: (Muscle) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -129,8 +132,20 @@ private fun GymSessionsContent(
 
         ) {
 
+            MusclesTrained(
+                onSelectMuscle = onSelectMuscles,
+                selectedMuscles = content.selectedMuscles,
+                testTag = GymSessionsScreenConstants.MUSCLE_ITEM
+            )
+
+            Spacer(modifier = Modifier.height(contentSpacing4))
+
+
+            val sessions = if (content.selectedMuscles.isEmpty()) content.workoutSessions
+            else content.workoutSessions.filter { it.report.musclesTrained.containsAll(content.selectedMuscles) }
+
             SessionsContainer(
-                content.workoutSessions,
+                sessions = sessions,
                 navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
             )
 
@@ -202,7 +217,7 @@ private fun SessionItem(
 
         Spacer(modifier = Modifier.width(contentSpacing4))
         Column {
-            val musclesTrained = if (session.report.musclesTrained.filter { it.isNotBlank() }.isNotEmpty()) " - " + session.report.musclesTrained.joinToString() else ""
+            val musclesTrained = if (session.report.musclesTrained.isNotEmpty()) " - " + session.report.musclesTrained.joinToString() else ""
             Text(
                 text = "${session.report.date.toFormattedDate()} $musclesTrained",
             )
@@ -267,11 +282,13 @@ private fun GymSessionsContentPreview() {
     AppTheme {
         GymSessionsContent(
             content = GymSessionsState.Content(
-                workoutSessions = workoutSessions()
+                workoutSessions = workoutSessions(),
+                selectedMuscles = listOf(Muscle.Chest, Muscle.Biceps)
             ),
             navigateToScreen = {},
             navigateToWorkoutScreen = {},
-            navigateBack = {}
+            navigateBack = {},
+            onSelectMuscles = {}
         )
     }
 
@@ -287,7 +304,7 @@ private fun workoutSessions(): List<WorkoutSession> {
                 hadCheatMeal = if (it > 2) true else false,
                 hadCreatine = true,
                 litersOfWater = "2.5",
-                musclesTrained = if (it == 4) listOf() else listOf(Muscle.Legs.name),
+                musclesTrained = if (it == 4) listOf() else listOf(Muscle.Legs),
                 sleepQuality = "4",
                 proteinGrams = "120",
                 date = date,
@@ -320,10 +337,17 @@ private fun generateReports(): List<DailyReportDomainEntity> {
             hadCheatMeal = if (it > 2) true else false,
             hadCreatine = true,
             litersOfWater = "2.5",
-            musclesTrained = if (it == 1) listOf() else listOf(Muscle.Legs.name),
+            musclesTrained = if (it == 1) listOf() else listOf(Muscle.Legs),
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,
         )
+    }
+}
+
+
+class GymSessionsScreenConstants private constructor() {
+    companion object {
+        const val MUSCLE_ITEM = "muscle_item_"
     }
 }

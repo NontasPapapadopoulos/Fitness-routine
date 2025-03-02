@@ -42,7 +42,7 @@ open class CalendarViewModel @Inject constructor(
         .map { Choice.valueOf(it.choice) }
 
     override val _uiState: StateFlow<CalendarState> = combine(
-        dailyReportsFlow,//.onStart { emit(listOf()) },
+        dailyReportsFlow.onStart { emit(listOf()) },
         currentDateFlow.onStart { emit(getDate()) },
         choiceFlow.onStart { emit(Choice.Workout) }
     ) { reports, currentDate, choice ->

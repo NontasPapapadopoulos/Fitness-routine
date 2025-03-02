@@ -19,8 +19,8 @@ import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MusclesTrained(
-    onSelectMuscle: (String) -> Unit,
-    selectedMuscles: List<String>,
+    onSelectMuscle: (Muscle) -> Unit,
+    selectedMuscles: List<Muscle>,
     testTag: String
 ) {
 
@@ -29,8 +29,8 @@ fun MusclesTrained(
         Muscle.entries.forEach {
             Muscle(
                 muscle = it,
-                isSelected = selectedMuscles.contains(it.name),
-                select = { onSelectMuscle(it.name) },
+                isSelected = selectedMuscles.contains(it),
+                select = { onSelectMuscle(it) },
                 testTag = testTag
             )
         }

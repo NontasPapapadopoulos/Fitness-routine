@@ -4,9 +4,8 @@ enum class Muscle {
     Chest,
     Back,
     Shoulders,
-    Legs,
     Biceps,
     Triceps,
-    Abs,
-    Glutes,
+    Legs,
+    Core,
 }

@@ -40,6 +40,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import nondas.pap.fitness_routine.data.util.toMusclesList
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import javax.inject.Inject
 
 
@@ -135,7 +137,7 @@ open class ReportViewModel @Inject constructor(
                 val dailyReport = when(it.field) {
                     Field.SleepQuality -> state.dailyReport.copy(sleepQuality = it.value)
                     Field.LitersOfWater -> state.dailyReport.copy(litersOfWater = it.value)
-                    Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value.toList())
+                    Field.TrainedMuscles -> state.dailyReport.copy(musclesTrained = it.value.toMusclesList())
                     Field.ProteinGrams -> state.dailyReport.copy(proteinGrams = it.value)
                 }
 
@@ -148,7 +150,7 @@ open class ReportViewModel @Inject constructor(
 
                 val dailyReport = state.dailyReport
                 val updatedMuscles = dailyReport.musclesTrained
-                    .filterNot { it.isEmpty() }
+//                    .filterNot { it.isEmpty() }
                     .toMutableList()
                     .apply {
                         if (contains(it.muscle)) remove(it.muscle) else add(it.muscle)
@@ -325,7 +327,7 @@ sealed interface ReportEvent {
 
     data class UpdateCheckBox(val isChecked: Boolean, val checkBoxField: CheckBoxField): ReportEvent
     data class UpdateField(val value: String, val field: Field): ReportEvent
-    data class SelectMuscle(val muscle: String): ReportEvent
+    data class SelectMuscle(val muscle: Muscle): ReportEvent
 
     data class DeleteNote(val note: NoteDomainEntity): ReportEvent
     data class UpdateNote(val note: NoteDomainEntity, val value: String): ReportEvent

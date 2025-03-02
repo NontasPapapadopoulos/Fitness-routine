@@ -678,7 +678,7 @@ fun generateReports(): List<DailyReportDomainEntity> {
             hadCheatMeal = false,
             hadCreatine = true,
             litersOfWater = "2.5",
-            musclesTrained = listOf(Muscle.Legs.name),
+            musclesTrained = listOf(Muscle.Legs),
             sleepQuality = "4",
             proteinGrams = "120",
             date = date,

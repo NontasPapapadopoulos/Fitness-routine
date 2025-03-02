@@ -88,7 +88,7 @@ open class WorkoutViewModel @Inject constructor(
             sets = sets,
             exercises = exercises,
             date = date,
-            musclesTrained = dailyReport.musclesTrained.filter { it.isNotEmpty() }.toMuscles(),
+            musclesTrained = dailyReport.musclesTrained,
             dailyReport = dailyReport,
             dialog = dialog,
             breakTimeDuration = breakTimeDuration
@@ -146,7 +146,7 @@ open class WorkoutViewModel @Inject constructor(
 
                 updateReport.execute(
                     UpdateDailyReport.Params(
-                        dailyReport.copy(musclesTrained = updatedMuscles.map { it.name })
+                        dailyReport.copy(musclesTrained = updatedMuscles)
                     )
                 )
 

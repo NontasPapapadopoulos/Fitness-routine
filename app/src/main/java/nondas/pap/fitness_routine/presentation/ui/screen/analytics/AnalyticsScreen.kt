@@ -159,7 +159,7 @@ private fun AnalyticsContent(
 
             MusclesTrained(
                 selectedMuscles = listOf(),
-                onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it)) },
+                onSelectMuscle = { onSelectMuscle(Muscle.valueOf(it.name)) },
                 testTag = ""
             )
 

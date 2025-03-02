@@ -50,6 +50,7 @@ import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Cardio
 import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
@@ -72,6 +73,7 @@ fun ReportScreen(
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.errorFlow.collect { error ->
+            println("error:" + error.message)
             Toast.makeText(
                 context,
                 error.message,
@@ -120,7 +122,7 @@ private fun Content(
     navigateToWorkout: (Long) -> Unit,
     onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
     onUpdateTextField: (String, Field) -> Unit,
-    onSelectMuscle: (String) -> Unit,
+    onSelectMuscle: (Muscle) -> Unit,
     onAddCardio: () -> Unit,
     onUpdateCardio: (CardioDomainEntity, CardioField, String) -> Unit,
     onDeleteCardio: (CardioDomainEntity) -> Unit,

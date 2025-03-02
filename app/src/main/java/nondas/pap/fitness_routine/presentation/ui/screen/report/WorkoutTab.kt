@@ -38,6 +38,7 @@ import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Cardio
 import nondas.pap.fitness_routine.domain.entity.enums.Choice
+import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_DROP_DOWN
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CARDIO_TEXT_FIELD
@@ -60,7 +61,7 @@ fun WorkoutTab(
     notes: List<NoteDomainEntity>,
     cardios: List<CardioDomainEntity>,
     onUpdateCheckField: (Boolean, CheckBoxField) -> Unit,
-    onSelectMuscle: (String) -> Unit,
+    onSelectMuscle: (Muscle) -> Unit,
     onAddCardio: () -> Unit,
     onDeleteCardio: (CardioDomainEntity) -> Unit,
     onUpdateCardio: (CardioDomainEntity, CardioField, String) -> Unit,
@@ -100,7 +101,7 @@ fun WorkoutTab(
 
         MusclesTrained(
             selectedMuscles = dailyReport.musclesTrained,
-            onSelectMuscle = { onSelectMuscle(it) },
+            onSelectMuscle = onSelectMuscle,
             testTag = MUSCLE_ITEM
         )
 

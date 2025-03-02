@@ -23,7 +23,7 @@ class GetWorkouts @Inject constructor(
         return dailyRoutineRepository.getDailyReports()
                 .map { report ->
                     report.filter { it.performedWorkout }
-                        .map { WorkoutDomainEntity(it.date.toTimeStamp(), it.musclesTrained.toMuscles()) }
+                        .map { WorkoutDomainEntity(it.date.toTimeStamp(), it.musclesTrained.toMutableList()) }
                 }
 
     }
