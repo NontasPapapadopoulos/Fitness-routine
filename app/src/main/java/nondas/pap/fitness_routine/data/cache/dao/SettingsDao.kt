@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import nondas.pap.fitness_routine.data.entity.SettingsDataEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +17,8 @@ interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun put(settings: SettingsDataEntity)
 
+    @Update
+    suspend fun update(settings: SettingsDataEntity)
 
     @Query("UPDATE Settings SET choice = :choice")
     suspend fun changeChoice(choice: String)

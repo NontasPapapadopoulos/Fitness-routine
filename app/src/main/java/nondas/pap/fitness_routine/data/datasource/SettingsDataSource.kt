@@ -23,7 +23,7 @@ class SettingsDataSourceImpl @Inject constructor(
     }
 
     override suspend fun changeSettings(settings: SettingsDataEntity) {
-        settingsDao.put(settings)
+        settingsDao.update(settings)
     }
 
     override suspend fun changeChoice(choice: Choice) {
