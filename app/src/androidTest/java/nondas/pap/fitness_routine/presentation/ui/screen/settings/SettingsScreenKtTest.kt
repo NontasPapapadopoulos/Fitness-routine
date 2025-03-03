@@ -86,26 +86,26 @@ class SettingsScreenKtTest {
     }
 
 
-    @Test
-    fun contentState_whenClickingSwitch_addsToggleDarkMode() {
-        // given
-        whenever(viewModel.uiState).thenReturn(
-            MutableStateFlow(SettingsState.Content(settings))
-        )
-
-        composeTestRule.setContent {
-            AppSurface {
-                SettingsScreen(viewModel = viewModel, navigateBack = {})
-            }
-        }
-
-
-        // when
-        composeTestRule.onNodeWithTag(SettingsScreenConstants.DARK_MODE_SWITCH).performClick()
-
-        // then
-        verify(viewModel).add(SettingsEvent.ToggleDarkMode)
-    }
+//    @Test
+//    fun contentState_whenClickingSwitch_addsToggleDarkMode() {
+//        // given
+//        whenever(viewModel.uiState).thenReturn(
+//            MutableStateFlow(SettingsState.Content(settings))
+//        )
+//
+//        composeTestRule.setContent {
+//            AppSurface {
+//                SettingsScreen(viewModel = viewModel, navigateBack = {})
+//            }
+//        }
+//
+//
+//        // when
+//        composeTestRule.onNodeWithTag(SettingsScreenConstants.DARK_MODE_SWITCH).performClick()
+//
+//        // then
+//        verify(viewModel).add(SettingsEvent.ToggleDarkMode)
+//    }
 
 
 

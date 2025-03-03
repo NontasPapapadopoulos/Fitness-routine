@@ -89,6 +89,7 @@ import nondas.pap.fitness_routine.presentation.util.getIcon
 import nondas.pap.fitness_routine.presentation.util.toDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CHOICE_BUTTON
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -256,7 +257,8 @@ private fun Choices(
             ChoiceItem(
                 choice = it,
                 onSelect = { onSelect(it) },
-                isSelected = content.selectedChoice == it
+                isSelected = content.selectedChoice == it,
+                testTag = CHOICE_BUTTON+it.name
             )
         }
     }
@@ -560,7 +562,8 @@ private fun DaysHeader() {
 private fun ChoiceItem(
     choice: Choice,
     isSelected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
+    testTag: String
 ) {
     Row(
         modifier = Modifier
@@ -579,7 +582,8 @@ private fun ChoiceItem(
                 } else Modifier
             )
             .padding(contentSpacing2)
-            .clickable { onSelect() },
+            .clickable { onSelect() }
+            .testTag(testTag),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -691,5 +695,6 @@ class CalendarScreenConstants private constructor() {
     companion object {
         const val SIDE_MENU_BUTTON = "side_menu_button"
         const val DAY = "day"
+        const val CHOICE_BUTTON = "choice_button_"
     }
 }

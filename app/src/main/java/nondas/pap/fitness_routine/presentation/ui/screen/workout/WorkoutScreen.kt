@@ -70,6 +70,8 @@ import nondas.pap.fitness_routine.presentation.util.isCurrentDate
 import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import nondas.pap.fitness_routine.presentation.ui.screen.workout.WorkoutScreenConstants.Companion.EXERCISE_DIALOG
+import nondas.pap.fitness_routine.presentation.util.getCurrentDate
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -157,7 +159,10 @@ private fun WorkoutContent(
                         }
 
                         if (content.date.isCurrentDate())
-                            Break(addBreak = { onShowDialog(Dialog.Break) })
+                            Break(
+                                addBreak = { onShowDialog(Dialog.Break) },
+                                testTag = WorkoutScreenConstants.BREAK_BUTTON
+                            )
 
                     }
                 },
@@ -255,14 +260,16 @@ private fun WorkoutContent(
                         exercises = content.exercises.filter { it.muscle == content.dialog.muscle },
                         selectedMuscle = content.dialog.muscle,
                         onAddExercise = { muscle, exercise -> onAddExercise(muscle, exercise) },
-                        onNavigateToExercises =  { onNavigateToExercises(it) }
+                        onNavigateToExercises =  { onNavigateToExercises(it) },
+                        testTag = EXERCISE_DIALOG
                     )
                 }
 
                 is Dialog.Break -> {
                     BreakDialog(
                         breakDuration = content.breakTimeDuration,
-                        onDismissDialog = onDismissDialog
+                        onDismissDialog = onDismissDialog,
+                        testTag = WorkoutScreenConstants.BREAK_DIALOG
                     )
                 }
 
@@ -282,7 +289,8 @@ fun AddExerciseDialog(
     exercises: List<ExerciseDomainEntity>,
     selectedMuscle: Muscle,
     onAddExercise: (Muscle, String) -> Unit,
-    onNavigateToExercises: (Muscle) -> Unit
+    onNavigateToExercises: (Muscle) -> Unit,
+    testTag: String
 ) {
 
     LaunchedEffect(Unit) {
@@ -296,8 +304,8 @@ fun AddExerciseDialog(
         var selectedOption by remember { mutableStateOf(exercises[exercises.size-1].name) }
 
         AlertDialog(
-            onDismissRequest = onDismissDialog
-            ,
+            modifier = Modifier.testTag(testTag),
+            onDismissRequest = onDismissDialog,
             title = {
                 Text(text = "Select Exercise")
             },
@@ -384,7 +392,8 @@ fun AddExerciseDialog(
 @Composable
 fun BreakDialog(
     breakDuration: String,
-    onDismissDialog: () -> Unit
+    onDismissDialog: () -> Unit,
+    testTag: String
 ) {
     val context = LocalContext.current
     val mediaPlayer = remember {
@@ -414,7 +423,7 @@ fun BreakDialog(
 
 
     AlertDialog(
-        modifier = Modifier.testTag(WorkoutScreenConstants.BREAK_DIALOG),
+        modifier = Modifier.testTag(testTag),
         onDismissRequest = {},
         title = {
             Text(text = "Break")
@@ -486,7 +495,8 @@ fun BreakDialog(
 
 @Composable
 private fun Break(
-    addBreak: () -> Unit
+    addBreak: () -> Unit,
+    testTag: String
 ) {
     Row(
         modifier = Modifier.clickable { addBreak() },
@@ -497,7 +507,7 @@ private fun Break(
         Icon(
             Icons.Outlined.Timer,
             contentDescription = null,
-            modifier = Modifier.testTag(WorkoutScreenConstants.BREAK_BUTTON)
+            modifier = Modifier.testTag(testTag)
         )
     }
 }
@@ -546,6 +556,7 @@ private fun Set(
                 keyboardType = KeyboardType.Number
             ),
             modifier = Modifier.weight(0.5f)
+                .testTag(WorkoutScreenConstants.REPEATS_TEXT_FIELD+set.id)
         )
 
 
@@ -646,7 +657,7 @@ private fun WorkoutContentPreview() {
             content = WorkoutState.Content(
                 sets = generateSets(),
                 exercises = generateExercises(),
-                date = 1728939600000,
+                date = getCurrentDate(),
                 musclesTrained = listOf(Muscle.Biceps, Muscle.Chest),
                 dailyReport = getDailyReport(),
                 dialog = null,
@@ -686,7 +697,8 @@ private fun AddExerciseDialogPreview() {
             exercises = generateExercises(),
             selectedMuscle = Muscle.Chest,
             onAddExercise = {_, _ ->},
-            onNavigateToExercises = {}
+            onNavigateToExercises = {},
+            testTag = ""
         )
     }
 
@@ -741,6 +753,7 @@ class WorkoutScreenConstants private constructor() {
         const val BREAK_DIALOG = "break_dialog"
         const val ADD_EXERCISE = "add_exercise_"
         const val ADD_EXERCISE_DIALOG = "add_exercise_dialog"
+        const val EXERCISE_DIALOG = "exercise_dialog"
         const val ADD_SET = "add_set_"
         const val DELETE_BUTTON = "delete_button_"
         const val REPEATS_TEXT_FIELD = "repeats_text_field_"
