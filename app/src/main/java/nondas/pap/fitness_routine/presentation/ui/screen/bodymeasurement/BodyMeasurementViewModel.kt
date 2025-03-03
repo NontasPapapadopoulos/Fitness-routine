@@ -24,7 +24,7 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class BodyMeasurementViewModel @Inject constructor(
+open class BodyMeasurementViewModel @Inject constructor(
     private val addBodyMeasurement: AddBodyMeasurement,
     private val updateBodyMeasurement: UpdateBodyMeasurement,
     private val getBodyMeasurements: GetBodyMeasurement,
@@ -124,7 +124,7 @@ sealed interface MeasurementEvent {
 
 sealed interface MeasurementState {
     object Idle: MeasurementState
-    data class Content(
+    data class  Content(
         val bodyMeasurement: BodyMeasurementDomainEntity,
         val hasBodyMeasurement: Boolean
     ): MeasurementState

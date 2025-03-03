@@ -1,5 +1,6 @@
 package nondas.pap.fitness_routine
 
+import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -77,4 +78,18 @@ val DummyEntities.note: NoteDomainEntity
         id = "",
         text = "",
         date = Date()
+    )
+
+val DummyEntities.bodyMeasurement: BodyMeasurementDomainEntity
+    get() = BodyMeasurementDomainEntity(
+        id = "",
+        weight = "",
+        fat = "",
+        muscleMass = "",
+        bmi = "",
+        tbw = "",
+        bmr = "",
+        visceralFat = "",
+        metabolicAge = "",
+        date = 0
     )

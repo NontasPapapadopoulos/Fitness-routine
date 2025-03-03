@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,6 +29,7 @@ import nondas.pap.fitness_routine.presentation.component.Input
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMI_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BMR_TEXT_FIELD
+import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.FAT_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.METABOLIC_AGE_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementsScreenConstants.Companion.MUSCLE_MASS_TEXT_FIELD
@@ -187,6 +189,7 @@ private fun BodyMeasurementContent(
             Button(
                 onClick = if (content.hasBodyMeasurement) onUpdateMeasurement else onAddMeasurement,
                 modifier = Modifier.fillMaxWidth()
+                    .testTag(BUTTON)
             ) {
                 Text(text = if (content.hasBodyMeasurement) "Update Measurement" else "Add Measurement")
             }
@@ -236,5 +239,6 @@ class MeasurementsScreenConstants private constructor() {
         const val BMR_TEXT_FIELD = "bmr_text_field"
         const val VISCERAL_FAT_TEXT_FIELD = "bmr_mass_text_field"
         const val METABOLIC_AGE_TEXT_FIELD = "metabolic_age_mass_text_field"
+        const val BUTTON = "button"
     }
 }
