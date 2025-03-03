@@ -83,7 +83,7 @@ fun GymSessionsScreen(
             GymSessionsContent(
                 content = state,
                 navigateToScreen = navigateToScreen,
-                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
+                navigateToWorkoutScreen = navigateToWorkoutScreen,
                 navigateBack = navigateBack,
                 onSelectMuscles = { viewModel.add(GymSessionsEvent.SelectMuscle(it)) }
             )
@@ -146,7 +146,7 @@ private fun GymSessionsContent(
 
             SessionsContainer(
                 sessions = sessions,
-                navigateToWorkoutScreen = { navigateToWorkoutScreen(it) },
+                navigateToWorkoutScreen = navigateToWorkoutScreen,
             )
 
         }

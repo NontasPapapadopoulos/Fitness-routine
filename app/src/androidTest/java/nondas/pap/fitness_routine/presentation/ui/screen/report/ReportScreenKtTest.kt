@@ -219,7 +219,7 @@ class ReportScreenKtTest {
         composeTestRule.onNodeWithTag(ReportScreenConstants.MUSCLE_ITEM + Muscle.Chest.name).performClick()
 
         // then
-        verify(viewModel).add(ReportEvent.SelectMuscle(Muscle.Chest.name, ))
+        verify(viewModel).add(ReportEvent.SelectMuscle(Muscle.Chest, ))
     }
 
 

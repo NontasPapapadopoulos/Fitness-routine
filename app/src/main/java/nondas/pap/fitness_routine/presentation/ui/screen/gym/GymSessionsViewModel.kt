@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class GymSessionsViewModel @Inject constructor(
+open class GymSessionsViewModel @Inject constructor(
     getDailyReports: GetDailyReports,
     getAllCardios: GetAllCardios,
     getAllBodyMeasurements: GetAllBodyMeasurements

@@ -1,4 +1,4 @@
-package nondas.pap.fitness_routine.presentation.ui.screen.gym
+package nondas.pap.fitness_routine.presentation.ui.screen.note
 
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.dailyReport
