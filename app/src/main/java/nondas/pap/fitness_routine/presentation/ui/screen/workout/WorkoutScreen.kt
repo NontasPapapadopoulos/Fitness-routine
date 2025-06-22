@@ -62,7 +62,7 @@ import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import nondas.pap.fitness_routine.presentation.util.asTextFieldValue
@@ -82,7 +82,7 @@ fun WorkoutScreen(
     viewModel: WorkoutViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
     onNavigateToExercises: (Muscle) -> Unit,
-    onNavigateToScreen: (Screen) -> Unit
+    onNavigateToScreen: (NavigationTarget) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -138,7 +138,7 @@ private fun WorkoutContent(
     onDismissDialog: () -> Unit,
     onAddExercise: (Muscle, String) -> Unit,
     onNavigateToExercises: (Muscle) -> Unit,
-    onNavigateToScreen: (Screen) -> Unit
+    onNavigateToScreen: (NavigationTarget) -> Unit
 ) {
 
     Scaffold(
@@ -173,7 +173,7 @@ private fun WorkoutContent(
             if (content.date.isCurrentDate()) {
                 BottomBar(
                     onClick = { onNavigateToScreen(it) },
-                    currentScreen = Screen.Workout
+                    currentScreen = NavigationTarget.Workout
                 )
             }
         }

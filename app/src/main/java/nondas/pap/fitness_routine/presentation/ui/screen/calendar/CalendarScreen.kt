@@ -25,18 +25,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -64,7 +59,7 @@ import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.DAY
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenu
@@ -87,7 +82,6 @@ import nondas.pap.fitness_routine.presentation.util.getDate
 import nondas.pap.fitness_routine.presentation.util.getDayOfWeek
 import nondas.pap.fitness_routine.presentation.util.getIcon
 import nondas.pap.fitness_routine.presentation.util.toDate
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CHOICE_BUTTON
 import java.time.LocalDate
@@ -99,7 +93,7 @@ import java.util.Date
 fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateToDailyReport: (Long) -> Unit,
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -143,7 +137,7 @@ fun CalendarScreen(
 private fun Content(
     content: CalendarState.Content,
     navigateToDailyReport: (Long) -> Unit,
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
     onSelect: (Choice) -> Unit
 ) {
 
@@ -181,7 +175,7 @@ private fun Content(
             bottomBar = {
                 BottomBar(
                     onClick = { navigateToScreen(it) },
-                    currentScreen = Screen.Calendar
+                    currentScreen = NavigationTarget.Calendar
                 )
             }
         ) {
@@ -194,7 +188,7 @@ private fun Content(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(it)
-                    .semantics { contentDescription = Screen.Calendar.name },
+                    .semantics { contentDescription = NavigationTarget.Calendar.name },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 

@@ -4,6 +4,9 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.21'
+    id 'org.jetbrains.kotlin.plugin.compose'
+
     //  id 'kotlin-kapt'
 }
 
@@ -77,10 +80,10 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
-    implementation "androidx.navigation:navigation-compose:2.7.7"
+    implementation "androidx.navigation:navigation-compose:2.8.0"
 
     // dagger hilt
-    def hilt = "2.50"
+    def hilt = "2.55"
     implementation("com.google.dagger:hilt-android:$hilt")
     ksp("com.google.dagger:hilt-compiler:$hilt")
 
@@ -171,6 +174,9 @@ dependencies {
     implementation "androidx.compose.material3:material3:1.2.0"
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
+
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1'
 
 
 }

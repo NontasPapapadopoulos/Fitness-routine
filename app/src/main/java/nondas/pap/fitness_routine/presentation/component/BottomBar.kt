@@ -19,44 +19,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
 import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
-import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
 fun BottomBar(
-    onClick: (Screen) -> Unit,
-    currentScreen: Screen
+    onClick: (NavigationTarget) -> Unit,
+    currentScreen: NavigationTarget
 ) {
 
     val choices = listOf(
         BottomBarChoice(
             icon = Icons.Filled.CalendarMonth,
             text = "Calendar",
-            screen = Screen.Calendar
+            screen = NavigationTarget.Calendar
         ),
         BottomBarChoice(
             icon = Icons.Default.FitnessCenter,
             text = "Workout",
-            screen = Screen.Workout
+            screen = NavigationTarget.Workout
         ),
         BottomBarChoice(
             icon = FitnessDiary.FitnessTracker24px,
             text = "Gym",
-            screen = Screen.Gym
+            screen = NavigationTarget.Gym
         ),
         BottomBarChoice(
             icon = Icons.Filled.Fastfood,
             text = "Cheat",
-            screen = Screen.Cheat
+            screen = NavigationTarget.Cheat
         )
     )
 
@@ -103,7 +101,7 @@ fun BottomBar(
 data class BottomBarChoice(
     val icon: ImageVector,
     val text: String,
-    val screen: Screen
+    val screen: NavigationTarget
 )
 
 @Composable
@@ -112,7 +110,7 @@ private fun BottomBarPreview() {
     AppTheme(darkTheme = true) {
         BottomBar(
             onClick = {},
-            currentScreen = Screen.Calendar,
+            currentScreen = NavigationTarget.Calendar,
         )
     }
 

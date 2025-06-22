@@ -1,11 +1,9 @@
 package nondas.pap.fitness_routine.presentation.navigation
 
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -56,7 +54,7 @@ class RootNavGraphKtTest {
         }
 
         composeTestRule
-            .onNodeWithContentDescription(Screen.Splash.name)
+            .onNodeWithContentDescription(NavigationTarget.Splash.name)
             .assertIsDisplayed()
     }
 
@@ -75,12 +73,12 @@ class RootNavGraphKtTest {
         }
 
         composeTestRule
-            .onNodeWithTag(Screen.Gym.name)
+            .onNodeWithTag(NavigationTarget.Gym.name)
             .performClick()
 
 
         composeTestRule
-            .onNodeWithContentDescription(Screen.Gym.name)
+            .onNodeWithContentDescription(NavigationTarget.Gym.name)
             .assertIsDisplayed()
 
 
