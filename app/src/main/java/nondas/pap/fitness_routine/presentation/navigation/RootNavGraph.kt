@@ -1,15 +1,12 @@
 package nondas.pap.fitness_routine.presentation.navigation
 
-import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import nondas.pap.fitness_routine.presentation.ui.screen.analytics.AnalyticsScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.splash.SplashScreen
@@ -26,7 +23,6 @@ import kotlinx.coroutines.delay
 import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesScreen
 
 
-const val ROOT_GRAPH_ROUTE = "root"
 
 @Composable
 fun RootNavGraph(
@@ -35,39 +31,32 @@ fun RootNavGraph(
 
     NavHost(
         navController = navController,
-        route = ROOT_GRAPH_ROUTE,
-        startDestination = Screen.Splash.name
+        startDestination = Splash
     ) {
 
-        composable(
-            route = Screen.Splash.name
-        ) {
-
+        composable<Splash> {
             DisplaySplashScreen(
                 navController = navController,
                 milliseconds = 1000L,
-                route = Screen.Calendar.name
+                route = Calendar
             )
 
             SplashScreen()
         }
 
-        composable(
-            route = Screen.Calendar.name,
-        ) {
-
+        composable<Calendar> {
             CalendarScreen(
-                navigateToDailyReport = { date -> navController.navigate(Screen.Report.params(date)) },
+                navigateToDailyReport = { date -> navController.navigate(Report(date)) },
                 navigateToScreen = { screen ->
                     when (screen) {
-                        Screen.Gym,
-                        Screen.Cheat -> { navController.navigate(screen.name) { launchSingleTop = true } }
-                        Screen.Exercise -> { navController.navigate(Screen.Exercise.params(null)) { launchSingleTop = true } }
-                        Screen.Settings -> { navController.navigate(SettingsRoute) { launchSingleTop = true } }
-                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
-                        Screen.Measurements -> { navController.navigate(MeasurementsRoute) { launchSingleTop = true } }
-                        Screen.Notes -> { navController.navigate(NotesRoute)  { launchSingleTop = true } }
-                        Screen.Analytics -> { navController.navigate(AnalyticsRoute) { launchSingleTop = true } }
+                        NavigationTarget.Gym,
+                        NavigationTarget.Cheat -> { navController.navigate(Cheat) { launchSingleTop = true } }
+                        NavigationTarget.Exercise -> { navController.navigate(Exercise(null)) { launchSingleTop = true } }
+                        NavigationTarget.Settings -> { navController.navigate(AppSettings) { launchSingleTop = true } }
+                        NavigationTarget.Workout -> { navController.navigate(Workout(date = getCurrentDate())) { launchSingleTop = true } }
+                        NavigationTarget.Measurements -> { navController.navigate(Measurements) { launchSingleTop = true } }
+                        NavigationTarget.Notes -> { navController.navigate(Notes)  { launchSingleTop = true } }
+                        NavigationTarget.Analytics -> { navController.navigate(Analytics) { launchSingleTop = true } }
                         else -> {}
                     }
                 },
@@ -75,31 +64,21 @@ fun RootNavGraph(
         }
 
 
-        composable(
-            route = ReportsRoute,
-            arguments = listOf(
-                navArgument(NavigationArgument.Date.param) {
-                    type = NavType.LongType
-                }
-            )
-        ) {
-
+        composable<Report> {
             ReportScreen(
                 navigateBack = { navController.popBackStack() },
-                navigateToWorkout = { date -> navController.navigate(Screen.Workout.params(date)) },
-                navigateToBodyMeasurement = { date -> navController.navigate(Screen.Measurement.params(date)) }
+                navigateToWorkout = { date -> navController.navigate(Workout(date)) },
+                navigateToBodyMeasurement = { date -> navController.navigate(Measurement(date)) }
             )
         }
 
-        composable(
-            route = CheatMealsRoute
-        ) {
+        composable<Cheat> {
             CheatMealsScreen(
                 navigateToScreen = {
                     when (it) {
-                        Screen.Calendar,
-                        Screen.Gym -> { navController.navigate(it.name) { launchSingleTop = true } }
-                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
+                        NavigationTarget.Calendar,
+                        NavigationTarget.Gym -> { navController.navigate(GymSessions) { launchSingleTop = true } }
+                        NavigationTarget.Workout -> { navController.navigate(Workout(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
                     }
                 },
@@ -107,106 +86,71 @@ fun RootNavGraph(
             )
         }
 
-        composable(
-            route = GymRoute
-        ) {
+        composable<GymSessions> {
             GymSessionsScreen(
                 navigateToScreen = {
                     when (it) {
-                        Screen.Calendar,
-                        Screen.Cheat -> { navController.navigate(it.name) { launchSingleTop = true } }
-                        Screen.Workout -> { navController.navigate(Screen.Workout.params(getCurrentDate())) { launchSingleTop = true } }
+                        NavigationTarget.Calendar,
+                        NavigationTarget.Cheat -> { navController.navigate(Cheat) { launchSingleTop = true } }
+                        NavigationTarget.Workout -> { navController.navigate(Workout(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
                     }
 
                 },
-                navigateToWorkoutScreen = { date -> navController.navigate(Screen.Workout.params(date)) },
+                navigateToWorkoutScreen = { date -> navController.navigate(Workout(date)) },
                 navigateBack = { navController.popBackStack() }
             )
         }
 
 
-        composable(
-            route = WorkoutRoute,
-            arguments = listOf(
-                navArgument(NavigationArgument.Date.param) {
-                    type = NavType.LongType
-                }
-            )
-        ) {
+        composable<Workout> {
             WorkoutScreen(
                 navigateBack = { navController.popBackStack() },
-                onNavigateToExercises = { muscle -> navController.navigate(Screen.Exercise.params(muscle)) },
+                onNavigateToExercises = { muscle -> navController.navigate(Exercise(muscle)) },
                 onNavigateToScreen = {
                     when (it) {
-                        Screen.Calendar,
-                        Screen.Gym,
-                        Screen.Cheat -> {
-                            navController.navigate(it.name)
-                        }
+                        NavigationTarget.Calendar -> { navController.navigate(Calendar) }
+                        NavigationTarget.Gym -> { navController.navigate(GymSessions) }
+                        NavigationTarget.Cheat -> { navController.navigate(Cheat) }
                         else -> {}
                     }
                 }
-
             )
         }
 
 
-        composable(
-            route = ExerciseRoute,
-            arguments = listOf(
-                navArgument(NavigationArgument.Muscle.name) {
-                    type = NavType.StringType
-                    nullable = true
-                }
-            )
-        ) {
+        composable<Exercise> {
             ExerciseScreen(navigateBack = { navController.popBackStack() })
         }
 
 
-        composable(
-            route = SettingsRoute
-        ) {
+        composable<AppSettings> {
             SettingsScreen(navigateBack = { navController.popBackStack() })
         }
 
 
-        composable(
-            route = MeasurementRoute,
-            arguments = listOf(
-                navArgument(NavigationArgument.Date.param) {
-                    type = NavType.LongType
-                }
-            )
-        ) {
+        composable<Measurement> {
             BodyMeasurementScreen(
                 navigateBack = { navController.popBackStack() }
             )
         }
 
 
-        composable(
-            route = MeasurementsRoute
-        ) {
+        composable<Measurements> {
             MeasurementsScreen(
                 navigateBack = { navController.popBackStack() },
-                navigateToBodyMeasurement = { date -> navController.navigate(Screen.Measurement.params(date)) }
+                navigateToBodyMeasurement = { date -> navController.navigate(Measurement(date)) }
             )
         }
 
 
-        composable(
-            route = NotesRoute
-        ) {
+        composable<Notes> {
             NotesScreen(
                 navigateBack = { navController.popBackStack() }
             )
-        }//
+        }
 
-        composable(
-            route = AnalyticsRoute
-        ) {
+        composable<Analytics> {
             AnalyticsScreen(
                 navigateBack = { navController.popBackStack() }
             )
@@ -222,7 +166,7 @@ fun RootNavGraph(
 fun DisplaySplashScreen(
     navController: NavController,
     milliseconds: Long,
-    route: String
+    route: Any
 ) {
     LaunchedEffect(Unit) {
         delay(milliseconds)

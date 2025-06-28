@@ -15,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.SettingsAccessibility
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,12 +39,11 @@ import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Cardio
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
-import nondas.pap.fitness_routine.domain.repository.BodyMeasurementRepository
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
@@ -60,7 +58,7 @@ import java.util.Date
 @Composable
 fun GymSessionsScreen(
     viewModel: GymSessionsViewModel = hiltViewModel(),
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
     navigateToWorkoutScreen: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -101,7 +99,7 @@ fun GymSessionsScreen(
 @Composable
 private fun GymSessionsContent(
     content: GymSessionsState.Content,
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
     navigateToWorkoutScreen: (Long) -> Unit,
     navigateBack: () -> Unit,
     onSelectMuscles: (Muscle) -> Unit
@@ -118,7 +116,7 @@ private fun GymSessionsContent(
         bottomBar = {
             BottomBar(
                 onClick = { navigateToScreen(it) },
-                currentScreen = Screen.Gym
+                currentScreen = NavigationTarget.Gym
             )
         }
     ) {

@@ -17,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  fun SideMenu(
     coroutineScope: CoroutineScope,
     drawerState: DrawerState,
-    navigateToScreen: (Screen) -> Unit
+    navigateToScreen: (NavigationTarget) -> Unit
 ) {
     ModalDrawerSheet(
         modifier = Modifier.width(250.dp),
@@ -67,7 +67,7 @@ import kotlinx.coroutines.launch
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(Screen.Exercise)
+                    navigateToScreen(NavigationTarget.Exercise)
                 },
             )
 
@@ -83,7 +83,7 @@ import kotlinx.coroutines.launch
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(Screen.Settings)
+                    navigateToScreen(NavigationTarget.Settings)
                 }
             )
 
@@ -99,7 +99,7 @@ import kotlinx.coroutines.launch
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(Screen.Measurements)
+                    navigateToScreen(NavigationTarget.Measurements)
                 }
             )
 
@@ -115,7 +115,7 @@ import kotlinx.coroutines.launch
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(Screen.Notes)
+                    navigateToScreen(NavigationTarget.Notes)
                 }
             )
 

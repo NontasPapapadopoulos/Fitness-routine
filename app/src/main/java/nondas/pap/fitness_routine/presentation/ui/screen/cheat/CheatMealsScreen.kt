@@ -30,7 +30,7 @@ import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.screen.gym.BodyMeasurement
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
@@ -47,7 +47,7 @@ import java.util.Date
 @Composable
 fun CheatMealsScreen(
     viewModel: CheatMealsViewModel = hiltViewModel(),
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
     navigateBack: () -> Unit
 ) {
 
@@ -84,7 +84,7 @@ fun CheatMealsScreen(
 @Composable
 private fun CheatMealsContent(
     content: CheatMealsState.Content,
-    navigateToScreen: (Screen) -> Unit,
+    navigateToScreen: (NavigationTarget) -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -100,7 +100,7 @@ private fun CheatMealsContent(
         bottomBar = {
             BottomBar(
                 onClick = { navigateToScreen(it) },
-                currentScreen = Screen.Cheat
+                currentScreen = NavigationTarget.Cheat
             )
         }
     ) {

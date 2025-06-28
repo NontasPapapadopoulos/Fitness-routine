@@ -21,9 +21,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import nondas.pap.fitness_routine.presentation.navigation.Screen
+import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
-import nondas.pap.fitness_routine.presentation.ui.theme.contentSize10
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSize25
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
@@ -41,8 +40,8 @@ fun SplashScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
-                .semantics { contentDescription = Screen.Splash.name },
+                .padding(it),
+//                .semantics { contentDescription = NavigationTarget.Splash.name },
 
             contentAlignment = Alignment.Center
         ) {

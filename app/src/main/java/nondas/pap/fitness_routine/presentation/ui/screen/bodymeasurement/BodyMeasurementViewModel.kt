@@ -8,7 +8,6 @@ import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.GetBodyMeasu
 import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.HasBodyMeasurement
 import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.UpdateBodyMeasurement
 import nondas.pap.fitness_routine.presentation.BlocViewModel
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import java.util.Date
 import javax.inject.Inject
 
