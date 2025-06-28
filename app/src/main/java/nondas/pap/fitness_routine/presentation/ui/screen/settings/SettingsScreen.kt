@@ -115,7 +115,7 @@ private fun SettingsContent(
 
             Filters(
                 options = Choice.entries,
-                selectedOption = Choice.valueOf(content.settings.choice),
+                selectedOption = content.settings.choice,
                 select = onSelectChoice,
                 testTag = CHOICE_RADIO_BUTTON
             )
@@ -137,6 +137,7 @@ private fun SettingsContent(
         }
     }
 }
+
 
 @Composable
 private fun DarkMode(
@@ -237,7 +238,7 @@ private fun SettingsContentPreview() {
         SettingsContent(
             content = SettingsState.Content(
                 SettingsDomainEntity(
-                    choice = Choice.Workout.name,
+                    choice = Choice.Workout,
                     breakDuration = "60",
                     isDarkModeEnabled = true
                 )

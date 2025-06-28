@@ -115,11 +115,11 @@ open class ReportViewModel @Inject constructor(
             }
         }
 
-        on(ReportEvent.UpdateReport::class) {
-            onState<ReportState.Content> { state ->
-                updateReport.execute(UpdateDailyReport.Params(state.dailyReport))
-            }
-        }
+//        on(ReportEvent.UpdateReport::class) {
+//            onState<ReportState.Content> { state ->
+//                updateReport.execute(UpdateDailyReport.Params(state.dailyReport))
+//            }
+//        }
 
         on(ReportEvent.UpdateCheckBox::class) {
             onState<ReportState.Content> { state ->
@@ -142,6 +142,10 @@ open class ReportViewModel @Inject constructor(
                 }
 
                 updateReport.execute(UpdateDailyReport.Params(dailyReport))
+                    .fold(
+                        onSuccess = {},
+                        onFailure = { addError(it) }
+                    )
             }
         }
 
@@ -161,6 +165,9 @@ open class ReportViewModel @Inject constructor(
                     UpdateDailyReport.Params(
                         dailyReport.copy(musclesTrained = updatedMuscles)
                     )
+                ).fold(
+                    onSuccess = {},
+                    onFailure = { addError(it) }
                 )
             }
         }
@@ -315,7 +322,6 @@ open class ReportViewModel @Inject constructor(
 
 sealed interface ReportEvent {
     object DeleteReport: ReportEvent
-    object UpdateReport: ReportEvent
 
     object AddCardio: ReportEvent
     data class DeleteCardio(val cardio: CardioDomainEntity): ReportEvent

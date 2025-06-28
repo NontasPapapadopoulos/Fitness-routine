@@ -10,6 +10,7 @@ import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
 import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
 import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
 import nondas.pap.fitness_routine.domain.entity.WorkoutDomainEntity
+import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import java.util.Date
 
@@ -63,7 +64,7 @@ val DummyEntities.settings: SettingsDomainEntity
     get() = SettingsDomainEntity(
         isDarkModeEnabled = true,
         breakDuration = "",
-        choice = ""
+        choice = Choice.Workout
     )
 
 val DummyEntities.note: NoteDomainEntity

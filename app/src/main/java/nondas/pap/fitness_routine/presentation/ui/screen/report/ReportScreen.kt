@@ -418,6 +418,8 @@ class ReportScreenConstants private constructor() {
         const val CARDIO_TYPE_DROP_DOWN_ITEM = "cardio_type_drop_down_item"
         const val NUTRITION_TAB = "nutrition_tab"
         const val WORKOUT_TAB = "workout_tab"
+        const val NUTRITION_CONTENT = "nutrition_content"
+        const val WORKOUT_CONTENT = "workout_content"
 
     }
 }

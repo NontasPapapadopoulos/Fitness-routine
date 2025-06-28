@@ -140,7 +140,7 @@ class SettingsViewModelTest {
                 listOf(
                     SettingsState.Idle,
                     defaultContent,
-                    defaultContent.copy(settings.copy(choice = Choice.Creatine.name))
+                    defaultContent.copy(settings.copy(choice = Choice.Creatine))
                 ),
                 collectedStates
             )
@@ -155,7 +155,7 @@ class SettingsViewModelTest {
 
     companion object {
         val settings = DummyEntities.settings.copy(
-            choice = Choice.Workout.name,
+            choice = Choice.Workout,
             isDarkModeEnabled = true,
             breakDuration = ""
         )

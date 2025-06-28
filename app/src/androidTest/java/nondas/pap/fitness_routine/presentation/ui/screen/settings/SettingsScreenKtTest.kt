@@ -114,7 +114,7 @@ class SettingsScreenKtTest {
         val settings = SettingsDomainEntity(
             isDarkModeEnabled = true,
             breakDuration = "",
-            choice = Choice.Workout.name
+            choice = Choice.Workout
         )
     }
 }

@@ -29,6 +29,7 @@ import nondas.pap.fitness_routine.presentation.component.Input
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_CHECK_BOX
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CHEAT_MEAL_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.CREATINE_CHECK_BOX
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.NUTRITION_CONTENT
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.PROTEIN_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.SLEEP_QUALITY
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WATER_TEXT_FIELD
@@ -51,7 +52,9 @@ fun NutritionTab(
     onAddCheatMeal: () -> Unit,
 ) {
 
-    Column {
+    Column(
+        modifier = Modifier.testTag(NUTRITION_CONTENT)
+    ) {
         Spacer(modifier = Modifier.height(contentSpacing2))
 
         SleepQuality(

@@ -46,6 +46,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenCons
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.GYM_NOTES_TEXT_FIELD
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.MUSCLE_ITEM
 import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_CHECK_BOX
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_CONTENT
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing1
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
@@ -72,6 +73,7 @@ fun WorkoutTab(
 
     Column(
         modifier = Modifier.fillMaxSize()
+            .testTag(WORKOUT_CONTENT)
     ) {
         Spacer(modifier = Modifier.height(contentSpacing2))
 

@@ -36,7 +36,7 @@ open class SettingsViewModel @Inject constructor(
     init {
         on(SettingsEvent.SelectChoice::class) {
             onState<SettingsState.Content> { state ->
-                changeSettings.execute(ChangeSettings.Params(state.settings.copy(choice = it.choice.name))).fold(
+                changeSettings.execute(ChangeSettings.Params(state.settings.copy(choice = it.choice))).fold(
                     onSuccess = {},
                     onFailure = { addError(it) }
                 )

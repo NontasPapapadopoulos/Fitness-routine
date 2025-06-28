@@ -1,5 +1,7 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.report
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -220,6 +222,24 @@ class ReportScreenKtTest {
 
         // then
         verify(viewModel).add(ReportEvent.SelectMuscle(Muscle.Chest, ))
+    }
+
+
+    @Test
+    fun contentState_whenNutritionTabIsClicked_nutritionTabIsDisplayed() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(defaultContent))
+
+        composeTestRule.setContent {
+            AppSurface {
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+            }
+        }
+
+        // when
+        composeTestRule.onNodeWithTag(ReportScreenConstants.NUTRITION_TAB).performClick()
+        composeTestRule.onNodeWithTag(ReportScreenConstants.NUTRITION_CONTENT).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(ReportScreenConstants.WORKOUT_CONTENT).assertIsNotDisplayed()
     }
 
 

@@ -1,5 +1,6 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.calendar
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.dailyReport
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -13,7 +14,10 @@ import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
 import nondas.pap.fitness_routine.presentation.util.getDate
 import nondas.pap.fitness_routine.settings
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import nondas.pap.fitness_routine.InlineClassesAnswer
+import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
 import org.junit.Assert.*
 
 import org.junit.Before
@@ -43,11 +47,25 @@ class CalendarViewModelTest {
 
     private lateinit var viewModel: CalendarViewModel
 
+    private val settingsFlow: MutableStateFlow<Result<SettingsDomainEntity>> =
+        MutableStateFlow(Result.success(settings))
 
     @Before
     fun setUp() = runTest  {
         whenever(getDailyReports.execute(any())).thenReturn(flowOf(Result.success(reports)))
-        whenever(getSettings.execute(any())).thenReturn(flowOf(Result.success(settings)))
+        whenever(getSettings.execute(any())).thenReturn(settingsFlow)
+
+        whenever(changeChoice.execute(any())).thenAnswer(InlineClassesAnswer { invocation ->
+            val params = invocation.getArgument<ChangeChoice.Params>(0)
+            val settings = settingsFlow.value.getOrThrow()
+
+            val newSettings = settings.copy(
+                choice = params.choice
+            )
+
+            emitSettings(newSettings)
+            Result.success(Unit)
+        })
     }
 
 
@@ -67,6 +85,28 @@ class CalendarViewModelTest {
         }
     }
 
+    @Test
+    fun onSelectChoice_selectedDaysChange() = runTest {
+        initViewModel()
+
+        val newChoice = Choice.Cheat
+        onEvents(
+            viewModel,
+            CalendarEvent.SelectChoice(newChoice)
+        ) { collectedStates ->
+            assertEquals(
+                listOf(
+                    defaultContent.copy(reports = reports, selectedChoice = newChoice),
+                ),
+                collectedStates
+            )
+        }
+    }
+
+
+    private fun emitSettings(settings: SettingsDomainEntity) = runBlocking {
+        settingsFlow.emit(Result.success(settings))
+    }
 
     companion object {
         val reports = buildList {
@@ -76,7 +116,7 @@ class CalendarViewModelTest {
         }
 
 
-        val settings = DummyEntities.settings.copy(choice = Choice.Creatine.value)
+        val settings = DummyEntities.settings.copy(choice = Choice.Creatine)
 
         private val defaultContent = CalendarState.Content(
             selectedChoice = Choice.Workout,
