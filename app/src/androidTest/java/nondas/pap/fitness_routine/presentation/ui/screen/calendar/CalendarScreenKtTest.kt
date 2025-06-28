@@ -13,6 +13,8 @@ import nondas.pap.fitness_routine.presentation.component.AppSurface
 import nondas.pap.fitness_routine.presentation.util.toTimeStamp
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.SIDE_MENU
 import org.junit.Assert.*
 
 import org.junit.Before
@@ -99,6 +101,27 @@ class CalendarScreenKtTest {
             composeTestRule.onNodeWithText(it.toString()).assertIsDisplayed()
                 .assertHasClickAction()
         }
+
+    }
+
+    @Test
+    fun onContentState_whenSideMenuButtonIsClicked_sideMenuIsDisplayed() {
+        // given
+        whenever(viewModel.uiState).thenReturn(MutableStateFlow(defaultContent))
+
+        composeTestRule.setContent {
+            AppSurface {
+                CalendarScreen(viewModel = viewModel, navigateToScreen = {}, navigateToDailyReport = {})
+            }
+        }
+
+        // when
+        composeTestRule.onNodeWithTag(SIDE_MENU_BUTTON).performClick()
+
+        //then
+
+        composeTestRule.onNodeWithTag(SIDE_MENU).assertIsDisplayed()
+
 
     }
 

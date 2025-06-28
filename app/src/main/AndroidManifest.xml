@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name="com.example.fitness_routine.presentation.HiltComponentActivity"
+            android:name="nondas.pap.fitness_routine.presentation.HiltComponentActivity"
             android:exported="true"
             android:theme="@style/Theme.Fitnessroutine">
 

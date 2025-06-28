@@ -53,6 +53,8 @@ import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.BODY_MEASUREMENT_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreenConstants.Companion.WORKOUT_BUTTON_REPORT
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
@@ -231,6 +233,7 @@ private fun WorkoutButton(
         modifier = Modifier
             .padding(top = contentSpacing4)
             .fillMaxWidth()
+            .testTag(WORKOUT_BUTTON_REPORT)
     ) {
         Text(
             text = "Workout"
@@ -247,6 +250,7 @@ private fun BodyMeasurementButton(
         modifier = Modifier
             .padding(top = contentSpacing4)
             .fillMaxWidth()
+            .testTag(BODY_MEASUREMENT_BUTTON)
     ) {
         Text(
             text = "Body Measurement"
@@ -420,6 +424,8 @@ class ReportScreenConstants private constructor() {
         const val WORKOUT_TAB = "workout_tab"
         const val NUTRITION_CONTENT = "nutrition_content"
         const val WORKOUT_CONTENT = "workout_content"
+        const val WORKOUT_BUTTON_REPORT = "workout_button_report"
+        const val BODY_MEASUREMENT_BUTTON = "body_measurement_button"
 
     }
 }

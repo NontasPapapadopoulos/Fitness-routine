@@ -83,6 +83,7 @@ import nondas.pap.fitness_routine.presentation.util.getDayOfWeek
 import nondas.pap.fitness_routine.presentation.util.getIcon
 import nondas.pap.fitness_routine.presentation.util.toDate
 import kotlinx.coroutines.launch
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CALENDAR_CONTENT
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CHOICE_BUTTON
 import java.time.LocalDate
 import java.time.ZoneId
@@ -188,7 +189,8 @@ private fun Content(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(it)
-                    .semantics { contentDescription = NavigationTarget.Calendar.name },
+//                    .semantics { contentDescription = NavigationTarget.Calendar.name }
+                    .testTag(CALENDAR_CONTENT),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -342,7 +344,7 @@ private fun Month(
     FlowRow(
         maxItemsInEachRow = 7
     ) {
-        (0..<emptyBoxes).forEach {
+        (0..<emptyBoxes).forEach { _ ->
             Box(
                 modifier = Modifier
                     .padding(2.dp)
@@ -687,8 +689,13 @@ fun generateReports(): List<DailyReportDomainEntity> {
 
 class CalendarScreenConstants private constructor() {
     companion object {
+        const val CALENDAR_CONTENT = "calendar_content"
         const val SIDE_MENU_BUTTON = "side_menu_button"
         const val DAY = "day"
         const val CHOICE_BUTTON = "choice_button_"
+        const val WORKOUT_BUTTON = "workout_button_"
+        const val GYM_BUTTON = "gym_button_"
+        const val CHEAT_BUTTON = "cheat_button_"
+        const val CALENDAR_BUTTON = "calendar_button_"
     }
 }

@@ -26,6 +26,10 @@ import androidx.compose.ui.unit.dp
 import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
 import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CALENDAR_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CHEAT_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.GYM_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.WORKOUT_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
@@ -39,22 +43,26 @@ fun BottomBar(
         BottomBarChoice(
             icon = Icons.Filled.CalendarMonth,
             text = "Calendar",
-            screen = NavigationTarget.Calendar
+            screen = NavigationTarget.Calendar,
+            testTag = CALENDAR_BUTTON
         ),
         BottomBarChoice(
             icon = Icons.Default.FitnessCenter,
             text = "Workout",
-            screen = NavigationTarget.Workout
+            screen = NavigationTarget.Workout,
+            testTag = WORKOUT_BUTTON
         ),
         BottomBarChoice(
             icon = FitnessDiary.FitnessTracker24px,
             text = "Gym",
-            screen = NavigationTarget.Gym
+            screen = NavigationTarget.Gym,
+            testTag = GYM_BUTTON
         ),
         BottomBarChoice(
             icon = Icons.Filled.Fastfood,
             text = "Cheat",
-            screen = NavigationTarget.Cheat
+            screen = NavigationTarget.Cheat,
+            testTag = CHEAT_BUTTON
         )
     )
 
@@ -74,6 +82,7 @@ fun BottomBar(
 
                 Column(
                     modifier = Modifier
+                        .testTag(it.testTag)
                         .clickable { onClick(it.screen) }
                         .testTag(it.screen.name)
                         .padding(vertical = contentSpacing4),
@@ -101,7 +110,8 @@ fun BottomBar(
 data class BottomBarChoice(
     val icon: ImageVector,
     val text: String,
-    val screen: NavigationTarget
+    val screen: NavigationTarget,
+    val testTag: String
 )
 
 @Composable

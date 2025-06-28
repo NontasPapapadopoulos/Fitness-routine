@@ -16,6 +16,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
@@ -23,6 +24,10 @@ import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.MEASUREMENTS_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.NOTES_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.SETTINGS_BUTTON
+import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.SIDE_MENU
 
 @Composable
  fun SideMenu(
@@ -31,7 +36,8 @@ import kotlinx.coroutines.launch
     navigateToScreen: (NavigationTarget) -> Unit
 ) {
     ModalDrawerSheet(
-        modifier = Modifier.width(250.dp),
+        modifier = Modifier.width(250.dp)
+            .testTag(SIDE_MENU),
         drawerContainerColor = MaterialTheme.colorScheme.background,
         drawerTonalElevation = 0.dp
     ) {
@@ -84,7 +90,8 @@ import kotlinx.coroutines.launch
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
                     navigateToScreen(NavigationTarget.Settings)
-                }
+                },
+                modifier = Modifier.testTag(SETTINGS_BUTTON)
             )
 
 
@@ -100,7 +107,8 @@ import kotlinx.coroutines.launch
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
                     navigateToScreen(NavigationTarget.Measurements)
-                }
+                },
+                modifier = Modifier.testTag(MEASUREMENTS_BUTTON)
             )
 
 
@@ -116,7 +124,8 @@ import kotlinx.coroutines.launch
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
                     navigateToScreen(NavigationTarget.Notes)
-                }
+                },
+                modifier = Modifier.testTag(NOTES_BUTTON)
             )
 
 //                    NavigationDrawerItem(
@@ -150,3 +159,12 @@ suspend fun toggleDrawerState(drawerState: DrawerState) {
     else drawerState.open()
 }
 
+
+class SideMenuConstants private constructor() {
+    companion object {
+        const val SIDE_MENU = "side_menu"
+        const val SETTINGS_BUTTON = "settings_button"
+        const val MEASUREMENTS_BUTTON = "measurements_button"
+        const val NOTES_BUTTON = "notes_button"
+    }
+}
