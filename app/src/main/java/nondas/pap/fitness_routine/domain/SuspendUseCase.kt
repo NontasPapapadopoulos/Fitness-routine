@@ -1,6 +1,8 @@
 package nondas.pap.fitness_routine.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 abstract class SuspendUseCase<out Type, in Params>(
@@ -21,3 +23,10 @@ abstract class SuspendUseCase<out Type, in Params>(
 suspend fun <Type: Any> SuspendUseCase<Type, Unit>.execute(): Result<Type> {
     return execute(Unit)
 }
+
+fun <T, P> SuspendUseCase<T, P>.executeAsFlow(params: P): Flow<Result<T>> = flow {
+    emit(execute(params))
+}
+
+fun <Type: Any> SuspendUseCase<Type, Unit>.executeAsFlow(): Flow<Result<Type>> =
+    this.executeAsFlow(Unit)

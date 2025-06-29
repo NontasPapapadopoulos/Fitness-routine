@@ -42,5 +42,12 @@ class CardioDataRepository @Inject constructor(
         cardioDataSource.init(date)
     }
 
+    override suspend fun getCardiosByDate(
+        fromDate: Long,
+        toDate: Long
+    ): List<CardioDomainEntity> {
+        return cardioDataSource.getCardioByDate(fromDate, toDate).map { it.toDomain() }
+    }
+
 
 }

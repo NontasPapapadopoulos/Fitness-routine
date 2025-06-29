@@ -10,4 +10,5 @@ interface CardioRepository {
     suspend fun put(cardio: CardioDomainEntity)
     suspend fun delete(cardio: CardioDomainEntity)
     suspend fun init(date: Long)
+    suspend fun getCardiosByDate(fromDate: Long, toDate:Long): List<CardioDomainEntity>
 }
