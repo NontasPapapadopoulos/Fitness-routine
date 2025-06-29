@@ -49,7 +49,7 @@ fun RootNavGraph(
                 navigateToDailyReport = { date -> navController.navigate(Report(date)) },
                 navigateToScreen = { screen ->
                     when (screen) {
-                        NavigationTarget.Gym,
+                        NavigationTarget.Gym -> { navController.navigate(GymSessions) { { launchSingleTop = true } } }
                         NavigationTarget.Cheat -> { navController.navigate(Cheat) { launchSingleTop = true } }
                         NavigationTarget.Exercise -> { navController.navigate(Exercise(null)) { launchSingleTop = true } }
                         NavigationTarget.Settings -> { navController.navigate(AppSettings) { launchSingleTop = true } }
@@ -76,7 +76,7 @@ fun RootNavGraph(
             CheatMealsScreen(
                 navigateToScreen = {
                     when (it) {
-                        NavigationTarget.Calendar,
+                        NavigationTarget.Calendar -> { navController.navigate(Calendar) { launchSingleTop = true } }
                         NavigationTarget.Gym -> { navController.navigate(GymSessions) { launchSingleTop = true } }
                         NavigationTarget.Workout -> { navController.navigate(Workout(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}
@@ -90,7 +90,7 @@ fun RootNavGraph(
             GymSessionsScreen(
                 navigateToScreen = {
                     when (it) {
-                        NavigationTarget.Calendar,
+                        NavigationTarget.Calendar -> { navController.navigate(Calendar) { launchSingleTop = true } }
                         NavigationTarget.Cheat -> { navController.navigate(Cheat) { launchSingleTop = true } }
                         NavigationTarget.Workout -> { navController.navigate(Workout(getCurrentDate())) { launchSingleTop = true } }
                         else -> {}

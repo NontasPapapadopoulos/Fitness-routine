@@ -28,4 +28,8 @@ interface CardioDao {
 
     @Delete
     suspend fun delete(cardio: CardioDataEntity)
+
+
+    @Query("SELECT * FROM cardio where date > :fromDate AND date < :toDate")
+    suspend fun getCardiosByDate(fromDate: Long, toDate: Long): List<CardioDataEntity>
 }

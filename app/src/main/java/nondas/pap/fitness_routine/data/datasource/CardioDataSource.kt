@@ -13,6 +13,7 @@ interface CardioDataSource {
     suspend fun update(cardio: CardioDataEntity)
     suspend fun delete(cardio: CardioDataEntity)
     suspend fun init(date: Long)
+    suspend fun getCardioByDate(fromDate: Long, toDate: Long): List<CardioDataEntity>
 }
 
 
@@ -52,5 +53,11 @@ class CardioDataSourceImpl @Inject constructor(
             cardioDao.put(cardio)
         }
     }
+
+    override suspend fun getCardioByDate(fromDate: Long, toDate: Long): List<CardioDataEntity> {
+        return cardioDao.getCardiosByDate(fromDate, toDate)
+    }
+
+
 
 }
