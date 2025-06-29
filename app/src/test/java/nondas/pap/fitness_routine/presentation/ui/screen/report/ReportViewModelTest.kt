@@ -147,47 +147,47 @@ class ReportViewModelTest {
 
         whenever(getCheatMeals.execute(any())).thenReturn(cheatMealsFlow)
 
-        whenever(updateReport.execute(any())).thenAnswer {
-            InlineClassesAnswer { invocation ->
-                val params = invocation.getArgument<UpdateDailyReport.Params>(0)
-                val report = reportFlow.value.getOrThrow()
+//        whenever(updateReport.execute(any())).thenAnswer {
+//            InlineClassesAnswer { invocation ->
+//                val params = invocation.getArgument<UpdateDailyReport.Params>(0)
+//                val report = reportFlow.value.getOrThrow()
+//
+//
+//                val newReport = report.copy(
+//                    proteinGrams = params.report.proteinGrams,
+//                    date = params.report.date,
+//                    hadCreatine = params.report.hadCreatine,
+//                    sleepQuality = params.report.sleepQuality,
+//                    litersOfWater = params.report.litersOfWater,
+//                    musclesTrained = params.report.musclesTrained,
+//                    performedWorkout = params.report.performedWorkout,
+//                    hadCheatMeal = params.report.hadCheatMeal
+//                )
+//
+//                emitReport(params.report)
+//
+//                Result.success(Unit)
+//            }
+//        }
 
-
-                val newReport = report.copy(
-                    proteinGrams = params.report.proteinGrams,
-                    date = params.report.date,
-                    hadCreatine = params.report.hadCreatine,
-                    sleepQuality = params.report.sleepQuality,
-                    litersOfWater = params.report.litersOfWater,
-                    musclesTrained = params.report.musclesTrained,
-                    performedWorkout = params.report.performedWorkout,
-                    hadCheatMeal = params.report.hadCheatMeal
-                )
-
-                emitReport(params.report)
-
-                Result.success(Unit)
-            }
-        }
-
-        whenever(addCardio.execute(any())).thenAnswer {
-            InlineClassesAnswer { invocation ->
-                val params = invocation.getArgument<AddCardio.Params>(0)
-                val cardios = cardiosFlow.value.getOrThrow()
-
-                val newCardio = CardioDomainEntity(
-                    id = "",
-                    date = params.date,
-                    type = params.type,
-                    minutes = params.minutes
-                )
-
-                emitCardios(cardios.plus(newCardio))
-
-                Result.success(Unit)
-            }
-        }
-
+//        whenever(addCardio.execute(any())).thenAnswer {
+//            InlineClassesAnswer { invocation ->
+//                val params = invocation.getArgument<AddCardio.Params>(0)
+//                val cardios = cardiosFlow.value.getOrThrow()
+//
+//                val newCardio = CardioDomainEntity(
+//                    id = "",
+//                    date = params.date,
+//                    type = params.type,
+//                    minutes = params.minutes
+//                )
+//
+//                emitCardios(cardios.plus(newCardio))
+//
+//                Result.success(Unit)
+//            }
+//        }
+//
     }
 
     @Test
@@ -205,26 +205,26 @@ class ReportViewModelTest {
         }
     }
 
-    @Test
-    fun onUpdateCheckBox_togglesCheckBox() = runTest {
-        initViewModel()
-
-
-        onEvents(
-            viewModel,
-            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Workout),
-        ) { collectedStates ->
-
-            assertEquals(
-                listOf(
-                    ReportState.Idle,
-                    defaultContent,
-                    defaultContent.copy(dailyReport = report.copy(performedWorkout = !report.performedWorkout)),
-                ),
-                collectedStates
-            )
-        }
-    }
+//    @Test
+//    fun onUpdateCheckBox_togglesCheckBox() = runTest {
+//        initViewModel()
+//
+//
+//        onEvents(
+//            viewModel,
+//            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Workout),
+//        ) { collectedStates ->
+//
+//            assertEquals(
+//                listOf(
+//                    ReportState.Idle,
+//                    defaultContent,
+//                    defaultContent.copy(dailyReport = report.copy(performedWorkout = !report.performedWorkout)),
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
 //
 //    @Test

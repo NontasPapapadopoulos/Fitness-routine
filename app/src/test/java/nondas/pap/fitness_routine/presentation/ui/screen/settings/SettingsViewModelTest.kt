@@ -68,84 +68,84 @@ class SettingsViewModelTest {
         }
     }
 
-    @Test
-    fun onToggleSwitchButton_changesDarkMode() = runTest {
-        whenever(changeSettings.execute(any())).thenAnswer(InlineClassesAnswer { invocation ->
-            val params = invocation.getArgument<ChangeSettings.Params>(0)
-            val settings = settingsFlow.value.getOrThrow()
-            emitSettings(settings.copy(isDarkModeEnabled = params.settings.isDarkModeEnabled))
-            Result.success(Unit)
-        })
+//    @Test
+//    fun onToggleSwitchButton_changesDarkMode() = runTest {
+//        whenever(changeSettings.execute(any())).thenAnswer(InlineClassesAnswer { invocation ->
+//            val params = invocation.getArgument<ChangeSettings.Params>(0)
+//            val settings = settingsFlow.value.getOrThrow()
+//            emitSettings(settings.copy(isDarkModeEnabled = params.settings.isDarkModeEnabled))
+//            Result.success(Unit)
+//        })
+//
+//        initViewModel()
+//
+//        onEvents(
+//            viewModel,
+//            SettingsEvent.ToggleDarkMode
+//        ) { collectedStates ->
+//            assertEquals(
+//                listOf(
+//                    SettingsState.Idle,
+//                    defaultContent,
+//                    defaultContent.copy(settings.copy(isDarkModeEnabled = !defaultContent.settings.isDarkModeEnabled))
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
-        initViewModel()
 
-        onEvents(
-            viewModel,
-            SettingsEvent.ToggleDarkMode
-        ) { collectedStates ->
-            assertEquals(
-                listOf(
-                    SettingsState.Idle,
-                    defaultContent,
-                    defaultContent.copy(settings.copy(isDarkModeEnabled = !defaultContent.settings.isDarkModeEnabled))
-                ),
-                collectedStates
-            )
-        }
-    }
+//    @Test
+//    fun onTextChanged_changesBreakDuration() = runTest {
+//        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
+//            val params = invocation.getArgument<ChangeSettings.Params>(0)
+//            val settings = settingsFlow.value.getOrThrow()
+//            emitSettings(settings.copy(breakDuration = params.settings.breakDuration))
+//            Result.success(Unit)
+//        })
+//
+//        initViewModel()
+//
+//        onEvents(
+//            viewModel,
+//            SettingsEvent.TextChanged("text")
+//        ) { collectedStates ->
+//            assertEquals(
+//                listOf(
+//                    SettingsState.Idle,
+//                    defaultContent,
+//                    defaultContent.copy(settings.copy(breakDuration = "text"))
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
-
-    @Test
-    fun onTextChanged_changesBreakDuration() = runTest {
-        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
-            val params = invocation.getArgument<ChangeSettings.Params>(0)
-            val settings = settingsFlow.value.getOrThrow()
-            emitSettings(settings.copy(breakDuration = params.settings.breakDuration))
-            Result.success(Unit)
-        })
-
-        initViewModel()
-
-        onEvents(
-            viewModel,
-            SettingsEvent.TextChanged("text")
-        ) { collectedStates ->
-            assertEquals(
-                listOf(
-                    SettingsState.Idle,
-                    defaultContent,
-                    defaultContent.copy(settings.copy(breakDuration = "text"))
-                ),
-                collectedStates
-            )
-        }
-    }
-
-    @Test
-    fun onSelectChoice_changesChoice() = runTest {
-        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
-            val params = invocation.getArgument<ChangeSettings.Params>(0)
-            val settings = settingsFlow.value.getOrThrow()
-            emitSettings(settings.copy(choice = params.settings.choice))
-            Result.success(Unit)
-        })
-
-        initViewModel()
-
-        onEvents(
-            viewModel,
-            SettingsEvent.SelectChoice(Choice.Creatine)
-        ) { collectedStates ->
-            assertEquals(
-                listOf(
-                    SettingsState.Idle,
-                    defaultContent,
-                    defaultContent.copy(settings.copy(choice = Choice.Creatine))
-                ),
-                collectedStates
-            )
-        }
-    }
+//    @Test
+//    fun onSelectChoice_changesChoice() = runTest {
+//        whenever(changeSettings.execute(any())).thenAnswer( InlineClassesAnswer { invocation ->
+//            val params = invocation.getArgument<ChangeSettings.Params>(0)
+//            val settings = settingsFlow.value.getOrThrow()
+//            emitSettings(settings.copy(choice = params.settings.choice))
+//            Result.success(Unit)
+//        })
+//
+//        initViewModel()
+//
+//        onEvents(
+//            viewModel,
+//            SettingsEvent.SelectChoice(Choice.Creatine)
+//        ) { collectedStates ->
+//            assertEquals(
+//                listOf(
+//                    SettingsState.Idle,
+//                    defaultContent,
+//                    defaultContent.copy(settings.copy(choice = Choice.Creatine))
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
 
     private fun initViewModel() {

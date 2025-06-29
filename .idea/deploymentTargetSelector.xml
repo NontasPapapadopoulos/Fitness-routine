@@ -5,19 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="NavigationTest">
+      <SelectionState runConfigName="Tests in 'nondas.pap.fitness_routine'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="onClickOnADay_navigatesToReportsScreen()">
+      <SelectionState runConfigName="contentState_whenSelectMuscle_addsSelectMuscle()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="onClickWorkoutButtonOnReports_navigatesToWorkoutScreen()">
+      <SelectionState runConfigName="GymSessionsScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="onClickBodyMeasurementButtonOnReports_navigatesBodyMeasurementScreen()">
+      <SelectionState runConfigName="CalendarScreenKtTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="onClickGymButton_navigatesToGymSessionsScreen()">
+      <SelectionState runConfigName="onContentState_whenScreenIsLaunched_DisplaysAllDaysOfTheCurrentMonth()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
