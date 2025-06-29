@@ -49,7 +49,7 @@ fun RootNavGraph(
                 navigateToDailyReport = { date -> navController.navigate(Report(date)) },
                 navigateToScreen = { screen ->
                     when (screen) {
-                        NavigationTarget.Gym,
+                        NavigationTarget.Gym -> { navController.navigate(GymSessions) { { launchSingleTop = true } } }
                         NavigationTarget.Cheat -> { navController.navigate(Cheat) { launchSingleTop = true } }
                         NavigationTarget.Exercise -> { navController.navigate(Exercise(null)) { launchSingleTop = true } }
                         NavigationTarget.Settings -> { navController.navigate(AppSettings) { launchSingleTop = true } }

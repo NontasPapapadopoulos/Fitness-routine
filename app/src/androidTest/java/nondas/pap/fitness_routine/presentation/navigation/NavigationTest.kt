@@ -82,14 +82,14 @@ class NavigationTest {
     }
 
 
-//    @Test
-//    fun onClickGymButton_navigatesToGymSessionsScreen() {
-//
-//        waitUntilComposableShowUp(CALENDAR_CONTENT)
-//
-//        composeTestRule.onNodeWithTag(GYM_BUTTON).performClick()
-//        assertTrue(navController.currentBackStackEntry?.destination?.hasRoute<GymSessions>() ?: false)
-//    }
+    @Test
+    fun onClickGymButton_navigatesToGymSessionsScreen() {
+
+        waitUntilComposableShowUp(CALENDAR_CONTENT)
+
+        composeTestRule.onNodeWithTag(GYM_BUTTON).performClick()
+        assertTrue(navController.currentBackStackEntry?.destination?.hasRoute<GymSessions>() ?: false)
+    }
 
     @Test
     fun onClickWorkoutButton_navigatesToWorkoutScreen() {
