@@ -19,8 +19,8 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.whenever
 
-@RunWith(MockitoJUnitRunner::class)
-class MeasurementsScreenTest {
+//@RunWith(MockitoJUnitRunner::class)
+//class MeasurementsScreenTest {
 
 //    @get:Rule
 //    val composeTestRule = createComposeRule()
@@ -65,4 +65,4 @@ class MeasurementsScreenTest {
 //        )
 //    }
 
-}
+//}

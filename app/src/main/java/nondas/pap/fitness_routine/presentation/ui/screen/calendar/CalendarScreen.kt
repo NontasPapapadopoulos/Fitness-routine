@@ -189,7 +189,6 @@ private fun Content(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(it)
-//                    .semantics { contentDescription = NavigationTarget.Calendar.name }
                     .testTag(CALENDAR_CONTENT),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

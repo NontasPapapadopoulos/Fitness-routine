@@ -15,6 +15,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.SIDE_MENU
+import nondas.pap.fitness_routine.presentation.util.Calendar
+import nondas.pap.fitness_routine.presentation.util.getCurrentDay
+import nondas.pap.fitness_routine.presentation.util.getCurrentMonth
+import nondas.pap.fitness_routine.presentation.util.getCurrentYear
+import nondas.pap.fitness_routine.presentation.util.getDayOfWeek
 import org.junit.Assert.*
 
 import org.junit.Before
@@ -79,9 +84,13 @@ class CalendarScreenKtTest {
                 CalendarScreen(viewModel = viewModel, navigateToScreen = {}, navigateToDailyReport = {})
             }
         }
+        val currentMonth = getCurrentMonth()
+        val currentDay = getCurrentDay()
+
+        val text = "${getDayOfWeek().take(3)}, ${currentMonth.take(3)} $currentDay"
 
         // Since the current date is 03/03/2025, we expect the month to be Mar
-        composeTestRule.onNodeWithText("Mon, Mar 3").assertIsDisplayed()
+        composeTestRule.onNodeWithText(text).assertIsDisplayed()
 
     }
 
@@ -96,8 +105,18 @@ class CalendarScreenKtTest {
             }
         }
 
-        // Since the current date is 03/03/2025, we expect 31 days
-        (1..31).map {
+        val currentYear = getCurrentYear().toInt()
+        val calendar = Calendar().createCalendar(currentYear-1 , currentYear+1)
+        val currentMonth = getCurrentMonth()
+
+
+        val numberOfDays = calendar.years
+            .find { it.year == currentYear }?.months
+            ?.find { it.monthName == currentMonth }
+            ?.days?.size!!
+
+
+        (1..numberOfDays).map {
             composeTestRule.onNodeWithText(it.toString()).assertIsDisplayed()
                 .assertHasClickAction()
         }
