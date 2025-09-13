@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "nondas.pap.fitness_routine"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "nondas.pap.fitness_routine"
@@ -72,7 +72,7 @@ android {
 dependencies {
 
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
+//    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui.graphics)
@@ -80,12 +80,25 @@ dependencies {
     implementation(libs.compose.material3)
 
 
+    // navigation
+    //implementation(libs.hilt.navigation.compose)
 
-    implementation(libs.navigation.compose)
+//     Core runtime for Jetpack Navigation 3 library — provides navigation components and APIs
+    implementation(libs.androidx.navigation3.runtime)
 
+    // UI components for Navigation 3 — includes NavDisplay etc.
+    implementation(libs.androidx.navigation3.ui)
+
+    // ViewModel integration with Navigation 3 — provides lifecycle-aware ViewModels scoped to navigation destinations
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.activity.compose)
+    implementation(libs.compose.material3)
+
+    // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
 
     // Retrofit & OkHttp
     implementation(libs.retrofit)
@@ -93,10 +106,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-
-    // ViewModel & Lifecycle
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.runtime.compose)
 
     // Status bar customization
     implementation(libs.accompanist.systemuicontroller)

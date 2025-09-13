@@ -46,12 +46,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 //import nondas.pap.fitness_routine.BuildConfig
 import nondas.pap.fitness_routine.R
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -59,7 +58,6 @@ import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.DAY
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.SIDE_MENU_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenu
@@ -72,7 +70,6 @@ import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing6
-import nondas.pap.fitness_routine.presentation.util.Calendar
 import nondas.pap.fitness_routine.presentation.util.Day
 import nondas.pap.fitness_routine.presentation.util.Month
 import nondas.pap.fitness_routine.presentation.util.getCurrentDay
@@ -82,9 +79,11 @@ import nondas.pap.fitness_routine.presentation.util.getDate
 import nondas.pap.fitness_routine.presentation.util.getDayOfWeek
 import nondas.pap.fitness_routine.presentation.util.getIcon
 import nondas.pap.fitness_routine.presentation.util.toDate
+import nondas.pap.fitness_routine.presentation.navigation.CalendarScreen
 import kotlinx.coroutines.launch
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CALENDAR_CONTENT
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CHOICE_BUTTON
+import nondas.pap.fitness_routine.presentation.util.Calendar
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -94,7 +93,7 @@ import java.util.Date
 fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateToDailyReport: (Long) -> Unit,
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -138,7 +137,7 @@ fun CalendarScreen(
 private fun Content(
     content: CalendarState.Content,
     navigateToDailyReport: (Long) -> Unit,
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
     onSelect: (Choice) -> Unit
 ) {
 
@@ -176,7 +175,7 @@ private fun Content(
             bottomBar = {
                 BottomBar(
                     onClick = { navigateToScreen(it) },
-                    currentScreen = NavigationTarget.Calendar
+                    currentScreen = CalendarScreen
                 )
             }
         ) {

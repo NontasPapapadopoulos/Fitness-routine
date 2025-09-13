@@ -55,7 +55,6 @@ import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
-import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4

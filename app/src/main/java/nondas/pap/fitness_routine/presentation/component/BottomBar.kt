@@ -23,7 +23,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
+import androidx.navigation3.runtime.NavKey
+import nondas.pap.fitness_routine.presentation.navigation.CalendarScreen
+import nondas.pap.fitness_routine.presentation.navigation.Cheat
+import nondas.pap.fitness_routine.presentation.navigation.GymSessions
+import nondas.pap.fitness_routine.presentation.navigation.Workout
 import nondas.pap.fitness_routine.presentation.ui.icons.FitnessDiary
 import nondas.pap.fitness_routine.presentation.ui.icons.myiconpack.FitnessTracker24px
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.CALENDAR_BUTTON
@@ -32,36 +36,37 @@ import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreenConstants.Companion.WORKOUT_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
+import nondas.pap.fitness_routine.presentation.util.getCurrentDate
 
 @Composable
 fun BottomBar(
-    onClick: (NavigationTarget) -> Unit,
-    currentScreen: NavigationTarget
+    onClick: (NavKey) -> Unit,
+    currentScreen: NavKey
 ) {
 
     val choices = listOf(
         BottomBarChoice(
             icon = Icons.Filled.CalendarMonth,
             text = "Calendar",
-            screen = NavigationTarget.Calendar,
+            screen = CalendarScreen,
             testTag = CALENDAR_BUTTON
         ),
         BottomBarChoice(
             icon = Icons.Default.FitnessCenter,
             text = "Workout",
-            screen = NavigationTarget.Workout,
+            screen = Workout(getCurrentDate()),
             testTag = WORKOUT_BUTTON
         ),
         BottomBarChoice(
             icon = FitnessDiary.FitnessTracker24px,
             text = "Gym",
-            screen = NavigationTarget.Gym,
+            screen = GymSessions,
             testTag = GYM_BUTTON
         ),
         BottomBarChoice(
             icon = Icons.Filled.Fastfood,
             text = "Cheat",
-            screen = NavigationTarget.Cheat,
+            screen = Cheat,
             testTag = CHEAT_BUTTON
         )
     )
@@ -84,7 +89,7 @@ fun BottomBar(
                     modifier = Modifier
                         .testTag(it.testTag)
                         .clickable { onClick(it.screen) }
-                        .testTag(it.screen.name)
+                        .testTag(it.screen.toString())
                         .padding(vertical = contentSpacing4),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -110,7 +115,7 @@ fun BottomBar(
 data class BottomBarChoice(
     val icon: ImageVector,
     val text: String,
-    val screen: NavigationTarget,
+    val screen: NavKey,
     val testTag: String
 )
 
@@ -120,7 +125,7 @@ private fun BottomBarPreview() {
     AppTheme(darkTheme = true) {
         BottomBar(
             onClick = {},
-            currentScreen = NavigationTarget.Calendar,
+            currentScreen = CalendarScreen,
         )
     }
 

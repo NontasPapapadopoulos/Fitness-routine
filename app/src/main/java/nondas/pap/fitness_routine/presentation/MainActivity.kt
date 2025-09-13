@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import nondas.pap.fitness_routine.presentation.navigation.RootNavGraph
+import nondas.pap.fitness_routine.presentation.navigation.Navigation
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
@@ -22,8 +21,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pdf = PdfDocument()
-
         enableEdgeToEdge()
         setContent {
 
@@ -32,9 +29,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.navigationBars)) { innerPadding ->
                     innerPadding
-
-                    RootNavGraph(navController = rememberNavController())
-
+                    Navigation()
                 }
             }
         }

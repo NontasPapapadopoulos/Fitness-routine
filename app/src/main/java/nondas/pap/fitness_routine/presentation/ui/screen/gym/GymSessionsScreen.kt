@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -43,7 +44,7 @@ import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
+import nondas.pap.fitness_routine.presentation.navigation.GymSessions
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
@@ -58,7 +59,7 @@ import java.util.Date
 @Composable
 fun GymSessionsScreen(
     viewModel: GymSessionsViewModel = hiltViewModel(),
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
     navigateToWorkoutScreen: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -99,7 +100,7 @@ fun GymSessionsScreen(
 @Composable
 private fun GymSessionsContent(
     content: GymSessionsState.Content,
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
     navigateToWorkoutScreen: (Long) -> Unit,
     navigateBack: () -> Unit,
     onSelectMuscles: (Muscle) -> Unit
@@ -116,7 +117,7 @@ private fun GymSessionsContent(
         bottomBar = {
             BottomBar(
                 onClick = { navigateToScreen(it) },
-                currentScreen = NavigationTarget.Gym
+                currentScreen = GymSessions
             )
         }
     ) {

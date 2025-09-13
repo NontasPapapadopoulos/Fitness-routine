@@ -53,6 +53,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import nondas.pap.fitness_routine.R
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
@@ -62,7 +63,6 @@ import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
 import nondas.pap.fitness_routine.presentation.component.MusclesTrained
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import nondas.pap.fitness_routine.presentation.util.asTextFieldValue
@@ -70,6 +70,7 @@ import nondas.pap.fitness_routine.presentation.util.isCurrentDate
 import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import nondas.pap.fitness_routine.presentation.navigation.Workout
 import nondas.pap.fitness_routine.presentation.ui.screen.workout.WorkoutScreenConstants.Companion.EXERCISE_DIALOG
 import nondas.pap.fitness_routine.presentation.util.getCurrentDate
 import java.time.LocalDate
@@ -82,7 +83,7 @@ fun WorkoutScreen(
     viewModel: WorkoutViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
     onNavigateToExercises: (Muscle) -> Unit,
-    onNavigateToScreen: (NavigationTarget) -> Unit
+    onNavigateToScreen: (NavKey) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -138,7 +139,7 @@ private fun WorkoutContent(
     onDismissDialog: () -> Unit,
     onAddExercise: (Muscle, String) -> Unit,
     onNavigateToExercises: (Muscle) -> Unit,
-    onNavigateToScreen: (NavigationTarget) -> Unit
+    onNavigateToScreen: (NavKey) -> Unit
 ) {
 
     Scaffold(
@@ -173,7 +174,7 @@ private fun WorkoutContent(
             if (content.date.isCurrentDate()) {
                 BottomBar(
                     onClick = { onNavigateToScreen(it) },
-                    currentScreen = NavigationTarget.Workout
+                    currentScreen = Workout(content.date)
                 )
             }
         }

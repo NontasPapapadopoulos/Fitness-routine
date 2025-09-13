@@ -18,12 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
+import androidx.navigation3.runtime.NavKey
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing3
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nondas.pap.fitness_routine.presentation.navigation.AppSettings
+import nondas.pap.fitness_routine.presentation.navigation.Exercise
+import nondas.pap.fitness_routine.presentation.navigation.Measurements
+import nondas.pap.fitness_routine.presentation.navigation.Notes
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.MEASUREMENTS_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.NOTES_BUTTON
 import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConstants.Companion.SETTINGS_BUTTON
@@ -33,7 +37,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConsta
  fun SideMenu(
     coroutineScope: CoroutineScope,
     drawerState: DrawerState,
-    navigateToScreen: (NavigationTarget) -> Unit
+    navigateToScreen: (NavKey) -> Unit
 ) {
     ModalDrawerSheet(
         modifier = Modifier.width(250.dp)
@@ -73,7 +77,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConsta
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(NavigationTarget.Exercise)
+                    navigateToScreen(Exercise(null))
                 },
             )
 
@@ -89,7 +93,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConsta
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(NavigationTarget.Settings)
+                    navigateToScreen(AppSettings)
                 },
                 modifier = Modifier.testTag(SETTINGS_BUTTON)
             )
@@ -106,7 +110,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConsta
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(NavigationTarget.Measurements)
+                    navigateToScreen(Measurements)
                 },
                 modifier = Modifier.testTag(MEASUREMENTS_BUTTON)
             )
@@ -123,7 +127,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.sidemenu.SideMenuConsta
                 selected = false,
                 onClick = {
                     coroutineScope.launch { toggleDrawerState(drawerState) }
-                    navigateToScreen(NavigationTarget.Notes)
+                    navigateToScreen(Notes)
                 },
                 modifier = Modifier.testTag(NOTES_BUTTON)
             )

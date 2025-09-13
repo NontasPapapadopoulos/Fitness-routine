@@ -25,12 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.presentation.component.BackButton
 import nondas.pap.fitness_routine.presentation.component.BottomBar
 import nondas.pap.fitness_routine.presentation.component.LoadingBox
-import nondas.pap.fitness_routine.presentation.navigation.NavigationTarget
+import nondas.pap.fitness_routine.presentation.navigation.Cheat
 import nondas.pap.fitness_routine.presentation.ui.screen.gym.BodyMeasurement
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing2
@@ -47,7 +48,7 @@ import java.util.Date
 @Composable
 fun CheatMealsScreen(
     viewModel: CheatMealsViewModel = hiltViewModel(),
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
     navigateBack: () -> Unit
 ) {
 
@@ -84,7 +85,7 @@ fun CheatMealsScreen(
 @Composable
 private fun CheatMealsContent(
     content: CheatMealsState.Content,
-    navigateToScreen: (NavigationTarget) -> Unit,
+    navigateToScreen: (NavKey) -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -100,7 +101,7 @@ private fun CheatMealsContent(
         bottomBar = {
             BottomBar(
                 onClick = { navigateToScreen(it) },
-                currentScreen = NavigationTarget.Cheat
+                currentScreen = Cheat
             )
         }
     ) {

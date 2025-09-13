@@ -1,60 +1,46 @@
 package nondas.pap.fitness_routine.presentation.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 
 
-interface Screen
 
 @Serializable
-object Splash: Screen
+object Splash: NavKey
 
 @Serializable
-object Calendar: Screen
+object CalendarScreen: NavKey
 
 @Serializable
-data class Report(val date: Long)
+data class Report(val date: Long): NavKey
 
 @Serializable
-object Cheat
+object Cheat: NavKey
 
 @Serializable
-object AppSettings
+object AppSettings: NavKey
 
 @Serializable
-object Measurements
+object Measurements: NavKey
 
 @Serializable
-object Notes
+object Notes: NavKey
 
 @Serializable
-object Analytics
+object Analytics: NavKey
 
 @Serializable
-data class Workout(val date: Long)
+data class Workout(val date: Long): NavKey
 
 @Serializable
-data class Exercise(val muscle: Muscle?)
+data class Exercise(val muscle: Muscle?): NavKey
 
 @Serializable
-data class Measurement(val date: Long)
+data class Measurement(val date: Long): NavKey
 
 @Serializable
-object GymSessions
-
-enum class NavigationTarget {
-    Calendar,
-    Cheat,
-    Gym,
-    Workout,
-    Exercise,
-    Settings,
-    Measurements,
-    Notes,
-    Analytics
-}
-
-
+object GymSessions: NavKey
 
 
 enum class NavigationArgument (val param: String) {
