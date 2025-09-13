@@ -3,6 +3,7 @@ package nondas.pap.fitness_routine.data.datasource
 import nondas.pap.fitness_routine.data.entity.SettingsDataEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import nondas.pap.fitness_routine.data.cache.dao.SettingsDao
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class SettingsDataSourceImpl @Inject constructor(
 ): SettingsDataSource {
 
     override fun getSettings(): Flow<SettingsDataEntity?> {
+       val settings = settingsDao.getSettings()
         return settingsDao.getSettings()
     }
 

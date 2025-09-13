@@ -10,6 +10,7 @@ room = "2.7.2"
 compose = "1.5.3"
 compose-bom = "2024.05.00"
 activity-compose = "1.12.0-alpha01"
+lifecycle = "2.9.1"
 core-ktx = "1.16.0"
 navigation3 = "1.0.0-alpha09"
 lifecycleViewmodel = "1.0.0-alpha04"
@@ -36,9 +37,9 @@ test-core = "1.6.1"
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 
-#lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-#lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
-#lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 

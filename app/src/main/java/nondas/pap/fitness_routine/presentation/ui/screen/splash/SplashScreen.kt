@@ -14,12 +14,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.delay
 import nondas.pap.fitness_routine.presentation.ui.screen.splash.SplashScreenConstants.Companion.SPLASH_SCREEN_TAG
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import nondas.pap.fitness_routine.presentation.ui.theme.contentSize25
@@ -28,8 +31,15 @@ import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing4
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: SplashViewModel = hiltViewModel(),
+    navigateToCalendarScreen: () -> Unit
 ) {
+
+    LaunchedEffect(Unit) {
+        delay(1200)
+        navigateToCalendarScreen()
+    }
+
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.primary,
@@ -69,6 +79,8 @@ fun SplashScreen(
 
 
 
+
+
         }
     }
 
@@ -85,6 +97,8 @@ class SplashScreenConstants private constructor() {
 @Composable
 private fun SplashScreenPreview() {
     AppTheme(darkTheme = true) {
-        SplashScreen()
+        SplashScreen(
+            navigateToCalendarScreen = {}
+        )
     }
 }

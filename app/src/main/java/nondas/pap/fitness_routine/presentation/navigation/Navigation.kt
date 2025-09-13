@@ -14,26 +14,33 @@ import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesScreen
+import nondas.pap.fitness_routine.presentation.ui.screen.splash.SplashScreen
 
 
 @Composable
 fun Navigation() {
 
-    val backStack = rememberNavBackStack(CalendarScreen)
+    val backStack = rememberNavBackStack(Splash)
 
     NavDisplay(
         backStack = backStack
     ) { route ->
         NavEntry(route) {
             when (route) {
+                is Splash ->
+                    SplashScreen(
+                        navigateToCalendarScreen = {
+                            backStack.add(CalendarScreen)
+                        }
+                    )
+
                 is CalendarScreen ->
                     CalendarScreen(
                         navigateToScreen = { screen ->
-                            backStack.removeLastOrNull()
                             backStack.add(screen)
                         },
-                        navigateToDailyReport = {
-                            backStack.add(Report(it))
+                        navigateToDailyReport = { date ->
+                            backStack.add(Report(date))
                         },
                     )
 
@@ -75,6 +82,7 @@ fun Navigation() {
                     MeasurementsScreen(
                         navigateBack = {
                             backStack.removeLastOrNull()
+                            backStack.add(CalendarScreen)
                         },
                         navigateToBodyMeasurement = {
                             backStack.add(Measurement(it))
@@ -127,7 +135,6 @@ fun Navigation() {
                             backStack.removeLastOrNull()
                         },
                         navigateToScreen = { screen ->
-                            backStack.removeLastOrNull()
                             backStack.add(screen)
                         },
                         navigateToWorkoutScreen = {},
