@@ -1,9 +1,12 @@
 package nondas.pap.fitness_routine.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.calendar.CalendarScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.cheat.CheatMealsScreen
@@ -23,7 +26,14 @@ fun Navigation() {
     val backStack = rememberNavBackStack(Splash)
 
     NavDisplay(
-        backStack = backStack
+        backStack = backStack,
+        entryDecorators = listOf(
+            // Add the default decorators for managing scenes and saving state
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator(),
+            // Then add the view model store decorator
+            rememberViewModelStoreNavEntryDecorator()
+        )
     ) { route ->
         NavEntry(route) {
             when (route) {
