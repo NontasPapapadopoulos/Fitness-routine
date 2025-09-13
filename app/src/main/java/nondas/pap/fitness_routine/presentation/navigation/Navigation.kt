@@ -3,6 +3,7 @@ package nondas.pap.fitness_routine.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
@@ -18,6 +19,7 @@ import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.workout.WorkoutScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.notes.NotesScreen
 import nondas.pap.fitness_routine.presentation.ui.screen.splash.SplashScreen
+import nondas.pap.fitness_routine.presentation.util.getCurrentDate
 
 
 @Composable
@@ -27,130 +29,156 @@ fun Navigation() {
 
     NavDisplay(
         backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
         entryDecorators = listOf(
             // Add the default decorators for managing scenes and saving state
             rememberSceneSetupNavEntryDecorator(),
             rememberSavedStateNavEntryDecorator(),
             // Then add the view model store decorator
             rememberViewModelStoreNavEntryDecorator()
-        )
-    ) { route ->
-        NavEntry(route) {
+        ),
+        entryProvider = { route ->
             when (route) {
                 is Splash ->
-                    SplashScreen(
-                        navigateToCalendarScreen = {
-                            backStack.add(CalendarScreen)
-                        }
-                    )
+                    NavEntry(key = route) {
+                        SplashScreen(
+                            navigateToCalendarScreen = {
+                                backStack.add(CalendarScreen)
+                            }
+                        )
+                    }
+
 
                 is CalendarScreen ->
-                    CalendarScreen(
-                        navigateToScreen = { screen ->
-                            backStack.add(screen)
-                        },
-                        navigateToDailyReport = { date ->
-                            backStack.add(Report(date))
-                        },
-                    )
+                    NavEntry(key = route) {
+                        CalendarScreen(
+                            navigateToScreen = { screen ->
+                                backStack.add(screen)
+                            },
+                            navigateToDailyReport = { id ->
+                                backStack.add(Report(id))
+                            },
+                        )
+                    }
 
 
                 is Report ->
-                    ReportScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        },
-                        navigateToWorkout = {
-                            backStack.add(Workout(it))
-                        },
-                        navigateToBodyMeasurement = {
-                            backStack.add(Measurement(it))
-                        },
-                    )
+                    NavEntry(key = route) {
+                        ReportScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            navigateToWorkout = {
+                                backStack.add(Workout(it))
+                            },
+                            navigateToBodyMeasurement = {
+                                backStack.add(Measurement(it))
+                            },
+                        )
+                    }
+
 
 
                 is Cheat ->
-                    CheatMealsScreen(
-                        navigateToScreen = { screen ->
-                            backStack.add(screen)
-                        },
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        }
-                    )
+                    NavEntry(key = route) {
+                        CheatMealsScreen(
+                            navigateToScreen = { screen ->
+                                backStack.add(screen)
+                            },
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
 
 
                 is AppSettings ->
-                    SettingsScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        },
-                    )
+                    NavEntry(key = route) {
+                        SettingsScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                        )
+                    }
 
 
                 is Measurements ->
-                    MeasurementsScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                            backStack.add(CalendarScreen)
-                        },
-                        navigateToBodyMeasurement = {
-                            backStack.add(Measurement(it))
-                        }
-                    )
+                    NavEntry(key = route) {
+                        MeasurementsScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            navigateToBodyMeasurement = {
+                                backStack.add(Measurement(it))
+                            }
+                        )
+                    }
 
 
                 is Notes ->
-                    NotesScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        }
-                    )
+                    NavEntry(key = route) {
+                        NotesScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
 
 
                 is Workout ->
-                    WorkoutScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        },
-                        onNavigateToScreen = { screen ->
-                            backStack.removeLastOrNull()
-                            backStack.add(screen)
-                        },
-                        onNavigateToExercises = {
-                            backStack.add(Exercise(null))
-                        }
-                    )
+                    NavEntry(key = route) {
+                        WorkoutScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            onNavigateToScreen = { screen ->
+                                backStack.add(screen)
+                            },
+                            onNavigateToExercises = {
+                                backStack.add(Exercise(null))
+                            }
+                        )
+                    }
 
 
                 is Exercise ->
-                    ExerciseScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        }
-                    )
+                    NavEntry(key = route) {
+                        ExerciseScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
 
 
                 is Measurement ->
-                    BodyMeasurementScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        }
-                    )
+                    NavEntry(key = route) {
+                        BodyMeasurementScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
 
 
                 is GymSessions ->
-                    GymSessionsScreen(
-                        navigateBack = {
-                            backStack.removeLastOrNull()
-                        },
-                        navigateToScreen = { screen ->
-                            backStack.add(screen)
-                        },
-                        navigateToWorkoutScreen = {},
-                    )
+                    NavEntry(key = route) {
+                        GymSessionsScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            navigateToScreen = { screen ->
+                                backStack.add(screen)
+                            },
+                            navigateToWorkoutScreen = {
+                                backStack.add(Workout(getCurrentDate()))
+                            },
+                        )
+                    }
 
+                else -> error("Unknown route: $route")
             }
         }
-    }
+    )
+
 }

@@ -2,6 +2,8 @@ package nondas.pap.fitness_routine.presentation.ui.screen.report
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavEntryDecorator
 import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -42,6 +44,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.fitness_routine.data.util.toMusclesList
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
+import nondas.pap.fitness_routine.presentation.navigation.Report
 import javax.inject.Inject
 
 
@@ -71,7 +74,8 @@ open class ReportViewModel @Inject constructor(
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
 
-    private val  dailyReportFlow = getDailyReport.execute(GetDailyReport.Params(date = date))
+
+    private val dailyReportFlow = getDailyReport.execute(GetDailyReport.Params(date = date))
         .map { it.getOrThrow() }
         .catch { addError(it) }
 
