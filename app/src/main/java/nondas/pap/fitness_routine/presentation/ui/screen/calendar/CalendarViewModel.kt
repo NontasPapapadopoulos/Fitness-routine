@@ -7,9 +7,6 @@ import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReports
 import nondas.pap.fitness_routine.domain.interactor.settings.ChangeChoice
 import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
 import nondas.pap.fitness_routine.presentation.BlocViewModel
-import nondas.pap.fitness_routine.presentation.Handler
-import nondas.pap.fitness_routine.presentation.flatMapMergeWith
-import nondas.pap.fitness_routine.presentation.toResult
 import nondas.pap.fitness_routine.presentation.util.getDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
