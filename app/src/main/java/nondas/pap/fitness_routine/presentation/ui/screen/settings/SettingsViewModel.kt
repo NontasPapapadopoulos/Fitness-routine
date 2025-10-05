@@ -19,7 +19,7 @@ import javax.inject.Inject
 open class SettingsViewModel @Inject constructor(
     private val getSettings: GetSettings,
     private val changeSettings: ChangeSettings
-): BlocViewModel<SettingsEvent, SettingsState>(){
+): BlocViewModel<SettingsEvent, SettingsState, Unit>(){
 
     override val _uiState: StateFlow<SettingsState> = getSettings.execute(Unit)
         .map { it.getOrThrow() }

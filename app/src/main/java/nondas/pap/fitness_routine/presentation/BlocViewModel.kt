@@ -7,13 +7,16 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 
-abstract class BlocViewModel<in E : Any, out S> : ViewModel() {
+abstract class BlocViewModel<in E : Any, out S, N> : ViewModel() {
 
     protected abstract val _uiState: StateFlow<S>
     open val uiState: StateFlow<S> get() = _uiState
 
     private val _errorFlow = MutableSharedFlow<Throwable>()
     open val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
+
+    private val _navigationFlow = MutableSharedFlow<N>()
+    open val navigationFlow: SharedFlow<N> = _navigationFlow.asSharedFlow()
 
     private val eventHandlers = HashMap<KClass<*>, suspend (Any) -> Unit>()
 
@@ -31,6 +34,10 @@ abstract class BlocViewModel<in E : Any, out S> : ViewModel() {
         _errorFlow.emit(throwable)
     }
 
+    protected open suspend fun navigateTo(navigationTarget: N) {
+        _navigationFlow.emit(navigationTarget)
+    }
+
     inline fun <reified T> onState(block: (state: T) -> Unit) {
         val state = uiState.value
         if (state is T) {
@@ -39,7 +46,7 @@ abstract class BlocViewModel<in E : Any, out S> : ViewModel() {
     }
 }
 
-abstract class DebugBloc<in E : Any, out S>() : BlocViewModel<E, S>() {
+abstract class DebugBloc<in E : Any, out S, N>() : BlocViewModel<E, S, N>() {
 
     override fun <T : E> add(event: T) = viewModelScope.launch {
         println("$TAG Bloc Event(${_uiState.value!!::class.simpleName}): $event")

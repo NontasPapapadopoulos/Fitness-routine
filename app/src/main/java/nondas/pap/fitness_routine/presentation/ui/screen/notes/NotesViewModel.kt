@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 open class NotesViewModel @Inject constructor(
     private val getAllNotes: GetAllNotes
-) : BlocViewModel<NotesEvent, NotesState>() {
+) : BlocViewModel<NotesEvent, NotesState, Unit>() {
 
 
     override val _uiState: StateFlow<NotesState> = getAllNotes.execute(Unit)

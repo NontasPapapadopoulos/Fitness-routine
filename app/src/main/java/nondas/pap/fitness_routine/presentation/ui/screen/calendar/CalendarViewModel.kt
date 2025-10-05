@@ -25,7 +25,7 @@ open class CalendarViewModel @Inject constructor(
     private val getDailyReports: GetDailyReports,
     private val getSettings: GetSettings,
     private val changeChoice: ChangeChoice
-): BlocViewModel<CalendarEvent, CalendarState>() {
+): BlocViewModel<CalendarEvent, CalendarState, Unit>() {
 
     private val currentDateFlow = MutableSharedFlow<String>()
 

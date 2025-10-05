@@ -22,7 +22,7 @@ import javax.inject.Inject
 open class CheatMealsViewModel @Inject constructor(
     getCheatMeals: GetAllCheatMeals,
     getAllBodyMeasurements: GetAllBodyMeasurements
-): BlocViewModel<CheatMealsEvent, CheatMealsState>() {
+): BlocViewModel<CheatMealsEvent, CheatMealsState, Unit>() {
 
     private val cheatMealsFlow = getCheatMeals.execute(Unit)
         .map { it.getOrThrow() }

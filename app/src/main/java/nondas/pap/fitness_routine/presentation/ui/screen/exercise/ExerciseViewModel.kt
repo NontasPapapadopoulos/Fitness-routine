@@ -29,7 +29,7 @@ open class ExerciseViewModel @Inject constructor(
     private val deleteExercise: DeleteExercise,
     private val editExercise: EditExercise,
     private val savedStateHandle: SavedStateHandle,
-): BlocViewModel<ExerciseEvent, ExerciseState>() {
+): BlocViewModel<ExerciseEvent, ExerciseState, Unit>() {
 
     private val muscle get() = savedStateHandle.get<String>(NavigationArgument.Muscle.param)
 

@@ -28,7 +28,7 @@ open class GymSessionsViewModel @Inject constructor(
     getDailyReports: GetDailyReports,
     getAllCardios: GetAllCardios,
     getAllBodyMeasurements: GetAllBodyMeasurements
-): BlocViewModel<GymSessionsEvent, GymSessionsState>() {
+): BlocViewModel<GymSessionsEvent, GymSessionsState, Unit>() {
 
 
     private val dailyReportsFlow = getDailyReports.execute(Unit)

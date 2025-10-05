@@ -46,7 +46,7 @@ open class WorkoutViewModel @Inject constructor(
     private val initDailyReport: InitDailyReport,
     private val getSettings: GetSettings,
     private val savedStateHandle: SavedStateHandle
-): BlocViewModel<WorkoutEvent, WorkoutState>() {
+): BlocViewModel<WorkoutEvent, WorkoutState, Unit>() {
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
 

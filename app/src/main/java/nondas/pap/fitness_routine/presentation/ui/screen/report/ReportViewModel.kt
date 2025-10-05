@@ -70,7 +70,7 @@ open class ReportViewModel @Inject constructor(
     private val addNote: AddNote,
     private val deleteNote: DeleteNote,
     private val updateNote: UpdateNote
-): BlocViewModel<ReportEvent, ReportState>() {
+): BlocViewModel<ReportEvent, ReportState, Unit>() {
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
 

@@ -26,7 +26,7 @@ import javax.inject.Inject
 class AnalyticsViewModel @Inject constructor(
     getAllSets: GetAllSets,
     getAllCardios: GetAllCardios
-): BlocViewModel<AnalyticsEvent, AnalyticsState>()  {
+): BlocViewModel<AnalyticsEvent, AnalyticsState, Unit>()  {
 
     private val getAllSetsFlow = getAllSets.execute(Unit)
         .map { it.getOrThrow() }

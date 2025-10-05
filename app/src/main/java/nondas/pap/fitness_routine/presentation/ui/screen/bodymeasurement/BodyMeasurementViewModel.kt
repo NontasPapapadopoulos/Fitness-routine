@@ -30,7 +30,7 @@ open class BodyMeasurementViewModel @Inject constructor(
     private val getBodyMeasurements: GetBodyMeasurement,
     private val hasBodyMeasurement: HasBodyMeasurement,
     private val savedStateHandle: SavedStateHandle
-): BlocViewModel<MeasurementEvent, MeasurementState>() {
+): BlocViewModel<MeasurementEvent, MeasurementState, Unit>() {
 
     private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
 

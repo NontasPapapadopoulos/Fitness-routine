@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MeasurementsViewModel @Inject constructor(
     private val getAllBodyMeasurements: GetAllBodyMeasurements
-): BlocViewModel<MeasurementsEvent, MeasurementsState>() {
+): BlocViewModel<MeasurementsEvent, MeasurementsState, Unit>() {
 
 
 
