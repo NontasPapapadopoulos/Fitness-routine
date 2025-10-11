@@ -80,7 +80,10 @@ import java.util.Date
 
 @Composable
 fun WorkoutScreen(
-    viewModel: WorkoutViewModel = hiltViewModel(),
+    date: Long,
+    viewModel: WorkoutViewModel = hiltViewModel<WorkoutViewModel, WorkoutViewModel.Factory>(
+        creationCallback = { factory -> factory.create(date = date) }
+    ),
     navigateBack: () -> Unit,
     onNavigateToExercises: (Muscle) -> Unit,
     onNavigateToScreen: (NavKey) -> Unit
@@ -117,7 +120,7 @@ fun WorkoutScreen(
             onDismissDialog = { viewModel.add(WorkoutEvent.DismissDialog) },
             onAddExercise = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewExercise(muscle, exercise)) },
             onUpdateSet = { set, field, value -> viewModel.add(WorkoutEvent.UpdateSet(set, field, value)) },
-            onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) },
+            onNavigateToExercises = { onNavigateToExercises(it) },
             onNavigateToScreen = onNavigateToScreen
         )
         WorkoutState.Idle -> { LoadingBox() }

@@ -1,7 +1,9 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.AddBodyMeasurement
 import nondas.pap.fitness_routine.domain.interactor.bodymeasurement.GetBodyMeasurement
@@ -19,20 +21,21 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
-import java.util.Date
-import javax.inject.Inject
 
-@HiltViewModel
-open class BodyMeasurementViewModel @Inject constructor(
+
+@HiltViewModel(assistedFactory = BodyMeasurementViewModel.Factory::class)
+open class BodyMeasurementViewModel @AssistedInject constructor(
     private val addBodyMeasurement: AddBodyMeasurement,
     private val updateBodyMeasurement: UpdateBodyMeasurement,
     private val getBodyMeasurements: GetBodyMeasurement,
     private val hasBodyMeasurement: HasBodyMeasurement,
-    private val savedStateHandle: SavedStateHandle
+    @Assisted private val date: Long
 ): BlocViewModel<MeasurementEvent, MeasurementState, Unit>() {
 
-    private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
+    @AssistedFactory
+    interface Factory {
+        fun create(date: Long): BodyMeasurementViewModel
+    }
 
     private val bodyMeasurementFlow = MutableSharedFlow<BodyMeasurementDomainEntity>()
 

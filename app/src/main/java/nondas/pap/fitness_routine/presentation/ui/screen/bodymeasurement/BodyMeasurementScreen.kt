@@ -45,8 +45,11 @@ import nondas.pap.fitness_routine.presentation.util.toFormattedDate
 
 @Composable
 fun BodyMeasurementScreen(
+    date: Long,
+    viewModel: BodyMeasurementViewModel = hiltViewModel<BodyMeasurementViewModel, BodyMeasurementViewModel.Factory>(
+        creationCallback = { factory -> factory.create(date = date) }
+    ),
     navigateBack: () -> Unit,
-    viewModel: BodyMeasurementViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current

@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import nondas.pap.fitness_routine.data.entity.BodyMeasurementDataEntity
-import nondas.pap.fitness_routine.data.entity.BreakDataEntity
 import nondas.pap.fitness_routine.data.entity.CardioDataEntity
 import nondas.pap.fitness_routine.data.entity.CheatMealDataEntity
 import nondas.pap.fitness_routine.data.entity.DailyReportDataEntity
@@ -32,7 +31,6 @@ import nondas.pap.fitness_routine.data.cache.dao.WorkoutDao
         WorkoutDataEntity::class,
         SetDataEntity::class,
         ExerciseDataEntity::class,
-        BreakDataEntity::class,
         SettingsDataEntity::class,
         CardioDataEntity::class,
         NoteDataEntity::class,

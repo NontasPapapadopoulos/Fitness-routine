@@ -74,6 +74,7 @@ fun Navigation() {
                             navigateToBodyMeasurement = {
                                 backStack.add(Measurement(it))
                             },
+                            date = route.date
                         )
                     }
 
@@ -135,8 +136,9 @@ fun Navigation() {
                                 backStack.add(screen)
                             },
                             onNavigateToExercises = {
-                                backStack.add(Exercise(null))
-                            }
+                                backStack.add(Exercise(it))
+                            },
+                            date = route.date
                         )
                     }
 
@@ -145,8 +147,13 @@ fun Navigation() {
                     NavEntry(key = route) {
                         ExerciseScreen(
                             navigateBack = {
+                                println("BACKSTACK")
+                                backStack.forEach { route ->
+                                    println(route)
+                                }
                                 backStack.removeLastOrNull()
-                            }
+                            },
+                            muscle = route.muscle?.name
                         )
                     }
 
@@ -156,7 +163,8 @@ fun Navigation() {
                         BodyMeasurementScreen(
                             navigateBack = {
                                 backStack.removeLastOrNull()
-                            }
+                            },
+                            date = route.date
                         )
                     }
 

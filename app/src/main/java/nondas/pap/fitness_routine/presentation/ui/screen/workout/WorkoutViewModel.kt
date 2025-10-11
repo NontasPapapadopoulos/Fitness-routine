@@ -2,6 +2,9 @@ package nondas.pap.fitness_routine.presentation.ui.screen.workout
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
 import nondas.pap.fitness_routine.domain.entity.SetDomainEntity
@@ -32,10 +35,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-open class WorkoutViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = WorkoutViewModel.Factory::class)
+open class WorkoutViewModel @AssistedInject constructor(
     private val getExercises: GetExercises,
     private val getSets: GetSets,
     private val getDailyReport: GetDailyReport,
@@ -45,10 +49,15 @@ open class WorkoutViewModel @Inject constructor(
     private val updateReport: UpdateDailyReport,
     private val initDailyReport: InitDailyReport,
     private val getSettings: GetSettings,
-    private val savedStateHandle: SavedStateHandle
+    @Assisted private val date: Long,
 ): BlocViewModel<WorkoutEvent, WorkoutState, Unit>() {
 
-    private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
+//    private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
+
+    @AssistedFactory
+    interface Factory {
+        fun create(date: Long): WorkoutViewModel
+    }
 
     private val exercisesFlow = getExercises.execute(Unit)
         .map { it.getOrThrow() }

@@ -66,8 +66,11 @@ import nondas.pap.fitness_routine.presentation.ui.theme.contentSpacing6
 
 @Composable
 fun ExerciseScreen(
+    muscle: String?,
+    viewModel: ExerciseViewModel = hiltViewModel<ExerciseViewModel, ExerciseViewModel.Factory>(
+        creationCallback = { factory -> factory.create(muscle = muscle) }
+    ),
     navigateBack: () -> Unit,
-    viewModel: ExerciseViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current

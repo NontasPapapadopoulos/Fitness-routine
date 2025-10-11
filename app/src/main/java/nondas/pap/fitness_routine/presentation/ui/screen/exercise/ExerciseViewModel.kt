@@ -1,7 +1,9 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.exercise
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.domain.interactor.exercise.AddExercise
@@ -9,7 +11,6 @@ import nondas.pap.fitness_routine.domain.interactor.exercise.DeleteExercise
 import nondas.pap.fitness_routine.domain.interactor.exercise.EditExercise
 import nondas.pap.fitness_routine.domain.interactor.exercise.GetExercises
 import nondas.pap.fitness_routine.presentation.BlocViewModel
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,19 +20,21 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
 
-@HiltViewModel
-open class ExerciseViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = ExerciseViewModel.Factory::class)
+open class ExerciseViewModel @AssistedInject constructor(
     private val getExercises: GetExercises,
     private val addExercise: AddExercise,
     private val deleteExercise: DeleteExercise,
     private val editExercise: EditExercise,
-    private val savedStateHandle: SavedStateHandle,
+    @Assisted private val muscle: String?
 ): BlocViewModel<ExerciseEvent, ExerciseState, Unit>() {
 
-    private val muscle get() = savedStateHandle.get<String>(NavigationArgument.Muscle.param)
+    @AssistedFactory
+    interface Factory {
+        fun create(muscle: String?): ExerciseViewModel
+    }
 
     private val newExerciseFlow = MutableSharedFlow<String>()
     private val newNameExerciseFlow = MutableSharedFlow<String>()

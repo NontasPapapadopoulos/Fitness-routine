@@ -65,7 +65,10 @@ import java.util.UUID
 
 @Composable
 fun ReportScreen(
-    viewModel: ReportViewModel = hiltViewModel(),
+    date: Long,
+    viewModel: ReportViewModel = hiltViewModel<ReportViewModel, ReportViewModel.Factory>(
+        creationCallback = { factory -> factory.create(date = date) }
+    ),
     navigateBack: () -> Unit,
     navigateToWorkout: (Long) -> Unit,
     navigateToBodyMeasurement: (Long) -> Unit,

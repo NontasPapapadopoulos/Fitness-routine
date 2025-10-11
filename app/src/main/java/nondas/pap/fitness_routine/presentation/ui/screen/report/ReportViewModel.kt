@@ -4,6 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavEntryDecorator
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
@@ -48,12 +51,11 @@ import nondas.pap.fitness_routine.presentation.navigation.Report
 import javax.inject.Inject
 
 
-@HiltViewModel
-open class ReportViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = ReportViewModel.Factory::class)
+open class ReportViewModel @AssistedInject constructor(
     getDailyReport: GetDailyReport,
     private val deleteReport: DeleteDailyReport,
     private val updateReport: UpdateDailyReport,
-    private val savedStateHandle: SavedStateHandle,
     private val initDailyReport: InitDailyReport,
     private val initCardio: InitCardio,
     private val getCardios: GetCardios,
@@ -69,11 +71,14 @@ open class ReportViewModel @Inject constructor(
     private val updateCheatMeal: UpdateCheatMeal,
     private val addNote: AddNote,
     private val deleteNote: DeleteNote,
-    private val updateNote: UpdateNote
-): BlocViewModel<ReportEvent, ReportState, Unit>() {
+    private val updateNote: UpdateNote,
+    @Assisted private val date: Long,
+    ): BlocViewModel<ReportEvent, ReportState, Unit>() {
 
-    private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
-
+    @AssistedFactory
+    interface Factory {
+        fun create(date: Long): ReportViewModel
+    }
 
     private val dailyReportFlow = getDailyReport.execute(GetDailyReport.Params(date = date))
         .map { it.getOrThrow() }
