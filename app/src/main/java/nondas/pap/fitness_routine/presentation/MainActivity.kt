@@ -1,6 +1,5 @@
 package nondas.pap.fitness_routine.presentation
 
-import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +11,9 @@ import androidx.compose.ui.Modifier
 import nondas.pap.fitness_routine.presentation.navigation.Navigation
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import nondas.pap.fitness_routine.presentation.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,8 +23,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
         setContent {
+            enableEdgeToEdge()
+            SetStatusBarColor()
 
             AppTheme {
                 Scaffold(modifier = Modifier
@@ -35,6 +38,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+}
+
+@Composable
+private fun SetStatusBarColor() {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(
+        darkIcons = false,
+        color = MaterialTheme.colorScheme.primary
+    )
 }
 
 
