@@ -1,6 +1,5 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.report
 
-import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.dailyReport
@@ -24,7 +23,6 @@ import nondas.pap.fitness_routine.domain.interactor.report.DeleteDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.InitDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.UpdateDailyReport
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
 import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
 import nondas.pap.fitness_routine.presentation.util.toTimeStamp
