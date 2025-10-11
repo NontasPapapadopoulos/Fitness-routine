@@ -44,7 +44,7 @@ fun <E : Any, S, N > TestScope.onEvents(
  * was initialized. Use immediately after the view model is created.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <E : Any, S, N> TestScope.onInit(
+fun <E : Any, S, N> TestScope.onInit(
     viewModel: BlocViewModel<E, S, N>,
     collectedStatesCallback: (List<S>) -> Unit
 ) = onEvents(viewModel, collectedStatesCallback = collectedStatesCallback)

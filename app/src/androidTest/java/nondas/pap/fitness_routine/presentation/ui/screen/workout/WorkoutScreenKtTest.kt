@@ -149,7 +149,6 @@ class WorkoutScreenKtTest {
     fun onContentState_whenDeleteButtonIsClicked_addsDeleteSet() {
         // given
         val selectedMuscle = Muscle.Chest
-        val selectedExercise = exercises.first { it.muscle == selectedMuscle }.name
 
         whenever(viewModel.uiState).thenReturn(MutableStateFlow(
             defaultContent.copy(

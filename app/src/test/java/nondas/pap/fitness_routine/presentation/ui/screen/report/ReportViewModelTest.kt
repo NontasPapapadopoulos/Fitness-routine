@@ -111,8 +111,6 @@ class ReportViewModelTest {
     @Mock
     private lateinit var updateNote: UpdateNote
 
-    private val savedStateHandle: SavedStateHandle =
-        SavedStateHandle(mapOf(NavigationArgument.Date.param to date))
 
 
     private val reportFlow: MutableStateFlow<Result<DailyReportDomainEntity>> =
