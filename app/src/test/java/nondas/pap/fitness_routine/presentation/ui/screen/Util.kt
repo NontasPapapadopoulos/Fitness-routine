@@ -13,8 +13,8 @@ import kotlin.math.max
  * with the collected states that were emitted.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <E : Any, S> TestScope.onEvents(
-    viewModel: BlocViewModel<E, S>,
+suspend fun <E : Any, S, N > TestScope.onEvents(
+    viewModel: BlocViewModel<E, S, N>,
     vararg events: E,
     collectedStatesCallback: (List<S>) -> Unit
 ) {
@@ -44,8 +44,8 @@ suspend fun <E : Any, S> TestScope.onEvents(
  * was initialized. Use immediately after the view model is created.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <E : Any, S> TestScope.onInit(
-    viewModel: BlocViewModel<E, S>,
+suspend fun <E : Any, S, N> TestScope.onInit(
+    viewModel: BlocViewModel<E, S, N>,
     collectedStatesCallback: (List<S>) -> Unit
 ) = onEvents(viewModel, collectedStatesCallback = collectedStatesCallback)
 

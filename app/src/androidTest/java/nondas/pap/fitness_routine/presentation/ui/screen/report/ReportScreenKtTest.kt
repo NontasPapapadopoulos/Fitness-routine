@@ -57,7 +57,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -77,7 +77,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -98,7 +98,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -118,7 +118,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -137,7 +137,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -156,7 +156,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -176,7 +176,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -195,7 +195,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -213,7 +213,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 
@@ -232,7 +232,7 @@ class ReportScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {})
+                ReportScreen(viewModel = viewModel, navigateToWorkout = {}, navigateBack = {}, navigateToBodyMeasurement = {}, date = 0L)
             }
         }
 

@@ -50,7 +50,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -71,7 +71,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -92,7 +92,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -113,7 +113,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -135,7 +135,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -156,7 +156,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -177,7 +177,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -198,7 +198,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -218,7 +218,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 
@@ -237,7 +237,7 @@ class BodyMeasurementScreenTest {
 
         composeTestRule.setContent {
             AppSurface {
-                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {})
+                BodyMeasurementScreen(viewModel = viewModel, navigateBack = {}, date = 0L)
             }
         }
 

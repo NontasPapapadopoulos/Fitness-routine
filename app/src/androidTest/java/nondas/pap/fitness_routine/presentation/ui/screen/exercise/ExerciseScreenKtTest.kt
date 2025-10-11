@@ -53,7 +53,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -71,7 +71,7 @@ class ExerciseScreenKtTest {
         
         composeTestRule.setContent { 
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -89,7 +89,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -108,7 +108,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null )
             }
         }
 
@@ -127,7 +127,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -146,7 +146,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -165,7 +165,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 
@@ -184,7 +184,7 @@ class ExerciseScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                ExerciseScreen(navigateBack = {}, viewModel = viewModel)
+                ExerciseScreen(navigateBack = {}, viewModel = viewModel, muscle = null)
             }
         }
 

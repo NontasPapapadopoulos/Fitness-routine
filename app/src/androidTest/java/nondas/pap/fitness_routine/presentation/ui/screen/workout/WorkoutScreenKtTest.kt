@@ -60,7 +60,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -79,7 +79,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -98,7 +98,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -115,7 +115,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -140,7 +140,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -168,7 +168,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -197,7 +197,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
@@ -230,7 +230,7 @@ class WorkoutScreenKtTest {
 
         composeTestRule.setContent {
             AppSurface {
-                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {})
+                WorkoutScreen(viewModel = viewModel, navigateBack = {}, onNavigateToExercises = {}, onNavigateToScreen = {}, date = 0L)
             }
         }
 
