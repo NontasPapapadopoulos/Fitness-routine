@@ -1,7 +1,6 @@
 package nondas.pap.fitness_routine.presentation.ui.screen.report
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.dailyReport
@@ -21,7 +20,6 @@ import nondas.pap.fitness_routine.domain.interactor.note.DeleteNote
 import nondas.pap.fitness_routine.domain.interactor.note.GetNotes
 import nondas.pap.fitness_routine.domain.interactor.note.InitNote
 import nondas.pap.fitness_routine.domain.interactor.note.UpdateNote
-import nondas.pap.fitness_routine.domain.interactor.report.AddDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.DeleteDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.InitDailyReport
@@ -30,19 +28,13 @@ import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import nondas.pap.fitness_routine.presentation.ui.screen.MainDispatcherRule
 import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
 import nondas.pap.fitness_routine.presentation.util.toTimeStamp
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
-import nondas.pap.fitness_routine.presentation.ui.screen.onEvents
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
-import nondas.pap.fitness_routine.InlineClassesAnswer
-import nondas.pap.fitness_routine.cardio
 import nondas.pap.fitness_routine.domain.entity.CardioDomainEntity
 import nondas.pap.fitness_routine.domain.entity.CheatMealDomainEntity
 import nondas.pap.fitness_routine.domain.entity.NoteDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
-import nondas.pap.fitness_routine.domain.interactor.settings.ChangeChoice
 
 import org.junit.Before
 import org.junit.Rule

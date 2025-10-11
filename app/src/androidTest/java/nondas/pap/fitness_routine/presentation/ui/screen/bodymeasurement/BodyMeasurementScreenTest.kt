@@ -9,9 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.bodyMeasurement
 import nondas.pap.fitness_routine.presentation.component.AppSurface
-import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementScreen
-import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.BodyMeasurementViewModel
-import nondas.pap.fitness_routine.presentation.ui.screen.bodymeasurement.MeasurementState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

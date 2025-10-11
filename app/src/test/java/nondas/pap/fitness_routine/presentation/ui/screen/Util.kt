@@ -13,7 +13,7 @@ import kotlin.math.max
  * with the collected states that were emitted.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <E : Any, S, N > TestScope.onEvents(
+fun <E : Any, S, N > TestScope.onEvents(
     viewModel: BlocViewModel<E, S, N>,
     vararg events: E,
     collectedStatesCallback: (List<S>) -> Unit

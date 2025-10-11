@@ -8,20 +8,13 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.dailyReport
-import nondas.pap.fitness_routine.domain.entity.SettingsDomainEntity
-import nondas.pap.fitness_routine.domain.entity.enums.Choice
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.exercise
 import nondas.pap.fitness_routine.presentation.component.AppSurface
-import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportState
-import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsScreen
-import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsState
-import nondas.pap.fitness_routine.presentation.ui.screen.settings.SettingsViewModel
 import nondas.pap.fitness_routine.set
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import nondas.pap.fitness_routine.presentation.util.getCurrentDate
-import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Rule
@@ -185,7 +178,6 @@ class WorkoutScreenKtTest {
     fun onContentState_whenWeightTextFieldIsEdited_addsUpdateSet() {
         // given
         val selectedMuscle = Muscle.Chest
-        val selectedExercise = exercises.first { it.muscle == selectedMuscle }.name
 
         whenever(viewModel.uiState).thenReturn(MutableStateFlow(
             defaultContent.copy(
@@ -219,7 +211,6 @@ class WorkoutScreenKtTest {
     fun onContentState_whenRepeatsTextFieldEdited_addsUpdateSet() {
         // given
         val selectedMuscle = Muscle.Chest
-        val selectedExercise = exercises.first { it.muscle == selectedMuscle }.name
 
         whenever(viewModel.uiState).thenReturn(MutableStateFlow(
             defaultContent.copy(

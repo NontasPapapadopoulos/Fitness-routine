@@ -11,13 +11,11 @@ import nondas.pap.fitness_routine.DummyEntities
 import nondas.pap.fitness_routine.cardio
 import nondas.pap.fitness_routine.cheatMeal
 import nondas.pap.fitness_routine.dailyReport
-import nondas.pap.fitness_routine.domain.entity.DailyReportDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.note
 import nondas.pap.fitness_routine.presentation.component.AppSurface
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Rule
@@ -28,7 +26,6 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 class ReportScreenKtTest {

@@ -5,17 +5,12 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import nondas.pap.fitness_routine.DummyEntities
-import nondas.pap.fitness_routine.domain.entity.ExerciseDomainEntity
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 import nondas.pap.fitness_routine.exercise
 import nondas.pap.fitness_routine.presentation.component.AppSurface
-import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportEvent
-import nondas.pap.fitness_routine.set
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Rule
