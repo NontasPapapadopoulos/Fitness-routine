@@ -31,9 +31,7 @@ import nondas.pap.fitness_routine.domain.interactor.report.GetDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.InitDailyReport
 import nondas.pap.fitness_routine.domain.interactor.report.UpdateDailyReport
 import nondas.pap.fitness_routine.presentation.BlocViewModel
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import nondas.pap.fitness_routine.presentation.util.toDate
-import nondas.pap.fitness_routine.presentation.util.toList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,8 +45,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import nondas.pap.fitness_routine.data.util.toMusclesList
 import nondas.pap.fitness_routine.domain.entity.enums.Muscle
-import nondas.pap.fitness_routine.presentation.navigation.Report
-import javax.inject.Inject
 
 
 @HiltViewModel(assistedFactory = ReportViewModel.Factory::class)

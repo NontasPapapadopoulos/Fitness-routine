@@ -120,7 +120,7 @@ fun WorkoutScreen(
             onDismissDialog = { viewModel.add(WorkoutEvent.DismissDialog) },
             onAddExercise = { muscle, exercise -> viewModel.add(WorkoutEvent.AddNewExercise(muscle, exercise)) },
             onUpdateSet = { set, field, value -> viewModel.add(WorkoutEvent.UpdateSet(set, field, value)) },
-            onNavigateToExercises = { onNavigateToExercises(it) },
+            onNavigateToExercises = { viewModel.add(WorkoutEvent.NavigateToExercises(it)) },
             onNavigateToScreen = onNavigateToScreen
         )
         WorkoutState.Idle -> { LoadingBox() }
@@ -210,10 +210,15 @@ private fun WorkoutContent(
                     )
 
                     AddExercise(
-                        addExercise = { onShowDialog(Dialog.AddExercise(muscle)) },
+                        addExercise = {
+                            val muscleGroupHasExercises = content.exercises.any { it.muscle == muscle }
+                            if (muscleGroupHasExercises)
+                                onShowDialog(Dialog.AddExercise(muscle))
+                            else
+                                onNavigateToExercises(muscle)
+                    },
                         testTag = WorkoutScreenConstants.ADD_EXERCISE + muscle
                     )
-
                 }
 
                 val setsByExercise = content.sets

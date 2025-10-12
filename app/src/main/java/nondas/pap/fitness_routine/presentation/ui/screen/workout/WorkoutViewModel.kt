@@ -18,9 +18,7 @@ import nondas.pap.fitness_routine.domain.interactor.set.DeleteSet
 import nondas.pap.fitness_routine.domain.interactor.set.GetSets
 import nondas.pap.fitness_routine.domain.interactor.set.UpdateSet
 import nondas.pap.fitness_routine.domain.interactor.settings.GetSettings
-import nondas.pap.fitness_routine.domain.toMuscles
 import nondas.pap.fitness_routine.presentation.BlocViewModel
-import nondas.pap.fitness_routine.presentation.navigation.NavigationArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,8 +33,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import nondas.pap.fitness_routine.presentation.ui.screen.report.ReportViewModel
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = WorkoutViewModel.Factory::class)
 open class WorkoutViewModel @AssistedInject constructor(
@@ -51,8 +47,6 @@ open class WorkoutViewModel @AssistedInject constructor(
     private val getSettings: GetSettings,
     @Assisted private val date: Long,
 ): BlocViewModel<WorkoutEvent, WorkoutState, Unit>() {
-
-//    private val date get() = savedStateHandle.get<Long>(NavigationArgument.Date.param)!!
 
     @AssistedFactory
     interface Factory {

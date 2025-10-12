@@ -43,12 +43,6 @@ data class Measurement(val date: Long): NavKey
 object GymSessions: NavKey
 
 
-enum class NavigationArgument (val param: String) {
-    Date("date"),
-    Muscle("muscle")
-}
-
-
 
 
 

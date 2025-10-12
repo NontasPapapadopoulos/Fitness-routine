@@ -55,10 +55,55 @@ fun Navigation() {
                     NavEntry(key = route) {
                         CalendarScreen(
                             navigateToScreen = { screen ->
-                                backStack.add(screen)
+                                backStack.pushIfNotTop(screen)
                             },
                             navigateToDailyReport = { id ->
                                 backStack.add(Report(id))
+                            },
+                        )
+                    }
+
+
+                is Workout ->
+                    NavEntry(key = route) {
+                        WorkoutScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            onNavigateToScreen = { screen ->
+                                backStack.pushIfNotTop(screen)
+                            },
+                            onNavigateToExercises = {
+                                backStack.add(Exercise(it))
+                            },
+                            date = route.date
+                        )
+                    }
+
+
+                is Cheat ->
+                    NavEntry(key = route) {
+                        CheatMealsScreen(
+                            navigateToScreen = { screen ->
+                                backStack.pushIfNotTop(screen)
+                            },
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
+
+                is GymSessions ->
+                    NavEntry(key = route) {
+                        GymSessionsScreen(
+                            navigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            navigateToScreen = { screen ->
+                                backStack.pushIfNotTop(screen)
+                            },
+                            navigateToWorkoutScreen = {
+                                backStack.add(Workout(getCurrentDate()))
                             },
                         )
                     }
@@ -77,20 +122,6 @@ fun Navigation() {
                                 backStack.add(Measurement(it))
                             },
                             date = route.date
-                        )
-                    }
-
-
-
-                is Cheat ->
-                    NavEntry(key = route) {
-                        CheatMealsScreen(
-                            navigateToScreen = { screen ->
-                                backStack.add(screen)
-                            },
-                            navigateBack = {
-                                backStack.removeLastOrNull()
-                            }
                         )
                     }
 
@@ -128,23 +159,6 @@ fun Navigation() {
                     }
 
 
-                is Workout ->
-                    NavEntry(key = route) {
-                        WorkoutScreen(
-                            navigateBack = {
-                                backStack.removeLastOrNull()
-                            },
-                            onNavigateToScreen = { screen ->
-                                backStack.add(screen)
-                            },
-                            onNavigateToExercises = {
-                                backStack.add(Exercise(it))
-                            },
-                            date = route.date
-                        )
-                    }
-
-
                 is Exercise ->
                     NavEntry(key = route) {
                         ExerciseScreen(
@@ -170,25 +184,17 @@ fun Navigation() {
                         )
                     }
 
-
-                is GymSessions ->
-                    NavEntry(key = route) {
-                        GymSessionsScreen(
-                            navigateBack = {
-                                backStack.removeLastOrNull()
-                            },
-                            navigateToScreen = { screen ->
-                                backStack.add(screen)
-                            },
-                            navigateToWorkoutScreen = {
-                                backStack.add(Workout(getCurrentDate()))
-                            },
-                        )
-                    }
-
                 else -> error("Unknown route: $route")
             }
         }
     )
 
 }
+
+
+fun <NavKey> MutableList<NavKey>.pushIfNotTop(item: NavKey) {
+    if (lastOrNull() != item) {
+        add(item)
+    }
+}
+
