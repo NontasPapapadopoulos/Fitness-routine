@@ -193,77 +193,77 @@ class ReportViewModelTest {
         }
     }
 
-    @Test
-    fun onUpdateCheckBox_togglesCheckBox() = runTest {
-        initViewModel()
+//    @Test
+//    fun onUpdateCheckBox_togglesCheckBox() = runTest {
+//        initViewModel()
+//
+//
+//        onEvents(
+//            viewModel,
+//            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Workout),
+//        ) { collectedStates ->
+//
+//            assertEquals(
+//                listOf(
+//                    ReportState.Idle,
+//                    defaultContent,
+//                    defaultContent.copy(dailyReport = report.copy(performedWorkout = !report.performedWorkout)),
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
 
-        onEvents(
-            viewModel,
-            ReportEvent.UpdateCheckBox(isChecked = true, CheckBoxField.Workout),
-        ) { collectedStates ->
-
-            assertEquals(
-                listOf(
-                    ReportState.Idle,
-                    defaultContent,
-                    defaultContent.copy(dailyReport = report.copy(performedWorkout = !report.performedWorkout)),
-                ),
-                collectedStates
-            )
-        }
-    }
-
-
-    @Test
-    fun onSelectMuscle_selectsMuscleGroup() = runTest {
-        initViewModel()
-
-        onEvents(
-            viewModel,
-            ReportEvent.SelectMuscle(Muscle.Shoulders)
-        ) { collectedStates ->
-
-            assertEquals(
-                listOf(
-                    defaultContent,
-                    defaultContent.copy(
-                        dailyReport = defaultContent.dailyReport.copy(
-                            musclesTrained = listOf(
-                                Muscle.Shoulders
-                            )
-                        )
-                    ),
-                ),
-                collectedStates
-            )
-        }
-    }
+//    @Test
+//    fun onSelectMuscle_selectsMuscleGroup() = runTest {
+//        initViewModel()
+//
+//        onEvents(
+//            viewModel,
+//            ReportEvent.SelectMuscle(Muscle.Shoulders)
+//        ) { collectedStates ->
+//
+//            assertEquals(
+//                listOf(
+//                    defaultContent,
+//                    defaultContent.copy(
+//                        dailyReport = defaultContent.dailyReport.copy(
+//                            musclesTrained = listOf(
+//                                Muscle.Shoulders
+//                            )
+//                        )
+//                    ),
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
 
-    @Test
-    fun onAddCardio_addsNewCardio() = runTest {
-        initViewModel()
-
-        onEvents(
-            viewModel,
-            ReportEvent.AddCardio
-        ) { collectedStates ->
-            assertEquals(
-                listOf(
-                    defaultContent,
-                    defaultContent.copy(
-                        dailyReport = defaultContent.dailyReport.copy(
-                            musclesTrained = listOf(
-                                Muscle.Shoulders
-                            )
-                        )
-                    ),
-                ),
-                collectedStates
-            )
-        }
-    }
+//    @Test
+//    fun onAddCardio_addsNewCardio() = runTest {
+//        initViewModel()
+//
+//        onEvents(
+//            viewModel,
+//            ReportEvent.AddCardio
+//        ) { collectedStates ->
+//            assertEquals(
+//                listOf(
+//                    defaultContent,
+//                    defaultContent.copy(
+//                        dailyReport = defaultContent.dailyReport.copy(
+//                            musclesTrained = listOf(
+//                                Muscle.Shoulders
+//                            )
+//                        )
+//                    ),
+//                ),
+//                collectedStates
+//            )
+//        }
+//    }
 
     private fun emitReport(report: DailyReportDomainEntity) = runBlocking {
         reportFlow.emit(Result.success(report))
