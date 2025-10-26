@@ -8,8 +8,6 @@ import javax.inject.Inject
 
 interface WorkoutDataSource {
 
-    fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDataEntity>
-
     suspend fun addWorkout(workout: WorkoutDataEntity)
 
     suspend fun deleteWorkout(workout: WorkoutDataEntity)
@@ -22,9 +20,6 @@ interface WorkoutDataSource {
 class WorkoutDataSourceImpl @Inject constructor(
     private val workoutDao: WorkoutDao
 ): WorkoutDataSource {
-    override fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDataEntity> {
-        return workoutDao.getWorkoutWithSets(date)
-    }
 
     override suspend fun addWorkout(workout: WorkoutDataEntity) {
         workoutDao.put(workout)

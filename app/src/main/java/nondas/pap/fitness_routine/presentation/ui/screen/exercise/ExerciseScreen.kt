@@ -363,7 +363,7 @@ private fun ExerciseContentPreview() {
     AppTheme(darkTheme = true) {
         ExerciseContent(
             content = ExerciseState.Content(
-                exercises = generateExercises(),
+                exercises = listOf(),
                 newExercise = "bench press",
                 preSelectedMuscle = Muscle.Chest,
                 selectedExercise = null,
@@ -382,15 +382,14 @@ private fun ExerciseContentPreview() {
 
 }
 
-private fun generateExercises(): List<ExerciseDomainEntity> {
-    return (0..10).map {
-
-        ExerciseDomainEntity(
-            muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
-            name = "exercise name exercise name",
-        )
-    }
-}
+//private fun generateExercises(): List<ExerciseDomainEntity> {
+//    return (0..10).map {
+//        ExerciseDomainEntity(
+//            muscle = if (it < 5) Muscle.Chest else Muscle.Biceps,
+//            name = "exercise name exercise name",
+//        )
+//    }
+//}
 
 class ExerciseScreenConstants private constructor() {
     companion object {

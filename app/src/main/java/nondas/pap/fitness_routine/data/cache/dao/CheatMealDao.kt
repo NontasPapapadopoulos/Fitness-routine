@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CheatMealDao {
 
-    @Query("SELECT * FROM CheatMeal WHERE date = :date")
+    @Query("SELECT * FROM CheatMeal WHERE reportDate = :date")
     fun getCheatMealsFlow(date: Long): Flow<List<CheatMealDataEntity>>
 
     @Query("SELECT * FROM CheatMeal")
     fun getCheatMealsFlow(): Flow<List<CheatMealDataEntity>>
 
-    @Query("SELECT COUNT(*) FROM CheatMeal WHERE date = :date")
+    @Query("SELECT COUNT(*) FROM CheatMeal WHERE reportDate = :date")
     fun getNumberOfCheatMeals(date: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

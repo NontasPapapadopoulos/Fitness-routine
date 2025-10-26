@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CardioDao {
 
-    @Query("SELECT * FROM cardio WHERE date = :date")
+    @Query("SELECT * FROM cardio WHERE reportDate = :date")
     fun getCardiosFlow(date: Long): Flow<List<CardioDataEntity>>
 
     @Query("SELECT * FROM cardio")
     fun getCardiosFlow(): Flow<List<CardioDataEntity>>
 
-    @Query("SELECT COUNT(*) FROM cardio WHERE date = :date")
+    @Query("SELECT COUNT(*) FROM cardio WHERE reportDate = :date")
     fun getNumberOfCardios(date: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -30,6 +30,6 @@ interface CardioDao {
     suspend fun delete(cardio: CardioDataEntity)
 
 
-    @Query("SELECT * FROM cardio where date > :fromDate AND date < :toDate")
+    @Query("SELECT * FROM cardio where reportDate > :fromDate AND reportDate < :toDate")
     suspend fun getCardiosByDate(fromDate: Long, toDate: Long): List<CardioDataEntity>
 }

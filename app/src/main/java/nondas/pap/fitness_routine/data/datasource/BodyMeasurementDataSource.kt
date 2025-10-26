@@ -39,7 +39,7 @@ class BodyMeasurementDataSourceImpl @Inject constructor(
     override suspend fun update(measurement: BodyMeasurementDataEntity) {
         bodyMeasurementDao.update(
             id = measurement.id,
-            date = measurement.date,
+            date = measurement.reportDate,
             weight = measurement.weight,
             fat = measurement.fat,
             muscleMass = measurement.muscleMass,

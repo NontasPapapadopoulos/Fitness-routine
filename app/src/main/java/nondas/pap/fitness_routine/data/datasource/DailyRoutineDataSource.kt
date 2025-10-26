@@ -36,15 +36,15 @@ class DailyRoutineDataSourceImpl @Inject constructor(
     }
 
     override suspend fun update(report: DailyReportDataEntity) {
-        dao.update(report)
+        dao.updateReport(report)
     }
 
     override suspend fun delete(report: DailyReportDataEntity) {
-        dao.delete(report)
+        dao.deleteReport(report)
     }
 
     override suspend fun put(report: DailyReportDataEntity) {
-        dao.put(report)
+        dao.insertReport(report)
     }
 
     override suspend fun initDailyReport(date: Long) {
@@ -52,7 +52,7 @@ class DailyRoutineDataSourceImpl @Inject constructor(
 
         if (!dailyReportExists) {
             val dailyReport = createDailyReport(date)
-            dao.put(dailyReport)
+            dao.insertReport(dailyReport)
         }
 
     }

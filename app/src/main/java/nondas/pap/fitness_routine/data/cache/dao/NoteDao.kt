@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM note WHERE date = :date")
+    @Query("SELECT * FROM note WHERE reportDate = :date")
     fun getNotesFlow(date: Long): Flow<List<NoteDataEntity>>
 
     @Query("SELECT * FROM note")
     fun getNotesFlow(): Flow<List<NoteDataEntity>>
 
-    @Query("SELECT COUNT(*) FROM note WHERE date = :date")
+    @Query("SELECT COUNT(*) FROM note WHERE reportDate = :date")
     fun getNumberOfNotes(date: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

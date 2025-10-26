@@ -11,16 +11,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BodyMeasurementDao {
 
-    @Query("SELECT * FROM bodymeasurement WHERE date = :date LIMIT 1")
+    @Query("SELECT * FROM bodymeasurement WHERE reportDate = :date LIMIT 1")
     fun getBodyMeasurementFlow(date: Long): Flow<BodyMeasurementDataEntity?>
 
     @Query("SELECT * FROM bodymeasurement")
     fun getBodyMeasurementFlow(): Flow<List<BodyMeasurementDataEntity>>
 
-    @Query("SELECT COUNT(*) FROM bodymeasurement WHERE date = :date")
+    @Query("SELECT COUNT(*) FROM bodymeasurement WHERE reportDate = :date")
     fun getNumberOfMeasurements(date: Long): Int
 
-    @Query("SELECT COUNT(*) > 0 FROM bodymeasurement WHERE date = :date")
+    @Query("SELECT COUNT(*) > 0 FROM bodymeasurement WHERE reportDate = :date")
     fun hasBodyMeasurement(date: Long): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -29,12 +29,10 @@ interface BodyMeasurementDao {
     @Delete
     suspend fun delete(bodyMeasurement: BodyMeasurementDataEntity)
 
-
-
     @Query("""
         UPDATE BodyMeasurement 
         SET 
-            date = :date,
+            reportDate = :date,
             weight = :weight,
             fat = :fat,
             muscleMass = :muscleMass,

@@ -72,6 +72,7 @@ open class ExerciseViewModel @AssistedInject constructor(
                 val exercise = ExerciseDomainEntity(
                     name = state.newExercise,
                     muscle = it.muscle,
+
 //                    index = it
                 )
 
