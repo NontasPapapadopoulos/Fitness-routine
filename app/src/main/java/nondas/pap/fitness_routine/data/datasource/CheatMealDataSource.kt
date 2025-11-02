@@ -45,7 +45,7 @@ class CheatMealDataSourceImpl @Inject constructor(
         if (!hasCheatMeal) {
             val cheatMeal = CheatMealDataEntity(
                 id = UUID.randomUUID().toString(),
-                date = date,
+                reportDate = date,
                 meal = ""
             )
 

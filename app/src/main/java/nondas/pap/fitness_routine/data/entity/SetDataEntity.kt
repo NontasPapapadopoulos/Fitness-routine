@@ -9,15 +9,15 @@ import nondas.pap.fitness_routine.domain.entity.enums.Muscle
 
 @Entity(
     tableName = "Set",
-//    foreignKeys = [
-//        ForeignKey(
-//            entity = WorkoutDataEntity::class,
-//            parentColumns = ["date"],
-//            childColumns = ["workoutDate"],
-//            onDelete = ForeignKey.CASCADE
-//        )
-//    ],
-//    indices = [Index(value = ["workoutDate"])]
+    foreignKeys = [
+        ForeignKey(
+            entity = DailyReportDataEntity::class,
+            parentColumns = ["date"],
+            childColumns = ["workoutDate"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("workoutDate")]
 )
 data class SetDataEntity(
     @PrimaryKey

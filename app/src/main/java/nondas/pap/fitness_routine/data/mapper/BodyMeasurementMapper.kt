@@ -6,7 +6,7 @@ import nondas.pap.fitness_routine.domain.entity.BodyMeasurementDomainEntity
 
 fun BodyMeasurementDomainEntity.toData(): BodyMeasurementDataEntity = BodyMeasurementDataEntity(
     id = id,
-    date = date,
+    reportDate = date,
     weight = weight,
     fat = fat,
     muscleMass = muscleMass,
@@ -20,7 +20,7 @@ fun BodyMeasurementDomainEntity.toData(): BodyMeasurementDataEntity = BodyMeasur
 
 fun BodyMeasurementDataEntity.toDomain(): BodyMeasurementDomainEntity = BodyMeasurementDomainEntity(
     id = id,
-    date = date,
+    date = reportDate,
     weight = weight,
     fat = fat,
     muscleMass = muscleMass,

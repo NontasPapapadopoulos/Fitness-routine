@@ -13,9 +13,6 @@ import javax.inject.Inject
 class WorkoutDataRepository @Inject constructor(
     private val workoutDataSource: WorkoutDataSource
 ): WorkoutRepository {
-    override fun getWorkoutWithSets(date: Long): Flow<WorkoutWithSetsDomainEntity> {
-        return workoutDataSource.getWorkoutWithSets(date).map { it.toDomain() }
-    }
 
     override suspend fun addWorkout(workout: WorkoutDomainEntity) {
         workoutDataSource.addWorkout(workout.toData())

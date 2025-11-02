@@ -39,7 +39,6 @@ class SettingsDataSourceImpl @Inject constructor(
         }
     }
 
-
 }
 
 private fun getDefaultSettings() = SettingsDataEntity(

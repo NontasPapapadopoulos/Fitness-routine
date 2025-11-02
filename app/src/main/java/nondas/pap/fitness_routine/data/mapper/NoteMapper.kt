@@ -8,13 +8,13 @@ import nondas.pap.fitness_routine.domain.toTimeStamp
 
 fun NoteDataEntity.toDomain(): NoteDomainEntity = NoteDomainEntity(
     id = id,
-    date = date.toDate(),
+    date = reportDate.toDate(),
     text = note
 )
 
 
 fun NoteDomainEntity.toData(): NoteDataEntity = NoteDataEntity(
     id = id,
-    date = date.toTimeStamp(),
+    reportDate = date.toTimeStamp(),
     note = text
 )

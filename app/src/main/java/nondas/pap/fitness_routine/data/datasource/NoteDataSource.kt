@@ -44,7 +44,7 @@ class NoteDataSourceImpl @Inject constructor(
         if (!hasNote) {
             val note = NoteDataEntity(
                 note = "",
-                date = date,
+                reportDate = date,
                 id = UUID.randomUUID().toString()
             )
 

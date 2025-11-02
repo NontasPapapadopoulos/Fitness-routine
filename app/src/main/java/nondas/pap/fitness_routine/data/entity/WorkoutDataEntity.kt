@@ -12,7 +12,6 @@ data class WorkoutDataEntity(
     @PrimaryKey
     val date: Long,
     val muscles: List<Muscle>,
-
 )
 
 

@@ -47,7 +47,7 @@ class CardioDataSourceImpl @Inject constructor(
                 type = "",
                 minutes = "",
                 id = UUID.randomUUID().toString(),
-                date = date
+                reportDate = date
             )
 
             cardioDao.put(cardio)
