@@ -33,6 +33,7 @@ androidx-junit = "1.2.1"
 espresso = "3.6.1"
 navigation-testing = "2.9.0"
 test-core = "1.6.1"
+appcompat = "1.7.1"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -96,6 +97,7 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockito-core" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 
 [plugins]

@@ -98,6 +98,7 @@ dependencies {
 
     // hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.appcompat)
     ksp(libs.hilt.compiler)
 
     // Retrofit & OkHttp
